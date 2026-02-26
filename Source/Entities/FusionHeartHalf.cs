@@ -266,14 +266,20 @@ public class FusionHeartHalf : Entity
 
                 void Explode()
                 {
+                    bool nearTarget = false;
+                    Vector2 targetCenter = 0.5f * (Center + half.Center);
+                    
                     half.RemoveSelf();
                     RemoveSelf();
 
-                    FusionHeart fusionHeart = new FusionHeart(0.5f*(Center + half.Center),"ff4fed",0.75f,true,true);
+                    FusionHeart fusionHeart = new FusionHeart(targetCenter,"ff4fed",0.75f,true,true);
                     
                     foreach (FusionTarget target in Scene.Tracker.GetEntities<FusionTarget>().Cast<FusionTarget>().Where(target => (0.5f * (Center + half.Center) - target.Center).Length() <= 8))
                     {
-                        fusionHeart.Position = target.Center;
+                        nearTarget = true;
+                        targetCenter = target.Center;
+                        fusionHeart.Position = targetCenter;
+                        target.RemoveSelf();
                     }
                     
                     Scene.Add(fusionHeart);
@@ -281,21 +287,44 @@ public class FusionHeartHalf : Entity
                     P_Regen.Color = Calc.HexToColor(fusionHeart.spriteColor);
                     P_Regen.Color2 = Color.White;
 
-                    player.ExplodeLaunch(fusionHeart.Center, false, true);
-                        
+                    player.ExplodeLaunch(!nearTarget ? fusionHeart.Center : targetCenter, false, true);
+
                     fusionHeart.Add(new Coroutine(fusionHeart.FullDashHitColliderDisableTimer()));
-                        
-                    Audio.Play("event:/new_content/game/10_farewell/puffer_splode", fusionHeart.Center);
-                        
+
+                    Audio.Play("event:/new_content/game/10_farewell/puffer_splode", !nearTarget ? fusionHeart.Center : targetCenter);
+
                     level.Shake();
-                    level.Displacement.AddBurst(fusionHeart.Center, 0.4f, 12f, 36f, 0.5f);
-                    level.Displacement.AddBurst(fusionHeart.Center, 0.4f, 24f, 48f, 0.5f);
-                    level.Displacement.AddBurst(fusionHeart.Center, 0.4f, 36f, 60f, 0.5f);
-                    for (float num = 0f; num < MathF.PI * 2f; num += 0.17453292f)
+
+                    if (!nearTarget)
                     {
-                        Vector2 position = fusionHeart.Center + Calc.AngleToVector(num + Calc.Random.Range(-MathF.PI / 90f, MathF.PI / 90f), Calc.Random.Range(12, 18));
-                        level.Particles.Emit(P_Regen, position, num);
+                        level.Displacement.AddBurst(fusionHeart.Center, 0.4f, 12f, 36f, 0.5f);
+                        level.Displacement.AddBurst(fusionHeart.Center, 0.4f, 24f, 48f, 0.5f);
+                        level.Displacement.AddBurst(fusionHeart.Center, 0.4f, 36f, 60f, 0.5f);
                     }
+                    else
+                    {
+                        level.Displacement.AddBurst(targetCenter, 0.4f, 12f, 36f, 0.5f);
+                        level.Displacement.AddBurst(targetCenter, 0.4f, 24f, 48f, 0.5f);
+                        level.Displacement.AddBurst(targetCenter, 0.4f, 36f, 60f, 0.5f);
+                    }
+
+                    if (!nearTarget)
+                    {
+                        for (float num = 0f; num < MathF.PI * 2f; num += 0.17453292f)
+                        {
+                            Vector2 position = fusionHeart.Center + Calc.AngleToVector(num + Calc.Random.Range(-MathF.PI / 90f, MathF.PI / 90f), Calc.Random.Range(12, 18));
+                            level.Particles.Emit(P_Regen, position, num);
+                        }
+                    }
+                    else
+                    {
+                        for (float num = 0f; num < MathF.PI * 2f; num += 0.17453292f)
+                        {
+                            Vector2 position = targetCenter + Calc.AngleToVector(num + Calc.Random.Range(-MathF.PI / 90f, MathF.PI / 90f), Calc.Random.Range(12, 18));
+                            level.Particles.Emit(P_Regen, position, num);
+                        }
+                    }
+
                 }
             }
             
