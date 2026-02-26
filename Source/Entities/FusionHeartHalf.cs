@@ -245,7 +245,7 @@ public class FusionHeartHalf : Entity
             {
                 if (!half.rightHalf)
                 {
-                    if (half.CollidePoint(Position + Vector2.UnitX * -16) || half.CollidePoint(Position + Vector2.UnitX * -10) && rightHalf)
+                    if (half.CollidePoint(Position + Vector2.UnitX * -14) && rightHalf)
                     {
                         Explode();
                         player.dashAttackTimer = 0;
@@ -254,7 +254,7 @@ public class FusionHeartHalf : Entity
                 }
                 else
                 {
-                    if (half.CollidePoint(Position + Vector2.UnitX * 16) || half.CollidePoint(Position + Vector2.UnitX * 10) && !rightHalf)
+                    if (half.CollidePoint(Position + Vector2.UnitX * 14) && !rightHalf)
                     {
                         Explode();
                         player.dashAttackTimer = 0;
