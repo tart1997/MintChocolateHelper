@@ -1,0 +1,49 @@
+mods.MintChocolateHelper.name=Mint Chocolate Helper
+
+# Entities
+
+entities.MintChocolateHelper/FlagsOnAwake.placements.name.flags_on_awake=Flags On Awake Controller
+entities.MintChocolateHelper/FlagsOnAwake.placements.description.flags_on_awake=Sets a list of flags to a specified value before anything else has a chance to read them
+
+entities.MintChocolateHelper/FlagsOnAwake.attributes.description.flags=The List of flags to set
+entities.MintChocolateHelper/FlagsOnAwake.attributes.description.value=The value to set all the flags to
+
+
+
+entities.MintChocolateHelper/StylegroundsWhilePaused.placements.name.stylegrounds_while_paused=Stylegrounds While Paused Controller
+entities.MintChocolateHelper/StylegroundsWhilePaused.placements.description.stylegrounds_while_paused=Forces any Stylegrounds with the specified Tag to ALWAYS update, even while the game is paused\nNot guaranteed to work with more exotic Stylegrounds
+
+entities.MintChocolateHelper/StylegroundsWhilePaused.attributes.description.updateTag=The Tag used to mark a Styleground as one that always updates\n\nNOTE: If this field is left empty, it will effect all stylegrounds indiscriminately.\n           This is a feature, not a bug.
+
+
+
+entities.MintChocolateHelper/FusionHeart.placements.name.fusion_heart= Fusion Heart
+entities.MintChocolateHelper/FusionHeart.placements.description.fusion_heart= A Bully heart that can be shattered into two Fusion Heart Halves when dashed into with a Heart Breaker Refill charge
+
+entities.MintChocolateHelper/FusionHeart.attributes.description.color= The Hex color to tint the Fusion Heart to
+entities.MintChocolateHelper/FusionHeart.attributes.description.bloom= The Bloom strength of the Fusion Heart
+entities.MintChocolateHelper/FusionHeart.attributes.description.light= Whether or not the Fusion Heart should emit light
+
+
+
+entities.MintChocolateHelper/FusionHeartHalf.placements.name.fusion_heart_half= Fusion Heart Half
+entities.MintChocolateHelper/FusionHeartHalf.placements.description.fusion_heart_half= Halves of crystal hearts that can be pushed around by dashing into them\nCan be fused into a Full Fusion Heart when dashed into while another Heart Half of the opposing direction is close enough
+
+entities.MintChocolateHelper/FusionHeartHalf.attributes.description.color= The Hex color to tint the Heart Half to
+entities.MintChocolateHelper/FusionHeartHalf.attributes.description.bloom= The Bloom strength of the Heart Half
+entities.MintChocolateHelper/FusionHeartHalf.attributes.description.collisionSpeedX= A modifer to how fast the Heart Half will move when dashed into horizontally
+entities.MintChocolateHelper/FusionHeartHalf.attributes.description.collisionSpeedY= A modifer to how fast the Heart Half will move when dashed into Vertically
+entities.MintChocolateHelper/FusionHeartHalf.attributes.description.frictionX= A modifer to how fast the Heart Half will slow down horizontally
+entities.MintChocolateHelper/FusionHeartHalf.attributes.description.frictionY= A modifer to how fast the Heart Half will slow down Vertically
+entities.MintChocolateHelper/FusionHeartHalf.attributes.description.light= Whether or not the Heart Half should emit light
+entities.MintChocolateHelper/FusionHeartHalf.attributes.description.rightHalf= Whether the Heart Half should be facing Left or Right
+
+
+# Triggers
+
+triggers.MintChocolateHelper/PulseFlagTrigger.placements.name.pulse_flag_trigger=Pulse Flag Trigger
+triggers.MintChocolateHelper/PulseFlagTrigger.placements.description.pulse_flag_trigger=Sets a flag ON/OFF for a specified amount of frames
+
+triggers.MintChocolateHelper/PulseFlagTrigger.attributes.description.flag=The Flag to Pulse
+triggers.MintChocolateHelper/PulseFlagTrigger.attributes.description.frames=The number of frames to pulse the flag for
+triggers.MintChocolateHelper/PulseFlagTrigger.attributes.description.invert=If unchecked, Sets the flag ON for n frames then unsets it\nIf checked, Sets the flag OFF for n frames then resets it

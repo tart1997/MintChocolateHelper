@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Sprites>
+  <FusionHeartLeft path="objects/MintChocolateHelper/FusionHeartHalf/LeftHalf/" start="idle">
+    <Center/>
+    <Loop id="idle" path="idle" delay=".1"/>
+  </FusionHeartLeft>
+
+  <FusionHeartLeftOutline path="objects/MintChocolateHelper/FusionHeartHalf/LeftHalf/" start="idle">
+    <Center/>
+    <Loop id="idle" path="outline" delay=".1"/>
+  </FusionHeartLeftOutline>
+
+  <FusionHeartRight path="objects/MintChocolateHelper/FusionHeartHalf/RightHalf/" start="idle">
+    <Center/>
+    <Loop id="idle" path="idle" delay=".1"/>
+  </FusionHeartRight>
+
+  <FusionHeartRightOutline path="objects/MintChocolateHelper/FusionHeartHalf/RightHalf/" start="idle">
+    <Center/>
+    <Loop id="idle" path="outline" delay=".1"/>
+  </FusionHeartRightOutline>
+
+  <FusionHeart path="objects/MintChocolateHelper/FusionHeart/" start="idle">
+    <Center />
+    <Loop id="idle" path="" frames="0" />
+    <Loop id="spin" path="" frames="0*10,1-13" delay="0.1"/>
+    <Loop id="fastspin" path="" delay="0.1"/>
+  </FusionHeart>
+
+  <FusionHeartOutline path="objects/MintChocolateHelper/FusionHeart/" start="idle">
+    <Center />
+    <Loop id="idle" path="outline" frames="0" />
+    <Loop id="spin" path="outline" frames="0*10,1-13" delay="0.1"/>
+    <Loop id="fastspin" path="outline" delay="0.1"/>
+  </FusionHeartOutline>
+
+</Sprites>
