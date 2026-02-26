@@ -6,7 +6,6 @@ using Celeste.Mod.Entities;
 using Celeste.Mod.MintChocolateHelper.ModInterop;
 using Microsoft.Xna.Framework;
 using Monocle;
-using MonoMod.ModInterop;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace Celeste.Mod.MintChocolateHelper.Entities;
@@ -269,8 +268,14 @@ public class FusionHeartHalf : Entity
                 {
                     half.RemoveSelf();
                     RemoveSelf();
-                        
+
                     FusionHeart fusionHeart = new FusionHeart(0.5f*(Center + half.Center),"ff4fed",0.75f,true,true);
+                    
+                    foreach (FusionTarget target in Scene.Tracker.GetEntities<FusionTarget>().Cast<FusionTarget>().Where(target => (0.5f * (Center + half.Center) - target.Center).Length() <= 8))
+                    {
+                        fusionHeart.Position = target.Center;
+                    }
+                    
                     Scene.Add(fusionHeart);
                         
                     P_Regen.Color = Calc.HexToColor(fusionHeart.spriteColor);

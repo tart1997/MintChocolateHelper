@@ -1,0 +1,22 @@
+﻿using Celeste.Mod.Entities;
+using Microsoft.Xna.Framework;
+using Monocle;
+
+namespace Celeste.Mod.MintChocolateHelper.Entities;
+
+[Tracked]
+[CustomEntity("MintChocolateHelper/FusionTarget")]
+
+public class FusionTarget : Entity
+{
+    public FusionTarget(EntityData data, Vector2 offset) : base(data.Position + offset)
+    {
+        Collider = new Hitbox(16f, 16f, -8f, -8f);
+    }
+
+    public override void DebugRender(Camera camera)
+    {
+        base.DebugRender(camera);
+        Draw.HollowRect(Collider,Color.DarkBlue);
+    }
+}

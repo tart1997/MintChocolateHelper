@@ -39,6 +39,11 @@ entities.MintChocolateHelper/FusionHeartHalf.attributes.description.light= Wheth
 entities.MintChocolateHelper/FusionHeartHalf.attributes.description.rightHalf= Whether the Heart Half should be facing Left or Right
 
 
+
+entities.MintChocolateHelper/FusionTarget.placements.name.fusion_target= Fusion Heart Target
+entities.MintChocolateHelper/FusionTarget.placements.description.fusion_target= Forces any Fusion Heart event that happens on top of the Target to consistantly center the Fusion Heart on the Fusion Heart Target
+
+
 # Triggers
 
 triggers.MintChocolateHelper/PulseFlagTrigger.placements.name.pulse_flag_trigger=Pulse Flag Trigger
