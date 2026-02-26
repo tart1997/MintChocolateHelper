@@ -17,9 +17,9 @@ public class PulseFlagTrigger : Trigger
     
     public PulseFlagTrigger(EntityData data, Vector2 offset) : base(data, offset)
     {
-        Flag = data.Attr("flag", "");
+        Flag = data.Attr("flag");
         Frames = data.Int("frames", 1);
-        Invert = data.Bool("invert", false);
+        Invert = data.Bool("invert");
     }
 
     public override void OnEnter(Player player)

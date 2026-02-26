@@ -240,8 +240,7 @@ public class FusionHeartHalf : Entity
         }
         else
         {
-
-            foreach (FusionHeartHalf half in Scene.Tracker.GetEntities<FusionHeartHalf>())
+            foreach (FusionHeartHalf half in Scene.Tracker.GetEntities<FusionHeartHalf>().Cast<FusionHeartHalf>())
             {
                 if (!half.rightHalf)
                 {
@@ -327,7 +326,7 @@ public class FusionHeartHalf : Entity
 
                 }
             }
-            
+
             if (Math.Abs(playerOffset.Y) > Math.Abs(playerOffset.X))
             {
                 if (playerOffset.Y < (Collider.Height/2) - 1f)

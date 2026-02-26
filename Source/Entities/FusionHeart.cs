@@ -53,7 +53,7 @@ public class FusionHeart : Entity
     public override void Awake(Scene scene)
     {
         base.Awake(scene);
-        if (scene is not Level level) return;
+        if (scene is not Level) return;
         
         Add(sprite = GFX.SpriteBank.Create("FusionHeart"));
         Add(outline = GFX.SpriteBank.Create("FusionHeartOutline"));
@@ -201,7 +201,7 @@ public class FusionHeart : Entity
     
     public IEnumerator FullDashHitColliderDisableTimer()
     {
-        if (Scene is not Level level) yield break;
+        if (Scene is not Level) yield break;
         
         Collidable = false;
 
