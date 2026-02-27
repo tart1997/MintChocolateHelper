@@ -181,9 +181,10 @@ public class FusionHeart : Entity
             bounceSfxDelay = 0.1f;
         }
 
-        if (player.DashAttacking && level.Session.GetFlag("HeartBreakDash"))
+        if (player.DashAttacking && MintChocolateHelperModule.Session.HeartBreakerDashActive)
         {
-            level.Session.SetFlag("HeartBreakDash", false);
+            MintChocolateHelperModule.Session.HasHeartBreakerDash  = false;
+            MintChocolateHelperModule.Session.HeartBreakerDashActive  = false;
             
             P_Regen.Color = Calc.HexToColor(spriteColor);
             P_Regen.Color2 = Color.White;

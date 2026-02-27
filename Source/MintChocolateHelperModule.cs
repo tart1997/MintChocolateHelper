@@ -17,7 +17,7 @@ public class MintChocolateHelperModule : EverestModule
 
     public override Type SaveDataType => typeof(MintChocolateHelperModuleSaveData);
     public static MintChocolateHelperModuleSaveData SaveData => (MintChocolateHelperModuleSaveData) Instance._SaveData;
-
+    
     public MintChocolateHelperModule()
     {
         Instance = this;
@@ -34,10 +34,12 @@ public class MintChocolateHelperModule : EverestModule
     {
         typeof(FrostHelperImports).ModInterop();
         StylegroundsWhilePaused.Load();
+        HeartBreakerRefill.Load();
     }
 
     public override void Unload() 
     {
         StylegroundsWhilePaused.Unload();
+        HeartBreakerRefill.Unload();
     }
 }
