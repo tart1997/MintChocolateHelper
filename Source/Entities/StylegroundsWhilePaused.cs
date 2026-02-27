@@ -9,6 +9,7 @@ namespace Celeste.Mod.MintChocolateHelper.Entities;
 
 [CustomEntity("MintChocolateHelper/StylegroundsWhilePaused")]
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public class StylegroundsWhilePaused : Entity
 {
     private readonly string updateTag;
@@ -24,11 +25,11 @@ public class StylegroundsWhilePaused : Entity
     
         if (scene is not Level level) return;
         
-        foreach (Backdrop backdrop in level.Background.Backdrops.Where(backdrop => backdrop.Tags.Contains(updateTag)))
+        foreach (Backdrop dummy in level.Background.Backdrops.Where(backdrop => backdrop.Tags.Contains(updateTag)))
         {
             Tag |= Tags.PauseUpdate;
         }
-        foreach (Backdrop backdrop in level.Foreground.Backdrops.Where(backdrop => backdrop.Tags.Contains(updateTag)))
+        foreach (Backdrop dummy in level.Foreground.Backdrops.Where(backdrop => backdrop.Tags.Contains(updateTag)))
         {
             Tag |= Tags.PauseUpdate;
         }

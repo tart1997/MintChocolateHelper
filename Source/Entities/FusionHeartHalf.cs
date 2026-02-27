@@ -6,7 +6,6 @@ using Celeste.Mod.Entities;
 using Celeste.Mod.MintChocolateHelper.ModInterop;
 using Microsoft.Xna.Framework;
 using Monocle;
-using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace Celeste.Mod.MintChocolateHelper.Entities;
 
@@ -76,7 +75,7 @@ public class FusionHeartHalf : Entity
     public override void Awake(Scene scene)
     {
         base.Awake(scene);
-        if (scene is not Level level) return;
+        if (scene is not Level) return;
         
         if (!rightHalf)
         {
@@ -208,6 +207,7 @@ public class FusionHeartHalf : Entity
 
     }
 
+    // ReSharper disable once MemberCanBePrivate.Global
     public void OnPlayer(Player player)
     {
         
@@ -392,7 +392,7 @@ public class FusionHeartHalf : Entity
     
     public IEnumerator HalfDashHitColliderDisableTimer()
     {
-        if (Scene is not Level level) yield break;
+        if (Scene is not Level) yield break;
         
         Collidable = false;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using MonoMod.ModInterop;
+// ReSharper disable UnassignedField.Global
 
 namespace Celeste.Mod.MintChocolateHelper.ModInterop;
 

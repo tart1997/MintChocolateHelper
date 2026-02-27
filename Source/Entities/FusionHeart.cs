@@ -136,6 +136,7 @@ public class FusionHeart : Entity
         }
     }
 
+    // ReSharper disable once MemberCanBePrivate.Global
     public void OnPlayer(Player player)
     {
         if (Scene is not Level level) return;
