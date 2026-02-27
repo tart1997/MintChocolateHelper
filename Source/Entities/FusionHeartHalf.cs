@@ -14,9 +14,8 @@ namespace Celeste.Mod.MintChocolateHelper.Entities;
 
 public class FusionHeartHalf : Entity
 {
-    private Wiggler ScaleWiggler;
-    
-    private readonly string spriteColor;
+    private readonly Wiggler ScaleWiggler;
+
     private readonly float bloomStr;
     private readonly float collisionSpeedX;
     private readonly float collisionSpeedY;
@@ -25,16 +24,15 @@ public class FusionHeartHalf : Entity
     private readonly bool hasLight;
     private readonly bool rightHalf;
     
-    private Sprite sprite;
-    private Sprite outline;
-    private ParticleType shineParticle;
-    private Wiggler moveWiggler;
+    private readonly Sprite sprite;
+    private readonly Sprite outline;
+    private readonly ParticleType shineParticle;
+    private readonly Wiggler moveWiggler;
     private Vector2 moveWiggleDir;
-    private BloomPoint bloom;
-    private VertexLight light;
+    private readonly BloomPoint bloom;
+    private readonly VertexLight light;
     private float timer;
     private bool collected;
-    private readonly bool autoPulse;
     private float bounceSfxDelay;
     private float respawnTimer;
 
@@ -44,7 +42,7 @@ public class FusionHeartHalf : Entity
     
     public FusionHeartHalf(EntityData data, Vector2 offset) : base(data.Position + offset)
     {
-        spriteColor = data.Attr("color", "9a9ddb");
+        string spriteColor1 = data.Attr("color", "9a9ddb");
         bloomStr = data.Float("bloom", 0.75f);
         collisionSpeedX = data.Float("collisionSpeedX", 1f);
         collisionSpeedY = data.Float("collisionSpeedY", 1f);
@@ -52,30 +50,9 @@ public class FusionHeartHalf : Entity
         frictionY = data.Float("frictionY", 1f);
         hasLight = data.Bool("light", true);
         rightHalf = data.Bool("rightHalf");
-        autoPulse = true;
         speed = Vector2.Zero;
+        
         Add(new MirrorReflection());
-    }
-    
-    public FusionHeartHalf(Vector2 position, Vector2 halfSpeed, string halfColor, float halfBloom, float halfCSpeedX, float halfCSpeedY, float halfFricX, float halfFrictY, bool halfHasLight, bool halfRightHalf) : base(position)
-    {
-        spriteColor = halfColor;
-        bloomStr = halfBloom;
-        collisionSpeedX = halfCSpeedX;
-        collisionSpeedY = halfCSpeedY;
-        frictionX = halfFricX;
-        frictionY = halfFrictY;
-        hasLight = halfHasLight;
-        rightHalf = halfRightHalf;
-        autoPulse = true;
-        speed = halfSpeed;
-        Add(new MirrorReflection());
-    }
-
-    public override void Awake(Scene scene)
-    {
-        base.Awake(scene);
-        if (scene is not Level) return;
         
         if (!rightHalf)
         {
@@ -88,17 +65,8 @@ public class FusionHeartHalf : Entity
             Add(outline = GFX.SpriteBank.Create("FusionHeartRightOutline"));
         }
         
-        sprite.SetColor(Calc.HexToColor(spriteColor));
+        sprite.SetColor(Calc.HexToColor(spriteColor1));
         sprite.Play("idle");
-        
-        sprite.OnLoop = delegate (string anim) {
-            if (!Visible || anim != "spin" || !autoPulse)
-                return;
-
-            Audio.Play("event:/game/general/crystalheart_pulse", Position);
-            ScaleWiggler.Start();
-            ((Level)Scene).Displacement.AddBurst(Position, 0.35f, 8f, 48f, 0.25f);
-        };
         
         Collider = new Hitbox(16f, 16f, -8f, -8f);
         Add(new PlayerCollider(OnPlayer));
@@ -110,7 +78,7 @@ public class FusionHeartHalf : Entity
         
         Add(bloom = new BloomPoint(bloomStr, 16f));
 
-        Color value = Calc.HexToColor(spriteColor);
+        Color value = Calc.HexToColor(spriteColor1);
         shineParticle = new ParticleType(HeartGem.P_BlueShine)
         {
             Color = value
@@ -121,7 +89,56 @@ public class FusionHeartHalf : Entity
         moveWiggler = Wiggler.Create(0.8f, 2f);
         moveWiggler.StartZero = true;
         Add(moveWiggler);
+    }
+    
+    public FusionHeartHalf(Vector2 position, Vector2 halfSpeed, string halfColor, float halfBloom, float halfCSpeedX, float halfCSpeedY, float halfFricX, float halfFrictY, bool halfHasLight, bool halfRightHalf) : base(position)
+    {
+        bloomStr = halfBloom;
+        collisionSpeedX = halfCSpeedX;
+        collisionSpeedY = halfCSpeedY;
+        frictionX = halfFricX;
+        frictionY = halfFrictY;
+        hasLight = halfHasLight;
+        rightHalf = halfRightHalf;
+        speed = halfSpeed;
         
+        Add(new MirrorReflection());
+        
+        if (!rightHalf)
+        {
+            Add(sprite = GFX.SpriteBank.Create("FusionHeartLeft"));
+            Add(outline = GFX.SpriteBank.Create("FusionHeartLeftOutline"));
+        }
+        else
+        {
+            Add(sprite = GFX.SpriteBank.Create("FusionHeartRight"));
+            Add(outline = GFX.SpriteBank.Create("FusionHeartRightOutline"));
+        }
+        
+        sprite.SetColor(Calc.HexToColor(halfColor));
+        sprite.Play("idle");
+        
+        Collider = new Hitbox(16f, 16f, -8f, -8f);
+        Add(new PlayerCollider(OnPlayer));
+        
+        Add(ScaleWiggler = Wiggler.Create(0.5f, 4f, delegate (float f)
+        {
+            sprite.Scale = Vector2.One * (1f + f * 0.25f);
+        }));
+        
+        Add(bloom = new BloomPoint(bloomStr, 16f));
+
+        Color value = Calc.HexToColor(halfColor);
+        shineParticle = new ParticleType(HeartGem.P_BlueShine)
+        {
+            Color = value
+        };
+        
+        value = Color.Lerp(value, Color.White, 0.5f);
+        Add(light = new VertexLight(value, hasLight ? 1f : 0f, 32, 64));
+        moveWiggler = Wiggler.Create(0.8f, 2f);
+        moveWiggler.StartZero = true;
+        Add(moveWiggler);
     }
 
     public override void Update()
