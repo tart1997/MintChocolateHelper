@@ -39,6 +39,8 @@ public class FusionHeartHalf : Entity
     private Vector2 speed;
     
     private static readonly ParticleType P_Regen = new (Seeker.P_Regen);
+
+    private Vector2 heartBreakerBonusSpeed;
     
     public FusionHeartHalf(EntityData data, Vector2 offset) : base(data.Position + offset)
     {
@@ -51,6 +53,7 @@ public class FusionHeartHalf : Entity
         hasLight = data.Bool("light", true);
         rightHalf = data.Bool("rightHalf");
         speed = Vector2.Zero;
+        heartBreakerBonusSpeed = Vector2.Zero;
         
         Add(new MirrorReflection());
         
@@ -101,6 +104,7 @@ public class FusionHeartHalf : Entity
         hasLight = halfHasLight;
         rightHalf = halfRightHalf;
         speed = halfSpeed;
+        heartBreakerBonusSpeed = Vector2.Zero;
         
         Add(new MirrorReflection());
         
@@ -219,6 +223,8 @@ public class FusionHeartHalf : Entity
                     speed.X = -2.5f;
                     speed *= getSpringSpeedMultiplier;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -257,6 +263,26 @@ public class FusionHeartHalf : Entity
         }
         else
         {
+            
+            if (MintChocolateHelperModule.Session.HeartBreakerDashActive)
+            {
+                if (Math.Abs(player.Speed.Length()) >= 250f)
+                {
+                    heartBreakerBonusSpeed = player.Speed * 0.005f;
+                }
+                else
+                {
+                    heartBreakerBonusSpeed = Vector2.One * 0.5f;
+                }
+
+                MintChocolateHelperModule.Session.HasHeartBreakerDash  = false;
+                MintChocolateHelperModule.Session.HeartBreakerDashActive  = false;
+            }
+            else
+            {
+                heartBreakerBonusSpeed = Vector2.Zero;
+            }
+            
             foreach (FusionHeartHalf half in Scene.Tracker.GetEntities<FusionHeartHalf>().Cast<FusionHeartHalf>())
             {
                 if (!half.rightHalf)
@@ -282,13 +308,14 @@ public class FusionHeartHalf : Entity
 
                 void Explode()
                 {
+                    
                     bool nearTarget = false;
                     Vector2 targetCenter = 0.5f * (Center + half.Center);
                     
                     half.RemoveSelf();
                     RemoveSelf();
 
-                    FusionHeart fusionHeart = new FusionHeart(targetCenter,"ff4fed",0.75f,true,true);
+                    FusionHeart fusionHeart = new(targetCenter, heartBreakerBonusSpeed,"ff4fed",0.75f,true,true);
                     
                     foreach (FusionTarget target in Scene.Tracker.GetEntities<FusionTarget>().Cast<FusionTarget>().Where(target => (0.5f * (Center + half.Center) - target.Center).Length() <= 8))
                     {
@@ -350,7 +377,7 @@ public class FusionHeartHalf : Entity
                 {
                     player.Rebound(-Math.Sign(player.Speed.X));
             
-                    speed.Y = -2f * collisionSpeedY;
+                    speed.Y = -2f * collisionSpeedY - heartBreakerBonusSpeed.Y;
                     return;
                 }
                 if (playerOffset.Y > (Collider.Height/2) - 1f)
@@ -359,7 +386,7 @@ public class FusionHeartHalf : Entity
                     
                     Add(new Coroutine(HalfDashHitColliderDisableTimer()));
             
-                    speed.Y = 2f * collisionSpeedY;
+                    speed.Y = 2f * collisionSpeedY + heartBreakerBonusSpeed.Y;
                     return;
                 }
             }
@@ -368,17 +395,18 @@ public class FusionHeartHalf : Entity
                 if (playerOffset.X < (Collider.Width/2) - 1f)
                 {
                     player.Rebound(-Math.Sign(player.Speed.X));
-
+                    
                     if (!(player.Speed.Y < 0))
                     {
                         Add(new Coroutine(HalfDashHitColliderDisableTimer()));
                     }
                     else if (player.Speed.Y < 0 && speed.Y < 0)
                     {
-                        speed.Y -= 0.7f * collisionSpeedY;
+                        speed.Y -= (0.7f * collisionSpeedY) - heartBreakerBonusSpeed.Y;
                     }
 
-                    speed.X = -2f * collisionSpeedX;
+                    speed.X = -2f * collisionSpeedX - heartBreakerBonusSpeed.X;
+                    
                     return;
                 }
                 if (playerOffset.X > (Collider.Width/2) - 1f)
@@ -391,10 +419,11 @@ public class FusionHeartHalf : Entity
                     }
                     else if (player.Speed.Y < 0 && speed.Y < 0)
                     {
-                        speed.Y -= 0.7f * collisionSpeedY;
+                        speed.Y -= (0.7f * collisionSpeedY) - heartBreakerBonusSpeed.Y;
                     }
             
-                    speed.X = 2f * collisionSpeedX;
+                    speed.X = 2f * collisionSpeedX + heartBreakerBonusSpeed.X;
+                    
                     return;
                 }   
             }

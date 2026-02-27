@@ -8,6 +8,7 @@ namespace Celeste.Mod.MintChocolateHelper.Entities;
 
 [CustomEntity("MintChocolateHelper/HeartBreakerRefill")]
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public class HeartBreakerRefill : Entity
 {
 	private readonly ParticleType P_Shatter;

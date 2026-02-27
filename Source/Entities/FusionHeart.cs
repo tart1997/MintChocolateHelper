@@ -32,12 +32,16 @@ public class FusionHeart : Entity
     
     private static readonly ParticleType P_Regen = new (Seeker.P_Regen);
 
+    private Vector2 heartBreakerBonusSpeed;
+
     public FusionHeart(EntityData data, Vector2 offset) : base(data.Position + offset)
     {
         spriteColor = data.Attr("color", "ff4fed");
         bloomStr = data.Float("bloom", 0.75f);
         hasLight = data.Bool("light", true);
         autoPulse = true;
+        
+        heartBreakerBonusSpeed = Vector2.Zero;
         
         Add(new MirrorReflection());
         
@@ -70,12 +74,14 @@ public class FusionHeart : Entity
         Add(moveWiggler);
     }
     
-    public FusionHeart(Vector2 position, string fullColor, float fullBloomStr, bool fullHasLight, bool fullAutoPulse) : base(position)
+    public FusionHeart(Vector2 position, Vector2 fullHeartBreakerBonusSpeed, string fullColor, float fullBloomStr, bool fullHasLight, bool fullAutoPulse) : base(position)
     {
         spriteColor = fullColor;
         bloomStr = fullBloomStr;
         hasLight = fullHasLight;
         autoPulse = fullAutoPulse;
+
+        heartBreakerBonusSpeed = fullHeartBreakerBonusSpeed;
         
         Add(new MirrorReflection());
         
@@ -209,8 +215,8 @@ public class FusionHeart : Entity
 
             player.dashAttackTimer = 0;
             
-            FusionHeartHalf leftHalf = new FusionHeartHalf(Center - Vector2.UnitX * Width/4, -Vector2.UnitX * 2,"9a9ddb", 0.75f, 1f, 1f, 1f, 1f,true,false);
-            FusionHeartHalf rightHalf = new FusionHeartHalf(Center + Vector2.UnitX * Width/4, Vector2.UnitX * 2,"9a9ddb", 0.75f, 1f, 1f, 1f, 1f,true,true);
+            FusionHeartHalf leftHalf = new(Center - Vector2.UnitX * Width/4, -(Vector2.UnitX * 2) - Vector2.UnitX * (heartBreakerBonusSpeed.Length() / 2),"9a9ddb", 0.75f, 1f, 1f, 1f, 1f,true,false);
+            FusionHeartHalf rightHalf = new(Center + Vector2.UnitX * Width/4, Vector2.UnitX * 2 + Vector2.UnitX * (heartBreakerBonusSpeed.Length() / 2),"9a9ddb", 0.75f, 1f, 1f, 1f, 1f,true,true);
             
             Scene.Add(leftHalf);
             Scene.Add(rightHalf);

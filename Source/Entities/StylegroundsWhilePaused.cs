@@ -61,7 +61,7 @@ public class StylegroundsWhilePaused : Entity
     
     private static void LevelOnUpdate(ILContext il)
     {
-        ILCursor cursor = new ILCursor(il);
+        ILCursor cursor = new(il);
         
         // IL_002f: call float32 Monocle.Engine::get_RawDeltaTime()
         // IL_0034: sub

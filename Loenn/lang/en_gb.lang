@@ -13,7 +13,7 @@ entities.MintChocolateHelper/FlagsOnAwake.attributes.description.value=The value
 entities.MintChocolateHelper/StylegroundsWhilePaused.placements.name.stylegrounds_while_paused=Stylegrounds While Paused Controller
 entities.MintChocolateHelper/StylegroundsWhilePaused.placements.description.stylegrounds_while_paused=Forces any Stylegrounds with the specified Tag to ALWAYS update, even while the game is paused\nNot guaranteed to work with more exotic Stylegrounds
 
-entities.MintChocolateHelper/StylegroundsWhilePaused.attributes.description.updateTag=The Tag used to mark a Styleground as one that always updates\n\nNOTE: If this field is left empty, it will effect all stylegrounds indiscriminately.\n           This is a feature, not a bug.
+entities.MintChocolateHelper/StylegroundsWhilePaused.attributes.description.updateTag=The Tag used to mark a Styleground as one that always updates\n\nNOTE: If this field is left empty, it will effect all stylegrounds indiscriminately\n           This is a feature, not a bug
 
 
 
@@ -42,6 +42,15 @@ entities.MintChocolateHelper/FusionHeartHalf.attributes.description.rightHalf= W
 
 entities.MintChocolateHelper/FusionTarget.placements.name.fusion_target= Fusion Heart Target
 entities.MintChocolateHelper/FusionTarget.placements.description.fusion_target= Forces any Fusion Heart event that happens on top of the Target to consistantly center the Fusion Heart on the Fusion Heart Target
+
+
+
+entities.MintChocolateHelper/HeartBreakerRefill.placements.name.heart_breaker_refill= Heart Breaker Refill
+entities.MintChocolateHelper/HeartBreakerRefill.placements.description.heart_breaker_refill= Allows the player to shatter Fusion Hearts into 2 Fusion Heart Halves\nImparts some of the players speed into Heart Halves
+
+entities.MintChocolateHelper/HeartBreakerRefill.attributes.description.respawnTime= How long it takes for the Refill to respawn after collection
+entities.MintChocolateHelper/HeartBreakerRefill.attributes.description.oneUse= When checked, the Refill won't respawn
+
 
 
 # Triggers

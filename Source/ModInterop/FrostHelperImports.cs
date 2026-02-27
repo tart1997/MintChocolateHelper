@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Xna.Framework;
 using MonoMod.ModInterop;
 // ReSharper disable UnassignedField.Global
@@ -6,6 +7,7 @@ using MonoMod.ModInterop;
 namespace Celeste.Mod.MintChocolateHelper.ModInterop;
 
 [ModImportName("FrostHelper")]
+[SuppressMessage("Usage", "CA2211:Non-constant fields should not be visible")]
 public static class FrostHelperImports
 {
     public static Func<Spring,bool> IsCeilingSpring;
