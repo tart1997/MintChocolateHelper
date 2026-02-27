@@ -53,6 +53,14 @@ entities.MintChocolateHelper/HeartBreakerRefill.attributes.description.oneUse= W
 
 
 
+entities.MintChocolateHelper/SpeedFlipRefill.placements.name.speed_flip_refill= Speed Flip Refill
+entities.MintChocolateHelper/SpeedFlipRefill.placements.description.speed_flip_refill= This Thing sucks Ass don't use it
+
+entities.MintChocolateHelper/SpeedFlipRefill.attributes.description.respawnTime= How long it takes for the Refill to respawn after collection
+entities.MintChocolateHelper/SpeedFlipRefill.attributes.description.oneUse= When checked, the Refill won't respawn
+
+
+
 # Triggers
 
 triggers.MintChocolateHelper/PulseFlagTrigger.placements.name.pulse_flag_trigger=Pulse Flag Trigger

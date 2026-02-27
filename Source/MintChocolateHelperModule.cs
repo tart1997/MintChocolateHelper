@@ -5,8 +5,10 @@ using MonoMod.ModInterop;
 
 namespace Celeste.Mod.MintChocolateHelper;
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public class MintChocolateHelperModule : EverestModule 
 {
+    // ReSharper disable once MemberCanBePrivate.Global
     public static MintChocolateHelperModule Instance { get; private set; }
 
     public override Type SettingsType => typeof(MintChocolateHelperModuleSettings);
@@ -35,11 +37,13 @@ public class MintChocolateHelperModule : EverestModule
         typeof(FrostHelperImports).ModInterop();
         StylegroundsWhilePaused.Load();
         HeartBreakerRefill.Load();
+        SpeedFlipRefill.Load();
     }
 
     public override void Unload() 
     {
         StylegroundsWhilePaused.Unload();
         HeartBreakerRefill.Unload();
+        SpeedFlipRefill.Unload();
     }
 }

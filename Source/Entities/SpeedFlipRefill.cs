@@ -8,12 +8,13 @@ namespace Celeste.Mod.MintChocolateHelper.Entities;
 
 [CustomEntity("MintChocolateHelper/SpeedFlipRefill")]
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public class SpeedFlipRefill : Entity
 {
 	private readonly ParticleType P_Shatter;
 	private readonly ParticleType P_Regen;
 	private readonly ParticleType P_Glow;
-
+	
 	private readonly Sprite sprite;
 	private readonly Sprite flash;
 	private readonly Image outline;
@@ -152,12 +153,14 @@ public class SpeedFlipRefill : Entity
 	
 	private void OnPlayer(Player player)
 	{
-		if (player.UseRefill(false))
+		if (!MintChocolateHelperModule.Session.HasSpeedFlipDash)
 		{
 			Audio.Play("event:/game/general/diamond_touch", Position);
 			Input.Rumble(RumbleStrength.Medium, RumbleLength.Medium);
 			Collidable = false;
 			Add(new Coroutine(RefillRoutine(player)));
+			player.UseRefill(false);
+			MintChocolateHelperModule.Session.HasSpeedFlipDash = true;
 			respawnTimer = respawnTime;
 		}
 	}
@@ -182,6 +185,67 @@ public class SpeedFlipRefill : Entity
 		if (oneUse)
 		{
 			RemoveSelf();
+		}
+	}
+	
+	public static void Load()
+	{
+		On.Celeste.Player.Die += SpeedFlipDash;
+		On.Celeste.Player.DashEnd += SpeedFlipDashEnd;
+		On.Celeste.Player.StartDash += SpeedFlipStartDash;
+		On.Celeste.PlayerHair.GetHairColor += SpeedFlipDashHairColor;
+	}
+	
+	public static void Unload()
+	{
+		On.Celeste.Player.Die -= SpeedFlipDash;
+		On.Celeste.Player.DashEnd -= SpeedFlipDashEnd;
+		On.Celeste.Player.StartDash -= SpeedFlipStartDash;
+		On.Celeste.PlayerHair.GetHairColor -= SpeedFlipDashHairColor;
+	}
+	
+	// ReSharper disable once MemberCanBePrivate.Global
+	public static Color SpeedFlipDashHairColor(On.Celeste.PlayerHair.orig_GetHairColor orig, PlayerHair self, int index)
+	{
+		return MintChocolateHelperModule.Session.HasSpeedFlipDash ? Color.Purple : orig(self, index);
+	}
+
+	private static PlayerDeadBody SpeedFlipDash(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction, bool evenIfInvincible = false, bool registerDeathInStats = true)
+	{
+		if (!MintChocolateHelperModule.Session.SpeedFlipDashActive || evenIfInvincible)
+		{
+			MintChocolateHelperModule.Session.HasSpeedFlipDash = false;
+			MintChocolateHelperModule.Session.SpeedFlipDashActive = false;
+		}
+		return orig(self, direction, evenIfInvincible, registerDeathInStats);
+	}
+	
+	private static int SpeedFlipStartDash(On.Celeste.Player.orig_StartDash orig, Player self)
+	{
+		int returnNumber = 2;
+		
+		if (MintChocolateHelperModule.Session.HasSpeedFlipDash)
+		{
+			MintChocolateHelperModule.Session.SpeedFlipDashActive = true;
+			
+			returnNumber = 0;
+			
+			self.Speed.Y = -self.Speed.Y;
+			self.DummyGravity = false;
+		}
+		
+		MintChocolateHelperModule.Session.HasSpeedFlipDash = false;
+		orig(self);
+		
+		return returnNumber;
+	}
+	
+	private static void SpeedFlipDashEnd(On.Celeste.Player.orig_DashEnd orig, Player self)
+	{
+		orig(self);
+		if (self.StateMachine.State != 2 && MintChocolateHelperModule.Session.SpeedFlipDashActive)
+		{
+			MintChocolateHelperModule.Session.SpeedFlipDashActive = false;
 		}
 	}
 }
