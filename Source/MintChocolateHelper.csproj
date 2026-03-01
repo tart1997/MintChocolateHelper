@@ -17,6 +17,11 @@
     </ItemDefinitionGroup>
 
     <ItemGroup>
+        <!-- Add any dependency references here. -->
+        <Reference Include="FemtoHelper" Private="false" />
+    </ItemGroup>
+    
+    <ItemGroup>
         <PackageReference Include="MonoMod.RuntimeDetour" Version="25.3.1" PrivateAssets="all" ExcludeAssets="runtime" />
         <PackageReference Include="MonoMod.Patcher" Version="25.0.0-prerelease.2" />
         <PackageReference Include="CelesteAnalyzer" Version="*" />
@@ -26,6 +31,10 @@
         <PackageReference Include="CelesteMod.Publicizer" Version="*" CelesteAssembly="$(CelestePrefix)\Celeste.dll" />
         <Reference Include="$(CelestePrefix)\MMHOOK_Celeste.dll" Private="false" />
         <Reference Include="$(CelestePrefix)\FNA.dll" Private="false" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="lib-stripped\" />
     </ItemGroup>
 
     <Target Name="CopyFiles" AfterTargets="Build" Inputs="$(OutputPath)\$(AssemblyName).dll;$(OutputPath)\$(AssemblyName).pdb" Outputs="..\bin\$(AssemblyName).dll;..\bin\$(AssemblyName).pdb">
