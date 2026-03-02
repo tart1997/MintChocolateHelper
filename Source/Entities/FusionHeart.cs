@@ -199,6 +199,7 @@ public class FusionHeart : Entity
                         
             Add(new Coroutine(FullDashHitColliderDisableTimer()));
                         
+            Audio.Play("event:/MintChocolateHelper/heart_break", Center);
             Audio.Play("event:/new_content/game/10_farewell/puffer_splode", Center);
                         
             level.Shake();

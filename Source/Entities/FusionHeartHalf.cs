@@ -334,6 +334,7 @@ public class FusionHeartHalf : Entity
 
                     fusionHeart.Add(new Coroutine(fusionHeart.FullDashHitColliderDisableTimer()));
 
+                    Audio.Play("event:/MintChocolateHelper/heart_fuse", !nearTarget ? fusionHeart.Center : targetCenter);
                     Audio.Play("event:/new_content/game/10_farewell/puffer_splode", !nearTarget ? fusionHeart.Center : targetCenter);
 
                     level.Shake();
