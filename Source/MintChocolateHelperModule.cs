@@ -3,7 +3,6 @@ using System.Reflection;
 using Celeste.Mod.MintChocolateHelper.Entities;
 using Celeste.Mod.MintChocolateHelper.ModInterop;
 using FlaglinesAndSuch;
-using LunaticHelper;
 using MonoMod.ModInterop;
 using VivHelper.Effects;
 
@@ -34,11 +33,6 @@ public class MintChocolateHelperModule : EverestModule
     public static bool FlaglinesLoaded;
     
     public static FieldInfo CustomGodraysFade;
-    
-    //<----LUNATIC---->
-    public static bool LunaticLoaded;
-    
-    public static FieldInfo CustomDustFade;
     
     //<----VIVHELPER---->
     public static bool VivhelperLoaded;
@@ -90,19 +84,6 @@ public class MintChocolateHelperModule : EverestModule
         if (FlaglinesLoaded)
         {
             CustomGodraysFade = typeof(CustomGodrays).GetField("fade", BindingFlags.NonPublic | BindingFlags.Instance);
-        }
-        
-        //<----LUNATIC---->
-        EverestModuleMetadata LunaticHelper = new() {
-            Name = "LunaticHelper",
-            Version = new Version(1, 1 ,1)
-        };
-        
-        LunaticLoaded = Everest.Loader.DependencyLoaded(LunaticHelper);
-
-        if (LunaticLoaded)
-        {
-            CustomDustFade = typeof(CustomDust).GetField("fade", BindingFlags.NonPublic | BindingFlags.Instance);
         }
         
         //<----VIVHELPER---->

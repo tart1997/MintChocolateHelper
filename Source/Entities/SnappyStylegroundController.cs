@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Celeste.Mod.Entities;
 using FlaglinesAndSuch;
-using LunaticHelper;
 using Microsoft.Xna.Framework;
 using Monocle;
 using VivHelper.Effects;
@@ -42,9 +41,6 @@ public class SnappyStylegroundController : Entity
                 case CustomGodrays godrays:
                     MintChocolateHelperModule.CustomGodraysFade.SetValue(godrays, level.Session.GetFlag(godrays.OnlyIfFlag) ? 1 : 0);
                     break;
-                case CustomDust dust:
-                    MintChocolateHelperModule.CustomDustFade.SetValue(dust, level.Session.GetFlag(dust.OnlyIfFlag) ? 1 : 0);
-                    break;
                 case CustomRain rain:
                     MintChocolateHelperModule.CustomRainFade.SetValue(rain, level.Session.GetFlag(rain.OnlyIfFlag) ? 1 : 0);
                     break;
@@ -67,9 +63,6 @@ public class SnappyStylegroundController : Entity
                     break;
                 case CustomGodrays godrays:
                     MintChocolateHelperModule.CustomGodraysFade.SetValue(godrays, level.Session.GetFlag(godrays.OnlyIfFlag) ? 1 : 0);
-                    break;
-                case CustomDust dust:
-                    MintChocolateHelperModule.CustomDustFade.SetValue(dust, level.Session.GetFlag(dust.OnlyIfFlag) ? 1 : 0);
                     break;
                 case CustomRain rain:
                     MintChocolateHelperModule.CustomRainFade.SetValue(rain, level.Session.GetFlag(rain.OnlyIfFlag) ? 1 : 0);
