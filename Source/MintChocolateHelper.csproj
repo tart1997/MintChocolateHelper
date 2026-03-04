@@ -20,6 +20,8 @@
         <!-- Add any dependency references here. -->
         <Reference Include="FemtoHelper" Private="false" />
         <Reference Include="FlaglinesAndSuch" Private="false" />
+        <Reference Include="LunaticHelper" Private="false" />
+        <Reference Include="VivHelper" Private="false" />
     </ItemGroup>
     
     <ItemGroup>

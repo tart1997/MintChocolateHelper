@@ -3,7 +3,9 @@ using System.Reflection;
 using Celeste.Mod.MintChocolateHelper.Entities;
 using Celeste.Mod.MintChocolateHelper.ModInterop;
 using FlaglinesAndSuch;
+using LunaticHelper;
 using MonoMod.ModInterop;
+using VivHelper.Effects;
 
 namespace Celeste.Mod.MintChocolateHelper;
 
@@ -23,16 +25,25 @@ public class MintChocolateHelperModule : EverestModule
     public static MintChocolateHelperModuleSaveData SaveData => (MintChocolateHelperModuleSaveData) Instance._SaveData;
     
     
-    //FEMTO HELPER
+    //<----FEMTO HELPER---->
     public static bool FemtoHelperLoaded;
     
     public static FieldInfo WindPetalsFade;
     
-    //FLAGLINES 
+    //<----FLAGLINES---->
     public static bool FlaglinesLoaded;
     
     public static FieldInfo CustomGodraysFade;
     
+    //<----LUNATIC---->
+    public static bool LunaticLoaded;
+    
+    public static FieldInfo CustomDustFade;
+    
+    //<----VIVHELPER---->
+    public static bool VivhelperLoaded;
+    
+    public static FieldInfo CustomRainFade;
     
     
     
@@ -55,7 +66,7 @@ public class MintChocolateHelperModule : EverestModule
         HeartBreakerRefill.Load();
         SpeedFlipRefill.Load();
         
-        //FEMTO HELPER
+        //<----FEMTO HELPER---->
         EverestModuleMetadata femtoHelper = new() {
             Name = "FemtoHelper",
             Version = new Version(1, 15 ,9)
@@ -68,7 +79,7 @@ public class MintChocolateHelperModule : EverestModule
             WindPetalsFade = typeof(WindPetals).GetField("fade", BindingFlags.NonPublic | BindingFlags.Instance);
         }
         
-        //FLAGLINES 
+        //<----FLAGLINES---->
         EverestModuleMetadata FlaglinesAndSuch = new() {
             Name = "FlaglinesAndSuch",
             Version = new Version(1, 6 ,65)
@@ -79,6 +90,32 @@ public class MintChocolateHelperModule : EverestModule
         if (FlaglinesLoaded)
         {
             CustomGodraysFade = typeof(CustomGodrays).GetField("fade", BindingFlags.NonPublic | BindingFlags.Instance);
+        }
+        
+        //<----LUNATIC---->
+        EverestModuleMetadata LunaticHelper = new() {
+            Name = "LunaticHelper",
+            Version = new Version(1, 1 ,1)
+        };
+        
+        LunaticLoaded = Everest.Loader.DependencyLoaded(LunaticHelper);
+
+        if (LunaticLoaded)
+        {
+            CustomDustFade = typeof(CustomDust).GetField("fade", BindingFlags.NonPublic | BindingFlags.Instance);
+        }
+        
+        //<----VIVHELPER---->
+        EverestModuleMetadata VivHelper = new() {
+            Name = "VivHelper",
+            Version = new Version(1, 14 ,10)
+        };
+        
+        VivhelperLoaded = Everest.Loader.DependencyLoaded(VivHelper);
+
+        if (VivhelperLoaded)
+        {
+            CustomRainFade = typeof(CustomRain).GetField("visibleFade", BindingFlags.NonPublic | BindingFlags.Instance);
         }
     }
 
