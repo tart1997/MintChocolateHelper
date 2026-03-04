@@ -57,6 +57,9 @@ public class SnappyStylegroundController : Entity
                 case WindPetals windPetals:
                     MintChocolateHelperModule.WindPetalsFade.SetValue(windPetals, level.Session.GetFlag(windPetals.OnlyIfFlag) ? 1 : 0);
                     break;
+                case CustomGodrays godrays:
+                    MintChocolateHelperModule.CustomGodraysFade.SetValue(godrays, level.Session.GetFlag(godrays.OnlyIfFlag) ? 1 : 0);
+                    break;
             }
         }
     }
