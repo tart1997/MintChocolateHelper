@@ -41,8 +41,8 @@ public class SnappyStylegroundController : Entity
                 case CustomGodrays godrays:
                     MintChocolateHelperModule.CustomGodraysFade.SetValue(godrays, level.Session.GetFlag(godrays.OnlyIfFlag) ? 1 : 0);
                     break;
-                case CustomRain rain:
-                    MintChocolateHelperModule.CustomRainFade.SetValue(rain, level.Session.GetFlag(rain.OnlyIfFlag) ? 1 : 0);
+                case CustomRain vivRain:
+                    MintChocolateHelperModule.VivCustomRainFade.SetValue(vivRain, level.Session.GetFlag(vivRain.OnlyIfFlag) ? 1 : 0);
                     break;
             }
         }
@@ -64,8 +64,8 @@ public class SnappyStylegroundController : Entity
                 case CustomGodrays godrays:
                     MintChocolateHelperModule.CustomGodraysFade.SetValue(godrays, level.Session.GetFlag(godrays.OnlyIfFlag) ? 1 : 0);
                     break;
-                case CustomRain rain:
-                    MintChocolateHelperModule.CustomRainFade.SetValue(rain, level.Session.GetFlag(rain.OnlyIfFlag) ? 1 : 0);
+                case CustomRain vivRain:
+                    MintChocolateHelperModule.VivCustomRainFade.SetValue(vivRain, level.Session.GetFlag(vivRain.OnlyIfFlag) ? 1 : 0);
                     break;
             }
         }

@@ -37,7 +37,7 @@ public class MintChocolateHelperModule : EverestModule
     //<----VIVHELPER---->
     public static bool VivhelperLoaded;
     
-    public static FieldInfo CustomRainFade;
+    public static FieldInfo VivCustomRainFade;
     
     
     
@@ -96,7 +96,7 @@ public class MintChocolateHelperModule : EverestModule
 
         if (VivhelperLoaded)
         {
-            CustomRainFade = typeof(CustomRain).GetField("visibleFade", BindingFlags.NonPublic | BindingFlags.Instance);
+            VivCustomRainFade = typeof(CustomRain).GetField("visibleFade", BindingFlags.NonPublic | BindingFlags.Instance);
         }
     }
 
