@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Celeste.Mod.MintChocolateHelper.Entities;
 using Celeste.Mod.MintChocolateHelper.ModInterop;
@@ -9,6 +10,7 @@ using VivHelper.Effects;
 namespace Celeste.Mod.MintChocolateHelper;
 
 // ReSharper disable once ClassNeverInstantiated.Global
+[SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
 public class MintChocolateHelperModule : EverestModule 
 {
     // ReSharper disable once MemberCanBePrivate.Global

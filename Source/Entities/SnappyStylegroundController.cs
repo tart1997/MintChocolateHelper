@@ -42,13 +42,13 @@ public class SnappyStylegroundController : Entity
                     break;
                 //Modded
                 case WindPetals windPetals:
-                    MintChocolateHelperModule.WindPetalsFade.SetValue(windPetals, level.Session.GetFlag(windPetals.OnlyIfFlag) ? 1 : 0);
+                    MintChocolateHelperModule.WindPetalsFade?.SetValue(windPetals, level.Session.GetFlag(windPetals.OnlyIfFlag) ? 1 : 0);
                     break;
                 case CustomGodrays godrays:
-                    MintChocolateHelperModule.CustomGodraysFade.SetValue(godrays, level.Session.GetFlag(godrays.OnlyIfFlag) ? 1 : 0);
+                    MintChocolateHelperModule.CustomGodraysFade?.SetValue(godrays, level.Session.GetFlag(godrays.OnlyIfFlag) ? 1 : 0);
                     break;
                 case CustomRain vivRain:
-                    MintChocolateHelperModule.VivCustomRainFade.SetValue(vivRain, level.Session.GetFlag(vivRain.OnlyIfFlag) ? 1 : 0);
+                    MintChocolateHelperModule.VivCustomRainFade?.SetValue(vivRain, level.Session.GetFlag(vivRain.OnlyIfFlag) ? 1 : 0);
                     break;
             }
         }
@@ -71,13 +71,13 @@ public class SnappyStylegroundController : Entity
                     break;
                 //Modded
                 case WindPetals windPetals:
-                    MintChocolateHelperModule.WindPetalsFade.SetValue(windPetals, level.Session.GetFlag(windPetals.OnlyIfFlag) ? 1 : 0);
+                    MintChocolateHelperModule.WindPetalsFade?.SetValue(windPetals, level.Session.GetFlag(windPetals.OnlyIfFlag) ? 1 : 0);
                     break;
                 case CustomGodrays godrays:
-                    MintChocolateHelperModule.CustomGodraysFade.SetValue(godrays, level.Session.GetFlag(godrays.OnlyIfFlag) ? 1 : 0);
+                    MintChocolateHelperModule.CustomGodraysFade?.SetValue(godrays, level.Session.GetFlag(godrays.OnlyIfFlag) ? 1 : 0);
                     break;
                 case CustomRain vivRain:
-                    MintChocolateHelperModule.VivCustomRainFade.SetValue(vivRain, level.Session.GetFlag(vivRain.OnlyIfFlag) ? 1 : 0);
+                    MintChocolateHelperModule.VivCustomRainFade?.SetValue(vivRain, level.Session.GetFlag(vivRain.OnlyIfFlag) ? 1 : 0);
                     break;
             }
         }
