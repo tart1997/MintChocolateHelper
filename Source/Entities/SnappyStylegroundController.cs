@@ -34,6 +34,12 @@ public class SnappyStylegroundController : Entity
                 case Snow snow:
                     snow.visibleFade = level.Session.GetFlag(snow.OnlyIfFlag) ? 1 : 0;
                     break;
+                case NorthernLights northernLights:
+                    foreach (NorthernLights.Strand strand in northernLights.strands)
+                    {
+                        strand.Alpha = 1f;
+                    }
+                    break;
                 //Modded
                 case WindPetals windPetals:
                     MintChocolateHelperModule.WindPetalsFade.SetValue(windPetals, level.Session.GetFlag(windPetals.OnlyIfFlag) ? 1 : 0);
@@ -56,6 +62,12 @@ public class SnappyStylegroundController : Entity
                     break;
                 case Snow snow:
                     snow.visibleFade = level.Session.GetFlag(snow.OnlyIfFlag) ? 1 : 0;
+                    break;
+                case NorthernLights northernLights:
+                    foreach (NorthernLights.Strand strand in northernLights.strands)
+                    {
+                        strand.Alpha = 1f;
+                    }
                     break;
                 //Modded
                 case WindPetals windPetals:
