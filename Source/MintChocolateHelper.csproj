@@ -21,6 +21,7 @@
         <Reference Include="FemtoHelper" Private="false" />
         <Reference Include="FlaglinesAndSuch" Private="false" />
         <Reference Include="VivHelper" Private="false" />
+        <Reference Include="CommunalHelper" Private="false" />
     </ItemGroup>
     
     <ItemGroup>

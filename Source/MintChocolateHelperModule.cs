@@ -41,6 +41,9 @@ public class MintChocolateHelperModule : EverestModule
     
     public static FieldInfo VivCustomRainFade;
     
+    //<----COMMUNALHELPER---->
+    public static bool CommunalHelperLoaded;
+    
     
     
     public MintChocolateHelperModule()
@@ -100,6 +103,15 @@ public class MintChocolateHelperModule : EverestModule
         {
             VivCustomRainFade = typeof(CustomRain).GetField("visibleFade", BindingFlags.NonPublic | BindingFlags.Instance);
         }
+        
+        //<----COMMUNALHELPER---->
+        
+        EverestModuleMetadata CommunalHelper = new() {
+            Name = "CommunalHelper",
+            Version = new Version(1, 24 ,5)
+        };
+        
+        CommunalHelperLoaded = Everest.Loader.DependencyLoaded(CommunalHelper);
     }
 
     public override void Unload() 
