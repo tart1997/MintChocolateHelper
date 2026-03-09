@@ -76,7 +76,7 @@ public class MintChocolateHelperModule : EverestModule
 
         if (FemtoHelperLoaded)
         {
-            WindPetalsFade = typeof(WindPetals).GetField("fade", BindingFlags.NonPublic | BindingFlags.Instance);
+            loadFemtoHelper();
         }
         
         //<----FLAGLINES---->
@@ -89,7 +89,7 @@ public class MintChocolateHelperModule : EverestModule
 
         if (FlaglinesLoaded)
         {
-            CustomGodraysFade = typeof(CustomGodrays).GetField("fade", BindingFlags.NonPublic | BindingFlags.Instance);
+            loadFlaglines();
         }
         
         //<----VIVHELPER---->
@@ -102,18 +102,41 @@ public class MintChocolateHelperModule : EverestModule
 
         if (VivhelperLoaded)
         {
-            VivCustomRainFade = typeof(CustomRain).GetField("visibleFade", BindingFlags.NonPublic | BindingFlags.Instance);
+            loadVivHelper();
         }
         
-        //<----COMMUNALHELPER---->
-        
-        EverestModuleMetadata CommunalHelper = new() {
-            Name = "CommunalHelper",
-            Version = new Version(1, 24 ,5)
-        };
-        
-        CommunalHelperLoaded = Everest.Loader.DependencyLoaded(CommunalHelper);
+        // //<----COMMUNALHELPER---->
+        //
+        // EverestModuleMetadata CommunalHelper = new() {
+        //     Name = "CommunalHelper",
+        //     Version = new Version(1, 24 ,5)
+        // };
+        //
+        // CommunalHelperLoaded = Everest.Loader.DependencyLoaded(CommunalHelper);
     }
+    
+    public static void loadFemtoHelper()
+    {
+        WindPetalsFade = typeof(WindPetals).GetField("fade", BindingFlags.NonPublic | BindingFlags.Instance);
+    }
+
+    public static void loadFlaglines()
+    {
+        CustomGodraysFade = typeof(CustomGodrays).GetField("fade", BindingFlags.NonPublic | BindingFlags.Instance);
+    }
+
+    public static void loadVivHelper()
+    {
+        VivCustomRainFade = typeof(CustomRain).GetField("visibleFade", BindingFlags.NonPublic | BindingFlags.Instance);
+    }
+
+    // public static FieldInfo loadCommunalHelper()
+    // {
+    //     
+    // }
+
+
+
 
     public override void Unload() 
     {

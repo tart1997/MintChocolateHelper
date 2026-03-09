@@ -40,16 +40,22 @@ public class SnappyStylegroundController : Entity
                         strand.Alpha = 1f;
                     }
                     break;
-                //Modded
-                case WindPetals windPetals:
-                    MintChocolateHelperModule.WindPetalsFade?.SetValue(windPetals, level.Session.GetFlag(windPetals.OnlyIfFlag) ? 1 : 0);
-                    break;
-                case CustomGodrays godrays:
-                    MintChocolateHelperModule.CustomGodraysFade?.SetValue(godrays, level.Session.GetFlag(godrays.OnlyIfFlag) ? 1 : 0);
-                    break;
-                case CustomRain vivRain:
-                    MintChocolateHelperModule.VivCustomRainFade?.SetValue(vivRain, level.Session.GetFlag(vivRain.OnlyIfFlag) ? 1 : 0);
-                    break;
+            }
+
+            //Modded
+            if (MintChocolateHelperModule.FemtoHelperLoaded && isWindPetals(backdrop))
+            {
+                loadFemtoHelper(backdrop);
+            }
+
+            if (MintChocolateHelperModule.FlaglinesLoaded &&isCustomGodrays(backdrop))
+            {
+                loadFlaglines(backdrop);
+            }
+
+            if (MintChocolateHelperModule.VivhelperLoaded &&isVivRain(backdrop))
+            {
+                loadVivHelper(backdrop);
             }
         }
         foreach (Backdrop backdrop in level.Foreground.Backdrops.Where(backdrop => backdrop.Tags.Contains(SnapTag)))
@@ -69,17 +75,56 @@ public class SnappyStylegroundController : Entity
                         strand.Alpha = 1f;
                     }
                     break;
-                //Modded
-                case WindPetals windPetals:
-                    MintChocolateHelperModule.WindPetalsFade?.SetValue(windPetals, level.Session.GetFlag(windPetals.OnlyIfFlag) ? 1 : 0);
-                    break;
-                case CustomGodrays godrays:
-                    MintChocolateHelperModule.CustomGodraysFade?.SetValue(godrays, level.Session.GetFlag(godrays.OnlyIfFlag) ? 1 : 0);
-                    break;
-                case CustomRain vivRain:
-                    MintChocolateHelperModule.VivCustomRainFade?.SetValue(vivRain, level.Session.GetFlag(vivRain.OnlyIfFlag) ? 1 : 0);
-                    break;
+            }
+            
+            //Modded
+            if (MintChocolateHelperModule.FemtoHelperLoaded && isWindPetals(backdrop))
+            {
+                loadFemtoHelper(backdrop);
+            }
+
+            if (MintChocolateHelperModule.FlaglinesLoaded &&isCustomGodrays(backdrop))
+            {
+                loadFlaglines(backdrop);
+            }
+
+            if (MintChocolateHelperModule.VivhelperLoaded &&isVivRain(backdrop))
+            {
+                loadVivHelper(backdrop);
             }
         }
+    }
+
+    private static void loadFemtoHelper(Backdrop windPetals)
+    {
+        if (Engine.Scene is not Level level) return;
+        MintChocolateHelperModule.WindPetalsFade?.SetValue(windPetals, level.Session.GetFlag(windPetals.OnlyIfFlag) ? 1 : 0);
+    }
+
+    private static bool isWindPetals(Backdrop backdrop)
+    {
+        return backdrop is WindPetals;
+    }
+
+    private static void loadFlaglines(Backdrop godrays)
+    {
+        if (Engine.Scene is not Level level) return;
+        MintChocolateHelperModule.CustomGodraysFade?.SetValue(godrays, level.Session.GetFlag(godrays.OnlyIfFlag) ? 1 : 0);
+    }
+    
+    private static bool isCustomGodrays(Backdrop backdrop)
+    {
+        return backdrop is CustomGodrays;
+    }
+
+    private static void loadVivHelper(Backdrop vivRain)
+    {
+        if (Engine.Scene is not Level level) return;
+        MintChocolateHelperModule.VivCustomRainFade?.SetValue(vivRain, level.Session.GetFlag(vivRain.OnlyIfFlag) ? 1 : 0);
+    }
+
+    private static bool isVivRain(Backdrop backdrop)
+    {
+        return backdrop is CustomRain;
     }
 }
