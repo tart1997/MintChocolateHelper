@@ -61,6 +61,13 @@ entities.MintChocolateHelper/SpeedFlipRefill.attributes.description.oneUse= When
 
 
 
+entities.MintChocolateHelper/DisableQuickRespawn.placements.name.disable_quick_respawn= Disable Quick Respawn Controller
+entities.MintChocolateHelper/DisableQuickRespawn.placements.description.disable_quick_respawn= If the provided flag is true, Disables the quick respawn mechanic
+
+entities.MintChocolateHelper/DisableQuickRespawn.attributes.description.disableFlag= The flag to check
+
+
+
 # Triggers
 
 triggers.MintChocolateHelper/PulseFlagTrigger.placements.name.pulse_flag_trigger=Pulse Flag Trigger

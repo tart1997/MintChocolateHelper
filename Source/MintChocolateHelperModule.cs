@@ -64,6 +64,7 @@ public class MintChocolateHelperModule : EverestModule
         StylegroundsWhilePaused.Load();
         HeartBreakerRefill.Load();
         SpeedFlipRefill.Load();
+        DisableQuickRespawn.Load();
         
         //<----FEMTO HELPER---->
         EverestModuleMetadata femtoHelper = new() {
@@ -119,5 +120,6 @@ public class MintChocolateHelperModule : EverestModule
         StylegroundsWhilePaused.Unload();
         HeartBreakerRefill.Unload();
         SpeedFlipRefill.Unload();
+        DisableQuickRespawn.Unload();
     }
 }
