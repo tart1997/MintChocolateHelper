@@ -81,3 +81,19 @@ triggers.MintChocolateHelper/PulseFlagTrigger.attributes.description.invert=If u
 
 triggers.MintChocolateHelper/MichealTrigger.placements.name.micheal_trigger=Micheal Trigger
 triggers.MintChocolateHelper/MichealTrigger.placements.description.micheal_trigger=Micheal
+
+
+
+triggers.MintChocolateHelper/DMtartTrigger.placements.name.dm_tart_trigger=DM tart Trigger
+triggers.MintChocolateHelper/DMtartTrigger.placements.description.dm_tart_trigger=Sends a specified Message to tart as a DM
+
+triggers.MintChocolateHelper/DMtartTrigger.attributes.description.message=The Message to send to tart
+
+
+
+triggers.MintChocolateHelper/MessageWebhookTrigger.placements.name.message_webhook_trigger=Message Webhook Trigger
+triggers.MintChocolateHelper/MessageWebhookTrigger.placements.description.message_webhook_trigger=Sends a specified Message to a specified Webhook
+
+triggers.MintChocolateHelper/MessageWebhookTrigger.attributes.description.webhook=The Webhook to send the Message to\nTakes in the URL of the Webhook
+triggers.MintChocolateHelper/MessageWebhookTrigger.attributes.description.message=The Message to send to the specified Webhook
+triggers.MintChocolateHelper/MessageWebhookTrigger.attributes.description.user=If specified, attempts to ping a user along with the message\nTakes in the User ID of the user to ping
