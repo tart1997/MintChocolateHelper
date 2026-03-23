@@ -76,3 +76,8 @@ triggers.MintChocolateHelper/PulseFlagTrigger.placements.description.pulse_flag_
 triggers.MintChocolateHelper/PulseFlagTrigger.attributes.description.flag=The Flag to Pulse
 triggers.MintChocolateHelper/PulseFlagTrigger.attributes.description.frames=The number of frames to pulse the flag for
 triggers.MintChocolateHelper/PulseFlagTrigger.attributes.description.invert=If unchecked, Sets the flag ON for n frames then unsets it\nIf checked, Sets the flag OFF for n frames then resets it
+
+
+
+triggers.MintChocolateHelper/MichealTrigger.placements.name.micheal_trigger=Micheal Trigger
+triggers.MintChocolateHelper/MichealTrigger.placements.description.micheal_trigger=Micheal
