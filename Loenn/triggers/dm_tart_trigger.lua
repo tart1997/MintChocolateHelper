@@ -7,7 +7,8 @@ DMtartTrigger.placements = {
     data = {
         width = 16,
         height = 16,
-		message = ""
+		message = "",
+		dialog = false
     }
 }
 

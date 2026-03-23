@@ -9,7 +9,8 @@ MessageWebhookTrigger.placements = {
         height = 16,
 		webhook = "",
 		message = "",
-		user = ""
+		user = "",
+		dialog = false
     }
 }
 
