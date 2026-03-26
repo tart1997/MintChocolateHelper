@@ -47,13 +47,13 @@ public class MessageWebhookTrigger : Trigger
             {
                 if (!txt)
                 {
-                    payload = "{\"content\": \"" + "<@" + user + "> " + @"\n \n" + message + "\"}";
+                    payload = "{\"content\": \"" + "<@" + user + "> " + @"\n\n" + message + "\"}";
                 }
                 else
                 {
                     string v = Dialog.Clean(message);
                     v = v.Replace("\n", "\\n");
-                    payload = "{\"content\": \"" + "<@" + user + "> " + @"\n \n" + v + "\"}";
+                    payload = "{\"content\": \"" + "<@" + user + "> " + @"\n\n" + v + "\"}";
                 
                 }
             }

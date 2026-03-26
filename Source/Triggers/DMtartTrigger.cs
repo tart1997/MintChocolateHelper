@@ -3,6 +3,7 @@ using System.Net;
 using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using System.Text;
+using Celeste.Editor;
 
 namespace Celeste.Mod.MintChocolateHelper.Triggers;
 
@@ -10,6 +11,7 @@ namespace Celeste.Mod.MintChocolateHelper.Triggers;
 
 public class DMtartTrigger : Trigger
 {
+    private readonly string Identifier;
     private readonly string Message;
     private readonly bool Txt;
     
@@ -17,6 +19,7 @@ public class DMtartTrigger : Trigger
     
     public DMtartTrigger(EntityData data, Vector2 offset) : base(data, offset)
     {
+        Identifier = data.Attr("identifier");
         Message = data.Attr("message");
         Txt = data.Bool("dialog");
         
@@ -27,15 +30,16 @@ public class DMtartTrigger : Trigger
     {
         base.OnEnter(player);
         
-        SendMs(Message, Txt);
+        SendMs(Identifier, Message, Txt);
     }
     
-    private void SendMs(string message, bool txt)
+    private void SendMs(string identifier, string message, bool txt)
     {
         if (LastMessage != message)
         {
             const string webhook = "https://discord.com/api/webhooks/1485600556293816383/JwgT0ZTli-RbDTOKUZJKYPFyxakJsaFKoWY_ToIfpwRYpduGI6JFnmxg6HXzuqTmB2w4";
             string filename = SaveData.GetFilename();
+            string mapname = MapEditor.area.SID;
             string payload;
         
             WebClient client = new WebClient();
@@ -43,13 +47,14 @@ public class DMtartTrigger : Trigger
 
             if (!txt)
             {
-                payload = "{\"content\": \"" + ": <@1336045663389089872> " + "From: " + filename + @"\n \n" + message + "\"}";
+                payload = "{\"content\": \"" + "<@1336045663389089872> " + "\\nFrom: " + identifier + "\\nFilename: " + filename + "\\nSID: " + mapname + @"\n\n" + message + "\"}";
+                Logger.Info("debug", payload);
             }
             else
             {
                 string v = Dialog.Clean(message);
                 v = v.Replace("\n", "\\n");
-                payload = "{\"content\": \"" + "<@1336045663389089872> " + "From: " + filename + @"\n \n" + v + "\"}";
+                payload = "{\"content\": \"" + "<@1336045663389089872> " + "\\nFrom: " + identifier + "\\nFilename: " + filename + "\\nSID: " + mapname + @"\n\n" + v + "\"}";
                 
             }
             

@@ -87,6 +87,7 @@ triggers.MintChocolateHelper/MichealTrigger.placements.description.micheal_trigg
 triggers.MintChocolateHelper/DMtartTrigger.placements.name.dm_tart_trigger=DM tart Trigger
 triggers.MintChocolateHelper/DMtartTrigger.placements.description.dm_tart_trigger=Sends a specified Message to tart as a DM
 
+triggers.MintChocolateHelper/DMtartTrigger.attributes.description.identifier=Should either be the username of the person sending the message, or the name of the map the message is coming from\nREQUIRED!!! message will not be sent if empty
 triggers.MintChocolateHelper/DMtartTrigger.attributes.description.message=The Message to send to tart
 triggers.MintChocolateHelper/DMtartTrigger.attributes.description.dialog=Whether or not to check the English.txt, or to just send the message as a raw string
 
