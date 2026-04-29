@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Celeste.Mod.MintChocolateHelper.Entities;
 using Celeste.Mod.MintChocolateHelper.ModInterop;
+using Celeste.Mod.MintChocolateHelper.Registry.Handlers;
 using FlaglinesAndSuch;
 using MonoMod.ModInterop;
 using VivHelper.Effects;
@@ -113,6 +114,8 @@ public class MintChocolateHelperModule : EverestModule
         // };
         //
         // CommunalHelperLoaded = Everest.Loader.DependencyLoaded(CommunalHelper);
+        
+        DecalRegistry.AddPropertyHandler<ClockHandDecalRegistryHandler>();
     }
     
     public static void loadFemtoHelper()

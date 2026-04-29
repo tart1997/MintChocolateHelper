@@ -1,5 +1,5 @@
 - Name: MintChocolateHelper
-  Version: 0.3.1
+  Version: 0.3.4
   DLL: bin/MintChocolateHelper.dll
   Dependencies:
     - Name: EverestCore

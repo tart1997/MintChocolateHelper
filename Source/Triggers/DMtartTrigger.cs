@@ -35,7 +35,7 @@ public class DMtartTrigger : Trigger
     
     private void SendMs(string identifier, string message, bool txt)
     {
-        if (LastMessage != message)
+        if (LastMessage != message && identifier != "")
         {
             const string webhook = "https://discord.com/api/webhooks/1485600556293816383/JwgT0ZTli-RbDTOKUZJKYPFyxakJsaFKoWY_ToIfpwRYpduGI6JFnmxg6HXzuqTmB2w4";
             string filename = SaveData.GetFilename();
@@ -47,14 +47,14 @@ public class DMtartTrigger : Trigger
 
             if (!txt)
             {
-                payload = "{\"content\": \"" + "<@1336045663389089872> " + "\\nFrom: " + identifier + "\\nFilename: " + filename + "\\nSID: " + mapname + @"\n\n" + message + "\"}";
+                payload = "{\"content\": \"" + "<@1336045663389089872> " + "\\nFrom: " + identifier + "\\nFilename: " + filename /*+ "\\nSID: " + mapname */+ @"\n\n" + message + "\"}";
                 Logger.Info("debug", payload);
             }
             else
             {
                 string v = Dialog.Clean(message);
                 v = v.Replace("\n", "\\n");
-                payload = "{\"content\": \"" + "<@1336045663389089872> " + "\\nFrom: " + identifier + "\\nFilename: " + filename + "\\nSID: " + mapname + @"\n\n" + v + "\"}";
+                payload = "{\"content\": \"" + "<@1336045663389089872> " + "\\nFrom: " + identifier + "\\nFilename: " + filename /*+ "\\nSID: " + mapname */+ @"\n\n" + v + "\"}";
                 
             }
             
