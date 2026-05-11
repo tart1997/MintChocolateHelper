@@ -58,6 +58,8 @@ entities.MintChocolateHelper/SpeedFlipRefill.placements.description.speed_flip_r
 
 entities.MintChocolateHelper/SpeedFlipRefill.attributes.description.respawnTime= How long it takes for the Refill to respawn after collection
 entities.MintChocolateHelper/SpeedFlipRefill.attributes.description.oneUse= When checked, the Refill won't respawn
+entities.MintChocolateHelper/SpeedFlipRefill.attributes.description.disableAmbientEffects= When checked, disables bloom and particles
+entities.MintChocolateHelper/SpeedFlipRefill.attributes.description.disableCollectEffects= When checked, disables collect sfx and particles
 
 
 

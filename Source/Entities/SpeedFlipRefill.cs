@@ -30,11 +30,15 @@ public class SpeedFlipRefill : Entity
 	private readonly bool oneUse;
 
 	private float respawnTimer;
+	private readonly bool disableAmbientEffects;
+	private readonly bool disableCollectEffects;
 	private readonly float respawnTime;
 	
 	public SpeedFlipRefill(EntityData data, Vector2 offset) : base(data.Position + offset)
 	{
 		oneUse = data.Bool("oneUse");
+		disableAmbientEffects = data.Bool("disableAmbientEffects");
+		disableCollectEffects = data.Bool("disableCollectEffects");
 		respawnTime = data.Float("respawnTime", 2.5f);
 		
 		Collider = new Hitbox(16f, 16f, -8f, -8f);
@@ -76,7 +80,7 @@ public class SpeedFlipRefill : Entity
 		{
 			sprite.Scale = flash.Scale = Vector2.One * (1f + v * 0.2f);
 		}));
-		
+
 		Add(new MirrorReflection());
 		Add(bloom = new BloomPoint(0.8f, 16f));
 		Add(light = new VertexLight(Color.White, 1f, 16, 48));
@@ -106,16 +110,24 @@ public class SpeedFlipRefill : Entity
 				Respawn();
 			}
 		}
-		else if (Scene.OnInterval(0.1f))
+		else if (Scene.OnInterval(0.1f) && !disableAmbientEffects)
 		{
 			level.ParticlesFG.Emit(P_Glow, 1, Position, Vector2.One * 5f);
 		}
 		
 		UpdateY();
-		
-		light.Alpha = Calc.Approach(light.Alpha, sprite.Visible ? 1f : 0f, 4f * Engine.DeltaTime);
-		bloom.Alpha = light.Alpha * 0.8f;
-		
+
+		if (!disableAmbientEffects)
+		{
+			light.Alpha = Calc.Approach(light.Alpha, sprite.Visible ? 1f : 0f, 4f * Engine.DeltaTime);
+			bloom.Alpha = light.Alpha * 0.8f;
+		}
+		else
+		{
+			light.Alpha = 0f;
+			bloom.Alpha = 0f;
+		}
+
 		if (Scene.OnInterval(2f) && sprite.Visible)
 		{
 			flash.Play("flash", true);
@@ -132,8 +144,12 @@ public class SpeedFlipRefill : Entity
 			outline.Visible = false;
 			Depth = -100;
 			wiggler.Start();
-			Audio.Play("event:/game/general/diamond_return", Position);
-			level.ParticlesFG.Emit(P_Regen, 16, Position, Vector2.One * 2f);
+			if (!disableCollectEffects)
+			{
+				Audio.Play("event:/game/general/diamond_return", Position);
+				level.ParticlesFG.Emit(P_Regen, 16, Position, Vector2.One * 2f);
+			}
+			
 		}
 	}
 	
@@ -155,8 +171,12 @@ public class SpeedFlipRefill : Entity
 	{
 		if (!MintChocolateHelperModule.Session.HasSpeedFlipDash)
 		{
-			Audio.Play("event:/game/general/diamond_touch", Position);
-			Input.Rumble(RumbleStrength.Medium, RumbleLength.Medium);
+			if (!disableCollectEffects)
+			{
+				Audio.Play("event:/game/general/diamond_touch", Position);
+				Input.Rumble(RumbleStrength.Medium, RumbleLength.Medium);
+			}
+			
 			Collidable = false;
 			Add(new Coroutine(RefillRoutine(player)));
 			player.UseRefill(false);
@@ -178,10 +198,14 @@ public class SpeedFlipRefill : Entity
 		}
 		Depth = 8999;
 		yield return 0.05f;
-		float num = player.Speed.Angle();
-		level.ParticlesFG.Emit(P_Shatter, 5, Position, Vector2.One * 4f, num - MathF.PI / 2f);
-		level.ParticlesFG.Emit(P_Shatter, 5, Position, Vector2.One * 4f, num + MathF.PI / 2f);
-		SlashFx.Burst(Position, num);
+		if (!disableCollectEffects)
+		{
+			float num = player.Speed.Angle();
+			level.ParticlesFG.Emit(P_Shatter, 5, Position, Vector2.One * 4f, num - MathF.PI / 2f);
+			level.ParticlesFG.Emit(P_Shatter, 5, Position, Vector2.One * 4f, num + MathF.PI / 2f);
+			SlashFx.Burst(Position, num);
+		}
+		
 		if (oneUse)
 		{
 			RemoveSelf();
