@@ -29,7 +29,7 @@ internal class ClockHandDecalRegistryHandler : DecalRegistryHandler
         Backwards = GetBool(xml, "Backwards", false);
         
         StopNumber = Get(xml, "StopNumber", 12);
-        TickSpeed = Get(xml, "TickSpeed", 1);
+        TickSpeed = Get(xml, "TickSpeed", 1f);
         Delay = Get(xml, "Delay", 0.1f);
         
         TickableFlag = GetString(xml, "TickableFlag", "");

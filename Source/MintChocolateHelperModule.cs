@@ -116,6 +116,7 @@ public class MintChocolateHelperModule : EverestModule
         // CommunalHelperLoaded = Everest.Loader.DependencyLoaded(CommunalHelper);
         
         DecalRegistry.AddPropertyHandler<ClockHandDecalRegistryHandler>();
+        DecalRegistry.AddPropertyHandler<PlayerDistanceFadeRegistryHandler>();
     }
     
     public static void loadFemtoHelper()
