@@ -10,9 +10,7 @@ namespace Celeste.Mod.MintChocolateHelper.Triggers;
 public class PulseFlagTrigger : Trigger
 {
     private readonly string Flag;
-
     private readonly int Frames;
-
     private readonly bool Invert; 
     
     public PulseFlagTrigger(EntityData data, Vector2 offset) : base(data, offset)
@@ -34,9 +32,7 @@ public class PulseFlagTrigger : Trigger
         if (Scene is not Level level) yield break;
         
         level.Session.SetFlag(Flag, !Invert);
-
         yield return Frames / 60f;
-        
         level.Session.SetFlag(Flag, Invert);
     }
 }

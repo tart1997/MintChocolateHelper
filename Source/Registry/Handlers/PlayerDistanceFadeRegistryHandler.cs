@@ -11,14 +11,14 @@ internal class PlayerDistanceFadeRegistryHandler : DecalRegistryHandler
     private bool FadeOut;
     
     
-    public override string Name => "Mint.PlayerDistanceFade";
+    public override string Name => "mint.playerDistanceFade";
     
     
     public override void Parse(XmlAttributeCollection xml)
     {
-        InnerRadius = Get(xml, "InnerRadius",50f);
-        OuterRadius = Get(xml, "OuterRadius", 80f);
-        FadeOut = GetBool(xml, "FadeOut", false);
+        InnerRadius = Get(xml, "innerRadius",50f);
+        OuterRadius = Get(xml, "outerRadius", 80f);
+        FadeOut = GetBool(xml, "fadeOut", false);
     }
 
     public override void ApplyTo(Decal decal)

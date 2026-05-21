@@ -42,19 +42,21 @@ public class DMtartTrigger : Trigger
             string mapname = MapEditor.area.SID;
             string payload;
         
+            #pragma warning disable SYSLIB0014
             WebClient client = new WebClient();
+            #pragma warning restore SYSLIB0014
             client.Headers.Add("Content-Type", "application/json");
 
             if (!txt)
             {
-                payload = "{\"content\": \"" + "<@1336045663389089872> " + "\\nFrom: " + identifier + "\\nFilename: " + filename /*+ "\\nSID: " + mapname */+ @"\n\n" + message + "\"}";
+                payload = "{\"content\": \"" + "<@1336045663389089872> " + "\\nFrom: " + identifier + "\\nFilename: " + filename + "\\nSID: " + mapname + @"\n\n" + message + "\"}";
                 Logger.Info("debug", payload);
             }
             else
             {
                 string v = Dialog.Clean(message);
                 v = v.Replace("\n", "\\n");
-                payload = "{\"content\": \"" + "<@1336045663389089872> " + "\\nFrom: " + identifier + "\\nFilename: " + filename /*+ "\\nSID: " + mapname */+ @"\n\n" + v + "\"}";
+                payload = "{\"content\": \"" + "<@1336045663389089872> " + "\\nFrom: " + identifier + "\\nFilename: " + filename + "\\nSID: " + mapname + @"\n\n" + v + "\"}";
                 
             }
             

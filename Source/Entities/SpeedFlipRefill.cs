@@ -169,7 +169,7 @@ public class SpeedFlipRefill : Entity
 	
 	private void OnPlayer(Player player)
 	{
-		if (!MintChocolateHelperModule.Session.HasSpeedFlipDash)
+		if (!MintChocolateHelperModule.Session.HasSpeedFlipRefill)
 		{
 			if (!disableCollectEffects)
 			{
@@ -180,7 +180,7 @@ public class SpeedFlipRefill : Entity
 			Collidable = false;
 			Add(new Coroutine(RefillRoutine(player)));
 			player.UseRefill(false);
-			MintChocolateHelperModule.Session.HasSpeedFlipDash = true;
+			MintChocolateHelperModule.Session.HasSpeedFlipRefill = true;
 			respawnTimer = respawnTime;
 		}
 	}
@@ -214,62 +214,40 @@ public class SpeedFlipRefill : Entity
 	
 	public static void Load()
 	{
-		On.Celeste.Player.Die += SpeedFlipDash;
-		On.Celeste.Player.DashEnd += SpeedFlipDashEnd;
-		On.Celeste.Player.StartDash += SpeedFlipStartDash;
-		On.Celeste.PlayerHair.GetHairColor += SpeedFlipDashHairColor;
+		On.Celeste.Player.Die += SpeedFlipRefillDie;
+		On.Celeste.Player.NormalUpdate += SpeedFlipRefillJump;
+		On.Celeste.PlayerHair.GetHairColor += SpeedFlipRefillHairColor;
 	}
 	
 	public static void Unload()
 	{
-		On.Celeste.Player.Die -= SpeedFlipDash;
-		On.Celeste.Player.DashEnd -= SpeedFlipDashEnd;
-		On.Celeste.Player.StartDash -= SpeedFlipStartDash;
-		On.Celeste.PlayerHair.GetHairColor -= SpeedFlipDashHairColor;
+		On.Celeste.Player.Die -= SpeedFlipRefillDie;
+		On.Celeste.Player.NormalUpdate -= SpeedFlipRefillJump;
+		On.Celeste.PlayerHair.GetHairColor -= SpeedFlipRefillHairColor;
 	}
 	
 	// ReSharper disable once MemberCanBePrivate.Global
-	public static Color SpeedFlipDashHairColor(On.Celeste.PlayerHair.orig_GetHairColor orig, PlayerHair self, int index)
+	public static Color SpeedFlipRefillHairColor(On.Celeste.PlayerHair.orig_GetHairColor orig, PlayerHair self, int index)
 	{
-		return MintChocolateHelperModule.Session.HasSpeedFlipDash ? Color.Purple : orig(self, index);
+		return MintChocolateHelperModule.Session.HasSpeedFlipRefill ? Color.Purple : orig(self, index);
 	}
 
-	private static PlayerDeadBody SpeedFlipDash(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction, bool evenIfInvincible = false, bool registerDeathInStats = true)
+	private static PlayerDeadBody SpeedFlipRefillDie(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction, bool evenIfInvincible = false, bool registerDeathInStats = true)
 	{
-		if (!MintChocolateHelperModule.Session.SpeedFlipDashActive || evenIfInvincible)
-		{
-			MintChocolateHelperModule.Session.HasSpeedFlipDash = false;
-			MintChocolateHelperModule.Session.SpeedFlipDashActive = false;
-		}
+		MintChocolateHelperModule.Session.HasSpeedFlipRefill = false;
 		return orig(self, direction, evenIfInvincible, registerDeathInStats);
 	}
 	
-	private static int SpeedFlipStartDash(On.Celeste.Player.orig_StartDash orig, Player self)
+	private static int SpeedFlipRefillJump(On.Celeste.Player.orig_NormalUpdate orig, Player self)
 	{
-		int returnNumber = 2;
 		
-		if (MintChocolateHelperModule.Session.HasSpeedFlipDash)
+		if (Input.Jump.Pressed && MintChocolateHelperModule.Session.HasSpeedFlipRefill && !self.onGround && !self.CollideCheck<Solid>(self.Position + (int)self.Facing * Vector2.UnitX))
 		{
-			MintChocolateHelperModule.Session.SpeedFlipDashActive = true;
-			
-			returnNumber = 0;
-			
 			self.Speed.Y = -self.Speed.Y;
-			self.DummyGravity = false;
+			
+			MintChocolateHelperModule.Session.HasSpeedFlipRefill = false;
 		}
 		
-		MintChocolateHelperModule.Session.HasSpeedFlipDash = false;
-		orig(self);
-		
-		return returnNumber;
-	}
-	
-	private static void SpeedFlipDashEnd(On.Celeste.Player.orig_DashEnd orig, Player self)
-	{
-		orig(self);
-		if (self.StateMachine.State != 2 && MintChocolateHelperModule.Session.SpeedFlipDashActive)
-		{
-			MintChocolateHelperModule.Session.SpeedFlipDashActive = false;
-		}
+		return orig(self);
 	}
 }
