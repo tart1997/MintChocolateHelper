@@ -8,6 +8,7 @@ SpeedFlipRefill.placements = {
         name = "speed_flip_refill",
         data = {
 			respawnTime = 2.5,
+			extraMultiplier = 1.03,
 			disableAmbientEffects = false,
 			disableCollectEffects = false,
             oneUse = false,

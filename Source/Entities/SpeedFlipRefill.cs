@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
@@ -33,6 +34,8 @@ public class SpeedFlipRefill : Entity
 	private readonly bool disableAmbientEffects;
 	private readonly bool disableCollectEffects;
 	private readonly float respawnTime;
+
+	private readonly float ExtraMultiplier;
 	
 	public SpeedFlipRefill(EntityData data, Vector2 offset) : base(data.Position + offset)
 	{
@@ -40,6 +43,7 @@ public class SpeedFlipRefill : Entity
 		disableAmbientEffects = data.Bool("disableAmbientEffects");
 		disableCollectEffects = data.Bool("disableCollectEffects");
 		respawnTime = data.Float("respawnTime", 2.5f);
+		ExtraMultiplier = data.Float("extraMultiplier", 1.03f);
 		
 		Collider = new Hitbox(16f, 16f, -8f, -8f);
 		Add(new PlayerCollider(OnPlayer));
@@ -241,9 +245,14 @@ public class SpeedFlipRefill : Entity
 	private static int SpeedFlipRefillJump(On.Celeste.Player.orig_NormalUpdate orig, Player self)
 	{
 		
-		if (Input.Jump.Pressed && MintChocolateHelperModule.Session.HasSpeedFlipRefill && !self.onGround && !self.CollideCheck<Solid>(self.Position + (int)self.Facing * Vector2.UnitX))
+		if (Engine.Scene is not Level level) return orig(self);
+		List<Entity> entities = level.Tracker.GetEntitiesTrackIfNeeded<SpeedFlipRefill>();
+		if (entities == null || entities.Count == 0 || entities[0] is not SpeedFlipRefill refill) return orig(self);
+
+		if (Input.Jump.Pressed && MintChocolateHelperModule.Session.HasSpeedFlipRefill && !self.OnGround(self.Position, 4) && !self.onGround && !self.WallJumpCheck(3) && !self.WallJumpCheck(-3) && (self.jumpGraceTimer <= 0f) && (self.varJumpTimer <= 0f) && (self.StateMachine.state == Player.StNormal || self.StateMachine.State == Player.StDash))
 		{
-			self.Speed.Y = -self.Speed.Y;
+			self.Speed.Y = -self.Speed.Y * refill.ExtraMultiplier;
+			Input.Jump.ConsumeBuffer();
 			
 			MintChocolateHelperModule.Session.HasSpeedFlipRefill = false;
 		}
