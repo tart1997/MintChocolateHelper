@@ -106,15 +106,6 @@ public class MintChocolateHelperModule : EverestModule
             loadVivHelper();
         }
         
-        // //<----COMMUNALHELPER---->
-        //
-        // EverestModuleMetadata CommunalHelper = new() {
-        //     Name = "CommunalHelper",
-        //     Version = new Version(1, 24 ,5)
-        // };
-        //
-        // CommunalHelperLoaded = Everest.Loader.DependencyLoaded(CommunalHelper);
-        
         DecalRegistry.AddPropertyHandler<ClockHandDecalRegistryHandler>();
         DecalRegistry.AddPropertyHandler<PlayerDistanceFadeRegistryHandler>();
     }
@@ -133,15 +124,7 @@ public class MintChocolateHelperModule : EverestModule
     {
         VivCustomRainFade = typeof(CustomRain).GetField("visibleFade", BindingFlags.NonPublic | BindingFlags.Instance);
     }
-
-    // public static FieldInfo loadCommunalHelper()
-    // {
-    //     
-    // }
-
-
-
-
+    
     public override void Unload() 
     {
         StylegroundsWhilePaused.Unload();

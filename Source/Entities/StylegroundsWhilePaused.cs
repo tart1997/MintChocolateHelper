@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-//using Celeste.Mod.CommunalHelper.Backdrops;
 using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
@@ -40,33 +39,14 @@ public class StylegroundsWhilePaused : Entity
     {
         if (Scene is not Level level) return;
         
-        // bool hasCloudscape = false;
-        
         foreach (Backdrop backdrop in level.Background.Backdrops.Where(backdrop => Scene.Paused && backdrop.Tags.Contains(updateTag)))
         {
             backdrop.Update(Scene);
-            
-            // if (backdrop is Cloudscape cloudscape)
-            // {
-            //     hasCloudscape = true;
-            // }
         }
         foreach (Backdrop backdrop in level.Foreground.Backdrops.Where(backdrop => Scene.Paused && backdrop.Tags.Contains(updateTag)))
         {
             backdrop.Update(Scene);
-            
-            // if (backdrop is Cloudscape cloudscape)
-            // {
-            //     hasCloudscape = true;
-            // }
         }
-
-        // if (hasCloudscape)
-        // {
-        //     Scene.TimeActive += Engine.DeltaTime;
-        //     hasCloudscape = false;
-        // }
-        
     }
 
     internal static void Load()
@@ -111,22 +91,10 @@ public class StylegroundsWhilePaused : Entity
             foreach (Backdrop backdrop in level.Background.Backdrops.Where(backdrop => backdrop.Tags.Contains(controller.updateTag)))
             {
                 backdrop.Update(level);
-            
-                // if (backdrop is Cloudscape cloudscape)
-                // {
-                //     cloudscape.BeforeRender(level);
-                //     cloudscape.Render(level);
-                // }
             }
             foreach (Backdrop backdrop in level.Foreground.Backdrops.Where(backdrop => backdrop.Tags.Contains(controller.updateTag)))
             {
                 backdrop.Update(level);
-            
-                // if (backdrop is Cloudscape cloudscape)
-                // {
-                //     cloudscape.BeforeRender(level);
-                //     cloudscape.Render(level);
-                // }
             }
         }
     }
