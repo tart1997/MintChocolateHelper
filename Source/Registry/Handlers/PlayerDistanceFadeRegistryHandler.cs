@@ -6,13 +6,11 @@ namespace Celeste.Mod.MintChocolateHelper.Registry.Handlers;
 
 internal class PlayerDistanceFadeRegistryHandler : DecalRegistryHandler
 {
+    public override string Name => "mint.playerDistanceFade";
+    
     private float InnerRadius;
     private float OuterRadius;
     private bool FadeOut;
-    
-    
-    public override string Name => "mint.playerDistanceFade";
-    
     
     public override void Parse(XmlAttributeCollection xml)
     {
