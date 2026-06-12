@@ -21,54 +21,48 @@ internal class PlayerDistanceFade : Component
         InnerRadius = innerRadius;
         OuterRadius = outerRadius;
         FadeOut = fadeOut;
-        
-        DecalDistance = 0;
-        ColorPercentage = 0;
-        OriginalColor = Color.White;
     }
 
     public override void EntityAwake()
     {
+        base.EntityAwake();
         Decal decal = (Decal)Entity;
         OriginalColor = decal.Color;
     }
 
     public override void Update()
     {
+        base.Update();
+        
         Decal decal = (Decal)Entity;
         Player player = SceneAs<Level>().Tracker.GetEntity<Player>();
 
-        DecalDistance = (float)Math.Sqrt(Math.Pow(player.X - decal.X, 2) + Math.Pow(player.Y - decal.Y, 2));
-        ColorPercentage = (((OuterRadius - InnerRadius) - (DecalDistance - InnerRadius)) / (OuterRadius - InnerRadius));
-
-        if (!FadeOut)
+        if (player != null)
         {
-            if (DecalDistance < InnerRadius)
+            DecalDistance = (float)Math.Sqrt(Math.Pow(player.X - decal.X, 2) + Math.Pow(player.Y - decal.Y, 2));
+            ColorPercentage = (((OuterRadius - InnerRadius) - (DecalDistance - InnerRadius)) / (OuterRadius - InnerRadius));
+        }
+
+        if (FadeOut)
+        {
+            if (player == null || DecalDistance < InnerRadius)
             {
-                decal.Color = OriginalColor;
+                decal.Color = Color.Transparent;
             }
-            else if (DecalDistance > OuterRadius)
+            else
+            {
+                decal.Color = Color.Multiply(OriginalColor, 1 - ColorPercentage);
+            }
+        }
+        else
+        {
+            if (player == null || DecalDistance > OuterRadius)
             {
                 decal.Color = Color.Transparent;
             }
             else
             {
                 decal.Color = Color.Multiply(OriginalColor, ColorPercentage);
-            }
-        }
-        else
-        {
-            if (DecalDistance < InnerRadius)
-            {
-                decal.Color = Color.Transparent;
-            }
-            else if (DecalDistance > OuterRadius)
-            {
-                decal.Color = OriginalColor;
-            }
-            else
-            {
-                decal.Color = Color.Multiply(OriginalColor, 1 - ColorPercentage);
             }
         }
     }

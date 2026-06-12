@@ -39,7 +39,7 @@ public class MessageWebhookTrigger : Trigger
         if (LastMessage != message)
         {
             #pragma warning disable SYSLIB0014
-            WebClient client = new WebClient();
+            WebClient client = new();
             #pragma warning restore SYSLIB0014
             client.Headers.Add("Content-Type", "application/json");
 
