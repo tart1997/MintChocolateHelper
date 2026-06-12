@@ -1,40 +1,53 @@
 ﻿using System;
+using Celeste.Mod.MintChocolateHelper.Registry.Handlers;
 using Microsoft.Xna.Framework;
 using Monocle;
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable FieldCanBeMadeReadOnly.Global
 
 namespace Celeste.Mod.MintChocolateHelper.Registry.Components;
 
 internal class PlayerDistanceFade : Component
 {
-    public float InnerRadius;
-    public float OuterRadius;
-    public bool FadeOut;
+    private readonly float InnerRadius;
+    private readonly float OuterRadius;
+    private readonly bool FadeOut;
+    private readonly PlayerDistanceFadeRegistryHandler.DeathBehaivor DeathBehaivor;
+    private readonly float DeathFadeSpeedMultiplier;
+
+    private float DecalDistance;
+    private Color OriginalColor;
+    private Color CurrentColor;
+    private float ColorPercentage;
+    private float LastPercentage;
     
-    public float DecalDistance;
-    public float ColorPercentage;
-    public Color OriginalColor;
-    public Color CurrentColor;
+    private bool BeginFadeOut;
+    private Color FadeoutOriginalColor;
+    private Color FadeoutTargetColor;
+    private float FadeoutTimer;
     
-    public PlayerDistanceFade(float innerRadius, float outerRadius, bool fadeOut) : base(active: true, visible:true)
+    public PlayerDistanceFade(float innerRadius, float outerRadius, bool fadeOut, PlayerDistanceFadeRegistryHandler.DeathBehaivor deathBehaivor, float deathFadeSpeedMultiplier) : base(active: true, visible:true)
     {
         InnerRadius = innerRadius;
         OuterRadius = outerRadius;
         FadeOut = fadeOut;
+        DeathBehaivor = deathBehaivor;
+        DeathFadeSpeedMultiplier = deathFadeSpeedMultiplier;
     }
 
     public override void EntityAwake()
     {
         base.EntityAwake();
         Decal decal = (Decal)Entity;
-        OriginalColor = decal.Color;
-    }
 
+        BeginFadeOut = false;
+        OriginalColor = decal.Color;
+        FadeoutTimer = 0f;
+    }
+    
     public override void Update()
     {
         base.Update();
         Decal decal = (Decal)Entity;
+
         decal.Color = OriginalColor;
     }
 
@@ -55,17 +68,53 @@ internal class PlayerDistanceFade : Component
 
         if (FadeOut)
         {
-            decal.Color = player switch {
-                null => CurrentColor,
-                _ => DecalDistance < InnerRadius ? Color.Transparent : Color.Multiply(CurrentColor, 1 - ColorPercentage)
-            };
+            Color fadedColor = DecalDistance < InnerRadius ? Color.Transparent : Color.Multiply(CurrentColor, 1 - LastPercentage);
+
+            if (player == null && DeathBehaivor == PlayerDistanceFadeRegistryHandler.DeathBehaivor.fadeOut)
+            {
+                FadeoutOriginalColor = fadedColor;
+                FadeoutTargetColor = CurrentColor;
+                BeginFadeOut = true;
+            }
+            else
+            {
+                decal.Color = player switch {
+                    null => DeathBehaivor == PlayerDistanceFadeRegistryHandler.DeathBehaivor.staySame ? fadedColor : CurrentColor,
+                    _ => fadedColor
+                };
+            }
         }
         else
         {
-            decal.Color = player switch {
-                null => Color.Transparent,
-                _ => DecalDistance > OuterRadius ? Color.Transparent : Color.Multiply(CurrentColor, ColorPercentage)
-            };
+            Color fadedColor = DecalDistance > OuterRadius ? Color.Transparent : Color.Multiply(CurrentColor, LastPercentage);
+
+            if (player == null && DeathBehaivor == PlayerDistanceFadeRegistryHandler.DeathBehaivor.fadeOut)
+            {
+                FadeoutOriginalColor = fadedColor;
+                FadeoutTargetColor = Color.Transparent;
+                BeginFadeOut = true;
+            }
+            else
+            {
+                decal.Color = player switch {
+                    null => DeathBehaivor == PlayerDistanceFadeRegistryHandler.DeathBehaivor.staySame ? fadedColor : Color.Transparent,
+                    _ => fadedColor
+                };
+            }
         }
+
+        if (BeginFadeOut)
+        {
+            Color result = new();
+            
+            if (FadeoutTimer < 1)
+            {
+                result = Color.Lerp(FadeoutOriginalColor, FadeoutTargetColor, FadeoutTimer);
+                FadeoutTimer += Engine.DeltaTime * DeathFadeSpeedMultiplier;
+            }
+            decal.Color = result;
+        }
+        
+        LastPercentage = ColorPercentage;
     }
 }
