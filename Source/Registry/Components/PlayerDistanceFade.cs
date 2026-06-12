@@ -55,25 +55,17 @@ internal class PlayerDistanceFade : Component
 
         if (FadeOut)
         {
-            if (player == null || DecalDistance < InnerRadius)
-            {
-                decal.Color = Color.Transparent;
-            }
-            else
-            {
-                decal.Color = Color.Multiply(CurrentColor, 1 - ColorPercentage);
-            }
+            decal.Color = player switch {
+                null => CurrentColor,
+                _ => DecalDistance < InnerRadius ? Color.Transparent : Color.Multiply(CurrentColor, 1 - ColorPercentage)
+            };
         }
         else
         {
-            if (player == null || DecalDistance > OuterRadius)
-            {
-                decal.Color = Color.Transparent;
-            }
-            else
-            {
-                decal.Color = Color.Multiply(CurrentColor, ColorPercentage);
-            }
+            decal.Color = player switch {
+                null => Color.Transparent,
+                _ => DecalDistance > OuterRadius ? Color.Transparent : Color.Multiply(CurrentColor, ColorPercentage)
+            };
         }
     }
 }
