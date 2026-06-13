@@ -50,13 +50,13 @@ public class MintChocolateHelperModule : EverestModule
     public MintChocolateHelperModule()
     {
         Instance = this;
-#if DEBUG
-        // debug builds use verbose logging
-        Logger.SetLogLevel(nameof(MintChocolateHelperModule), LogLevel.Verbose);
-#else
-        // release builds use info logging to reduce spam in log files
-        Logger.SetLogLevel(nameof(MintChocolateHelperModule), LogLevel.Info);
-#endif
+        #if DEBUG
+                // debug builds use verbose logging
+                Logger.SetLogLevel(nameof(MintChocolateHelperModule), LogLevel.Verbose);
+        #else
+                // release builds use info logging to reduce spam in log files
+                Logger.SetLogLevel(nameof(MintChocolateHelperModule), LogLevel.Info);
+        #endif
     }
 
     public override void Load() 

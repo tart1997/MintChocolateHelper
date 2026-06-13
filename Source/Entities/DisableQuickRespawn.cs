@@ -30,7 +30,7 @@ public class DisableQuickRespawn : Entity
 
     private static void PlayerDeadBodyOnUpdate(ILContext il)
     {
-        ILCursor cursor = new ILCursor(il);
+        ILCursor cursor = new(il);
         
         // IL_0006: ldsfld class Monocle.VirtualButton Celeste.Input::MenuConfirm
         // IL_000b: callvirt instance bool Monocle.VirtualButton::get_Pressed()
@@ -43,7 +43,7 @@ public class DisableQuickRespawn : Entity
             instr => instr.MatchCallvirt<VirtualButton>("get_Pressed"),
             instr => instr.MatchBrfalse(out anythingYouWant)))
         {
-            Logger.Info("debug",$"IL hook application on method {il.Method.FullName} failed: Dumb Fuck!"); 
+            Logger.Info("debug", $"IL hook application on method {il.Method.FullName} failed: Dumb Fuck!"); 
             return;
         }
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Sprites>
+
   <FusionHeartLeft path="objects/MintChocolateHelper/FusionHeartHalf/LeftHalf/" start="idle">
     <Center/>
     <Loop id="idle" path="idle" delay=".1"/>
