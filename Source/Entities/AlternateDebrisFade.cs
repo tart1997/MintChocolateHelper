@@ -18,9 +18,9 @@ public class AlternateDebrisFade : Entity
     public override void Awake(Scene scene)
     {
         base.Awake(scene);
-        if (!MintChocolateHelperModule.Session.AlternateDebrisFadeHookLoaded)
+        if (!MintChocolateHelperModule.SaveData.AlternateDebrisFadeHookLoaded)
         {
-            MintChocolateHelperModule.Session.AlternateDebrisFadeHookLoaded = true;
+            MintChocolateHelperModule.SaveData.AlternateDebrisFadeHookLoaded = true;
             Load();
         }
     }
@@ -72,7 +72,7 @@ public class AlternateDebrisFade : Entity
 
         if (debris.Scene.Tracker.GetEntities<AlternateDebrisFade>().Count == 0)
         {
-            MintChocolateHelperModule.Session.AlternateDebrisFadeHookLoaded = false;
+            MintChocolateHelperModule.SaveData.AlternateDebrisFadeHookLoaded = false;
             Unload();
         }
     }
