@@ -18,6 +18,10 @@ public class AlternateDebrisFade : Entity
     public override void Awake(Scene scene)
     {
         base.Awake(scene);
+        
+        MintChocolateHelperModule.SaveData.AlternateDebrisFadeHookLoaded = false;
+        Unload();
+        
         if (!MintChocolateHelperModule.SaveData.AlternateDebrisFadeHookLoaded)
         {
             MintChocolateHelperModule.SaveData.AlternateDebrisFadeHookLoaded = true;
@@ -68,6 +72,7 @@ public class AlternateDebrisFade : Entity
                 debris.RemoveSelf();
             }
         }
+        
         debris.image.Color = Color.White * (debris.lifeTimer / 1.5f) * debris.alpha;
 
         if (debris.Scene.Tracker.GetEntities<AlternateDebrisFade>().Count == 0)
