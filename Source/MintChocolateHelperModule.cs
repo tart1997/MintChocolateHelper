@@ -44,9 +44,7 @@ public class MintChocolateHelperModule : EverestModule
     
     //<----COMMUNALHELPER---->
     public static bool CommunalHelperLoaded;
-    
-    
-    
+
     public MintChocolateHelperModule()
     {
         Instance = this;
@@ -59,6 +57,7 @@ public class MintChocolateHelperModule : EverestModule
         #endif
     }
 
+    
     public override void Load() 
     {
         typeof(FrostHelperImports).ModInterop();
@@ -131,5 +130,6 @@ public class MintChocolateHelperModule : EverestModule
         HeartBreakerRefill.Unload();
         SpeedFlipRefill.Unload();
         DisableQuickRespawn.Unload();
+        AlternateDebrisFade.Unload();
     }
 }

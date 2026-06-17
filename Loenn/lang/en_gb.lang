@@ -71,6 +71,12 @@ entities.MintChocolateHelper/DisableQuickRespawn.attributes.description.disableF
 
 
 
+entities.MintChocolateHelper/AlternateDebrisFade.placements.name.alternate_debris_fade= Alternate Debris Fade Controller
+entities.MintChocolateHelper/AlternateDebrisFade.placements.description.alternate_debris_fade= Stops Debris from darkening strangely before fading out
+
+
+
+
 # Triggers
 
 triggers.MintChocolateHelper/PulseFlagTrigger.placements.name.pulse_flag_trigger=Pulse Flag Trigger
