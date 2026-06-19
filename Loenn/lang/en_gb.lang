@@ -109,3 +109,13 @@ triggers.MintChocolateHelper/MessageWebhookTrigger.attributes.description.webhoo
 triggers.MintChocolateHelper/MessageWebhookTrigger.attributes.description.message=The Message to send to the specified Webhook
 triggers.MintChocolateHelper/MessageWebhookTrigger.attributes.description.user=If specified, attempts to ping a user along with the message\nTakes in the User ID of the user to ping
 triggers.MintChocolateHelper/MessageWebhookTrigger.attributes.description.dialog=Whether or not to check the English.txt, or to just send the message as a raw string
+
+
+
+triggers.MintChocolateHelper/WaitUntilTrueTrigger.placements.name.wait_until_true_trigger=Wait Until True Trigger
+triggers.MintChocolateHelper/WaitUntilTrueTrigger.placements.description.wait_until_true_trigger=On enter, Waits until the specified flag is true, and then activates anything it's pointed at.
+
+triggers.MintChocolateHelper/WaitUntilTrueTrigger.attributes.description.flag=The Flag to wait for
+triggers.MintChocolateHelper/WaitUntilTrueTrigger.attributes.description.delay=Once Flag is true, waits this long to actually activate what it's pointed at
+triggers.MintChocolateHelper/WaitUntilTrueTrigger.attributes.description.invert=If True, waits until Flag is false instead
+triggers.MintChocolateHelper/WaitUntilTrueTrigger.attributes.description.oneUse=If True, This trigger Deletes itself after use
