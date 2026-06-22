@@ -1,7 +1,10 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Celeste.Mod.Entities;
+using Celeste.Mod.Helpers;
 using Microsoft.Xna.Framework;
 using Monocle;
+using MonoMod.Cil;
 
 namespace Celeste.Mod.MintChocolateHelper.Entities;
 
@@ -15,70 +18,79 @@ public class AlternateDebrisFade : Entity
     {
     }
 
-    public override void Awake(Scene scene)
+    public static void Load()
     {
-        base.Awake(scene);
-        
-        MintChocolateHelperModule.SaveData.AlternateDebrisFadeHookLoaded = false;
-        Unload();
-        
-        if (!MintChocolateHelperModule.SaveData.AlternateDebrisFadeHookLoaded)
-        {
-            MintChocolateHelperModule.SaveData.AlternateDebrisFadeHookLoaded = true;
-            Load();
-        }
-    }
-
-    private static void Load()
-    {
-        On.Celeste.Debris.Update += DebrisOnUpdate;
+        IL.Celeste.Debris.Update += DebrisOnUpdate;
     }
     
     public static void Unload()
     {
-        On.Celeste.Debris.Update -= DebrisOnUpdate;
+        IL.Celeste.Debris.Update -= DebrisOnUpdate;
     }
-    
-    private static void DebrisOnUpdate(On.Celeste.Debris.orig_Update orig, Debris debris)
-    {
-        if (Engine.Scene is not Level) orig(debris);
 
-        debris.image.Rotation += Math.Abs(debris.speed.X) * (float)debris.rotateSign * Engine.DeltaTime;
-        debris.MoveH(debris.speed.X * Engine.DeltaTime, debris.collideH);
-        debris.MoveV(debris.speed.Y * Engine.DeltaTime, debris.collideV);
-        if (debris.dreaming)
+    private static void DebrisOnUpdate(ILContext il)
+    {
+        ILCursor cursor = new(il);
+        
+        // IL_01d2: ldarg.0
+        // IL_01d3: ldfld class Monocle.Image Celeste.Debris::image
+        // IL_01d8: call valuetype [FNA]Microsoft.Xna.Framework.Color [FNA]Microsoft.Xna.Framework.Color::get_White()
+        // IL_01dd: call valuetype [FNA]Microsoft.Xna.Framework.Color [FNA]Microsoft.Xna.Framework.Color::get_Gray()
+
+        if (!cursor.TryGotoNextBestFit(MoveType.Before, static instr => instr.MatchLdarg0(),
+            static instr => instr.MatchLdfld<Debris>("image"),
+            static instr => instr.MatchCall<Color>("get_White"),
+            static inste => inste.MatchCall<Color>("get_Gray")))
         {
-            debris.speed.X = Calc.Approach(debris.speed.X, 0f, 50f * Engine.DeltaTime);
-            debris.speed.Y = Calc.Approach(debris.speed.Y, 6f * debris.dreamSine.Value, 100f * Engine.DeltaTime);
-        }
-        else
-        {
-            bool flag = debris.OnGround();
-            debris.speed.X = Calc.Approach(debris.speed.X, 0f, (flag ? 50f : 20f) * Engine.DeltaTime);
-            if (!flag)
-            {
-                debris.speed.Y = Calc.Approach(debris.speed.Y, 100f, 400f * Engine.DeltaTime);
-            }
-        }
-        if (debris.lifeTimer > 0f)
-        {
-            debris.lifeTimer -= Engine.DeltaTime;
-        }
-        else if (debris.alpha > 0f)
-        {
-            debris.alpha -= 4f * Engine.DeltaTime;
-            if (debris.alpha <= 0f)
-            {
-                debris.RemoveSelf();
-            }
+            Logger.Info("debug",$"IL hook application on method {il.Method.FullName} failed: Dumb Fuck!"); 
+            return;
         }
         
-        debris.image.Color = Color.White * (debris.lifeTimer / 1.5f) * debris.alpha;
+        ILLabel replaceColorLerp = cursor.DefineLabel();
 
-        if (debris.Scene.Tracker.GetEntities<AlternateDebrisFade>().Count == 0)
+        cursor.EmitDelegate(ShouldReplaceColorLerp);
+        cursor.EmitBrtrue(replaceColorLerp);
+
+        
+        // IL_01ed: ldarg.0
+        // IL_01ee: ldfld float32 Celeste.Debris::alpha
+        // IL_01f3: call valuetype [FNA]Microsoft.Xna.Framework.Color [FNA]Microsoft.Xna.Framework.Color::op_Multiply(valuetype [FNA]Microsoft.Xna.Framework.Color, float32)
+        // IL_01f8: stfld valuetype [FNA]Microsoft.Xna.Framework.Color Monocle.GraphicsComponent::Color
+        
+        if (!cursor.TryGotoNextBestFit(MoveType.After, static instr => instr.MatchLdarg(0),
+            static instr => instr.MatchLdfld<Debris>("alpha"),
+            static instr => instr.MatchCall<Color>("op_Multiply"),
+            static instr => instr.MatchStfld<GraphicsComponent>("Color")))
         {
-            MintChocolateHelperModule.SaveData.AlternateDebrisFadeHookLoaded = false;
-            Unload();
+            Logger.Info("debug",$"IL hook application on method {il.Method.FullName} failed: Dumb Fuck!"); 
+            return;
+        }
+        
+        cursor.MarkLabel(replaceColorLerp);
+        cursor.EmitDelegate(ReplaceColorLerp);
+    }
+    
+    private static bool ShouldReplaceColorLerp()
+    {
+        if (Engine.Scene is not Level level) return false;
+        
+        List<Entity> ADFControllers = level.Tracker.GetEntitiesTrackIfNeeded<AlternateDebrisFade>();
+        
+        if (ADFControllers == null || ADFControllers.Count == 0) return false;
+        return ADFControllers[0] is AlternateDebrisFade;
+    }
+
+    private static void ReplaceColorLerp()
+    {
+        if (Engine.Scene is not Level level) return;
+        
+        List<Entity> ADFControllers = level.Tracker.GetEntitiesTrackIfNeeded<AlternateDebrisFade>();
+        if (ADFControllers == null || ADFControllers.Count == 0) return;
+
+        
+        foreach (Debris debris in level.Tracker.GetEntitiesTrackIfNeeded<Debris>().Cast<Debris>())
+        {
+            debris?.image.Color = Color.White * (debris.lifeTimer / 1.5f) * debris.alpha;
         }
     }
 }
