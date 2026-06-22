@@ -50,17 +50,17 @@ public class SpeedFlipRefill : Entity
 		
 		P_Shatter = new ParticleType(Refill.P_Shatter) {
 			Color = Color.Red,
-			Color2 = Color.HotPink
+			Color2 = Color.Blue
 		};
 
 		P_Regen = new ParticleType(Refill.P_Regen) {
-			Color = Color.Red,
-			Color2 = Color.MediumVioletRed
+			Color = Color.MediumVioletRed,
+			Color2 = Color.MediumBlue
 		};
 
 		P_Glow = new ParticleType(Refill.P_Glow){
 			Color = Color.IndianRed,
-			Color2 = Color.Magenta
+			Color2 = Color.DodgerBlue
 		};
 		
 		Add(outline = new Image(GFX.Game["objects/MintChocolateHelper/Refills/SpeedFlipRefill/outline"]));

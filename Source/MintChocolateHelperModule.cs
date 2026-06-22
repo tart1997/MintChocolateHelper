@@ -4,14 +4,17 @@ using System.Reflection;
 using Celeste.Mod.MintChocolateHelper.Entities;
 using Celeste.Mod.MintChocolateHelper.ModInterop;
 using Celeste.Mod.MintChocolateHelper.Registry.Handlers;
+using Celeste.Mod.MintChocolateHelper.Triggers;
 using FlaglinesAndSuch;
 using MonoMod.ModInterop;
+using MonoMod.RuntimeDetour;
 using VivHelper.Effects;
 
 namespace Celeste.Mod.MintChocolateHelper;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+[SuppressMessage("Usage", "CA2211:Non-constant fields should not be visible")]
 public class MintChocolateHelperModule : EverestModule 
 {
     // ReSharper disable once MemberCanBePrivate.Global
@@ -57,6 +60,9 @@ public class MintChocolateHelperModule : EverestModule
         #endif
     }
 
+    // MANUAL HOOKS GO HERE
+    public static ILHook hook_origDie;
+    
     
     public override void Load() 
     {
@@ -65,6 +71,7 @@ public class MintChocolateHelperModule : EverestModule
         HeartBreakerRefill.Load();
         SpeedFlipRefill.Load();
         DisableQuickRespawn.Load();
+        CancelDeathTrigger.Load();
         
         //<----FEMTO HELPER---->
         EverestModuleMetadata femtoHelper = new() {
@@ -131,5 +138,6 @@ public class MintChocolateHelperModule : EverestModule
         SpeedFlipRefill.Unload();
         DisableQuickRespawn.Unload();
         AlternateDebrisFade.Unload();
+        CancelDeathTrigger.Unload();
     }
 }
