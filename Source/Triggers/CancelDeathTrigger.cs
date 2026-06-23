@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -45,7 +44,6 @@ public class CancelDeathTrigger : Trigger
         Session session = level.Session;
         Player player = level.Tracker.GetEntity<Player>();
 
-
         foreach (PlayerDeadBody playerDeadBody in Scene.Tracker.GetEntitiesTrackIfNeeded<PlayerDeadBody>().Cast<PlayerDeadBody>())
         {
             if (playerDeadBody == null) break;
@@ -77,6 +75,17 @@ public class CancelDeathTrigger : Trigger
 
         Debug.Assert(level.Session.RespawnPoint != null);
         player.Position = level.Session.RespawnPoint.Value;
+        
+        //TODO: This sucks, figure out how to kill the rouge Tweener
+        
+        float Timer = 0.5f;
+        while (Timer > 0)
+        {
+            Timer -= Engine.DeltaTime;
+            player.Sprite.Scale.X = 1;
+            
+            yield return 1 / 60f;
+        }
     }
 
     internal static void Load()
