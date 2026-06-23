@@ -71,7 +71,7 @@ public class MintChocolateHelperModule : EverestModule
         HeartBreakerRefill.Load();
         SpeedFlipRefill.Load();
         DisableQuickRespawn.Load();
-        AlternateDebrisFade.Load();
+        DebrisTweaksController.Load();
         CancelDeathTrigger.Load();
         
         //<----FEMTO HELPER---->
@@ -138,7 +138,7 @@ public class MintChocolateHelperModule : EverestModule
         HeartBreakerRefill.Unload();
         SpeedFlipRefill.Unload();
         DisableQuickRespawn.Unload();
-        AlternateDebrisFade.Unload();
+        DebrisTweaksController.Unload();
         CancelDeathTrigger.Unload();
     }
 }

@@ -71,8 +71,11 @@ entities.MintChocolateHelper/DisableQuickRespawn.attributes.description.disableF
 
 
 
-entities.MintChocolateHelper/AlternateDebrisFade.placements.name.alternate_debris_fade= Alternate Debris Fade Controller
-entities.MintChocolateHelper/AlternateDebrisFade.placements.description.alternate_debris_fade= Stops Debris from darkening strangely before fading out
+entities.MintChocolateHelper/DebrisTweaksController.placements.name.debris_tweaks_controller=Debris Tweaks Controller
+entities.MintChocolateHelper/DebrisTweaksController.placements.description.debris_tweaks_controller=Provides Multiple Options to change how Tileset Debris Function
+
+entities.MintChocolateHelper/DebrisTweaksController.attributes.description.alternateFadeout=When Enabled, Stops Debris from quickly darkening after spawning, and changes how they fade out slightly to compensate
+entities.MintChocolateHelper/DebrisTweaksController.attributes.description.windAffected=When Enabled, Allows Debris to be moved by the current wind
 
 
 
@@ -123,7 +126,7 @@ triggers.MintChocolateHelper/WaitUntilTrueTrigger.attributes.description.oneUse=
 
 
 triggers.MintChocolateHelper/CancelDeathTrigger.placements.name.cancel_death_trigger= Cancel Death Trigger
-triggers.MintChocolateHelper/CancelDeathTrigger.placements.description.cancel_death_trigger= When Activated, stops the death animation in its tracks and puts the player back at their last respawn point\nThe primary purpose of this is to allow teleportation of the player that's safe even if the player is in the middle of dying\n(you might need to add like a 0.05 delay between unkilling the player and teleporting them)\n\nThis is achieved by semi-questionable means and might possibly cause issues by this trigger simply being in the same room as the player\nPlease inform me of any problems encountered when using this\n\nOnly works if activated before the level reloads during the deathwipe
+triggers.MintChocolateHelper/CancelDeathTrigger.placements.description.cancel_death_trigger= When Activated, stops the death animation in its tracks and puts the player back at their last respawn point\nThe primary purpose of this is to allow for teleportation of the player that's safe even if the player is in the middle of dying\n(you might need to add like a 0.05 delay between unkilling the player and teleporting them)\n\nThis is achieved by semi-questionable means and might possibly cause issues by this trigger simply being in the same room as the player\nPlease inform me of any problems encountered when using this\n\nOnly works if activated before the level reloads during the deathwipe
 
 triggers.MintChocolateHelper/CancelDeathTrigger.attributes.description.delay=Once this trigger has been Activated, it will wait this many FRAMES before actually Unkilling the player
 triggers.MintChocolateHelper/CancelDeathTrigger.attributes.description.unregisterDeathInStats=If Enabled, tells the game to uncount the death it just counted
