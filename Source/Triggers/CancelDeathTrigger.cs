@@ -11,25 +11,23 @@ using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
 
 namespace Celeste.Mod.MintChocolateHelper.Triggers;
-
 [CustomEntity("MintChocolateHelper/CancelDeathTrigger")]
+[Tracked]
 
-// ReSharper disable once ClassNeverInstantiated.Global
 public class CancelDeathTrigger : Trigger
 {
     private readonly int Delay;
     private readonly bool UnregisterDeathInStats;
-    
+
     public CancelDeathTrigger(EntityData data, Vector2 offset) : base(data, offset)
     {
         Delay = data.Int("delay");
         UnregisterDeathInStats = data.Bool("unregisterDeathInStats");
     }
-    
+
     public override void OnEnter(Player player)
     {
         base.OnEnter(player);
-
         if (MintChocolateHelperModule.Session.PlayerIsPsuedoDead)
         {
             Add(new Coroutine(Unkill(Delay)));
@@ -40,25 +38,24 @@ public class CancelDeathTrigger : Trigger
     {
         if (Scene is not Level) yield break;
         yield return delay / 60f;
-        
+
         Level level = SceneAs<Level>();
         level.Wipe?.Cancel();
-        
+
         Session session = level.Session;
         Player player = level.Tracker.GetEntity<Player>();
-        
-        
+
+
         foreach (PlayerDeadBody playerDeadBody in Scene.Tracker.GetEntitiesTrackIfNeeded<PlayerDeadBody>().Cast<PlayerDeadBody>())
         {
             if (playerDeadBody == null) break;
-            
+
             playerDeadBody.hair.Entity = player;
             playerDeadBody.sprite.Entity = player;
             playerDeadBody.light.Entity = player;
-            
             playerDeadBody.RemoveSelf();
         }
-        
+
         if (UnregisterDeathInStats)
         {
             --session.Deaths;
@@ -69,8 +66,6 @@ public class CancelDeathTrigger : Trigger
             StatsForStadia.Increment(StadiaStat.DEATHS, -1);
         }
 
-        Debug.Assert(level.Session.RespawnPoint != null, "level.Session.RespawnPoint != null");
-        
         player.Dead = false;
         player.Depth = MintChocolateHelperModule.Session.CDT_Depth;
         player.StateMachine.Locked = false;
@@ -78,23 +73,21 @@ public class CancelDeathTrigger : Trigger
         player.Collidable = MintChocolateHelperModule.Session.CDT_Collidable;
         player.Visible = MintChocolateHelperModule.Session.CDT_Visible;
         if (Scene is not null) player.Scene = Scene;
-        
-        
-        Debug.Assert(level.Session.RespawnPoint != null, "level.Session.RespawnPoint != null");
-        player.Position = level.Session.RespawnPoint.Value;
-        
         MintChocolateHelperModule.Session.PlayerIsPsuedoDead = false;
+
+        Debug.Assert(level.Session.RespawnPoint != null);
+        player.Position = level.Session.RespawnPoint.Value;
     }
-    
+
     internal static void Load()
     {
-        MintChocolateHelperModule.hook_origDie = new ILHook(typeof(Player).GetMethod("orig_Die", BindingFlags.Public | BindingFlags.Instance)!, SkipRemovePlayer);
+        MintChocolateHelperModule.CDTriggerHook_origDie = new ILHook(typeof(Player).GetMethod("orig_Die", BindingFlags.Public | BindingFlags.Instance)!, SkipRemovePlayer);
         On.Celeste.Level.Reload += PanicRemovePlayerIfPlayerIsStillLoaded;
     }
 
     internal static void Unload()
     {
-        MintChocolateHelperModule.hook_origDie?.Dispose();
+        MintChocolateHelperModule.CDTriggerHook_origDie?.Dispose();
         On.Celeste.Level.Reload -= PanicRemovePlayerIfPlayerIsStillLoaded;
     }
 
@@ -138,12 +131,12 @@ public class CancelDeathTrigger : Trigger
             Logger.Info("debug", $"\n\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n\n"); 
             return;
         }
-        
+
         ILLabel dontRemovePlayer = cursor.DefineLabel();
-        
+
         cursor.EmitDelegate(ShouldSkipRemovePlayer);
         cursor.EmitBrtrue(dontRemovePlayer);
-        
+
         if (!cursor.TryGotoNextBestFit(MoveType.After, instr => instr.MatchLdarg0(),
             static instr => instr.MatchCall<Entity>("get_Scene"),
             static instr => instr.MatchLdarg0(),
@@ -152,7 +145,7 @@ public class CancelDeathTrigger : Trigger
             Logger.Info("debug", $"\n\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n\n"); 
             return;
         }
-        
+
         cursor.MarkLabel(dontRemovePlayer);
         cursor.EmitDelegate(FakeKillPlayer);
     }
@@ -162,48 +155,35 @@ public class CancelDeathTrigger : Trigger
         if (Engine.Scene is not Level level) return;
         Player player = level.Tracker.GetEntity<Player>();
 
-        
         MintChocolateHelperModule.Session.CDT_Depth = player.Depth;
         MintChocolateHelperModule.Session.CDT_Active = player.Active;
         MintChocolateHelperModule.Session.CDT_Collidable = player.Collidable;
         MintChocolateHelperModule.Session.CDT_Visible = player.Visible;
     }
-    
+
     private static bool ShouldSkipRemovePlayer()
     {
-        if (Engine.Scene is not Level level) return false;
-        
-        List<Entity> CDTriggers = level.Tracker.GetEntitiesTrackIfNeeded<CancelDeathTrigger>();
-        
-        if (CDTriggers == null || CDTriggers.Count == 0) return false;
-        return CDTriggers[0] is CancelDeathTrigger;
+        return Engine.Scene is Level && MintChocolateHelperModule.Session.CancelDeathTriggerExists;
     }
 
     private static void FakeKillPlayer()
     {
-        if (Engine.Scene is not Level level) return;
-        
-        List<Entity> CDTriggers = level.Tracker.GetEntitiesTrackIfNeeded<CancelDeathTrigger>();
-        if (CDTriggers == null || CDTriggers.Count == 0) return;
-        
+        if (Engine.Scene is not Level level || !MintChocolateHelperModule.Session.CancelDeathTriggerExists) return;
         Player player = level.Tracker.GetEntity<Player>();
 
         player.Active = false;
         player.Collidable = false;
         player.Visible = false;
-        
         MintChocolateHelperModule.Session.PlayerIsPsuedoDead = true;
     }
 
     private static void PanicRemovePlayerIfPlayerIsStillLoaded(On.Celeste.Level.orig_Reload orig, Level level)
     {
         if (Engine.Scene is not Level) return;
-        
         Player player = level.Tracker.GetEntity<Player>();
-    
+
         player?.RemoveSelf();
         MintChocolateHelperModule.Session.PlayerIsPsuedoDead = false;
-        
         orig(level);
     }
 }

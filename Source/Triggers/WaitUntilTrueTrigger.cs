@@ -6,10 +6,9 @@ using Microsoft.Xna.Framework;
 using Monocle;
 
 namespace Celeste.Mod.MintChocolateHelper.Triggers;
-
 [CustomEntity("MintChocolateHelper/WaitUntilTrueTrigger")]
 
-//   ### A large majority of this is straight ripped from Crystalline trigger triggers (Obviously) ###
+//   ### A large majority of this is ripped straight from Crystalline trigger triggers (Obviously) ###
 
 public class WaitUntilTrueTrigger : Trigger
 {
@@ -23,7 +22,7 @@ public class WaitUntilTrueTrigger : Trigger
     private bool Activated;
     private bool Activating;
     private bool Deactivating;
-    
+
     public WaitUntilTrueTrigger(EntityData data, Vector2 offset) : base(data, offset)
     {
         nodes = data.NodesOffset(offset);
@@ -36,9 +35,8 @@ public class WaitUntilTrueTrigger : Trigger
     public override void OnEnter(Player player)
     {
         base.OnEnter(player);
-        
         Add(new Coroutine(WaitUntilTrue()));
-        
+
         if (Activated && OneUse)
         {
             RemoveSelf();
@@ -48,14 +46,12 @@ public class WaitUntilTrueTrigger : Trigger
     public override void OnLeave(Player player)
     {
         base.OnLeave(player);
-        
         TryDeactivate(player);
     }
 
     public override void Update()
     {
         base.Update();
-        
         Player player = Scene.Tracker.GetEntity<Player>();
         if (player == null) { return; }
 
@@ -105,7 +101,7 @@ public class WaitUntilTrueTrigger : Trigger
             DeactivateTriggers(player);
         }
     }
-    
+
     private void CleanTriggers()
     {
         triggers.RemoveAll(trigger => trigger.Scene == null);
@@ -117,7 +113,7 @@ public class WaitUntilTrueTrigger : Trigger
         CleanTriggers();
 
         Activated = true;
-        
+
         foreach (Trigger trigger in triggers.Where(trigger => trigger != null))
         {
             if (trigger.PlayerIsInside)
@@ -131,7 +127,7 @@ public class WaitUntilTrueTrigger : Trigger
     private void DeactivateTriggers(Player player)
     {
         CleanTriggers();
-        
+
         Activated = false;
 
         foreach (Trigger trigger in triggers.Where(trigger => trigger.PlayerIsInside))
@@ -147,7 +143,7 @@ public class WaitUntilTrueTrigger : Trigger
         foreach (Vector2 node in nodes)
         {
             Dictionary<Trigger, bool> wasCollidable = new();
-            
+
             foreach (Trigger trig in scene.Tracker.GetEntities<Trigger>().Cast<Trigger>())
             {
                 wasCollidable.Add(trig, trig.Collidable);
@@ -169,14 +165,13 @@ public class WaitUntilTrueTrigger : Trigger
                 trigger.Collidable = false;
             }
         }
-        
         return localTriggers;
     }
 
     private IEnumerator WaitUntilTrue()
     {
         if (Scene is not Level level) yield break;
-        
+
         if (!Invert)
         {
             while (!level.Session.GetFlag(Flag))
@@ -191,13 +186,11 @@ public class WaitUntilTrueTrigger : Trigger
                 yield return 1 / 60f;
             }
         }
-        
-        Scene scene = Scene;
-        
-        triggers = GetTriggers(scene);
-        
-        Player player = scene.Tracker.GetEntity<Player>();
 
+        Scene scene = Scene;
+        triggers = GetTriggers(scene);
+
+        Player player = scene.Tracker.GetEntity<Player>();
         TryActivate(player);
     }
 }

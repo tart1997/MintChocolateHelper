@@ -6,23 +6,22 @@ using Monocle;
 using VivHelper.Effects;
 
 namespace Celeste.Mod.MintChocolateHelper.Entities;
-
 [CustomEntity("MintChocolateHelper/SnappyStylegroundController")]
 
 public class SnappyStylegroundController : Entity
 {
     private readonly string SnapTag;
-    
+
     public SnappyStylegroundController(EntityData data, Vector2 offset) : base(data.Position + offset)
     {
         AddTag(Tags.PauseUpdate);
         SnapTag = data.Attr("SnapTag");
     }
-    
+
     public override void Update()
     { 
         if (Scene is not Level level) return;
-        
+
         foreach (Backdrop backdrop in level.Background.Backdrops.Where(backdrop => backdrop.Tags.Contains(SnapTag)))
         {
             switch (backdrop)
@@ -83,12 +82,12 @@ public class SnappyStylegroundController : Entity
                 loadFemtoHelper(backdrop);
             }
 
-            if (MintChocolateHelperModule.FlaglinesLoaded &&isCustomGodrays(backdrop))
+            if (MintChocolateHelperModule.FlaglinesLoaded && isCustomGodrays(backdrop))
             {
                 loadFlaglines(backdrop);
             }
 
-            if (MintChocolateHelperModule.VivhelperLoaded &&isVivRain(backdrop))
+            if (MintChocolateHelperModule.VivhelperLoaded && isVivRain(backdrop))
             {
                 loadVivHelper(backdrop);
             }

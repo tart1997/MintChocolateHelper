@@ -11,7 +11,7 @@ internal static class Extensions {
             var xmlAttribute = xml[attr];
             if (xmlAttribute is null)
                 return def;
-            
+
             return Enum.TryParse(xmlAttribute.Value, true, out T value) ? value : def;
         }
     }

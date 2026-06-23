@@ -5,16 +5,14 @@ using Microsoft.Xna.Framework;
 using Monocle;
 
 namespace Celeste.Mod.MintChocolateHelper.Entities;
-
 [CustomEntity("MintChocolateHelper/HeartBreakerRefill")]
 
-// ReSharper disable once ClassNeverInstantiated.Global
 public class HeartBreakerRefill : Entity
 {
 	private readonly ParticleType P_Shatter;
 	private readonly ParticleType P_Regen;
 	private readonly ParticleType P_Glow;
-	
+
 	private static Coroutine HeartBreakerEndDelayCoroutine;
 
 	private readonly Sprite sprite;
@@ -30,18 +28,18 @@ public class HeartBreakerRefill : Entity
 	private readonly SineWave sine;
 
 	private readonly bool oneUse;
-	
+
 	private float respawnTimer;
 	private readonly float respawnTime;
-	
+
 	public HeartBreakerRefill(EntityData data, Vector2 offset) : base(data.Position + offset)
 	{
 		oneUse = data.Bool("oneUse");
 		respawnTime = data.Float("respawnTime", 2.5f);
-		
+
 		Collider = new Hitbox(16f, 16f, -8f, -8f);
 		Add(new PlayerCollider(OnPlayer));
-		
+
 		P_Shatter = new ParticleType(Refill.P_Shatter) {
 			Color = Color.Red,
 			Color2 = Color.HotPink
@@ -60,12 +58,12 @@ public class HeartBreakerRefill : Entity
 		Add(outline = new Image(GFX.Game["objects/MintChocolateHelper/Refills/HeartBreakerRefill/outline"]));
 		outline.CenterOrigin();
 		outline.Visible = false;
-		
+
 		Add(sprite = new Sprite(GFX.Game, "objects/MintChocolateHelper/Refills/HeartBreakerRefill/idle"));
 		sprite.AddLoop("idle", "", 0.1f);
 		sprite.Play("idle");
 		sprite.CenterOrigin();
-		
+
 		Add(flash = new Sprite(GFX.Game, "objects/MintChocolateHelper/Refills/HeartBreakerRefill/flash"));
 		flash.Add("flash", "", 0.05f);
 		flash.OnFinish = delegate
@@ -73,30 +71,30 @@ public class HeartBreakerRefill : Entity
 			flash.Visible = false;
 		};
 		flash.CenterOrigin();
-		
+
 		Add(wiggler = Wiggler.Create(1f, 4f, v =>
 		{
 			sprite.Scale = flash.Scale = Vector2.One * (1f + v * 0.2f);
 		}));
-		
+
 		Add(new MirrorReflection());
 		Add(bloom = new BloomPoint(0.8f, 16f));
 		Add(light = new VertexLight(Color.White, 1f, 16, 48));
 		Add(sine = new SineWave(0.6f, 0f));
-		
+
 		sine.Randomize();
-		
+
 		UpdateY();
-		
+
 		Depth = -100;
 	}
-	
+
 	public override void Added(Scene scene)
 	{
 		base.Added(scene);
 		level = SceneAs<Level>();
 	}
-	
+
 	public override void Update()
 	{
 		base.Update();
@@ -112,19 +110,19 @@ public class HeartBreakerRefill : Entity
 		{
 			level.ParticlesFG.Emit(P_Glow, 1, Position, Vector2.One * 5f);
 		}
-		
+
 		UpdateY();
-		
+
 		light.Alpha = Calc.Approach(light.Alpha, sprite.Visible ? 1f : 0f, 4f * Engine.DeltaTime);
 		bloom.Alpha = light.Alpha * 0.8f;
-		
+
 		if (Scene.OnInterval(2f) && sprite.Visible)
 		{
 			flash.Play("flash", true);
 			flash.Visible = true;
 		}
 	}
-	
+
 	private void Respawn()
 	{
 		if (!Collidable)
@@ -138,12 +136,12 @@ public class HeartBreakerRefill : Entity
 			level.ParticlesFG.Emit(P_Regen, 16, Position, Vector2.One * 2f);
 		}
 	}
-	
+
 	private void UpdateY()
 	{
 		flash.Y = sprite.Y = bloom.Y = sine.Value * 2f;
 	}
-	
+
 	public override void Render()
 	{
 		if (sprite.Visible)
@@ -152,7 +150,7 @@ public class HeartBreakerRefill : Entity
 		}
 		base.Render();
 	}
-	
+
 	private void OnPlayer(Player player)
 	{
 		if (!MintChocolateHelperModule.Session.HasHeartBreakerDash)
@@ -166,7 +164,7 @@ public class HeartBreakerRefill : Entity
 			respawnTimer = respawnTime;
 		}
 	}
-	
+
 	private IEnumerator RefillRoutine(Player player)
 	{
 		Celeste.Freeze(0.05f);
@@ -190,7 +188,7 @@ public class HeartBreakerRefill : Entity
 		}
 	}
 
-	public static void Load()
+	internal static void Load()
 	{
 		On.Celeste.Player.Die += HeartBreakerDash;
 		On.Celeste.Player.DashEnd += HeartBreakerDashEnd;
@@ -198,7 +196,7 @@ public class HeartBreakerRefill : Entity
 		On.Celeste.PlayerHair.GetHairColor += HeartBreakerDashHairColor;
 	}
 
-	public static void Unload()
+	internal static void Unload()
 	{
 		On.Celeste.Player.Die -= HeartBreakerDash;
 		On.Celeste.Player.DashEnd -= HeartBreakerDashEnd;
@@ -210,7 +208,7 @@ public class HeartBreakerRefill : Entity
 	{
 		return MintChocolateHelperModule.Session.HasHeartBreakerDash ? Color.FromNonPremultiplied(230, 0, 30, 255) : orig(self, index);
 	}
-	
+
 	private static PlayerDeadBody HeartBreakerDash(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction, bool evenIfInvincible = false, bool registerDeathInStats = true)
 	{
 		if (!MintChocolateHelperModule.Session.HeartBreakerDashActive || evenIfInvincible)
@@ -220,7 +218,7 @@ public class HeartBreakerRefill : Entity
 		}
 		return orig(self, direction, evenIfInvincible, registerDeathInStats);
 	}
-	
+
 	private static void HeartBreakerDashBegin(On.Celeste.Player.orig_DashBegin orig, Player self)
 	{
 		if (MintChocolateHelperModule.Session.HasHeartBreakerDash)
@@ -232,7 +230,7 @@ public class HeartBreakerRefill : Entity
 		MintChocolateHelperModule.Session.HasHeartBreakerDash = false;
 		orig(self);
 	}
-	
+
 	private static void HeartBreakerDashEnd(On.Celeste.Player.orig_DashEnd orig, Player self)
 	{
 		orig(self);
@@ -242,7 +240,7 @@ public class HeartBreakerRefill : Entity
 			self.Add(HeartBreakerEndDelayCoroutine);
 		}
 	}
-	
+
 	private static IEnumerator HeartBreakerEndDelay()
 	{
 		yield return Player.DashAttackTime;

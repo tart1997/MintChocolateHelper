@@ -6,17 +6,16 @@ using Microsoft.Xna.Framework;
 using Monocle;
 
 namespace Celeste.Mod.MintChocolateHelper.Entities;
-
 [CustomEntity("MintChocolateHelper/FusionHeart")]
 
 public class FusionHeart : Entity
 {
     private readonly Wiggler ScaleWiggler;
-    
-    public readonly string spriteColor;
+
+    internal readonly string spriteColor;
     private readonly float bloomStr;
     private readonly bool hasLight;
-    
+
     private readonly Sprite sprite;
     private readonly Sprite outline;
     private readonly ParticleType shineParticle;
@@ -29,7 +28,7 @@ public class FusionHeart : Entity
     private readonly bool autoPulse;
     private float bounceSfxDelay;
     private float respawnTimer;
-    
+
     private static readonly ParticleType P_Regen = new (Seeker.P_Regen);
 
     private Vector2 heartBreakerBonusSpeed;
@@ -40,40 +39,40 @@ public class FusionHeart : Entity
         bloomStr = data.Float("bloom", 0.75f);
         hasLight = data.Bool("light", true);
         autoPulse = true;
-        
+
         heartBreakerBonusSpeed = Vector2.Zero;
-        
+
         Add(new MirrorReflection());
-        
+
         Add(sprite = GFX.SpriteBank.Create("FusionHeart"));
         Add(outline = GFX.SpriteBank.Create("FusionHeartOutline"));
-        
+
         sprite.SetColor(Calc.HexToColor(spriteColor));
         sprite.Play("spin");
-        
+
         Collider = new Hitbox(16f, 16f, -8f, -8f);
         Add(new PlayerCollider(OnPlayer));
-        
+
         Add(ScaleWiggler = Wiggler.Create(0.5f, 4f, delegate (float f)
         {
             sprite.Scale = Vector2.One * (1f + f * 0.25f);
         }));
-        
+
         Add(bloom = new BloomPoint(bloomStr, 16f));
-        
+
         Color value = Calc.HexToColor(spriteColor);
         shineParticle = new ParticleType(HeartGem.P_BlueShine)
         {
             Color = value
         };
-        
+
         value = Color.Lerp(value, Color.White, 0.5f);
         Add(light = new VertexLight(value, hasLight ? 1f : 0f, 32, 64));
         moveWiggler = Wiggler.Create(0.8f, 2f);
         moveWiggler.StartZero = true;
         Add(moveWiggler);
     }
-    
+
     public FusionHeart(Vector2 position, Vector2 fullHeartBreakerBonusSpeed, string fullColor, float fullBloomStr, bool fullHasLight, bool fullAutoPulse) : base(position)
     {
         spriteColor = fullColor;
@@ -82,31 +81,31 @@ public class FusionHeart : Entity
         autoPulse = fullAutoPulse;
 
         heartBreakerBonusSpeed = fullHeartBreakerBonusSpeed;
-        
+
         Add(new MirrorReflection());
-        
+
         Add(sprite = GFX.SpriteBank.Create("FusionHeart"));
         Add(outline = GFX.SpriteBank.Create("FusionHeartOutline"));
-        
+
         sprite.SetColor(Calc.HexToColor(spriteColor));
         sprite.Play("spin");
-        
+
         Collider = new Hitbox(16f, 16f, -8f, -8f);
         Add(new PlayerCollider(OnPlayer));
-        
+
         Add(ScaleWiggler = Wiggler.Create(0.5f, 4f, delegate (float f)
         {
             sprite.Scale = Vector2.One * (1f + f * 0.25f);
         }));
-        
+
         Add(bloom = new BloomPoint(bloomStr, 16f));
-        
+
         Color value = Calc.HexToColor(spriteColor);
         shineParticle = new ParticleType(HeartGem.P_BlueShine)
         {
             Color = value
         };
-        
+
         value = Color.Lerp(value, Color.White, 0.5f);
         Add(light = new VertexLight(value, hasLight ? 1f : 0f, 32, 64));
         moveWiggler = Wiggler.Create(0.8f, 2f);
@@ -118,7 +117,7 @@ public class FusionHeart : Entity
     {
         base.Awake(scene);
         if (scene is not Level) return;
-        
+
         sprite.OnLoop = delegate (string anim)
         {
             if (Visible && anim == "spin" && autoPulse)
@@ -134,7 +133,7 @@ public class FusionHeart : Entity
     {
         bounceSfxDelay -= Engine.DeltaTime;
         timer += Engine.DeltaTime;
-        
+
         if (collected && respawnTimer > 0f)
             respawnTimer -= Engine.DeltaTime;
         if (collected && respawnTimer <= 0f)
@@ -148,13 +147,13 @@ public class FusionHeart : Entity
             light.Alpha = (hasLight ? 1f : 0f);
             ScaleWiggler.Start();
         }
-        
+
         base.Update();
-        
+
         sprite.Position = Vector2.UnitY * (float)Math.Sin(timer * 2f) * 2f + moveWiggleDir * moveWiggler.Value * -8f;
-        
+
         List<Sprite> sprites = [outline];
-        
+
         foreach (Sprite other in sprites)
         {
             other.Position = sprite.Position;
@@ -165,18 +164,17 @@ public class FusionHeart : Entity
             }
             other.SetAnimationFrame(sprite.CurrentAnimationFrame);
         }
-        
+
         if (Visible && Scene.OnInterval(0.1f))
         {
             SceneAs<Level>().Particles.Emit(shineParticle, 1, Center, Vector2.One * 8f);
         }
     }
 
-    // ReSharper disable once MemberCanBePrivate.Global
-    public void OnPlayer(Player player)
+    private void OnPlayer(Player player)
     {
         if (Scene is not Level level) return;
-        
+
         if (collected || level.Frozen)
         {
             return;
@@ -191,17 +189,17 @@ public class FusionHeart : Entity
         {
             MintChocolateHelperModule.Session.HasHeartBreakerDash  = false;
             MintChocolateHelperModule.Session.HeartBreakerDashActive  = false;
-            
+
             P_Regen.Color = Calc.HexToColor(spriteColor);
             P_Regen.Color2 = Color.White;
 
             player.ExplodeLaunch(Center, false, true);
-                        
+
             Add(new Coroutine(FullDashHitColliderDisableTimer()));
-                        
+
             Audio.Play("event:/MintChocolateHelper/heart_break", Center);
             Audio.Play("event:/new_content/game/10_farewell/puffer_splode", Center);
-                        
+
             level.Shake();
             level.Displacement.AddBurst(Center, 0.4f, 12f, 36f, 0.5f);
             level.Displacement.AddBurst(Center, 0.4f, 24f, 48f, 0.5f);
@@ -211,20 +209,20 @@ public class FusionHeart : Entity
                 Vector2 position = Center + Calc.AngleToVector(num + Calc.Random.Range(-MathF.PI / 90f, MathF.PI / 90f), Calc.Random.Range(12, 18));
                 level.Particles.Emit(P_Regen, position, num);
             }
-            
+
             RemoveSelf();
 
             player.dashAttackTimer = 0;
-            
+
             FusionHeartHalf leftHalf = new(Center - Vector2.UnitX * Width/4, -(Vector2.UnitX * 2) - Vector2.UnitX * (heartBreakerBonusSpeed.Length() / 2),"9a9ddb", 0.75f, 1f, 1f, 1f, 1f,true,false);
             FusionHeartHalf rightHalf = new(Center + Vector2.UnitX * Width/4, Vector2.UnitX * 2 + Vector2.UnitX * (heartBreakerBonusSpeed.Length() / 2),"9a9ddb", 0.75f, 1f, 1f, 1f, 1f,true,true);
-            
+
             Scene.Add(leftHalf);
             Scene.Add(rightHalf);
-            
+
             leftHalf.Add(new Coroutine(leftHalf.HalfDashHitColliderDisableTimer()));
             rightHalf.Add(new Coroutine(rightHalf.HalfDashHitColliderDisableTimer()));
-            
+
             return;
         }
 
@@ -237,16 +235,13 @@ public class FusionHeart : Entity
         moveWiggleDir = (Center - player.Center).SafeNormalize(Vector2.UnitY);
         Input.Rumble(RumbleStrength.Medium, RumbleLength.Medium);
     }
-    
-    public IEnumerator FullDashHitColliderDisableTimer()
+
+    internal IEnumerator FullDashHitColliderDisableTimer()
     {
         if (Scene is not Level) yield break;
-        
-        Collidable = false;
 
+        Collidable = false;
         yield return 5 / 60f;
-        
         Collidable = true;
     }
-
 }

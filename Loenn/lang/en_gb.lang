@@ -83,7 +83,7 @@ entities.MintChocolateHelper/DebrisTweaksController.attributes.description.windA
 # Triggers
 
 triggers.MintChocolateHelper/PulseFlagTrigger.placements.name.pulse_flag_trigger=Pulse Flag Trigger
-triggers.MintChocolateHelper/PulseFlagTrigger.placements.description.pulse_flag_trigger=Sets a flag ON/OFF for a specified amount of frames
+triggers.MintChocolateHelper/PulseFlagTrigger.placements.description.pulse_flag_trigger=Sets a flag ON/OFF for a specified amount of frames and then sets it back OFF/ON
 
 triggers.MintChocolateHelper/PulseFlagTrigger.attributes.description.flag=The Flag to Pulse
 triggers.MintChocolateHelper/PulseFlagTrigger.attributes.description.frames=The number of frames to pulse the flag for

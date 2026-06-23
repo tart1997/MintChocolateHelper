@@ -3,11 +3,9 @@ using Microsoft.Xna.Framework;
 using Monocle;
 
 namespace Celeste.Mod.MintChocolateHelper.Entities;
-
-[Tracked]
 [CustomEntity("MintChocolateHelper/FusionTarget")]
+[Tracked]
 
-// ReSharper disable once ClassNeverInstantiated.Global
 public class FusionTarget : Entity
 {
     public FusionTarget(EntityData data, Vector2 offset) : base(data.Position + offset)

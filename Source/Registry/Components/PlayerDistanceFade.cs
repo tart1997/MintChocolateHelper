@@ -5,7 +5,7 @@ using Monocle;
 
 namespace Celeste.Mod.MintChocolateHelper.Registry.Components;
 
-internal class PlayerDistanceFade : Component
+public class PlayerDistanceFade : Component
 {
     private readonly float InnerRadius;
     private readonly float OuterRadius;
@@ -18,12 +18,12 @@ internal class PlayerDistanceFade : Component
     private Color CurrentColor;
     private float ColorPercentage;
     private float LastPercentage;
-    
+
     private bool BeginFadeOut;
     private Color FadeoutOriginalColor;
     private Color FadeoutTargetColor;
     private float FadeoutTimer;
-    
+
     public PlayerDistanceFade(float innerRadius, float outerRadius, bool fadeOut, PlayerDistanceFadeRegistryHandler.DeathBehaivor deathBehaivor, float deathFadeSpeedMultiplier) : base(active: true, visible:true)
     {
         InnerRadius = innerRadius;
@@ -42,7 +42,7 @@ internal class PlayerDistanceFade : Component
         OriginalColor = decal.Color;
         FadeoutTimer = 0f;
     }
-    
+
     public override void Update()
     {
         base.Update();
@@ -54,12 +54,12 @@ internal class PlayerDistanceFade : Component
     public override void Render()
     {
         base.Render();
-        
+
         Decal decal = (Decal)Entity;
         Player player = SceneAs<Level>().Tracker.GetEntity<Player>();
 
         CurrentColor = decal.Color;
-        
+
         if (player != null)
         {
             DecalDistance = (float)Math.Sqrt(Math.Pow(player.X - decal.X, 2) + Math.Pow(player.Y - decal.Y, 2));
@@ -106,7 +106,7 @@ internal class PlayerDistanceFade : Component
         if (BeginFadeOut)
         {
             Color result = new();
-            
+
             if (FadeoutTimer < 1)
             {
                 result = Color.Lerp(FadeoutOriginalColor, FadeoutTargetColor, FadeoutTimer);
@@ -114,7 +114,7 @@ internal class PlayerDistanceFade : Component
             }
             decal.Color = result;
         }
-        
+
         LastPercentage = ColorPercentage;
     }
 }

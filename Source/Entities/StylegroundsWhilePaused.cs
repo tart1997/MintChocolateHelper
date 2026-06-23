@@ -1,30 +1,28 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Celeste.Mod.Entities;
+using Celeste.Mod.Helpers;
 using Microsoft.Xna.Framework;
 using Monocle;
 using MonoMod.Cil;
 
 namespace Celeste.Mod.MintChocolateHelper.Entities;
-
 [CustomEntity("MintChocolateHelper/StylegroundsWhilePaused")]
+[Tracked]
 
-// ReSharper disable once ClassNeverInstantiated.Global
 public class StylegroundsWhilePaused : Entity
 {
     private readonly string updateTag;
-    
+
     public StylegroundsWhilePaused(EntityData data, Vector2 offset) : base(data.Position + offset)
     {
         updateTag = data.Attr("updateTag");
     }
-    
+
     public override void Awake(Scene scene)
     {
         base.Awake(scene);
-    
         if (scene is not Level level) return;
-        
+
         foreach (Backdrop dummy in level.Background.Backdrops.Where(backdrop => backdrop.Tags.Contains(updateTag)))
         {
             Tag |= Tags.PauseUpdate;
@@ -34,11 +32,11 @@ public class StylegroundsWhilePaused : Entity
             Tag |= Tags.PauseUpdate;
         }
     }
-    
+
     public override void Update()
     {
         if (Scene is not Level level) return;
-        
+
         foreach (Backdrop backdrop in level.Background.Backdrops.Where(backdrop => Scene.Paused && backdrop.Tags.Contains(updateTag)))
         {
             backdrop.Update(Scene);
@@ -58,44 +56,37 @@ public class StylegroundsWhilePaused : Entity
     {
         IL.Celeste.Level.Update -= LevelOnUpdate;
     }
-    
+
     private static void LevelOnUpdate(ILContext il)
     {
         ILCursor cursor = new(il);
-        
+
         // IL_002f: call float32 Monocle.Engine::get_RawDeltaTime()
         // IL_0034: sub
         // IL_0035: stfld float32 Celeste.Level::unpauseTimer
-        
-        if (!cursor.TryGotoNext(MoveType.After, instr => instr.MatchCall<Engine>("get_RawDeltaTime"),
-            instr => instr.MatchSub(),
-            instr => instr.MatchStfld<Level>("unpauseTimer")))
+
+        if (!cursor.TryGotoNextBestFit(MoveType.After, static instr => instr.MatchCall<Engine>("get_RawDeltaTime"),
+            static instr => instr.MatchSub(),
+            static instr => instr.MatchStfld<Level>("unpauseTimer")))
         {
             Logger.Info("debug",$"IL hook application on method {il.Method.FullName} failed: Dumb Fuck!"); 
             return;
         }
 
         cursor.EmitDelegate(UpdateBackdrops);
-        
-        return;
+    }
 
-        static void UpdateBackdrops()
+    private static void UpdateBackdrops()
+    {
+        if (Engine.Scene is not Level level || !MintChocolateHelperModule.Session.StylegroundsWhilePausedControllerExists.Item1) return;
+
+        foreach (Backdrop backdrop in level.Background.Backdrops.Where(backdrop => backdrop.Tags.Contains(MintChocolateHelperModule.Session.StylegroundsWhilePausedControllerExists.Item2.updateTag)))
         {
-            if (Engine.Scene is not Level level) return;
-            
-            List<Entity> entities = level.Tracker.GetEntitiesTrackIfNeeded<StylegroundsWhilePaused>();
-
-            if (entities == null || entities.Count == 0) return;
-            if (entities[0] is not StylegroundsWhilePaused controller) return;
-
-            foreach (Backdrop backdrop in level.Background.Backdrops.Where(backdrop => backdrop.Tags.Contains(controller.updateTag)))
-            {
-                backdrop.Update(level);
-            }
-            foreach (Backdrop backdrop in level.Foreground.Backdrops.Where(backdrop => backdrop.Tags.Contains(controller.updateTag)))
-            {
-                backdrop.Update(level);
-            }
+            backdrop.Update(level);
+        }
+        foreach (Backdrop backdrop in level.Foreground.Backdrops.Where(backdrop => backdrop.Tags.Contains(MintChocolateHelperModule.Session.StylegroundsWhilePausedControllerExists.Item2.updateTag)))
+        {
+            backdrop.Update(level);
         }
     }
 }

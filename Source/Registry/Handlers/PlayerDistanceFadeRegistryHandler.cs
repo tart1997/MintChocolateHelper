@@ -5,17 +5,17 @@ using Celeste.Mod.Registry.DecalRegistryHandlers;
 
 namespace Celeste.Mod.MintChocolateHelper.Registry.Handlers;
 
-internal class PlayerDistanceFadeRegistryHandler : DecalRegistryHandler
+public class PlayerDistanceFadeRegistryHandler : DecalRegistryHandler
 {
     public override string Name => "mint.playerDistanceFade";
-    
-    internal enum DeathBehaivor
+
+    public enum DeathBehaivor
     {
         staySame,
         snapTo,
         fadeOut
     }
-    
+
     private float InnerRadius;
     private float OuterRadius;
     private bool FadeOut;
