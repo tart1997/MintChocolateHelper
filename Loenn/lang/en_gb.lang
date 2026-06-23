@@ -17,57 +17,64 @@ entities.MintChocolateHelper/StylegroundsWhilePaused.attributes.description.upda
 
 
 
-entities.MintChocolateHelper/FusionHeart.placements.name.fusion_heart= Fusion Heart
-entities.MintChocolateHelper/FusionHeart.placements.description.fusion_heart= A Bully heart that can be shattered into two Fusion Heart Halves when dashed into with a Heart Breaker Refill charge
+entities.MintChocolateHelper/FusionHeart.placements.name.fusion_heart=Fusion Heart
+entities.MintChocolateHelper/FusionHeart.placements.description.fusion_heart=A Bully heart that can be shattered into two Fusion Heart Halves when dashed into with a Heart Breaker Refill charge
 
-entities.MintChocolateHelper/FusionHeart.attributes.description.color= The Hex color to tint the Fusion Heart to
-entities.MintChocolateHelper/FusionHeart.attributes.description.bloom= The Bloom strength of the Fusion Heart
-entities.MintChocolateHelper/FusionHeart.attributes.description.light= Whether or not the Fusion Heart should emit light
-
-
-
-entities.MintChocolateHelper/FusionHeartHalf.placements.name.fusion_heart_half= Fusion Heart Half
-entities.MintChocolateHelper/FusionHeartHalf.placements.description.fusion_heart_half= Halves of crystal hearts that can be pushed around by dashing into them\nCan be fused into a Full Fusion Heart when dashed into while another Heart Half of the opposing direction is close enough
-
-entities.MintChocolateHelper/FusionHeartHalf.attributes.description.color= The Hex color to tint the Heart Half to
-entities.MintChocolateHelper/FusionHeartHalf.attributes.description.bloom= The Bloom strength of the Heart Half
-entities.MintChocolateHelper/FusionHeartHalf.attributes.description.collisionSpeedX= A modifer to how fast the Heart Half will move when dashed into horizontally
-entities.MintChocolateHelper/FusionHeartHalf.attributes.description.collisionSpeedY= A modifer to how fast the Heart Half will move when dashed into Vertically
-entities.MintChocolateHelper/FusionHeartHalf.attributes.description.frictionX= A modifer to how fast the Heart Half will slow down horizontally
-entities.MintChocolateHelper/FusionHeartHalf.attributes.description.frictionY= A modifer to how fast the Heart Half will slow down Vertically
-entities.MintChocolateHelper/FusionHeartHalf.attributes.description.light= Whether or not the Heart Half should emit light
-entities.MintChocolateHelper/FusionHeartHalf.attributes.description.rightHalf= Whether the Heart Half should be facing Left or Right
+entities.MintChocolateHelper/FusionHeart.attributes.description.color=The Hex color to tint the Fusion Heart to
+entities.MintChocolateHelper/FusionHeart.attributes.description.bloom=The Bloom strength of the Fusion Heart
+entities.MintChocolateHelper/FusionHeart.attributes.description.light=Whether or not the Fusion Heart should emit light
 
 
 
-entities.MintChocolateHelper/FusionTarget.placements.name.fusion_target= Fusion Heart Target
-entities.MintChocolateHelper/FusionTarget.placements.description.fusion_target= Forces any Fusion Heart event that happens on top of the Target to consistantly center the Fusion Heart on the Fusion Heart Target
+entities.MintChocolateHelper/FusionHeartHalf.placements.name.fusion_heart_half=Fusion Heart Half
+entities.MintChocolateHelper/FusionHeartHalf.placements.description.fusion_heart_half=Halves of crystal hearts that can be pushed around by dashing into them\nCan be fused into a Full Fusion Heart when dashed into while another Heart Half of the opposing direction is close enough
+
+entities.MintChocolateHelper/FusionHeartHalf.attributes.description.color=The Hex color to tint the Heart Half to
+entities.MintChocolateHelper/FusionHeartHalf.attributes.description.bloom=The Bloom strength of the Heart Half
+entities.MintChocolateHelper/FusionHeartHalf.attributes.description.collisionSpeedX=A modifer to how fast the Heart Half will move when dashed into horizontally
+entities.MintChocolateHelper/FusionHeartHalf.attributes.description.collisionSpeedY=A modifer to how fast the Heart Half will move when dashed into Vertically
+entities.MintChocolateHelper/FusionHeartHalf.attributes.description.frictionX=A modifer to how fast the Heart Half will slow down horizontally
+entities.MintChocolateHelper/FusionHeartHalf.attributes.description.frictionY=A modifer to how fast the Heart Half will slow down Vertically
+entities.MintChocolateHelper/FusionHeartHalf.attributes.description.light=Whether or not the Heart Half should emit light
+entities.MintChocolateHelper/FusionHeartHalf.attributes.description.rightHalf=Whether the Heart Half should be facing Left or Right
 
 
 
-entities.MintChocolateHelper/HeartBreakerRefill.placements.name.heart_breaker_refill= Heart Breaker Refill
-entities.MintChocolateHelper/HeartBreakerRefill.placements.description.heart_breaker_refill= Allows the player to shatter Fusion Hearts into 2 Fusion Heart Halves\nImparts some of the players speed into Heart Halves
-
-entities.MintChocolateHelper/HeartBreakerRefill.attributes.description.respawnTime= How long it takes for the Refill to respawn after collection
-entities.MintChocolateHelper/HeartBreakerRefill.attributes.description.oneUse= When checked, the Refill won't respawn
+entities.MintChocolateHelper/FusionTarget.placements.name.fusion_target=Fusion Heart Target
+entities.MintChocolateHelper/FusionTarget.placements.description.fusion_target=Forces any Fusion Heart event that happens on top of the Target to consistantly center the Fusion Heart on the Fusion Heart Target
 
 
 
-entities.MintChocolateHelper/SpeedFlipRefill.placements.name.speed_flip_refill= Speed Flip Refill
-entities.MintChocolateHelper/SpeedFlipRefill.placements.description.speed_flip_refill= Flips the players Y Velocity On their next airborn jump
+entities.MintChocolateHelper/HeartBreakerRefill.placements.name.heart_breaker_refill=Heart Breaker Refill
+entities.MintChocolateHelper/HeartBreakerRefill.placements.description.heart_breaker_refill=Allows the player to shatter Fusion Hearts into 2 Fusion Heart Halves\nImparts some of the players speed into Heart Halves
 
-entities.MintChocolateHelper/SpeedFlipRefill.attributes.description.respawnTime= How long it takes for the Refill to respawn after collection
-entities.MintChocolateHelper/SpeedFlipRefill.attributes.description.extraMultiplier= An extra multiper applied to the players Y Velocity after flipping it
-entities.MintChocolateHelper/SpeedFlipRefill.attributes.description.oneUse= When checked, the Refill won't respawn
-entities.MintChocolateHelper/SpeedFlipRefill.attributes.description.disableAmbientEffects= When checked, disables bloom and particles
-entities.MintChocolateHelper/SpeedFlipRefill.attributes.description.disableCollectEffects= When checked, disables collect sfx and particles
+entities.MintChocolateHelper/HeartBreakerRefill.attributes.description.respawnTime=How long it takes for the Refill to respawn after collection
+entities.MintChocolateHelper/HeartBreakerRefill.attributes.description.oneUse=When checked, the Refill won't respawn
 
 
 
-entities.MintChocolateHelper/DisableQuickRespawn.placements.name.disable_quick_respawn= Disable Quick Respawn Controller
-entities.MintChocolateHelper/DisableQuickRespawn.placements.description.disable_quick_respawn= If the provided flag is true, Disables the quick respawn mechanic
+entities.MintChocolateHelper/SpeedFlipRefill.placements.name.speed_flip_refill=Speed Flip Refill
+entities.MintChocolateHelper/SpeedFlipRefill.placements.description.speed_flip_refill=Flips the players Y Velocity On their next airborn jump
 
-entities.MintChocolateHelper/DisableQuickRespawn.attributes.description.disableFlag= The flag to check
+entities.MintChocolateHelper/SpeedFlipRefill.attributes.description.respawnTime=How long it takes for the Refill to respawn after collection
+entities.MintChocolateHelper/SpeedFlipRefill.attributes.description.extraMultiplier=An extra multiper applied to the players Y Velocity after flipping it
+entities.MintChocolateHelper/SpeedFlipRefill.attributes.description.oneUse=When checked, the Refill won't respawn
+entities.MintChocolateHelper/SpeedFlipRefill.attributes.description.disableAmbientEffects=When checked, disables bloom and particles
+entities.MintChocolateHelper/SpeedFlipRefill.attributes.description.disableCollectEffects=When checked, disables collect sfx and particles
+
+
+
+entities.MintChocolateHelper/SnappyStylegroundController.placements.name.snappy_stylegrounds_controller=The Worst Controller Ever Made
+entities.MintChocolateHelper/SnappyStylegroundController.placements.description.snappy_stylegrounds_controller=How are you even reading this
+
+entities.MintChocolateHelper/SnappyStylegroundController.attributes.description.SnapTag=The Lonn plugin for this is private, so either your reading the en_gb.lang for some reason, or you somehow have a private build of Mint Chocolate Helper
+
+
+
+entities.MintChocolateHelper/DisableQuickRespawn.placements.name.disable_quick_respawn=Disable Quick Respawn Controller
+entities.MintChocolateHelper/DisableQuickRespawn.placements.description.disable_quick_respawn=If the provided flag is true, Disables the quick respawn mechanic
+
+entities.MintChocolateHelper/DisableQuickRespawn.attributes.description.disableFlag=The flag to check
 
 
 
