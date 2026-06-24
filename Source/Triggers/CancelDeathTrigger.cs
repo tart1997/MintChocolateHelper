@@ -75,22 +75,16 @@ public class CancelDeathTrigger : Trigger
 
         Debug.Assert(level.Session.RespawnPoint != null);
         player.Position = level.Session.RespawnPoint.Value;
-        
-        //TODO: This sucks, figure out how to kill the rouge Tweener
-        
-        float Timer = 0.5f;
-        while (Timer > 0)
-        {
-            Timer -= Engine.DeltaTime;
-            player.Sprite.Scale.X = 1;
-            
-            yield return 1 / 60f;
-        }
+
+        //This kinda sucks... I would prefer to just kill whatever rouge tweener that forces me to do this, but I've tried everything I can think of to do so. ¯\_(ツ)_/¯
+
+        yield return 1 / 60f;
+        player.Sprite.Scale.X = 1;
     }
 
     internal static void Load()
     {
-        MintChocolateHelperModule.CDTriggerHook_origDie = new ILHook(typeof(Player).GetMethod("orig_Die", BindingFlags.Public | BindingFlags.Instance)!, SkipRemovePlayer);
+        MintChocolateHelperModule.CDTriggerHook_origDie ??= new ILHook(typeof(Player).GetMethod("orig_Die", BindingFlags.Public | BindingFlags.Instance)!, SkipRemovePlayer);
         On.Celeste.Level.Reload += PanicRemovePlayerIfPlayerIsStillLoaded;
     }
 

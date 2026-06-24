@@ -13,7 +13,7 @@ public class CheckIfShitExists
 
     internal static void Unload()
     {
-        On.Celeste.Level.Update += CheckForShit;
+        On.Celeste.Level.Update -= CheckForShit;
     }
 
     private static void CheckForShit(On.Celeste.Level.orig_Update orig, Level level)
