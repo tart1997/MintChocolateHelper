@@ -230,11 +230,10 @@ public class HeartBreakerRefill : Entity
 	private static void HeartBreakerDashEnd(On.Celeste.Player.orig_DashEnd orig, Player self)
 	{
 		orig(self);
-		if (self.StateMachine.State != 2 && MintChocolateHelperModule.Session.HeartBreakerDashActive)
-		{
-			HeartBreakerEndDelayCoroutine = new Coroutine(HeartBreakerEndDelay());
-			self.Add(HeartBreakerEndDelayCoroutine);
-		}
+		if (self.StateMachine.State == 2 || !MintChocolateHelperModule.Session.HeartBreakerDashActive) return;
+
+		HeartBreakerEndDelayCoroutine = new Coroutine(HeartBreakerEndDelay());
+		self.Add(HeartBreakerEndDelayCoroutine);
 	}
 
 	private static IEnumerator HeartBreakerEndDelay()

@@ -4,9 +4,7 @@ using Celeste.Mod.MintChocolateHelper.Entities;
 using Celeste.Mod.MintChocolateHelper.Extras;
 using Celeste.Mod.MintChocolateHelper.ModInterop;
 using Celeste.Mod.MintChocolateHelper.Registry.Handlers;
-using Celeste.Mod.MintChocolateHelper.Triggers;
 using FlaglinesAndSuch;
-using MonoMod.ModInterop;
 using MonoMod.RuntimeDetour;
 using VivHelper.Effects;
 
@@ -53,7 +51,7 @@ public class MintChocolateHelperModule : EverestModule
 
     public override void Load() 
     {
-        typeof(FrostHelperImports).ModInterop();
+        FrostHelperImports.Load();
         CheckIfShitExists.Load();
         StylegroundsWhilePaused.Load();
         HeartBreakerRefill.Load();

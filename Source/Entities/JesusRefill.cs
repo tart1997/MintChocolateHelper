@@ -14,6 +14,7 @@ public class JesusRefill : Entity
     private float respawnTimer;
     private readonly float respawnTime;
     private readonly bool oneUse;
+    private readonly bool DisableQuickRespawn;
     private readonly bool UnregisterDeathInStats;
     
     private readonly ParticleType P_Shatter;
@@ -33,6 +34,7 @@ public class JesusRefill : Entity
     {
         respawnTime = data.Float("respawnTime", 2.5f);
         oneUse = data.Bool("oneUse");
+        DisableQuickRespawn = data.Bool("disableQuickRespawn");
         UnregisterDeathInStats = data.Bool("unregisterDeathInStats");
         
         Collider = new Hitbox(16f, 16f, -8f, -8f);
@@ -138,6 +140,10 @@ public class JesusRefill : Entity
             Collidable = false;
             Add(new Coroutine(RefillRoutine(player)));
             MintChocolateHelperModule.Session.HasJesusRefill = true;
+            if (DisableQuickRespawn)
+            {
+                MintChocolateHelperModule.Session.JesusRefillDisableQuickRespawn = true;
+            }
             respawnTimer = respawnTime;
         }
     }
@@ -186,13 +192,13 @@ public class JesusRefill : Entity
     internal static void Load()
     {
         On.Celeste.PlayerHair.GetHairColor += JesusRefillHairColor;
-        On.Celeste.Player.Update += hdshshdf;
+        On.Celeste.Player.Update += Resurrection;
     }
 
     internal static void Unload()
     {
         On.Celeste.PlayerHair.GetHairColor -= JesusRefillHairColor;
-        On.Celeste.Player.Update -= hdshshdf;
+        On.Celeste.Player.Update -= Resurrection;
     }
     
     private static Color JesusRefillHairColor(On.Celeste.PlayerHair.orig_GetHairColor orig, PlayerHair self, int index)
@@ -200,13 +206,15 @@ public class JesusRefill : Entity
         return MintChocolateHelperModule.Session.HasJesusRefill ? Color.FromNonPremultiplied(201, 192, 187, 255) : orig(self, index);
     }
     
-    private static void hdshshdf(On.Celeste.Player.orig_Update orig, Player self)
+    private static void Resurrection(On.Celeste.Player.orig_Update orig, Player self)
     {
         orig(self);
         if (Engine.Scene is not Level level) return;
         JesusRefill jesusRefill = level.Tracker.GetEntity<JesusRefill>();
 
-        if (jesusRefill != null && (Input.DashPressed || Input.CrouchDashPressed) && MintChocolateHelperModule.Session.PlayerIsPsuedoDead && MintChocolateHelperModule.Session.HasJesusRefill)
+        if (jesusRefill != null && (Input.DashPressed || Input.CrouchDashPressed)
+                                && MintChocolateHelperModule.Session.PlayerIsPsuedoDead
+                                && MintChocolateHelperModule.Session.HasJesusRefill)
         {
             self.Add(new Coroutine(jesusRefill.Unkill()));
         }
@@ -251,6 +259,7 @@ public class JesusRefill : Entity
         if (Scene is not null) player.Scene = Scene;
         MintChocolateHelperModule.Session.PlayerIsPsuedoDead = false;
         MintChocolateHelperModule.Session.HasJesusRefill = false;
+        MintChocolateHelperModule.Session.JesusRefillDisableQuickRespawn = false;
 
         //This kinda sucks... I would prefer to just kill whatever rouge tweener that forces me to do this, but I've tried everything I can think of to do so. ¯\_(ツ)_/¯
 

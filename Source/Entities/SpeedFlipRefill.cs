@@ -243,18 +243,16 @@ public class SpeedFlipRefill : Entity
 	{
 		if (Engine.Scene is not Level level) return orig(self);
 		List<Entity> refills = level.Tracker.GetEntities<SpeedFlipRefill>();
+		if (refills == null || refills.Count == 0 || refills[0] is not SpeedFlipRefill refill) return orig(self);
 
-		if (refills != null && refills.Count != 0 && refills[0] is SpeedFlipRefill refill)
+		if (Input.Jump.Pressed && MintChocolateHelperModule.Session.HasSpeedFlipRefill && !self.OnGround(self.Position, 4)
+		    && !self.onGround && !self.WallJumpCheck(3) && !self.WallJumpCheck(-3) && (self.jumpGraceTimer <= 0f)
+		    && (self.varJumpTimer <= 0f) && (self.StateMachine.state == Player.StNormal || self.StateMachine.State == Player.StDash))
 		{
-			if (Input.Jump.Pressed && MintChocolateHelperModule.Session.HasSpeedFlipRefill && !self.OnGround(self.Position, 4)
-			    && !self.onGround && !self.WallJumpCheck(3) && !self.WallJumpCheck(-3) && (self.jumpGraceTimer <= 0f)
-			    && (self.varJumpTimer <= 0f) && (self.StateMachine.state == Player.StNormal || self.StateMachine.State == Player.StDash))
-			{
-				self.Speed.Y = -self.Speed.Y * refill.ExtraMultiplier;
-				Input.Jump.ConsumeBuffer();
+			self.Speed.Y = -self.Speed.Y * refill.ExtraMultiplier;
+			Input.Jump.ConsumeBuffer();
 
-				MintChocolateHelperModule.Session.HasSpeedFlipRefill = false;
-			}
+			MintChocolateHelperModule.Session.HasSpeedFlipRefill = false;
 		}
 		return orig(self);
 	}

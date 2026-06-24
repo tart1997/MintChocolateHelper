@@ -78,19 +78,18 @@ public class StylegroundsWhilePaused : Entity
 
     private static void UpdateBackdrops()
     {
-        if (Engine.Scene is Level level && MintChocolateHelperModule.Session.StylegroundsWhilePausedControllerGetter.Exists)
-        {
-            foreach (Backdrop backdrop in level.Background.Backdrops.Where(backdrop =>
-                backdrop.Tags.Contains(MintChocolateHelperModule.Session.StylegroundsWhilePausedControllerGetter.SWPController.updateTag)))
-            {
-                backdrop.Update(level);
-            }
+        if (Engine.Scene is not Level level || !MintChocolateHelperModule.Session.StylegroundsWhilePausedControllerGetter.Exists) return;
 
-            foreach (Backdrop backdrop in level.Foreground.Backdrops.Where(backdrop =>
-                backdrop.Tags.Contains(MintChocolateHelperModule.Session.StylegroundsWhilePausedControllerGetter.SWPController.updateTag)))
-            {
-                backdrop.Update(level);
-            }
+        foreach (Backdrop backdrop in level.Background.Backdrops.Where(backdrop =>
+            backdrop.Tags.Contains(MintChocolateHelperModule.Session.StylegroundsWhilePausedControllerGetter.SWPController.updateTag)))
+        {
+            backdrop.Update(level);
+        }
+
+        foreach (Backdrop backdrop in level.Foreground.Backdrops.Where(backdrop =>
+            backdrop.Tags.Contains(MintChocolateHelperModule.Session.StylegroundsWhilePausedControllerGetter.SWPController.updateTag)))
+        {
+            backdrop.Update(level);
         }
     }
 }

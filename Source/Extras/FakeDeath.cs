@@ -98,35 +98,35 @@ public class FakeDeath
 
     private static void FakeKillPlayer()
     {
-        if (Engine.Scene is Level level && (MintChocolateHelperModule.Session.CancelDeathTriggerGetter.Exists || MintChocolateHelperModule.Session.HasJesusRefill))
-        {
-            Player player = level.Tracker.GetEntity<Player>();
-            
-            player.StateMachine.state = 17;
-            player.Collidable = false;
-            player.Visible = false;
-            MintChocolateHelperModule.Session.PlayerIsPsuedoDead = true;
-        }
+        if (Engine.Scene is not Level level || (!MintChocolateHelperModule.Session.CancelDeathTriggerGetter.Exists && !MintChocolateHelperModule.Session.HasJesusRefill)) return;
+
+        Player player = level.Tracker.GetEntity<Player>();
+        player.StateMachine.state = 17;
+        player.Collidable = false;
+        player.Visible = false;
+        MintChocolateHelperModule.Session.PlayerIsPsuedoDead = true;
     }
 
     private static void PanicRemovePlayerIfPlayerIsStillLoaded(On.Celeste.Level.orig_Reload orig, Level level)
     {
-        if (Engine.Scene is not Level) return;
-        Player player = level.Tracker.GetEntity<Player>();
+        if (Engine.Scene is Level)
+        {
+            Player player = level.Tracker.GetEntity<Player>();
+            player?.RemoveSelf();
 
-        player?.RemoveSelf();
-        MintChocolateHelperModule.Session.PlayerIsPsuedoDead = false;
-        MintChocolateHelperModule.Session.HasJesusRefill = false;
+            MintChocolateHelperModule.Session.PlayerIsPsuedoDead = false;
+            MintChocolateHelperModule.Session.HasJesusRefill = false;
+            MintChocolateHelperModule.Session.JesusRefillDisableQuickRespawn = false;
+        }
         orig(level);
     }
     
     private static void MovePlayer(On.Celeste.PlayerDeadBody.orig_Update orig, PlayerDeadBody playerDeadBody)
     {
         orig(playerDeadBody);
-        
         if (Engine.Scene is not Level level) return;
+
         Player player = level.Tracker.GetEntity<Player>();
-        
         player?.Position = playerDeadBody.Position;
     }
 }

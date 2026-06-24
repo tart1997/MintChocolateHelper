@@ -1,13 +1,16 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.Xna.Framework;
-using MonoMod.ModInterop;
+using ModInteropImportGenerator;
+#pragma warning disable CS8632
 
 namespace Celeste.Mod.MintChocolateHelper.ModInterop;
-[ModImportName("FrostHelper")]
-[SuppressMessage("ReSharper", "UnassignedField.Global")]
-public static class FrostHelperImports
+[GenerateImports("FrostHelper")]
+public static partial class FrostHelperImports
 {
-    public static Func<Spring,bool> IsCeilingSpring;
-    public static Func<Spring,Vector2> GetSpringSpeedMultiplier;
+    public static partial bool IsCeilingSpring(Spring spring);
+    public static partial Vector2 GetSpringSpeedMultiplier(Spring spring);
+    
+    public static partial bool TryCreateSessionExpression(string str, [NotNullWhen(true)] out object? expression);
+    public static partial bool GetBoolSessionExpressionValue(object expression, Session session);
+
 }

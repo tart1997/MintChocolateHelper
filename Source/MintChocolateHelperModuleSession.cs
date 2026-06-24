@@ -16,6 +16,7 @@ public class MintChocolateHelperModuleSession : EverestModuleSession
 
     //Jesus Refill
     internal bool HasJesusRefill {get; set;}
+    internal bool JesusRefillDisableQuickRespawn {get; set;}
 
 
     //Cancel Death Trigger

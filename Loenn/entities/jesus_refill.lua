@@ -9,6 +9,7 @@ JesusRefill.placements = {
         data = {
 			respawnTime = 2.5,
             oneUse = false,
+			disableQuickRespawn = false,
             unregisterDeathInStats = false
         }
     }

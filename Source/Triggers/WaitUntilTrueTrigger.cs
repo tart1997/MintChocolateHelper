@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Celeste.Mod.Entities;
+using Celeste.Mod.MintChocolateHelper.ModInterop;
 using Microsoft.Xna.Framework;
 using Monocle;
+#pragma warning disable CS8632
 
 namespace Celeste.Mod.MintChocolateHelper.Triggers;
 [CustomEntity("MintChocolateHelper/WaitUntilTrueTrigger")]
@@ -15,21 +17,27 @@ public class WaitUntilTrueTrigger : Trigger
     private readonly Vector2[] nodes;
     private readonly string Flag;
     private readonly float Delay;
-    private readonly bool Invert;
     private readonly bool OneUse;
 
     private List<Trigger> triggers;
     private bool Activated;
     private bool Activating;
     private bool Deactivating;
+    
+    private readonly object? FlagExpression;
+    private readonly bool IsValidExpression;
 
     public WaitUntilTrueTrigger(EntityData data, Vector2 offset) : base(data, offset)
     {
         nodes = data.NodesOffset(offset);
         Flag = data.Attr("flag");
         Delay = data.Float("delay");
-        Invert = data.Bool("invert");
         OneUse = data.Bool("oneUse");
+        
+        if (FrostHelperImports.IsImported && FrostHelperImports.TryCreateSessionExpression(Flag, out FlagExpression))
+        {
+            IsValidExpression = true;
+        }
     }
 
     public override void OnEnter(Player player)
@@ -55,19 +63,15 @@ public class WaitUntilTrueTrigger : Trigger
         Player player = Scene.Tracker.GetEntity<Player>();
         if (player == null) { return; }
 
-        if (Activated)
+        if (Activated && OneUse)
         {
-            if (OneUse)
-            {
-                RemoveSelf();
-            }
+            RemoveSelf();
         }
     }
 
     private void TryActivate(Player player)
     {
-        if (Activating || (Activated && !Deactivating))
-            return;
+        if (Activating || (Activated && !Deactivating)) return;
 
         if (Delay > 0f)
         {
@@ -85,8 +89,7 @@ public class WaitUntilTrueTrigger : Trigger
 
     private void TryDeactivate(Player player)
     {
-        if (Deactivating || (!Activated && !Activating))
-            return;
+        if (Deactivating || (!Activated && !Activating)) return;
 
         if (Delay > 0f)
         {
@@ -111,7 +114,6 @@ public class WaitUntilTrueTrigger : Trigger
     {
         DeactivateTriggers(player);
         CleanTriggers();
-
         Activated = true;
 
         foreach (Trigger trigger in triggers.Where(trigger => trigger != null))
@@ -127,7 +129,6 @@ public class WaitUntilTrueTrigger : Trigger
     private void DeactivateTriggers(Player player)
     {
         CleanTriggers();
-
         Activated = false;
 
         foreach (Trigger trigger in triggers.Where(trigger => trigger.PlayerIsInside))
@@ -172,25 +173,24 @@ public class WaitUntilTrueTrigger : Trigger
     {
         if (Scene is not Level level) yield break;
 
-        if (!Invert)
+        if (FrostHelperImports.IsImported && IsValidExpression)
         {
-            while (!level.Session.GetFlag(Flag))
+            while (!FrostHelperImports.GetBoolSessionExpressionValue(FlagExpression, level.Session))
             {
-                yield return 1 / 60f;
+                yield return null;
             }
         }
         else
         {
-            while (level.Session.GetFlag(Flag))
+            while (!level.Session.GetFlag(Flag))
             {
-                yield return 1 / 60f;
+                yield return null;
             }
         }
 
-        Scene scene = Scene;
-        triggers = GetTriggers(scene);
+        triggers = GetTriggers(Scene);
 
-        Player player = scene.Tracker.GetEntity<Player>();
+        Player player = Scene.Tracker.GetEntity<Player>();
         TryActivate(player);
     }
 }

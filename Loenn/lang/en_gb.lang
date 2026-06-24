@@ -74,7 +74,7 @@ entities.MintChocolateHelper/SnappyStylegroundController.attributes.description.
 entities.MintChocolateHelper/DisableQuickRespawn.placements.name.disable_quick_respawn=Disable Quick Respawn Controller
 entities.MintChocolateHelper/DisableQuickRespawn.placements.description.disable_quick_respawn=If the provided flag is true, Disables the quick respawn mechanic
 
-entities.MintChocolateHelper/DisableQuickRespawn.attributes.description.disableFlag=The flag to check
+entities.MintChocolateHelper/DisableQuickRespawn.attributes.description.disableFlag=The flag to check\n\nSupports Frost Helper Session expressions!
 
 
 
@@ -91,6 +91,7 @@ entities.MintChocolateHelper/JesusRefill.placements.description.jesus_refill=Onc
 
 entities.MintChocolateHelper/JesusRefill.attributes.description.respawnTime=How long it takes for the Refill to respawn after collection
 entities.MintChocolateHelper/JesusRefill.attributes.description.oneUse=If Enabled, the Refill won't respawn
+entities.MintChocolateHelper/JesusRefill.attributes.description.disableQuickRespawn=If Enabled, the player won't be allowed to speed up the death animation by pressing confirm
 entities.MintChocolateHelper/JesusRefill.attributes.description.unregisterDeathInStats=If Enabled, tells the game to uncount the death it just counted
 
 
@@ -134,9 +135,8 @@ triggers.MintChocolateHelper/MessageWebhookTrigger.attributes.description.dialog
 triggers.MintChocolateHelper/WaitUntilTrueTrigger.placements.name.wait_until_true_trigger=Wait Until True Trigger
 triggers.MintChocolateHelper/WaitUntilTrueTrigger.placements.description.wait_until_true_trigger=On enter, Waits until the specified flag is true, and then activates anything it's pointed at.
 
-triggers.MintChocolateHelper/WaitUntilTrueTrigger.attributes.description.flag=The Flag to wait for
+triggers.MintChocolateHelper/WaitUntilTrueTrigger.attributes.description.flag=The Flag to wait for\n\nSupports Frost Helper Session expressions!
 triggers.MintChocolateHelper/WaitUntilTrueTrigger.attributes.description.delay=Once Flag is true, waits this long to actually activate what it's pointed at
-triggers.MintChocolateHelper/WaitUntilTrueTrigger.attributes.description.invert=If True, waits until Flag is false instead
 triggers.MintChocolateHelper/WaitUntilTrueTrigger.attributes.description.oneUse=If True, This trigger Deletes itself after use
 
 
