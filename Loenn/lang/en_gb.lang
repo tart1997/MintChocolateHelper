@@ -86,6 +86,15 @@ entities.MintChocolateHelper/DebrisTweaksController.attributes.description.windA
 
 
 
+entities.MintChocolateHelper/JesusRefill.placements.name.jesus_refill=Jesus Refill
+entities.MintChocolateHelper/JesusRefill.placements.description.jesus_refill=Once collected, allows the player to revive themselves after death by dashing out of their dead body
+
+entities.MintChocolateHelper/JesusRefill.attributes.description.respawnTime=How long it takes for the Refill to respawn after collection
+entities.MintChocolateHelper/JesusRefill.attributes.description.oneUse=If Enabled, the Refill won't respawn
+entities.MintChocolateHelper/JesusRefill.attributes.description.unregisterDeathInStats=If Enabled, tells the game to uncount the death it just counted
+
+
+
 
 # Triggers
 

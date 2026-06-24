@@ -52,7 +52,7 @@ public class DisableQuickRespawn : Entity
     private static bool DeadBodyCheck()
     { 
         return Engine.Scene is Level level
-               && MintChocolateHelperModule.Session.DisableQuickRepawnControllerExists.Item1
-               && level.Session.GetFlag(MintChocolateHelperModule.Session.DisableQuickRepawnControllerExists.Item2.disableFlag);
+               && MintChocolateHelperModule.Session.DisableQuickRepawnControllerGetter.Exists
+               && level.Session.GetFlag(MintChocolateHelperModule.Session.DisableQuickRepawnControllerGetter.DQRController.disableFlag);
     }
 }

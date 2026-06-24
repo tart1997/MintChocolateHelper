@@ -36,7 +36,7 @@ public class DebrisTweaksController : Entity
     {
         orig(debris);
 
-        if (Engine.Scene is not Level level || !MintChocolateHelperModule.Session.DebrisTweaksWindAffectedControllerExists) return;
+        if (Engine.Scene is not Level level || !MintChocolateHelperModule.Session.DebrisTweaksWindAffectedControllerGetter.Exists) return;
 
         if (!(level.Wind.X > 0 && debris.CollideCheck<SolidTiles>(new Vector2(debris.Position.X + 2, debris.Position.Y)))
             && !(level.Wind.X < 0 && debris.CollideCheck<SolidTiles>(new Vector2(debris.Position.X - 2, debris.Position.Y))))
@@ -94,16 +94,17 @@ public class DebrisTweaksController : Entity
 
     private static bool ShouldReplaceColorLerp()
     {
-        return Engine.Scene is Level && MintChocolateHelperModule.Session.DebrisTweaksAlternateFadeoutControllerExists;
+        return Engine.Scene is Level && MintChocolateHelperModule.Session.DebrisTweaksAlternateFadeoutControllerGetter.Exists;
     }
 
     private static void ReplaceColorLerp()
     {
-        if (Engine.Scene is not Level level || !MintChocolateHelperModule.Session.DebrisTweaksAlternateFadeoutControllerExists) return;
-
-        foreach (Debris debris in level.Tracker.GetEntitiesTrackIfNeeded<Debris>().Cast<Debris>())
+        if (Engine.Scene is Level level && MintChocolateHelperModule.Session.DebrisTweaksAlternateFadeoutControllerGetter.Exists)
         {
-            debris?.image.Color = Color.White * (debris.lifeTimer / 1.5f) * debris.alpha;
+            foreach (Debris debris in level.Tracker.GetEntitiesTrackIfNeeded<Debris>().Cast<Debris>())
+            {
+                debris?.image.Color = Color.White * (debris.lifeTimer / 1.5f) * debris.alpha;
+            }
         }
     }
 }

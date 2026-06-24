@@ -18,13 +18,32 @@ public class CheckIfShitExists
 
     private static void CheckForShit(On.Celeste.Level.orig_Update orig, Level level)
     {
-        MintChocolateHelperModule.Session.DebrisTweaksWindAffectedControllerExists = level.Tracker.GetEntities<DebrisTweaksController>().Cast<DebrisTweaksController>().Any(ADFController => ADFController.WindAffected);
-        MintChocolateHelperModule.Session.DebrisTweaksAlternateFadeoutControllerExists = level.Tracker.GetEntities<DebrisTweaksController>().Cast<DebrisTweaksController>().Any(ADFController => ADFController.AlternateFadeout);
+        foreach (DebrisTweaksController DTController in level.Tracker.GetEntities<DebrisTweaksController>().Cast<DebrisTweaksController>())
+        {
+            MintChocolateHelperModule.Session.DebrisTweaksWindAffectedControllerGetter = DTController.WindAffected ? (DTController, true) : (null, false);
+            if (MintChocolateHelperModule.Session.DebrisTweaksWindAffectedControllerGetter.Exists)
+            {
+                break;
+            }
+        }
+        
+        foreach (DebrisTweaksController DTController in level.Tracker.GetEntities<DebrisTweaksController>().Cast<DebrisTweaksController>())
+        {
+            MintChocolateHelperModule.Session.DebrisTweaksAlternateFadeoutControllerGetter = DTController.AlternateFadeout ? (DTController, true) : (null, false);
+            if (MintChocolateHelperModule.Session.DebrisTweaksAlternateFadeoutControllerGetter.Exists)
+            {
+                break;
+            }
+        }
+        
         DisableQuickRespawn DQRController = level.Tracker.GetEntity<DisableQuickRespawn>();
-        MintChocolateHelperModule.Session.DisableQuickRepawnControllerExists = (DQRController != null, DQRController);
+        MintChocolateHelperModule.Session.DisableQuickRepawnControllerGetter = (DQRController, DQRController != null);
+        
         StylegroundsWhilePaused SWPController = level.Tracker.GetEntity<StylegroundsWhilePaused>();
-        MintChocolateHelperModule.Session.StylegroundsWhilePausedControllerExists = (SWPController != null, SWPController);
-        MintChocolateHelperModule.Session.CancelDeathTriggerExists = level.Tracker.GetEntity<CancelDeathTrigger>() != null;
+        MintChocolateHelperModule.Session.StylegroundsWhilePausedControllerGetter = (SWPController, SWPController != null);
+
+        CancelDeathTrigger CDTrigger = level.Tracker.GetEntity<CancelDeathTrigger>();
+        MintChocolateHelperModule.Session.CancelDeathTriggerGetter = (CDTrigger, CDTrigger != null);
 
         orig(level);
     }

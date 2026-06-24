@@ -24,11 +24,9 @@ public class HeartBreakerRefill : Entity
 	private readonly VertexLight light;
 
 	private Level level;
-
 	private readonly SineWave sine;
 
 	private readonly bool oneUse;
-
 	private float respawnTimer;
 	private readonly float respawnTime;
 
@@ -81,12 +79,10 @@ public class HeartBreakerRefill : Entity
 		Add(bloom = new BloomPoint(0.8f, 16f));
 		Add(light = new VertexLight(Color.White, 1f, 16, 48));
 		Add(sine = new SineWave(0.6f, 0f));
-
 		sine.Randomize();
 
-		UpdateY();
-
 		Depth = -100;
+		UpdateY();
 	}
 
 	public override void Added(Scene scene)

@@ -49,7 +49,7 @@ public class MintChocolateHelperModule : EverestModule
     }
 
     // MANUAL HOOKS GO HERE
-    public static ILHook CDTriggerHook_origDie;
+    public static ILHook FakeDeathHook_origDie;
 
     public override void Load() 
     {
@@ -60,7 +60,8 @@ public class MintChocolateHelperModule : EverestModule
         SpeedFlipRefill.Load();
         DisableQuickRespawn.Load();
         DebrisTweaksController.Load();
-        CancelDeathTrigger.Load();
+        FakeDeath.Load();
+        JesusRefill.Load();
 
         DecalRegistry.AddPropertyHandler<ClockHandDecalRegistryHandler>();
         DecalRegistry.AddPropertyHandler<PlayerDistanceFadeRegistryHandler>();
@@ -132,6 +133,7 @@ public class MintChocolateHelperModule : EverestModule
         SpeedFlipRefill.Unload();
         DisableQuickRespawn.Unload();
         DebrisTweaksController.Unload();
-        CancelDeathTrigger.Unload();
+        FakeDeath.Unload();
+        JesusRefill.Unload();
     }
 }

@@ -1,4 +1,5 @@
 using Celeste.Mod.MintChocolateHelper.Entities;
+using Celeste.Mod.MintChocolateHelper.Triggers;
 
 namespace Celeste.Mod.MintChocolateHelper;
 
@@ -9,21 +10,24 @@ public class MintChocolateHelperModuleSession : EverestModuleSession
     internal bool HeartBreakerDashActive {get; set;}
 
 
-    //SpeedFlipRefill
+    //Speed Flip Refill
     internal bool HasSpeedFlipRefill {get; set;}
 
 
-    //CancelDeathTrigger
+    //Jesus Refill
+    internal bool HasJesusRefill {get; set;}
+
+
+    //Cancel Death Trigger
     internal bool PlayerIsPsuedoDead {get; set;}
     internal int CDT_Depth {get; set;}
-    internal bool CDT_Active {get; set;}
     internal bool CDT_Collidable {get; set;}
     internal bool CDT_Visible {get; set;}
 
-    //Controller Existence Markers
-    internal bool DebrisTweaksWindAffectedControllerExists {get; set;}
-    internal bool DebrisTweaksAlternateFadeoutControllerExists {get; set;}
-    internal (bool, DisableQuickRespawn) DisableQuickRepawnControllerExists {get; set;}
-    internal (bool, StylegroundsWhilePaused) StylegroundsWhilePausedControllerExists {get; set;}
-    internal bool CancelDeathTriggerExists {get; set;}
+    //Controller Getters
+    internal (DebrisTweaksController DTWAController, bool Exists) DebrisTweaksWindAffectedControllerGetter {get; set;}
+    internal (DebrisTweaksController DTAFController, bool Exists) DebrisTweaksAlternateFadeoutControllerGetter {get; set;}
+    internal (DisableQuickRespawn DQRController, bool Exists) DisableQuickRepawnControllerGetter {get; set;}
+    internal (StylegroundsWhilePaused SWPController, bool Exists) StylegroundsWhilePausedControllerGetter {get; set;}
+    internal (CancelDeathTrigger CDTrigger, bool Exists) CancelDeathTriggerGetter {get; set;}
 }
