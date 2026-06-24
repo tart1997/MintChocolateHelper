@@ -100,7 +100,7 @@ public class JesusRefill : Entity
                 Respawn();
             }
         }
-        else if (Scene.OnInterval(0.1f))
+        else if (Scene.OnInterval(0.1f) && Collidable)
         {
             level.ParticlesFG.Emit(P_Glow, 1, Position, Vector2.One * 5f);
         }
@@ -150,6 +150,8 @@ public class JesusRefill : Entity
     
     private void Respawn()
     {
+        if (oneUse) return;
+        
         Level level = SceneAs<Level>();
         
         if (!Collidable)
@@ -183,10 +185,6 @@ public class JesusRefill : Entity
         level.ParticlesFG.Emit(P_Shatter, 5, Position, Vector2.One * 4f, num - MathF.PI / 2f);
         level.ParticlesFG.Emit(P_Shatter, 5, Position, Vector2.One * 4f, num + MathF.PI / 2f);
         SlashFx.Burst(Position, num);
-        if (oneUse)
-        {
-            RemoveSelf();
-        }
     }
     
     internal static void Load()
@@ -209,61 +207,68 @@ public class JesusRefill : Entity
     private static void Resurrection(On.Celeste.Player.orig_Update orig, Player self)
     {
         orig(self);
-        if (Engine.Scene is not Level level) return;
-        JesusRefill jesusRefill = level.Tracker.GetEntity<JesusRefill>();
-
-        if (jesusRefill != null && (Input.DashPressed || Input.CrouchDashPressed)
-                                && MintChocolateHelperModule.Session.PlayerIsPsuedoDead
-                                && MintChocolateHelperModule.Session.HasJesusRefill)
+        if (Engine.Scene is Level level)
         {
-            self.Add(new Coroutine(jesusRefill.Unkill()));
+            JesusRefill jesusRefill = level.Tracker.GetEntity<JesusRefill>();
+
+            if (jesusRefill != null && (Input.DashPressed || Input.CrouchDashPressed) && MintChocolateHelperModule.Session.PlayerIsPsuedoDead && MintChocolateHelperModule.Session.HasJesusRefill)
+            {
+                self.Add(new Coroutine(jesusRefill.Unkill()));
+            }
         }
     }
     
     private IEnumerator Unkill()
     {
-        if (Scene is not Level) yield break;
-
-        Level level = SceneAs<Level>();
-        level.Wipe?.Cancel();
-
-        Session session = level.Session;
-        Player player = level.Tracker.GetEntity<Player>();
-
-        foreach (PlayerDeadBody playerDeadBody in Scene.Tracker.GetEntitiesTrackIfNeeded<PlayerDeadBody>().Cast<PlayerDeadBody>())
+        if (Scene is Level level)
         {
-            if (playerDeadBody == null) break;
+            level.Wipe?.Cancel();
 
-            playerDeadBody.hair.Entity = player;
-            playerDeadBody.sprite.Entity = player;
-            playerDeadBody.light.Entity = player;
-            playerDeadBody.RemoveSelf();
+            Session session = level.Session;
+            Player player = level.Tracker.GetEntity<Player>();
+
+            foreach (PlayerDeadBody playerDeadBody in Scene.Tracker.GetEntitiesTrackIfNeeded<PlayerDeadBody>().Cast<PlayerDeadBody>())
+            {
+                if (playerDeadBody == null) break;
+
+                playerDeadBody.hair.Entity = player;
+                playerDeadBody.sprite.Entity = player;
+                playerDeadBody.light.Entity = player;
+                playerDeadBody.RemoveSelf();
+            }
+
+            if (UnregisterDeathInStats)
+            {
+                --session.Deaths;
+                --session.DeathsInCurrentLevel;
+                --SaveData.Instance.TotalDeaths;
+                --SaveData.Instance.Areas_Safe[session.Area.ID].Modes[(int)session.Area.Mode].Deaths;
+                Stats.Increment(Stat.DEATHS, -1);
+                StatsForStadia.Increment(StadiaStat.DEATHS, -1);
+            }
+
+            player.Dead = false;
+            player.Depth = MintChocolateHelperModule.Session.CDT_Depth;
+            player.StateMachine.Locked = false;
+            player.StateMachine.State = 0;
+            player.Collidable = MintChocolateHelperModule.Session.CDT_Collidable;
+            player.Visible = MintChocolateHelperModule.Session.CDT_Visible;
+            if (Scene is not null) player.Scene = Scene;
+            MintChocolateHelperModule.Session.PlayerIsPsuedoDead = false;
+            MintChocolateHelperModule.Session.HasJesusRefill = false;
+            MintChocolateHelperModule.Session.JesusRefillDisableQuickRespawn = false;
+            player.UseRefill(false);
+
+            //This kinda sucks... I would prefer to just kill whatever rouge tweener that forces me to do this, but I've tried everything I can think of to do so. ¯\_(ツ)_/¯
+
+            yield return null;
+
+            player.Sprite.Scale.X = 1;
         }
-
-        if (UnregisterDeathInStats)
+        
+        if (oneUse)
         {
-            --session.Deaths;
-            --session.DeathsInCurrentLevel;
-            --SaveData.Instance.TotalDeaths;
-            --SaveData.Instance.Areas_Safe[session.Area.ID].Modes[(int) session.Area.Mode].Deaths;
-            Stats.Increment(Stat.DEATHS, -1);
-            StatsForStadia.Increment(StadiaStat.DEATHS, -1);
+            RemoveSelf();
         }
-
-        player.Dead = false;
-        player.Depth = MintChocolateHelperModule.Session.CDT_Depth;
-        player.StateMachine.Locked = false;
-        player.StateMachine.State = 0;
-        player.Collidable = MintChocolateHelperModule.Session.CDT_Collidable;
-        player.Visible = MintChocolateHelperModule.Session.CDT_Visible;
-        if (Scene is not null) player.Scene = Scene;
-        MintChocolateHelperModule.Session.PlayerIsPsuedoDead = false;
-        MintChocolateHelperModule.Session.HasJesusRefill = false;
-        MintChocolateHelperModule.Session.JesusRefillDisableQuickRespawn = false;
-
-        //This kinda sucks... I would prefer to just kill whatever rouge tweener that forces me to do this, but I've tried everything I can think of to do so. ¯\_(ツ)_/¯
-
-        yield return null;
-        player.Sprite.Scale.X = 1;
     }
 }

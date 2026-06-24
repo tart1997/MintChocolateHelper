@@ -83,12 +83,14 @@ public class FakeDeath
     
     private static void StorePlayerBullshit()
     {
-        if (Engine.Scene is not Level level) return;
-        Player player = level.Tracker.GetEntity<Player>();
+        if (Engine.Scene is Level level)
+        {
+            Player player = level.Tracker.GetEntity<Player>();
 
-        MintChocolateHelperModule.Session.CDT_Depth = player.Depth;
-        MintChocolateHelperModule.Session.CDT_Collidable = player.Collidable;
-        MintChocolateHelperModule.Session.CDT_Visible = player.Visible;
+            MintChocolateHelperModule.Session.CDT_Depth = player.Depth;
+            MintChocolateHelperModule.Session.CDT_Collidable = player.Collidable;
+            MintChocolateHelperModule.Session.CDT_Visible = player.Visible;
+        }
     }
     
     private static bool ShouldSkipRemovePlayer()
@@ -98,13 +100,14 @@ public class FakeDeath
 
     private static void FakeKillPlayer()
     {
-        if (Engine.Scene is not Level level || (!MintChocolateHelperModule.Session.CancelDeathTriggerGetter.Exists && !MintChocolateHelperModule.Session.HasJesusRefill)) return;
-
-        Player player = level.Tracker.GetEntity<Player>();
-        player.StateMachine.state = 17;
-        player.Collidable = false;
-        player.Visible = false;
-        MintChocolateHelperModule.Session.PlayerIsPsuedoDead = true;
+        if (Engine.Scene is Level level && (MintChocolateHelperModule.Session.CancelDeathTriggerGetter.Exists || MintChocolateHelperModule.Session.HasJesusRefill))
+        {
+            Player player = level.Tracker.GetEntity<Player>();
+            player.StateMachine.state = 17;
+            player.Collidable = false;
+            player.Visible = false;
+            MintChocolateHelperModule.Session.PlayerIsPsuedoDead = true;
+        }
     }
 
     private static void PanicRemovePlayerIfPlayerIsStillLoaded(On.Celeste.Level.orig_Reload orig, Level level)
@@ -124,9 +127,10 @@ public class FakeDeath
     private static void MovePlayer(On.Celeste.PlayerDeadBody.orig_Update orig, PlayerDeadBody playerDeadBody)
     {
         orig(playerDeadBody);
-        if (Engine.Scene is not Level level) return;
-
-        Player player = level.Tracker.GetEntity<Player>();
-        player?.Position = playerDeadBody.Position;
+        if (Engine.Scene is Level level && MintChocolateHelperModule.Session.HasJesusRefill)
+        {
+            Player player = level.Tracker.GetEntity<Player>();
+            player?.Position = playerDeadBody.Position;
+        }
     }
 }

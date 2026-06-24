@@ -99,11 +99,12 @@ public class DebrisTweaksController : Entity
 
     private static void ReplaceColorLerp()
     {
-        if (Engine.Scene is not Level level || !MintChocolateHelperModule.Session.DebrisTweaksAlternateFadeoutControllerGetter.Exists) return;
-
-        foreach (Debris debris in level.Tracker.GetEntitiesTrackIfNeeded<Debris>().Cast<Debris>())
+        if (Engine.Scene is Level level && MintChocolateHelperModule.Session.DebrisTweaksAlternateFadeoutControllerGetter.Exists)
         {
-            debris?.image.Color = Color.White * (debris.lifeTimer / 1.5f) * debris.alpha;
+            foreach (Debris debris in level.Tracker.GetEntitiesTrackIfNeeded<Debris>().Cast<Debris>())
+            {
+                debris?.image.Color = Color.White * (debris.lifeTimer / 1.5f) * debris.alpha;
+            }
         }
     }
 }

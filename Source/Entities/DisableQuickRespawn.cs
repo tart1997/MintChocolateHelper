@@ -62,6 +62,7 @@ public class DisableQuickRespawn : Entity
         if (Engine.Scene is not Level level) return false;
         if (MintChocolateHelperModule.Session.JesusRefillDisableQuickRespawn) return true;
         if (!MintChocolateHelperModule.Session.DisableQuickRepawnControllerGetter.Exists) return false;
+        if (MintChocolateHelperModule.Session.DisableQuickRepawnControllerGetter.DQRController.DisableFlag == "") return false;
         
         if (FrostHelperImports.IsImported && MintChocolateHelperModule.Session.DisableQuickRepawnControllerGetter.DQRController.IsValidExpression)
         {

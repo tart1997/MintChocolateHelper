@@ -113,7 +113,7 @@ public class SpeedFlipRefill : Entity
 				Respawn();
 			}
 		}
-		else if (Scene.OnInterval(0.1f) && !disableAmbientEffects)
+		else if (Scene.OnInterval(0.1f) && !disableAmbientEffects && Collidable)
 		{
 			level.ParticlesFG.Emit(P_Glow, 1, Position, Vector2.One * 5f);
 		}
@@ -140,6 +140,8 @@ public class SpeedFlipRefill : Entity
 
 	private void Respawn()
 	{
+		if (oneUse) return;
+		
 		if (!Collidable)
 		{
 			Collidable = true;
@@ -207,11 +209,6 @@ public class SpeedFlipRefill : Entity
 			level.ParticlesFG.Emit(P_Shatter, 5, Position, Vector2.One * 4f, num + MathF.PI / 2f);
 			SlashFx.Burst(Position, num);
 		}
-
-		if (oneUse)
-		{
-			RemoveSelf();
-		}
 	}
 
 	internal static void Load()
@@ -253,6 +250,11 @@ public class SpeedFlipRefill : Entity
 			Input.Jump.ConsumeBuffer();
 
 			MintChocolateHelperModule.Session.HasSpeedFlipRefill = false;
+			
+			if (refill.oneUse)
+			{
+				refill.RemoveSelf();
+			}
 		}
 		return orig(self);
 	}
