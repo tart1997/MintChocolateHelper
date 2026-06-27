@@ -22,7 +22,6 @@ public class JesusRefill : Entity
     private readonly ParticleType P_Glow;
     
     private readonly Sprite sprite;
-    private readonly Sprite flash;
     private readonly Image outline;
     
     private readonly Wiggler wiggler;
@@ -63,18 +62,10 @@ public class JesusRefill : Entity
         sprite.AddLoop("idle", "", 0.1f);
         sprite.Play("idle");
         sprite.CenterOrigin();
-
-        Add(flash = new Sprite(GFX.Game, "objects/MintChocolateHelper/Refills/JesusRefill/flash"));
-        flash.Add("flash", "", 0.05f);
-        flash.OnFinish = delegate
-        {
-            flash.Visible = false;
-        };
-        flash.CenterOrigin();
         
         Add(wiggler = Wiggler.Create(1f, 4f, v =>
         {
-            sprite.Scale = flash.Scale = Vector2.One * (1f + v * 0.2f);
+            sprite.Scale = Vector2.One * (1f + v * 0.2f);
         }));
         
         Add(new MirrorReflection());
@@ -109,17 +100,11 @@ public class JesusRefill : Entity
 
         light.Alpha = Calc.Approach(light.Alpha, sprite.Visible ? 1f : 0f, 4f * Engine.DeltaTime);
         bloom.Alpha = light.Alpha * 0.8f;
-
-        if (Scene.OnInterval(2f) && sprite.Visible)
-        {
-            flash.Play("flash", true);
-            flash.Visible = true;
-        }
     }
     
     private void UpdateY()
     {
-        flash.Y = sprite.Y = bloom.Y = sine.Value * 2f;
+        sprite.Y = bloom.Y = sine.Value * 2f;
     }
     
     public override void Render()
@@ -173,7 +158,6 @@ public class JesusRefill : Entity
         Celeste.Freeze(0.05f);
         yield return null;
         level.Shake();
-        flash.Visible = false;
         sprite.Visible = false;
         if (!oneUse)
         {
