@@ -5,27 +5,24 @@ namespace Celeste.Mod.MintChocolateHelper;
 
 public class MintChocolateHelperModuleSession : EverestModuleSession 
 {
-    //Heart Breaker Refill
+    // Heart Breaker Refill
     internal bool HasHeartBreakerDash {get; set;}
     internal bool HeartBreakerDashActive {get; set;}
 
-
-    //Speed Flip Refill
+    // Speed Flip Refill
     internal bool HasSpeedFlipRefill {get; set;}
 
-
-    //Jesus Refill
+    // Jesus Refill
     internal bool HasJesusRefill {get; set;}
     internal bool JesusRefillDisableQuickRespawn {get; set;}
 
-
-    //Cancel Death Trigger
+    // Cancel Death Trigger
     internal bool PlayerIsPsuedoDead {get; set;}
     internal int CDT_Depth {get; set;}
     internal bool CDT_Collidable {get; set;}
     internal bool CDT_Visible {get; set;}
 
-    //Controller Getters
+    // Controller Getters
     internal (DebrisTweaksController DTWAController, bool Exists) DebrisTweaksWindAffectedControllerGetter {get; set;}
     internal (DebrisTweaksController DTAFController, bool Exists) DebrisTweaksAlternateFadeoutControllerGetter {get; set;}
     internal (DisableQuickRespawn DQRController, bool Exists) DisableQuickRepawnControllerGetter {get; set;}

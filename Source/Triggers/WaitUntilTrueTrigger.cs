@@ -5,7 +5,6 @@ using Celeste.Mod.Entities;
 using Celeste.Mod.MintChocolateHelper.ModInterop;
 using Microsoft.Xna.Framework;
 using Monocle;
-#pragma warning disable CS8632
 
 namespace Celeste.Mod.MintChocolateHelper.Triggers;
 [CustomEntity("MintChocolateHelper/WaitUntilTrueTrigger")]
@@ -24,7 +23,7 @@ public class WaitUntilTrueTrigger : Trigger
     private bool Activating;
     private bool Deactivating;
     
-    private readonly object? FlagExpression;
+    private readonly object FlagExpression;
     private readonly bool IsValidExpression;
 
     public WaitUntilTrueTrigger(EntityData data, Vector2 offset) : base(data, offset)

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Reflection;
 using Celeste.Mod.Entities;
 using FlaglinesAndSuch;
 using Microsoft.Xna.Framework;
@@ -12,10 +13,34 @@ public class SnappyStylegroundController : Entity
 {
     private readonly string SnapTag;
 
+    private static FieldInfo WindPetalsFade;
+    private static FieldInfo CustomGodraysFade;
+    private static FieldInfo VivCustomRainFade;
+
     public SnappyStylegroundController(EntityData data, Vector2 offset) : base(data.Position + offset)
     {
         AddTag(Tags.PauseUpdate);
         SnapTag = data.Attr("SnapTag");
+    }
+
+    public override void Awake(Scene scene)
+    {
+        base.Awake(scene);
+
+        if (MintChocolateHelperModule.FemtoHelperLoaded)
+        {
+            WindPetalsFade = typeof(WindPetals).GetField("fade", BindingFlags.NonPublic | BindingFlags.Instance);
+        }
+
+        if (MintChocolateHelperModule.FlaglinesLoaded)
+        {
+            CustomGodraysFade = typeof(CustomGodrays).GetField("fade", BindingFlags.NonPublic | BindingFlags.Instance);
+        }
+
+        if (MintChocolateHelperModule.VivhelperLoaded)
+        {
+            VivCustomRainFade = typeof(CustomRain).GetField("visibleFade", BindingFlags.NonPublic | BindingFlags.Instance);
+        }
     }
 
     public override void Update()
@@ -44,17 +69,17 @@ public class SnappyStylegroundController : Entity
             //Modded
             if (MintChocolateHelperModule.FemtoHelperLoaded && isWindPetals(backdrop))
             {
-                loadFemtoHelper(backdrop);
+                setWindPetals(backdrop);
             }
 
-            if (MintChocolateHelperModule.FlaglinesLoaded &&isCustomGodrays(backdrop))
+            if (MintChocolateHelperModule.FlaglinesLoaded && isCustomGodrays(backdrop))
             {
-                loadFlaglines(backdrop);
+                setCustomGodRays(backdrop);
             }
 
-            if (MintChocolateHelperModule.VivhelperLoaded &&isVivRain(backdrop))
+            if (MintChocolateHelperModule.VivhelperLoaded && isVivRain(backdrop))
             {
-                loadVivHelper(backdrop);
+                setVivRain(backdrop);
             }
         }
         foreach (Backdrop backdrop in level.Foreground.Backdrops.Where(backdrop => backdrop.Tags.Contains(SnapTag)))
@@ -75,55 +100,51 @@ public class SnappyStylegroundController : Entity
                     }
                     break;
             }
-            
+
             //Modded
             if (MintChocolateHelperModule.FemtoHelperLoaded && isWindPetals(backdrop))
             {
-                loadFemtoHelper(backdrop);
+                setWindPetals(backdrop);
             }
 
             if (MintChocolateHelperModule.FlaglinesLoaded && isCustomGodrays(backdrop))
             {
-                loadFlaglines(backdrop);
+                setCustomGodRays(backdrop);
             }
 
             if (MintChocolateHelperModule.VivhelperLoaded && isVivRain(backdrop))
             {
-                loadVivHelper(backdrop);
+                setVivRain(backdrop);
             }
         }
-    }
-
-    private static void loadFemtoHelper(Backdrop windPetals)
-    {
-        if (Engine.Scene is not Level level) return;
-        MintChocolateHelperModule.WindPetalsFade?.SetValue(windPetals, level.Session.GetFlag(windPetals.OnlyIfFlag) ? 1 : 0);
     }
 
     private static bool isWindPetals(Backdrop backdrop)
     {
         return backdrop is WindPetals;
     }
-
-    private static void loadFlaglines(Backdrop godrays)
-    {
-        if (Engine.Scene is not Level level) return;
-        MintChocolateHelperModule.CustomGodraysFade?.SetValue(godrays, level.Session.GetFlag(godrays.OnlyIfFlag) ? 1 : 0);
-    }
-    
     private static bool isCustomGodrays(Backdrop backdrop)
     {
         return backdrop is CustomGodrays;
     }
-
-    private static void loadVivHelper(Backdrop vivRain)
-    {
-        if (Engine.Scene is not Level level) return;
-        MintChocolateHelperModule.VivCustomRainFade?.SetValue(vivRain, level.Session.GetFlag(vivRain.OnlyIfFlag) ? 1 : 0);
-    }
-
     private static bool isVivRain(Backdrop backdrop)
     {
         return backdrop is CustomRain;
+    }
+
+    private static void setWindPetals(Backdrop windPetals)
+    {
+        if (Engine.Scene is not Level level) return;
+        WindPetalsFade?.SetValue(windPetals, level.Session.GetFlag(windPetals.OnlyIfFlag) ? 1 : 0);
+    }
+    private static void setCustomGodRays(Backdrop godrays)
+    {
+        if (Engine.Scene is not Level level) return;
+        CustomGodraysFade?.SetValue(godrays, level.Session.GetFlag(godrays.OnlyIfFlag) ? 1 : 0);
+    }
+    private static void setVivRain(Backdrop vivRain)
+    {
+        if (Engine.Scene is not Level level) return;
+        VivCustomRainFade?.SetValue(vivRain, level.Session.GetFlag(vivRain.OnlyIfFlag) ? 1 : 0);
     }
 }

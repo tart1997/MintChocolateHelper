@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Celeste.Mod.Helpers;
+using Celeste.Mod.Roslyn.ModLifecycleAttributes;
 using Monocle;
 using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
@@ -8,16 +9,21 @@ namespace Celeste.Mod.MintChocolateHelper.Extras;
 
 public class FakeDeath
 {
+    private static ILHook FakeDeathHook_origDie;
+    
+    [OnLoad]
     internal static void Load()
     {
-        MintChocolateHelperModule.FakeDeathHook_origDie ??= new ILHook(typeof(Player).GetMethod("orig_Die", BindingFlags.Public | BindingFlags.Instance)!, SkipRemovePlayer);
+        FakeDeathHook_origDie ??= new ILHook(typeof(Player).GetMethod("orig_Die", BindingFlags.Public | BindingFlags.Instance)!, SkipRemovePlayer);
         On.Celeste.Level.Reload += PanicRemovePlayerIfPlayerIsStillLoaded;
         On.Celeste.PlayerDeadBody.Update += MovePlayer;
     }
 
+    [OnUnload]
     internal static void Unload()
     {
-        MintChocolateHelperModule.FakeDeathHook_origDie?.Dispose();
+        FakeDeathHook_origDie?.Dispose();
+        FakeDeathHook_origDie = null;
         On.Celeste.Level.Reload -= PanicRemovePlayerIfPlayerIsStillLoaded;
         On.Celeste.PlayerDeadBody.Update -= MovePlayer;
     }

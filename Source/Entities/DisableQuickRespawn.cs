@@ -1,10 +1,10 @@
 ﻿using Celeste.Mod.Entities;
 using Celeste.Mod.Helpers;
 using Celeste.Mod.MintChocolateHelper.ModInterop;
+using Celeste.Mod.Roslyn.ModLifecycleAttributes;
 using Microsoft.Xna.Framework;
 using Monocle;
 using MonoMod.Cil;
-#pragma warning disable CS8632
 
 namespace Celeste.Mod.MintChocolateHelper.Entities;
 [CustomEntity("MintChocolateHelper/DisableQuickRespawn")]
@@ -13,7 +13,7 @@ namespace Celeste.Mod.MintChocolateHelper.Entities;
 public class DisableQuickRespawn : Entity
 {
     private readonly string DisableFlag;
-    private readonly object? DisableFlagExpression;
+    private readonly object DisableFlagExpression;
     private readonly bool IsValidExpression;
 
     public DisableQuickRespawn(EntityData data, Vector2 offset) : base(data.Position + offset)
@@ -25,11 +25,13 @@ public class DisableQuickRespawn : Entity
         }
     }
 
+    [OnLoad]
     internal static void Load()
     {
         IL.Celeste.PlayerDeadBody.Update += PlayerDeadBodyOnUpdate;
     }
 
+    [OnUnload]
     internal static void Unload()
     {
         IL.Celeste.PlayerDeadBody.Update -= PlayerDeadBodyOnUpdate;

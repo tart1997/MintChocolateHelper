@@ -2,6 +2,7 @@
 using Celeste.Mod.MintChocolateHelper.Registry.Components;
 using Celeste.Mod.MintChocolateHelper.Registry.ThisIsJustStolenFromJa;
 using Celeste.Mod.Registry.DecalRegistryHandlers;
+using Celeste.Mod.Roslyn.ModLifecycleAttributes;
 
 namespace Celeste.Mod.MintChocolateHelper.Registry.Handlers;
 
@@ -21,6 +22,12 @@ public class PlayerDistanceFadeRegistryHandler : DecalRegistryHandler
     private bool FadeOut;
     private DeathBehaivor deathBehaivor;
     private float DeathFadeSpeedMultiplier;
+    
+    [OnLoad]
+    internal static void Load()
+    {
+        DecalRegistry.AddPropertyHandler<PlayerDistanceFadeRegistryHandler>();
+    }
 
     public override void Parse(XmlAttributeCollection xml)
     {

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using Celeste.Mod.Entities;
+using Celeste.Mod.Roslyn.ModLifecycleAttributes;
 using Microsoft.Xna.Framework;
 using Monocle;
 
@@ -40,18 +41,18 @@ public class JesusRefill : Entity
         Add(new PlayerCollider(OnPlayer));
         
         P_Shatter = new ParticleType(Refill.P_Shatter) {
-            Color = Color.Red,
-            Color2 = Color.HotPink
+            Color = Color.DarkRed,
+            Color2 = Color.White
         };
 
         P_Regen = new ParticleType(Refill.P_Regen) {
-            Color = Color.Red,
-            Color2 = Color.MediumVioletRed
+            Color = Color.IndianRed,
+            Color2 = Color.White
         };
 
         P_Glow = new ParticleType(Refill.P_Glow){
-            Color = Color.IndianRed,
-            Color2 = Color.Magenta
+            Color = Color.SaddleBrown,
+            Color2 = Color.SandyBrown
         };
         
         Add(outline = new Image(GFX.Game["objects/MintChocolateHelper/Refills/JesusRefill/outline"]));
@@ -171,12 +172,14 @@ public class JesusRefill : Entity
         SlashFx.Burst(Position, num);
     }
     
+    [OnLoad]
     internal static void Load()
     {
         On.Celeste.PlayerHair.GetHairColor += JesusRefillHairColor;
         On.Celeste.Player.Update += Resurrection;
     }
 
+    [OnUnload]
     internal static void Unload()
     {
         On.Celeste.PlayerHair.GetHairColor -= JesusRefillHairColor;

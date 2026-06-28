@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Celeste.Mod.Entities;
+using Celeste.Mod.Roslyn.ModLifecycleAttributes;
 using Microsoft.Xna.Framework;
 using Monocle;
 
@@ -184,6 +185,7 @@ public class HeartBreakerRefill : Entity
 		}
 	}
 
+	[OnLoad]
 	internal static void Load()
 	{
 		On.Celeste.Player.Die += HeartBreakerDash;
@@ -192,6 +194,7 @@ public class HeartBreakerRefill : Entity
 		On.Celeste.PlayerHair.GetHairColor += HeartBreakerDashHairColor;
 	}
 
+	[OnUnload]
 	internal static void Unload()
 	{
 		On.Celeste.Player.Die -= HeartBreakerDash;

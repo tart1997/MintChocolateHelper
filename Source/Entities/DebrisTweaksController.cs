@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Celeste.Mod.Entities;
 using Celeste.Mod.Helpers;
+using Celeste.Mod.Roslyn.ModLifecycleAttributes;
 using Microsoft.Xna.Framework;
 using Monocle;
 using MonoMod.Cil;
@@ -20,12 +21,14 @@ public class DebrisTweaksController : Entity
         WindAffected = data.Bool("windAffected");
     }
 
+    [OnLoad]
     internal static void Load()
     {
         On.Celeste.Debris.Update += DebrisOnUpdate;
         IL.Celeste.Debris.Update += DebrisILUpdate;
     }
 
+    [OnUnload]
     internal static void Unload()
     {
         On.Celeste.Debris.Update -= DebrisOnUpdate;

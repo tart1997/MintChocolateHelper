@@ -1,16 +1,19 @@
 ﻿using System.Linq;
 using Celeste.Mod.MintChocolateHelper.Entities;
 using Celeste.Mod.MintChocolateHelper.Triggers;
+using Celeste.Mod.Roslyn.ModLifecycleAttributes;
 
 namespace Celeste.Mod.MintChocolateHelper.Extras;
 
 public class CheckIfShitExists
 {
+    [OnLoad]
     internal static void Load()
     {
         On.Celeste.Level.Update += CheckForShit;
     }
 
+    [OnUnload]
     internal static void Unload()
     {
         On.Celeste.Level.Update -= CheckForShit;

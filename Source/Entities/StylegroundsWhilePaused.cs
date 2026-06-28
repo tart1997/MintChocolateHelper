@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Celeste.Mod.Entities;
 using Celeste.Mod.Helpers;
+using Celeste.Mod.Roslyn.ModLifecycleAttributes;
 using Microsoft.Xna.Framework;
 using Monocle;
 using MonoMod.Cil;
@@ -47,11 +48,13 @@ public class StylegroundsWhilePaused : Entity
         }
     }
 
+    [OnLoad]
     internal static void Load()
     {
         IL.Celeste.Level.Update += LevelOnUpdate;
     }
 
+    [OnUnload]
     internal static void Unload()
     {
         IL.Celeste.Level.Update -= LevelOnUpdate;

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Celeste.Mod.Entities;
+using Celeste.Mod.Roslyn.ModLifecycleAttributes;
 using Microsoft.Xna.Framework;
 using Monocle;
 
@@ -211,6 +212,7 @@ public class SpeedFlipRefill : Entity
 		}
 	}
 
+	[OnLoad]
 	internal static void Load()
 	{
 		On.Celeste.Player.Die += SpeedFlipRefillDie;
@@ -218,6 +220,7 @@ public class SpeedFlipRefill : Entity
 		On.Celeste.PlayerHair.GetHairColor += SpeedFlipRefillHairColor;
 	}
 
+	[OnUnload]
 	internal static void Unload()
 	{
 		On.Celeste.Player.Die -= SpeedFlipRefillDie;
