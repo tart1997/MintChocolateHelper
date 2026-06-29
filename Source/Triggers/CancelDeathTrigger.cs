@@ -40,15 +40,12 @@ public class CancelDeathTrigger : Trigger
         Session session = level.Session;
         Player player = level.Tracker.GetEntity<Player>();
 
-        foreach (PlayerDeadBody playerDeadBody in Scene.Tracker.GetEntitiesTrackIfNeeded<PlayerDeadBody>().Cast<PlayerDeadBody>())
-        {
-            if (playerDeadBody == null) break;
-
-            playerDeadBody.hair.Entity = player;
-            playerDeadBody.sprite.Entity = player;
-            playerDeadBody.light.Entity = player;
-            playerDeadBody.RemoveSelf();
-        }
+        PlayerDeadBody playerDeadBody = Scene.Tracker.GetEntitiesTrackIfNeeded<PlayerDeadBody>().Cast<PlayerDeadBody>().FirstOrDefault();
+        playerDeadBody?.hair.Entity = player;
+        playerDeadBody?.sprite.Entity = player;
+        playerDeadBody?.light.Entity = player;
+        playerDeadBody?.RemoveSelf();
+        
 
         if (UnregisterDeathInStats)
         {
