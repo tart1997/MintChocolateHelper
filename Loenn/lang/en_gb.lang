@@ -146,3 +146,8 @@ triggers.MintChocolateHelper/CancelDeathTrigger.placements.description.cancel_de
 
 triggers.MintChocolateHelper/CancelDeathTrigger.attributes.description.delay=Once this trigger has been Activated, it will wait this many FRAMES before actually Unkilling the player
 triggers.MintChocolateHelper/CancelDeathTrigger.attributes.description.unregisterDeathInStats=If Enabled, tells the game to uncount the death it just counted
+
+
+
+triggers.MintChocolateHelper/StopInteractingTrigger.placements.name.stop_interacting_trigger=Stop Interacting Trigger
+triggers.MintChocolateHelper/StopInteractingTrigger.placements.description.stop_interacting_trigger=Kicks the player out of interacting with Watchtowers/Lookouts when triggered
