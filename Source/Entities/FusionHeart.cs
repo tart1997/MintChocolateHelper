@@ -122,9 +122,9 @@ public class FusionHeart : Entity
         bounceSfxDelay -= Engine.DeltaTime;
         timer += Engine.DeltaTime;
 
-        if (collected && respawnTimer > 0f) 
+        if (collected && respawnTimer > 0f)
         {
-            respawnTimer -= Engine.DeltaTime; 
+            respawnTimer -= Engine.DeltaTime;
         }
 
         if (collected && respawnTimer <= 0f)
@@ -135,7 +135,7 @@ public class FusionHeart : Entity
             Visible = true;
             Audio.Play("event:/game/general/diamond_return", Position);
             bloom.Alpha = bloomStr;
-            light.Alpha = (hasLight ? 1f : 0f);
+            light.Alpha = hasLight ? 1f : 0f;
             ScaleWiggler.Start();
         }
 

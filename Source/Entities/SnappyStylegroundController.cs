@@ -112,20 +112,11 @@ public class SnappyStylegroundController : Entity
         }
     }
 
-    private static bool isWindPetals(Backdrop backdrop)
-    {
-        return backdrop is WindPetals;
-    }
+    private static bool isWindPetals(Backdrop backdrop) => backdrop is WindPetals;
 
-    private static bool isCustomGodrays(Backdrop backdrop)
-    {
-        return backdrop is CustomGodrays;
-    }
+    private static bool isCustomGodrays(Backdrop backdrop) => backdrop is CustomGodrays;
 
-    private static bool isVivRain(Backdrop backdrop)
-    {
-        return backdrop is CustomRain;
-    }
+    private static bool isVivRain(Backdrop backdrop) => backdrop is CustomRain;
 
     private static void setWindPetals(Backdrop windPetals)
     {

@@ -179,10 +179,7 @@ public class JesusRefill : Entity
         On.Celeste.Player.Update -= Resurrection;
     }
 
-    private static Color JesusRefillHairColor(On.Celeste.PlayerHair.orig_GetHairColor orig, PlayerHair self, int index)
-    {
-        return MintChocolateHelperModule.Session.HasJesusRefill ? Color.FromNonPremultiplied(201, 192, 187, 255) : orig(self, index);
-    }
+    private static Color JesusRefillHairColor(On.Celeste.PlayerHair.orig_GetHairColor orig, PlayerHair self, int index) => MintChocolateHelperModule.Session.HasJesusRefill ? Color.FromNonPremultiplied(201, 192, 187, 255) : orig(self, index);
 
     private static void Resurrection(On.Celeste.Player.orig_Update orig, Player self)
     {

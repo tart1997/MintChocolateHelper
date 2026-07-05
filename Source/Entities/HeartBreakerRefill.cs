@@ -199,10 +199,7 @@ public class HeartBreakerRefill : Entity
         On.Celeste.PlayerHair.GetHairColor -= HeartBreakerDashHairColor;
     }
 
-    private static Color HeartBreakerDashHairColor(On.Celeste.PlayerHair.orig_GetHairColor orig, PlayerHair self, int index)
-    {
-        return MintChocolateHelperModule.Session.HasHeartBreakerDash ? Color.FromNonPremultiplied(230, 0, 30, 255) : orig(self, index);
-    }
+    private static Color HeartBreakerDashHairColor(On.Celeste.PlayerHair.orig_GetHairColor orig, PlayerHair self, int index) => MintChocolateHelperModule.Session.HasHeartBreakerDash ? Color.FromNonPremultiplied(230, 0, 30, 255) : orig(self, index);
 
     private static PlayerDeadBody HeartBreakerDash(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction, bool evenIfInvincible = false, bool registerDeathInStats = true)
     {

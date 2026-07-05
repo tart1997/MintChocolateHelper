@@ -149,7 +149,7 @@ public class FusionHeartHalf : Entity
             Visible = true;
             Audio.Play("event:/game/general/diamond_return", Position);
             bloom.Alpha = bloomStr;
-            light.Alpha = (hasLight ? 1f : 0f);
+            light.Alpha = hasLight ? 1f : 0f;
             ScaleWiggler.Start();
         }
 
@@ -355,7 +355,7 @@ public class FusionHeartHalf : Entity
 
             if (Math.Abs(playerOffset.Y) > Math.Abs(playerOffset.X))
             {
-                if (playerOffset.Y < (Collider.Height / 2) - 1f)
+                if (playerOffset.Y < Collider.Height / 2 - 1f)
                 {
                     player.Rebound(-Math.Sign(player.Speed.X));
 
@@ -363,7 +363,7 @@ public class FusionHeartHalf : Entity
                     return;
                 }
 
-                if (playerOffset.Y > (Collider.Height / 2) - 1f)
+                if (playerOffset.Y > Collider.Height / 2 - 1f)
                 {
                     player.Rebound(-Math.Sign(player.Speed.X));
 
@@ -375,7 +375,7 @@ public class FusionHeartHalf : Entity
             }
             else
             {
-                if (playerOffset.X < (Collider.Width / 2) - 1f)
+                if (playerOffset.X < Collider.Width / 2 - 1f)
                 {
                     player.Rebound(-Math.Sign(player.Speed.X));
 
@@ -385,7 +385,7 @@ public class FusionHeartHalf : Entity
                     }
                     else if (player.Speed.Y < 0 && speed.Y < 0)
                     {
-                        speed.Y -= (0.7f * collisionSpeedY) - heartBreakerBonusSpeed.Y;
+                        speed.Y -= 0.7f * collisionSpeedY - heartBreakerBonusSpeed.Y;
                     }
 
                     speed.X = -2f * collisionSpeedX - heartBreakerBonusSpeed.X;
@@ -393,7 +393,7 @@ public class FusionHeartHalf : Entity
                     return;
                 }
 
-                if (playerOffset.X > (Collider.Width / 2) - 1f)
+                if (playerOffset.X > Collider.Width / 2 - 1f)
                 {
                     player.Rebound(-Math.Sign(player.Speed.X));
 
@@ -403,7 +403,7 @@ public class FusionHeartHalf : Entity
                     }
                     else if (player.Speed.Y < 0 && speed.Y < 0)
                     {
-                        speed.Y -= (0.7f * collisionSpeedY) - heartBreakerBonusSpeed.Y;
+                        speed.Y -= 0.7f * collisionSpeedY - heartBreakerBonusSpeed.Y;
                     }
 
                     speed.X = 2f * collisionSpeedX + heartBreakerBonusSpeed.X;

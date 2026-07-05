@@ -223,10 +223,7 @@ public class SpeedFlipRefill : Entity
         On.Celeste.PlayerHair.GetHairColor -= SpeedFlipRefillHairColor;
     }
 
-    private static Color SpeedFlipRefillHairColor(On.Celeste.PlayerHair.orig_GetHairColor orig, PlayerHair self, int index)
-    {
-        return MintChocolateHelperModule.Session.HasSpeedFlipRefill ? Color.Purple : orig(self, index);
-    }
+    private static Color SpeedFlipRefillHairColor(On.Celeste.PlayerHair.orig_GetHairColor orig, PlayerHair self, int index) => MintChocolateHelperModule.Session.HasSpeedFlipRefill ? Color.Purple : orig(self, index);
 
     private static PlayerDeadBody SpeedFlipRefillDie(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction, bool evenIfInvincible = false, bool registerDeathInStats = true)
     {
@@ -242,8 +239,8 @@ public class SpeedFlipRefill : Entity
         if (refills == null || refills.Count == 0 || refills[0] is not SpeedFlipRefill refill) return orig(self);
 
         if (Input.Jump.Pressed && MintChocolateHelperModule.Session.HasSpeedFlipRefill && !self.OnGround(self.Position, 4)
-            && !self.onGround && !self.WallJumpCheck(3) && !self.WallJumpCheck(-3) && (self.jumpGraceTimer <= 0f)
-            && (self.varJumpTimer <= 0f) && (self.StateMachine.state == Player.StNormal || self.StateMachine.State == Player.StDash))
+            && !self.onGround && !self.WallJumpCheck(3) && !self.WallJumpCheck(-3) && self.jumpGraceTimer <= 0f
+            && self.varJumpTimer <= 0f && (self.StateMachine.state == Player.StNormal || self.StateMachine.State == Player.StDash))
         {
             self.Speed.Y = -self.Speed.Y * refill.ExtraMultiplier;
             Input.Jump.ConsumeBuffer();

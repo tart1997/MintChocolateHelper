@@ -36,13 +36,13 @@ public class DebrisTweaksController : Entity
         if (!(level.Wind.X > 0 && debris.CollideCheck<SolidTiles>(new Vector2(debris.Position.X + 2, debris.Position.Y)))
             && !(level.Wind.X < 0 && debris.CollideCheck<SolidTiles>(new Vector2(debris.Position.X - 2, debris.Position.Y))))
         {
-            debris.Position.X += (level.Wind.X / 300);
+            debris.Position.X += level.Wind.X / 300;
         }
 
         if (!(level.Wind.Y > 0 && debris.CollideCheck<SolidTiles>(new Vector2(debris.Position.X, debris.Position.Y + 2)))
             && !(level.Wind.Y < 0 && debris.CollideCheck<SolidTiles>(new Vector2(debris.Position.X, debris.Position.Y - 2))))
         {
-            debris.Position.Y += (level.Wind.Y / 300);
+            debris.Position.Y += level.Wind.Y / 300;
         }
     }
 
@@ -87,10 +87,7 @@ public class DebrisTweaksController : Entity
         cursor.EmitDelegate(ReplaceColorLerp);
     }
 
-    private static bool ShouldReplaceColorLerp()
-    {
-        return Engine.Scene is Level && MintChocolateHelperModule.Session.DebrisTweaksAlternateFadeoutControllerGetter.Exists;
-    }
+    private static bool ShouldReplaceColorLerp() => Engine.Scene is Level && MintChocolateHelperModule.Session.DebrisTweaksAlternateFadeoutControllerGetter.Exists;
 
     private static void ReplaceColorLerp()
     {
