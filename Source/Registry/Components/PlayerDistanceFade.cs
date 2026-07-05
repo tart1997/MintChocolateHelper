@@ -19,7 +19,7 @@ public class PlayerDistanceFade : Component
     private Color FadeoutTargetColor;
     private float FadeoutTimer;
 
-    public PlayerDistanceFade(float innerRadius, float outerRadius, bool fadeOut, PlayerDistanceFadeRegistryHandler.DeathBehaivor deathBehaivor, float deathFadeSpeedMultiplier) : base(active: true, visible:true)
+    public PlayerDistanceFade(float innerRadius, float outerRadius, bool fadeOut, PlayerDistanceFadeRegistryHandler.DeathBehaivor deathBehaivor, float deathFadeSpeedMultiplier) : base(true, true)
     {
         InnerRadius = innerRadius;
         OuterRadius = outerRadius;
@@ -58,7 +58,7 @@ public class PlayerDistanceFade : Component
         if (player != null)
         {
             DecalDistance = (float)Math.Sqrt(Math.Pow(player.X - decal.X, 2) + Math.Pow(player.Y - decal.Y, 2));
-            ColorPercentage = Math.Clamp((((OuterRadius - InnerRadius) - (DecalDistance - InnerRadius)) / (OuterRadius - InnerRadius)), 0, 1);
+            ColorPercentage = Math.Clamp(((OuterRadius - InnerRadius) - (DecalDistance - InnerRadius)) / (OuterRadius - InnerRadius), 0, 1);
         }
 
         if (FadeOut)

@@ -14,7 +14,7 @@ public class WaitUntilTrueTrigger : Trigger
     private bool Activated;
     private bool Activating;
     private bool Deactivating;
-    
+
     private readonly object FlagExpression;
     private readonly bool IsValidExpression;
 

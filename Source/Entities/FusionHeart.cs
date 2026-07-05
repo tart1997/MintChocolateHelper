@@ -22,7 +22,7 @@ public class FusionHeart : Entity
     private float bounceSfxDelay;
     private float respawnTimer;
 
-    private static readonly ParticleType P_Regen = new (Seeker.P_Regen);
+    private static readonly ParticleType P_Regen = new(Seeker.P_Regen);
 
     private Vector2 heartBreakerBonusSpeed;
 

@@ -120,7 +120,7 @@ public class ClockHand : Component
                     NextStopAngle = RotationAngle * (CurrentStop + 1);
                 }
 
-                float TimerProgress = (TickSpeedTimer / TickSpeed) * FunnyErrorHandlerValue;
+                float TimerProgress = TickSpeedTimer / TickSpeed * FunnyErrorHandlerValue;
                 decal.Rotation = Calc.LerpClamp(CurrentStopAngle, NextStopAngle, TickEasingFunction(TimerProgress)) + OriginalRotation;
 
                 TickSpeedTimer += Engine.DeltaTime;

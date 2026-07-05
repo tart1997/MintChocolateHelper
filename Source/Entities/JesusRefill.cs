@@ -9,19 +9,19 @@ public class JesusRefill : Entity
     private readonly bool oneUse;
     private readonly bool DisableQuickRespawn;
     private readonly bool UnregisterDeathInStats;
-    
+
     private readonly ParticleType P_Shatter;
     private readonly ParticleType P_Regen;
     private readonly ParticleType P_Glow;
-    
+
     private readonly Sprite sprite;
     private readonly Image outline;
-    
+
     private readonly Wiggler wiggler;
     private readonly BloomPoint bloom;
     private readonly VertexLight light;
     private readonly SineWave sine;
-    
+
     public JesusRefill(EntityData data, Vector2 offset) : base(data.Position + offset)
     {
         respawnTime = data.Float("respawnTime", 2.5f);

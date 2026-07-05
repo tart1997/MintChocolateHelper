@@ -14,7 +14,7 @@ internal class ClockHandDecalRegistryHandler : DecalRegistryHandler
     private string AllowTickFlag;
 
     private EasingFunctions.EasingFunction easingFunction;
-    
+
     [OnLoad]
     internal static void Load()
     {

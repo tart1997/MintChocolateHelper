@@ -92,10 +92,7 @@ public class FakeDeath
         }
     }
 
-    private static bool ShouldSkipRemovePlayer()
-    {
-        return Engine.Scene is Level && (MintChocolateHelperModule.Session.CancelDeathTriggerGetter.Exists || MintChocolateHelperModule.Session.HasJesusRefill);
-    }
+    private static bool ShouldSkipRemovePlayer() => Engine.Scene is Level && (MintChocolateHelperModule.Session.CancelDeathTriggerGetter.Exists || MintChocolateHelperModule.Session.HasJesusRefill);
 
     private static void FakeKillPlayer()
     {

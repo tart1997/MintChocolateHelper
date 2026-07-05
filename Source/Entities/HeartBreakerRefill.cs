@@ -3,26 +3,26 @@
 [CustomEntity("MintChocolateHelper/HeartBreakerRefill")]
 public class HeartBreakerRefill : Entity
 {
-	private readonly ParticleType P_Shatter;
-	private readonly ParticleType P_Regen;
-	private readonly ParticleType P_Glow;
+    private readonly ParticleType P_Shatter;
+    private readonly ParticleType P_Regen;
+    private readonly ParticleType P_Glow;
 
-	private static Coroutine HeartBreakerEndDelayCoroutine;
+    private static Coroutine HeartBreakerEndDelayCoroutine;
 
-	private readonly Sprite sprite;
-	private readonly Sprite flash;
-	private readonly Image outline;
+    private readonly Sprite sprite;
+    private readonly Sprite flash;
+    private readonly Image outline;
 
-	private readonly Wiggler wiggler;
-	private readonly BloomPoint bloom;
-	private readonly VertexLight light;
+    private readonly Wiggler wiggler;
+    private readonly BloomPoint bloom;
+    private readonly VertexLight light;
 
-	private Level level;
-	private readonly SineWave sine;
+    private Level level;
+    private readonly SineWave sine;
 
-	private readonly bool oneUse;
-	private float respawnTimer;
-	private readonly float respawnTime;
+    private readonly bool oneUse;
+    private float respawnTimer;
+    private readonly float respawnTime;
 
     public HeartBreakerRefill(EntityData data, Vector2 offset) : base(data.Position + offset)
     {

@@ -4,30 +4,30 @@
 [Tracked]
 public class SpeedFlipRefill : Entity
 {
-	private readonly ParticleType P_Shatter;
-	private readonly ParticleType P_Regen;
-	private readonly ParticleType P_Glow;
+    private readonly ParticleType P_Shatter;
+    private readonly ParticleType P_Regen;
+    private readonly ParticleType P_Glow;
 
-	private readonly Sprite sprite;
-	private readonly Sprite flash;
-	private readonly Image outline;
+    private readonly Sprite sprite;
+    private readonly Sprite flash;
+    private readonly Image outline;
 
-	private readonly Wiggler wiggler;
-	private readonly BloomPoint bloom;
-	private readonly VertexLight light;
+    private readonly Wiggler wiggler;
+    private readonly BloomPoint bloom;
+    private readonly VertexLight light;
 
-	private Level level;
+    private Level level;
 
-	private readonly SineWave sine;
+    private readonly SineWave sine;
 
-	private readonly bool oneUse;
+    private readonly bool oneUse;
 
-	private float respawnTimer;
-	private readonly bool disableAmbientEffects;
-	private readonly bool disableCollectEffects;
-	private readonly float respawnTime;
+    private float respawnTimer;
+    private readonly bool disableAmbientEffects;
+    private readonly bool disableCollectEffects;
+    private readonly float respawnTime;
 
-	private readonly float ExtraMultiplier;
+    private readonly float ExtraMultiplier;
 
     public SpeedFlipRefill(EntityData data, Vector2 offset) : base(data.Position + offset)
     {

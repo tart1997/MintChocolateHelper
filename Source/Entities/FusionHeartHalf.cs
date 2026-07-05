@@ -28,7 +28,7 @@ public class FusionHeartHalf : Entity
 
     private Vector2 speed;
 
-    private static readonly ParticleType P_Regen = new (Seeker.P_Regen);
+    private static readonly ParticleType P_Regen = new(Seeker.P_Regen);
 
     private Vector2 heartBreakerBonusSpeed;
 

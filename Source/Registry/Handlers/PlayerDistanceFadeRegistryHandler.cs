@@ -16,7 +16,7 @@ public class PlayerDistanceFadeRegistryHandler : DecalRegistryHandler
     private bool FadeOut;
     private DeathBehaivor deathBehaivor;
     private float DeathFadeSpeedMultiplier;
-    
+
     [OnLoad]
     internal static void Load()
     {

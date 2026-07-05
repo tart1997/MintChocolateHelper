@@ -34,7 +34,6 @@ public class EasingFunctions
         SineInOut
     }
 
-    internal delegate float Easer(float t);
     internal static float Linear(float t) => Ease.Linear(t);
     internal static float BackIn(float t) => Ease.BackIn(t);
     internal static float BackOut(float t) => Ease.BackOut(t);
@@ -63,4 +62,6 @@ public class EasingFunctions
     internal static float SineIn(float t) => Ease.SineIn(t);
     internal static float SineOut(float t) => Ease.SineOut(t);
     internal static float SineInOut(float t) => Ease.SineInOut(t);
+
+    internal delegate float Easer(float t);
 }

@@ -12,77 +12,77 @@
 
     <!--Disable "Copy Local" for all references-->
     <ItemDefinitionGroup>
-        <PackageReference PrivateAssets="all" ExcludeAssets="runtime" />
-        <Reference Private="false" />
+        <PackageReference PrivateAssets="all" ExcludeAssets="runtime"/>
+        <Reference Private="false"/>
     </ItemDefinitionGroup>
 
     <ItemGroup>
         <!-- Add any dependency references here. -->
-        <Reference Include="FemtoHelper" Private="false" />
-        <Reference Include="FlaglinesAndSuch" Private="false" />
-        <Reference Include="VivHelper" Private="false" />
-        <Reference Include="CommunalHelper" Private="false" />
+        <Reference Include="FemtoHelper" Private="false"/>
+        <Reference Include="FlaglinesAndSuch" Private="false"/>
+        <Reference Include="VivHelper" Private="false"/>
+        <Reference Include="CommunalHelper" Private="false"/>
     </ItemGroup>
-    
+
     <ItemGroup>
         <PackageReference Include="CelesteMod.Roslyn.ModLifecycleAttributes" Version="1.0.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="ModInteropImportGenerator" Version="1.1.3">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="MonoMod.RuntimeDetour" Version="25.3.1" PrivateAssets="all" ExcludeAssets="runtime" />
-        <PackageReference Include="MonoMod.Patcher" Version="25.0.0-prerelease.2" />
-        <PackageReference Include="CelesteAnalyzer" Version="*" />
+        <PackageReference Include="MonoMod.RuntimeDetour" Version="25.3.1" PrivateAssets="all" ExcludeAssets="runtime"/>
+        <PackageReference Include="MonoMod.Patcher" Version="25.0.0-prerelease.2"/>
+        <PackageReference Include="CelesteAnalyzer" Version="*"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="CelesteMod.Publicizer" Version="*" CelesteAssembly="$(CelestePrefix)\Celeste.dll" />
-        <Reference Include="$(CelestePrefix)\MMHOOK_Celeste.dll" Private="false" />
-        <Reference Include="$(CelestePrefix)\FNA.dll" Private="false" />
+        <PackageReference Include="CelesteMod.Publicizer" Version="*" CelesteAssembly="$(CelestePrefix)\Celeste.dll"/>
+        <Reference Include="$(CelestePrefix)\MMHOOK_Celeste.dll" Private="false"/>
+        <Reference Include="$(CelestePrefix)\FNA.dll" Private="false"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="lib-stripped\" />
+        <Folder Include="lib-stripped\"/>
     </ItemGroup>
 
     <Target Name="CopyFiles" AfterTargets="Build" Inputs="$(OutputPath)\$(AssemblyName).dll;$(OutputPath)\$(AssemblyName).pdb" Outputs="..\bin\$(AssemblyName).dll;..\bin\$(AssemblyName).pdb">
-        <Copy SourceFiles="$(OutputPath)\$(AssemblyName).dll" DestinationFolder="..\bin" />
-        <Copy SourceFiles="$(OutputPath)\$(AssemblyName).pdb" DestinationFolder="..\bin" />
+        <Copy SourceFiles="$(OutputPath)\$(AssemblyName).dll" DestinationFolder="..\bin"/>
+        <Copy SourceFiles="$(OutputPath)\$(AssemblyName).pdb" DestinationFolder="..\bin"/>
     </Target>
-    
+
     <PropertyGroup>
         <PathMap>$(MSBuildProjectDirectory)=MintChocolateHelper/</PathMap>
     </PropertyGroup>
 
     <Target Name="PackageMod" AfterTargets="CopyFiles" Condition="'$(Configuration)' == 'Release'">
         <ItemGroup>
-            <FilesToPackage Include="$(ZippedFiles)" />
-            <FilesToPackage Remove="@(FilesToPackage)" Condition="$([System.IO.Path]::GetFileName('%(FilesToPackage.Identity)').StartsWith('private-'))" />
+            <FilesToPackage Include="$(ZippedFiles)"/>
+            <FilesToPackage Remove="@(FilesToPackage)" Condition="$([System.IO.Path]::GetFileName('%(FilesToPackage.Identity)').StartsWith('private-'))"/>
         </ItemGroup>
-        <PackageMod Files="@(FilesToPackage)" OutputPath="..\MintChocolateHelper.zip" />
+        <PackageMod Files="@(FilesToPackage)" OutputPath="..\MintChocolateHelper.zip"/>
     </Target>
 
     <Target Name="PrivatePackageMod" AfterTargets="CopyFiles" Condition="'$(Configuration)' == 'Release'">
         <ItemGroup>
-            <PrivateFilesToPackage Include="$(ZippedFiles)" />
+            <PrivateFilesToPackage Include="$(ZippedFiles)"/>
         </ItemGroup>
-        <PrivatePackageMod Files="@(PrivateFilesToPackage)" OutputPath="..\private-MintChocolateHelper.zip" />
+        <PrivatePackageMod Files="@(PrivateFilesToPackage)" OutputPath="..\private-MintChocolateHelper.zip"/>
     </Target>
 
     <!-- Inline task used to create a .zip for the mod -->
     <UsingTask TaskName="PackageMod"
                TaskFactory="RoslynCodeTaskFactory"
-               AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll" >
+               AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
         <ParameterGroup>
-            <Files ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
-            <OutputPath ParameterType="System.String" Required="true" />
+            <Files ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true"/>
+            <OutputPath ParameterType="System.String" Required="true"/>
         </ParameterGroup>
         <Task>
-            <Using Namespace="System.IO" />
-            <Using Namespace="System.IO.Compression" />
+            <Using Namespace="System.IO"/>
+            <Using Namespace="System.IO.Compression"/>
             <Code Type="Fragment" Language="cs">
                 <![CDATA[
                 var projectDir = Path.Combine(@"$(ProjectDir)", ".."); // Go one level up, since we're inside the 'Source' directory
@@ -129,14 +129,14 @@
 
     <UsingTask TaskName="PrivatePackageMod"
                TaskFactory="RoslynCodeTaskFactory"
-               AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll" >
+               AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
         <ParameterGroup>
-            <Files ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
-            <OutputPath ParameterType="System.String" Required="true" />
+            <Files ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true"/>
+            <OutputPath ParameterType="System.String" Required="true"/>
         </ParameterGroup>
         <Task>
-            <Using Namespace="System.IO" />
-            <Using Namespace="System.IO.Compression" />
+            <Using Namespace="System.IO"/>
+            <Using Namespace="System.IO.Compression"/>
             <Code Type="Fragment" Language="cs">
                 <![CDATA[
                 var projectDir = Path.Combine(@"$(ProjectDir)", ".."); // Go one level up, since we're inside the 'Source' directory

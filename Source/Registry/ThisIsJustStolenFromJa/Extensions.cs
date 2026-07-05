@@ -5,7 +5,7 @@
 internal static class Extensions {
     extension(XmlAttributeCollection xml) {
         public T GetEnum<T>(string attr, T def) where T : struct, Enum {
-            var xmlAttribute = xml[attr];
+            XmlAttribute xmlAttribute = xml[attr];
             if (xmlAttribute is null)
                 return def;
 
