@@ -1,11 +1,11 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
-[CustomEntity("MintChocolateHelper/PulseFlagTrigger")]
 
+[CustomEntity("MintChocolateHelper/PulseFlagTrigger")]
 public class PulseFlagTrigger : Trigger
 {
     private readonly string Flag;
     private readonly int Frames;
-    private readonly bool Invert; 
+    private readonly bool Invert;
 
     public PulseFlagTrigger(EntityData data, Vector2 offset) : base(data, offset)
     {
@@ -26,6 +26,7 @@ public class PulseFlagTrigger : Trigger
 
         level.Session.SetFlag(Flag, !Invert);
         yield return Frames / 60f;
+
         level.Session.SetFlag(Flag, Invert);
     }
 }

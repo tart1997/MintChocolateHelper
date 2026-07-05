@@ -1,7 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
+
 [CustomEntity("MintChocolateHelper/CancelDeathTrigger")]
 [Tracked]
-
 public class CancelDeathTrigger : Trigger
 {
     private readonly int Delay;
@@ -38,14 +38,13 @@ public class CancelDeathTrigger : Trigger
         playerDeadBody?.sprite.Entity = player;
         playerDeadBody?.light.Entity = player;
         playerDeadBody?.RemoveSelf();
-        
 
         if (UnregisterDeathInStats)
         {
             --session.Deaths;
             --session.DeathsInCurrentLevel;
             --SaveData.Instance.TotalDeaths;
-            --SaveData.Instance.Areas_Safe[session.Area.ID].Modes[(int) session.Area.Mode].Deaths;
+            --SaveData.Instance.Areas_Safe[session.Area.ID].Modes[(int)session.Area.Mode].Deaths;
             Stats.Increment(Stat.DEATHS, -1);
             StatsForStadia.Increment(StadiaStat.DEATHS, -1);
         }

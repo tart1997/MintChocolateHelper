@@ -13,7 +13,6 @@ global using Celeste.Mod.MintChocolateHelper.Registry.ThisIsJustStolenFromJa;
 global using Celeste.Mod.MintChocolateHelper.Triggers;
 global using Celeste.Mod.Registry.DecalRegistryHandlers;
 global using Celeste.Mod.Roslyn.ModLifecycleAttributes;
-
 global using System;
 global using System.Collections;
 global using System.Collections.Generic;
@@ -25,15 +24,12 @@ global using System.Reflection;
 global using System.Text;
 global using System.Threading.Tasks;
 global using System.Xml;
-
 global using Microsoft.Xna.Framework;
 global using Microsoft.Xna.Framework.Graphics;
-
 global using Mono.Cecil.Cil;
 global using Monocle;
 global using MonoMod.Cil;
 global using MonoMod.RuntimeDetour;
-
 global using ModInteropImportGenerator;
 global using FlaglinesAndSuch;
 global using VivHelper.Effects;

@@ -19,24 +19,18 @@ public class CheckIfShitExists
         foreach (DebrisTweaksController DTController in level.Tracker.GetEntities<DebrisTweaksController>().Cast<DebrisTweaksController>())
         {
             MintChocolateHelperModule.Session.DebrisTweaksWindAffectedControllerGetter = DTController.WindAffected ? (DTController, true) : (null, false);
-            if (MintChocolateHelperModule.Session.DebrisTweaksWindAffectedControllerGetter.Exists)
-            {
-                break;
-            }
+            if (MintChocolateHelperModule.Session.DebrisTweaksWindAffectedControllerGetter.Exists) break;
         }
-        
+
         foreach (DebrisTweaksController DTController in level.Tracker.GetEntities<DebrisTweaksController>().Cast<DebrisTweaksController>())
         {
             MintChocolateHelperModule.Session.DebrisTweaksAlternateFadeoutControllerGetter = DTController.AlternateFadeout ? (DTController, true) : (null, false);
-            if (MintChocolateHelperModule.Session.DebrisTweaksAlternateFadeoutControllerGetter.Exists)
-            {
-                break;
-            }
+            if (MintChocolateHelperModule.Session.DebrisTweaksAlternateFadeoutControllerGetter.Exists) break;
         }
-        
+
         DisableQuickRespawn DQRController = level.Tracker.GetEntity<DisableQuickRespawn>();
         MintChocolateHelperModule.Session.DisableQuickRepawnControllerGetter = (DQRController, DQRController != null);
-        
+
         StylegroundsWhilePaused SWPController = level.Tracker.GetEntity<StylegroundsWhilePaused>();
         MintChocolateHelperModule.Session.StylegroundsWhilePausedControllerGetter = (SWPController, SWPController != null);
 

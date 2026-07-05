@@ -1,6 +1,6 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
-[CustomEntity("MintChocolateHelper/SnappyStylegroundController")]
 
+[CustomEntity("MintChocolateHelper/SnappyStylegroundController")]
 public class SnappyStylegroundController : Entity
 {
     private readonly string SnapTag;
@@ -36,7 +36,7 @@ public class SnappyStylegroundController : Entity
     }
 
     public override void Update()
-    { 
+    {
         if (Scene is not Level level) return;
 
         foreach (Backdrop backdrop in level.Background.Backdrops.Where(backdrop => backdrop.Tags.Contains(SnapTag)))
@@ -74,6 +74,7 @@ public class SnappyStylegroundController : Entity
                 setVivRain(backdrop);
             }
         }
+
         foreach (Backdrop backdrop in level.Foreground.Backdrops.Where(backdrop => backdrop.Tags.Contains(SnapTag)))
         {
             switch (backdrop)
@@ -115,10 +116,12 @@ public class SnappyStylegroundController : Entity
     {
         return backdrop is WindPetals;
     }
+
     private static bool isCustomGodrays(Backdrop backdrop)
     {
         return backdrop is CustomGodrays;
     }
+
     private static bool isVivRain(Backdrop backdrop)
     {
         return backdrop is CustomRain;
@@ -127,16 +130,21 @@ public class SnappyStylegroundController : Entity
     private static void setWindPetals(Backdrop windPetals)
     {
         if (Engine.Scene is not Level level) return;
+
         WindPetalsFade?.SetValue(windPetals, level.Session.GetFlag(windPetals.OnlyIfFlag) ? 1 : 0);
     }
+
     private static void setCustomGodRays(Backdrop godrays)
     {
         if (Engine.Scene is not Level level) return;
+
         CustomGodraysFade?.SetValue(godrays, level.Session.GetFlag(godrays.OnlyIfFlag) ? 1 : 0);
     }
+
     private static void setVivRain(Backdrop vivRain)
     {
         if (Engine.Scene is not Level level) return;
+
         VivCustomRainFade?.SetValue(vivRain, level.Session.GetFlag(vivRain.OnlyIfFlag) ? 1 : 0);
     }
 }

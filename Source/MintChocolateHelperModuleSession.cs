@@ -1,6 +1,6 @@
 namespace Celeste.Mod.MintChocolateHelper;
 
-public class MintChocolateHelperModuleSession : EverestModuleSession 
+public class MintChocolateHelperModuleSession : EverestModuleSession
 {
     // Heart Breaker Refill
     internal bool HasHeartBreakerDash {get; set;}

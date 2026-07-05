@@ -1,5 +1,5 @@
 namespace Celeste.Mod.MintChocolateHelper;
 
-public class MintChocolateHelperModuleSettings : EverestModuleSettings 
+public class MintChocolateHelperModuleSettings : EverestModuleSettings
 {
 }

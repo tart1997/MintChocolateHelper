@@ -1,7 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
+
 [CustomEntity("MintChocolateHelper/StylegroundsWhilePaused")]
 [Tracked]
-
 public class StylegroundsWhilePaused : Entity
 {
     private readonly string updateTag;
@@ -64,7 +64,7 @@ public class StylegroundsWhilePaused : Entity
             static instr => instr.MatchSub(),
             static instr => instr.MatchStfld<Level>("unpauseTimer")))
         {
-            Logger.Info("debug",$"IL hook application on method {il.Method.FullName} failed: Dumb Fuck!"); 
+            Logger.Info("debug", $"IL hook application on method {il.Method.FullName} failed: Dumb Fuck!");
             return;
         }
 

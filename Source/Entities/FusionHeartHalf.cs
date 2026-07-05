@@ -1,7 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
+
 [CustomEntity("MintChocolateHelper/FusionHeartHalf")]
 [Tracked]
-
 public class FusionHeartHalf : Entity
 {
     private readonly Wiggler ScaleWiggler;
@@ -64,16 +64,14 @@ public class FusionHeartHalf : Entity
         Collider = new Hitbox(16f, 16f, -8f, -8f);
         Add(new PlayerCollider(OnPlayer));
 
-        Add(ScaleWiggler = Wiggler.Create(0.5f, 4f, delegate (float f)
-        {
+        Add(ScaleWiggler = Wiggler.Create(0.5f, 4f, delegate(float f) {
             sprite.Scale = Vector2.One * (1f + f * 0.25f);
         }));
 
         Add(bloom = new BloomPoint(bloomStr, 16f));
 
         Color value = Calc.HexToColor(spriteColor1);
-        shineParticle = new ParticleType(HeartGem.P_BlueShine)
-        {
+        shineParticle = new ParticleType(HeartGem.P_BlueShine) {
             Color = value
         };
 
@@ -115,16 +113,14 @@ public class FusionHeartHalf : Entity
         Collider = new Hitbox(16f, 16f, -8f, -8f);
         Add(new PlayerCollider(OnPlayer));
 
-        Add(ScaleWiggler = Wiggler.Create(0.5f, 4f, delegate (float f)
-        {
+        Add(ScaleWiggler = Wiggler.Create(0.5f, 4f, delegate(float f) {
             sprite.Scale = Vector2.One * (1f + f * 0.25f);
         }));
 
         Add(bloom = new BloomPoint(bloomStr, 16f));
 
         Color value = Calc.HexToColor(halfColor);
-        shineParticle = new ParticleType(HeartGem.P_BlueShine)
-        {
+        shineParticle = new ParticleType(HeartGem.P_BlueShine) {
             Color = value
         };
 
@@ -141,7 +137,10 @@ public class FusionHeartHalf : Entity
         timer += Engine.DeltaTime;
 
         if (collected && respawnTimer > 0f)
+        {
             respawnTimer -= Engine.DeltaTime;
+        }
+
         if (collected && respawnTimer <= 0f)
         {
             respawnTimer = 0f;
@@ -196,25 +195,25 @@ public class FusionHeartHalf : Entity
             if (isCeilingSpring)
             {
                 speed.Y = 2f;
-                speed *= getSpringSpeedMultiplier;
             }
-            else switch (spring.Orientation)
+            else
             {
-                case Spring.Orientations.Floor:
-                    speed.Y = -2f;
-                    speed *= getSpringSpeedMultiplier;
-                    break;
-                case Spring.Orientations.WallLeft:
-                    speed.X = 2.5f;
-                    speed *= getSpringSpeedMultiplier;
-                    break;
-                case Spring.Orientations.WallRight:
-                    speed.X = -2.5f;
-                    speed *= getSpringSpeedMultiplier;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                switch (spring.Orientation)
+                {
+                    case Spring.Orientations.Floor:
+                        speed.Y = -2f;
+                        break;
+                    case Spring.Orientations.WallLeft:
+                        speed.X = 2.5f;
+                        break;
+                    case Spring.Orientations.WallRight:
+                        speed.X = -2.5f;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
+            speed *= getSpringSpeedMultiplier;
         }
     }
 
@@ -224,15 +223,14 @@ public class FusionHeartHalf : Entity
 
         Vector2 playerOffset = Center - player.Center;
 
-        if (collected || ((Level)Scene).Frozen)
-        {
-            return;
-        }
+        if (collected || ((Level)Scene).Frozen) return;
+
         if (bounceSfxDelay <= 0f)
         {
             Audio.Play("event:/game/general/crystalheart_bounce", Position);
             bounceSfxDelay = 0.1f;
         }
+
         int dashes = Math.Max(player.Dashes, 1);
 
         if (!player.DashAttacking)
@@ -260,8 +258,8 @@ public class FusionHeartHalf : Entity
                     heartBreakerBonusSpeed = Vector2.One * 0.5f;
                 }
 
-                MintChocolateHelperModule.Session.HasHeartBreakerDash  = false;
-                MintChocolateHelperModule.Session.HeartBreakerDashActive  = false;
+                MintChocolateHelperModule.Session.HasHeartBreakerDash = false;
+                MintChocolateHelperModule.Session.HeartBreakerDashActive = false;
             }
             else
             {
@@ -299,7 +297,7 @@ public class FusionHeartHalf : Entity
                     half.RemoveSelf();
                     RemoveSelf();
 
-                    FusionHeart fusionHeart = new(targetCenter, heartBreakerBonusSpeed,"ff4fed",0.75f,true,true);
+                    FusionHeart fusionHeart = new(targetCenter, heartBreakerBonusSpeed, "ff4fed", 0.75f, true, true);
 
                     foreach (FusionTarget target in Scene.Tracker.GetEntities<FusionTarget>().Cast<FusionTarget>().Where(target => (0.5f * (Center + half.Center) - target.Center).Length() <= 8))
                     {
@@ -357,14 +355,15 @@ public class FusionHeartHalf : Entity
 
             if (Math.Abs(playerOffset.Y) > Math.Abs(playerOffset.X))
             {
-                if (playerOffset.Y < (Collider.Height/2) - 1f)
+                if (playerOffset.Y < (Collider.Height / 2) - 1f)
                 {
                     player.Rebound(-Math.Sign(player.Speed.X));
 
                     speed.Y = -2f * collisionSpeedY - heartBreakerBonusSpeed.Y;
                     return;
                 }
-                if (playerOffset.Y > (Collider.Height/2) - 1f)
+
+                if (playerOffset.Y > (Collider.Height / 2) - 1f)
                 {
                     player.Rebound(-Math.Sign(player.Speed.X));
 
@@ -376,7 +375,7 @@ public class FusionHeartHalf : Entity
             }
             else
             {
-                if (playerOffset.X < (Collider.Width/2) - 1f)
+                if (playerOffset.X < (Collider.Width / 2) - 1f)
                 {
                     player.Rebound(-Math.Sign(player.Speed.X));
 
@@ -393,7 +392,8 @@ public class FusionHeartHalf : Entity
 
                     return;
                 }
-                if (playerOffset.X > (Collider.Width/2) - 1f)
+
+                if (playerOffset.X > (Collider.Width / 2) - 1f)
                 {
                     player.Rebound(-Math.Sign(player.Speed.X));
 
@@ -409,7 +409,7 @@ public class FusionHeartHalf : Entity
                     speed.X = 2f * collisionSpeedX + heartBreakerBonusSpeed.X;
 
                     return;
-                }   
+                }
             }
         }
 
@@ -426,6 +426,7 @@ public class FusionHeartHalf : Entity
 
         Collidable = false;
         yield return 5 / 60f;
+
         Collidable = true;
     }
 }

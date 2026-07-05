@@ -3,7 +3,7 @@
 public class FakeDeath
 {
     private static ILHook FakeDeathHook_origDie;
-    
+
     [OnLoad]
     internal static void Load()
     {
@@ -20,7 +20,7 @@ public class FakeDeath
         On.Celeste.Level.Reload -= PanicRemovePlayerIfPlayerIsStillLoaded;
         On.Celeste.PlayerDeadBody.Update -= MovePlayer;
     }
-    
+
     private static void SkipRemovePlayer(ILContext il)
     {
         ILCursor cursor = new(il);
@@ -42,7 +42,7 @@ public class FakeDeath
             static instr => instr.MatchLdfld<Player>("wallSlideSfx"),
             static instr => instr.MatchCallvirt<Player>("Stop")))
         {
-            Logger.Info("debug", $"\n\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n\n"); 
+            Logger.Info("debug", $"\n\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n\n");
             return;
         }
 
@@ -58,7 +58,7 @@ public class FakeDeath
             static instr => instr.MatchLdarg0(),
             static instr => instr.MatchCallvirt<Scene>("Remove")))
         {
-            Logger.Info("debug", $"\n\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n\n"); 
+            Logger.Info("debug", $"\n\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n\n");
             return;
         }
 
@@ -72,14 +72,14 @@ public class FakeDeath
             static instr => instr.MatchLdarg0(),
             static instr => instr.MatchCallvirt<Scene>("Remove")))
         {
-            Logger.Info("debug", $"\n\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n\n"); 
+            Logger.Info("debug", $"\n\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n\n");
             return;
         }
 
         cursor.MarkLabel(dontRemovePlayer);
         cursor.EmitDelegate(FakeKillPlayer);
     }
-    
+
     private static void StorePlayerBullshit()
     {
         if (Engine.Scene is Level level)
@@ -91,7 +91,7 @@ public class FakeDeath
             MintChocolateHelperModule.Session.CDT_Visible = player.Visible;
         }
     }
-    
+
     private static bool ShouldSkipRemovePlayer()
     {
         return Engine.Scene is Level && (MintChocolateHelperModule.Session.CancelDeathTriggerGetter.Exists || MintChocolateHelperModule.Session.HasJesusRefill);
@@ -120,9 +120,10 @@ public class FakeDeath
             MintChocolateHelperModule.Session.HasJesusRefill = false;
             MintChocolateHelperModule.Session.JesusRefillDisableQuickRespawn = false;
         }
+
         orig(level);
     }
-    
+
     private static void MovePlayer(On.Celeste.PlayerDeadBody.orig_Update orig, PlayerDeadBody playerDeadBody)
     {
         orig(playerDeadBody);

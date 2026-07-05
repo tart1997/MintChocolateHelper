@@ -1,8 +1,8 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
+
 [CustomEntity("MintChocolateHelper/WaitUntilTrueTrigger")]
 
 //   ### A large majority of this is ripped straight from Crystalline trigger triggers (Obviously) ###
-
 public class WaitUntilTrueTrigger : Trigger
 {
     private readonly Vector2[] nodes;
@@ -24,7 +24,7 @@ public class WaitUntilTrueTrigger : Trigger
         Flag = data.Attr("flag");
         Delay = data.Float("delay");
         OneUse = data.Bool("oneUse");
-        
+
         if (FrostHelperImports.IsImported && FrostHelperImports.TryCreateSessionExpression(Flag, out FlagExpression))
         {
             IsValidExpression = true;
@@ -52,7 +52,7 @@ public class WaitUntilTrueTrigger : Trigger
     {
         base.Update();
         Player player = Scene.Tracker.GetEntity<Player>();
-        if (player == null) { return; }
+        if (player == null) return;
 
         if (Activated && OneUse)
         {
@@ -88,7 +88,7 @@ public class WaitUntilTrueTrigger : Trigger
             Add(Alarm.Create(Alarm.AlarmMode.Oneshot, () => {
                 Deactivating = false;
                 DeactivateTriggers(player);
-            },Delay, true));
+            }, Delay, true));
         }
         else
         {
@@ -157,6 +157,7 @@ public class WaitUntilTrueTrigger : Trigger
                 trigger.Collidable = false;
             }
         }
+
         return localTriggers;
     }
 

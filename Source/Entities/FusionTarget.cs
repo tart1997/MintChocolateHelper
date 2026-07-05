@@ -1,7 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
+
 [CustomEntity("MintChocolateHelper/FusionTarget")]
 [Tracked]
-
 public class FusionTarget : Entity
 {
     public FusionTarget(EntityData data, Vector2 offset) : base(data.Position + offset)
@@ -12,6 +12,6 @@ public class FusionTarget : Entity
     public override void DebugRender(Camera camera)
     {
         base.DebugRender(camera);
-        Draw.HollowRect(Collider,Color.DarkBlue);
+        Draw.HollowRect(Collider, Color.DarkBlue);
     }
 }

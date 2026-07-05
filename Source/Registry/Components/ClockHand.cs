@@ -24,7 +24,7 @@ public class ClockHand : Component
     private readonly EasingFunctions.Easer TickEasingFunction;
 
     public ClockHand(bool alwaysUpdate, bool randomStart, bool backwards,
-        int stopNumber, float tickSpeed, float tickDelay, string allowTickFlag, EasingFunctions.EasingFunction easingFunction) : base(active: true, visible:true)
+        int stopNumber, float tickSpeed, float tickDelay, string allowTickFlag, EasingFunctions.EasingFunction easingFunction) : base(true, true)
     {
         AlwaysUpdate = alwaysUpdate;
         RandomStart = randomStart;

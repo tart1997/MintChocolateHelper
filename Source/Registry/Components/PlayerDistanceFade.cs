@@ -107,6 +107,7 @@ public class PlayerDistanceFade : Component
                 result = Color.Lerp(FadeoutOriginalColor, FadeoutTargetColor, FadeoutTimer);
                 FadeoutTimer += Engine.DeltaTime * DeathFadeSpeedMultiplier;
             }
+
             decal.Color = result;
         }
 

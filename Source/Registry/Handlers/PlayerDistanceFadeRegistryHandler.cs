@@ -25,7 +25,7 @@ public class PlayerDistanceFadeRegistryHandler : DecalRegistryHandler
 
     public override void Parse(XmlAttributeCollection xml)
     {
-        InnerRadius = Get(xml, "innerRadius",50f);
+        InnerRadius = Get(xml, "innerRadius", 50f);
         OuterRadius = Get(xml, "outerRadius", 80f);
         FadeOut = GetBool(xml, "fadeOut", false);
         deathBehaivor = xml.GetEnum("deathBehaivor", DeathBehaivor.staySame);

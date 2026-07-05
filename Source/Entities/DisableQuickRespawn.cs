@@ -1,7 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
+
 [CustomEntity("MintChocolateHelper/DisableQuickRespawn")]
 [Tracked]
-
 public class DisableQuickRespawn : Entity
 {
     private readonly string DisableFlag;
@@ -39,11 +39,11 @@ public class DisableQuickRespawn : Entity
 
         ILLabel anythingYouWant = null;
 
-        if (!cursor.TryGotoNextBestFit(MoveType.After, static instr => instr.MatchLdsfld(typeof(Input),"MenuConfirm"),
+        if (!cursor.TryGotoNextBestFit(MoveType.After, static instr => instr.MatchLdsfld(typeof(Input), "MenuConfirm"),
             static instr => instr.MatchCallvirt<VirtualButton>("get_Pressed"),
             instr => instr.MatchBrfalse(out anythingYouWant)))
         {
-            Logger.Info("debug", $"IL hook application on method {il.Method.FullName} failed: Dumb Fuck!"); 
+            Logger.Info("debug", $"IL hook application on method {il.Method.FullName} failed: Dumb Fuck!");
             return;
         }
 

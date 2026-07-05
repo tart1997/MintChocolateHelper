@@ -13,7 +13,7 @@ public class DiscordWebhook
 
     internal async Task SendMessageAsync(string content)
     {
-        StringContent httpContent = new (content, Encoding.UTF8, "application/json");
+        StringContent httpContent = new(content, Encoding.UTF8, "application/json");
 
         HttpResponseMessage response = await _httpClient.PostAsync(_webhookUrl, httpContent);
         response.EnsureSuccessStatusCode();

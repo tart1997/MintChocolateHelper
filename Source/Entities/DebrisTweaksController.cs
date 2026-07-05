@@ -1,13 +1,13 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
+
 [CustomEntity("MintChocolateHelper/DebrisTweaksController")]
 [Tracked]
-
 public class DebrisTweaksController : Entity
 {
     internal readonly bool AlternateFadeout;
     internal readonly bool WindAffected;
 
-    public DebrisTweaksController(EntityData data, Vector2 offset) : base( data.Position + offset)
+    public DebrisTweaksController(EntityData data, Vector2 offset) : base(data.Position + offset)
     {
         AlternateFadeout = data.Bool("alternateFadeout");
         WindAffected = data.Bool("windAffected");
@@ -60,7 +60,7 @@ public class DebrisTweaksController : Entity
             static instr => instr.MatchCall<Color>("get_White"),
             static instr => instr.MatchCall<Color>("get_Gray")))
         {
-            Logger.Info("debug",$"IL hook application on method {il.Method.FullName} failed: Dumb Fuck!"); 
+            Logger.Info("debug", $"IL hook application on method {il.Method.FullName} failed: Dumb Fuck!");
             return;
         }
 
@@ -79,7 +79,7 @@ public class DebrisTweaksController : Entity
             static instr => instr.MatchCall<Color>("op_Multiply"),
             static instr => instr.MatchStfld<GraphicsComponent>("Color")))
         {
-            Logger.Info("debug",$"IL hook application on method {il.Method.FullName} failed: Dumb Fuck!"); 
+            Logger.Info("debug", $"IL hook application on method {il.Method.FullName} failed: Dumb Fuck!");
             return;
         }
 

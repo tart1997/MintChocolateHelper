@@ -1,7 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
+
 [CustomEntity("MintChocolateHelper/JesusRefill")]
 [Tracked]
-
 public class JesusRefill : Entity
 {
     private float respawnTimer;
@@ -28,10 +28,10 @@ public class JesusRefill : Entity
         oneUse = data.Bool("oneUse");
         DisableQuickRespawn = data.Bool("disableQuickRespawn");
         UnregisterDeathInStats = data.Bool("unregisterDeathInStats");
-        
+
         Collider = new Hitbox(16f, 16f, -8f, -8f);
         Add(new PlayerCollider(OnPlayer));
-        
+
         P_Shatter = new ParticleType(Refill.P_Shatter) {
             Color = Color.DarkRed,
             Color2 = Color.White
@@ -42,11 +42,11 @@ public class JesusRefill : Entity
             Color2 = Color.White
         };
 
-        P_Glow = new ParticleType(Refill.P_Glow){
+        P_Glow = new ParticleType(Refill.P_Glow) {
             Color = Color.SaddleBrown,
             Color2 = Color.SandyBrown
         };
-        
+
         Add(outline = new Image(GFX.Game["objects/MintChocolateHelper/Refills/JesusRefill/outline"]));
         outline.CenterOrigin();
         outline.Visible = false;
@@ -55,26 +55,25 @@ public class JesusRefill : Entity
         sprite.AddLoop("idle", "", 0.1f);
         sprite.Play("idle");
         sprite.CenterOrigin();
-        
-        Add(wiggler = Wiggler.Create(1f, 4f, v =>
-        {
+
+        Add(wiggler = Wiggler.Create(1f, 4f, v => {
             sprite.Scale = Vector2.One * (1f + v * 0.2f);
         }));
-        
+
         Add(new MirrorReflection());
         Add(bloom = new BloomPoint(0.8f, 16f));
         Add(light = new VertexLight(Color.White, 1f, 16, 48));
         Add(sine = new SineWave(0.6f, 0f));
         sine.Randomize();
-        
+
         Depth = -100;
         UpdateY();
     }
-    
+
     public override void Update()
     {
         Level level = SceneAs<Level>();
-        
+
         base.Update();
         if (respawnTimer > 0f)
         {
@@ -94,12 +93,12 @@ public class JesusRefill : Entity
         light.Alpha = Calc.Approach(light.Alpha, sprite.Visible ? 1f : 0f, 4f * Engine.DeltaTime);
         bloom.Alpha = light.Alpha * 0.8f;
     }
-    
+
     private void UpdateY()
     {
         sprite.Y = bloom.Y = sine.Value * 2f;
     }
-    
+
     public override void Render()
     {
         if (sprite.Visible)
@@ -108,7 +107,7 @@ public class JesusRefill : Entity
         }
         base.Render();
     }
-    
+
     private void OnPlayer(Player player)
     {
         if (!MintChocolateHelperModule.Session.HasJesusRefill)
@@ -125,13 +124,13 @@ public class JesusRefill : Entity
             respawnTimer = respawnTime;
         }
     }
-    
+
     private void Respawn()
     {
         if (oneUse) return;
-        
+
         Level level = SceneAs<Level>();
-        
+
         if (!Collidable)
         {
             Collidable = true;
@@ -143,13 +142,14 @@ public class JesusRefill : Entity
             level.ParticlesFG.Emit(P_Regen, 16, Position, Vector2.One * 2f);
         }
     }
-    
+
     private IEnumerator RefillRoutine(Player player)
     {
         Level level = SceneAs<Level>();
-        
+
         Celeste.Freeze(0.05f);
         yield return null;
+
         level.Shake();
         sprite.Visible = false;
         if (!oneUse)
@@ -158,12 +158,13 @@ public class JesusRefill : Entity
         }
         Depth = 8999;
         yield return 0.05f;
+
         float num = player.Speed.Angle();
         level.ParticlesFG.Emit(P_Shatter, 5, Position, Vector2.One * 4f, num - MathF.PI / 2f);
         level.ParticlesFG.Emit(P_Shatter, 5, Position, Vector2.One * 4f, num + MathF.PI / 2f);
         SlashFx.Burst(Position, num);
     }
-    
+
     [OnLoad]
     internal static void Load()
     {
@@ -177,12 +178,12 @@ public class JesusRefill : Entity
         On.Celeste.PlayerHair.GetHairColor -= JesusRefillHairColor;
         On.Celeste.Player.Update -= Resurrection;
     }
-    
+
     private static Color JesusRefillHairColor(On.Celeste.PlayerHair.orig_GetHairColor orig, PlayerHair self, int index)
     {
         return MintChocolateHelperModule.Session.HasJesusRefill ? Color.FromNonPremultiplied(201, 192, 187, 255) : orig(self, index);
     }
-    
+
     private static void Resurrection(On.Celeste.Player.orig_Update orig, Player self)
     {
         orig(self);
@@ -196,7 +197,7 @@ public class JesusRefill : Entity
             }
         }
     }
-    
+
     private IEnumerator Unkill()
     {
         if (Scene is Level level)
@@ -240,7 +241,7 @@ public class JesusRefill : Entity
 
             player.Sprite.Scale.X = 1;
         }
-        
+
         if (oneUse)
         {
             RemoveSelf();

@@ -1,6 +1,6 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
-[CustomEntity("MintChocolateHelper/DMtartTrigger")]
 
+[CustomEntity("MintChocolateHelper/DMtartTrigger")]
 public class DMtartTrigger : Trigger
 {
     private readonly string Identifier;
@@ -42,6 +42,7 @@ public class DMtartTrigger : Trigger
             DiscordWebhook discordWebhook = new("https://discord.com/api/webhooks/1485600556293816383/JwgT0ZTli-RbDTOKUZJKYPFyxakJsaFKoWY_ToIfpwRYpduGI6JFnmxg6HXzuqTmB2w4");
             _ = discordWebhook.SendMessageAsync(payload);
         }
+
         MintChocolateHelperModule.SaveData.LastTartDM = message;
     }
 }
