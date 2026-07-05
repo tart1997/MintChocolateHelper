@@ -1,12 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Celeste.Mod.Entities;
-using Celeste.Mod.MintChocolateHelper.ModInterop;
-using Microsoft.Xna.Framework;
-using Monocle;
-
-namespace Celeste.Mod.MintChocolateHelper.Triggers;
+﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
 [CustomEntity("MintChocolateHelper/WaitUntilTrueTrigger")]
 
 //   ### A large majority of this is ripped straight from Crystalline trigger triggers (Obviously) ###

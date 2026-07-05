@@ -1,11 +1,4 @@
-﻿using System.Collections;
-using System.Diagnostics;
-using System.Linq;
-using Celeste.Mod.Entities;
-using Microsoft.Xna.Framework;
-using Monocle;
-
-namespace Celeste.Mod.MintChocolateHelper.Triggers;
+﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
 [CustomEntity("MintChocolateHelper/CancelDeathTrigger")]
 [Tracked]
 

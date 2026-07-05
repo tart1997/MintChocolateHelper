@@ -1,6 +1,4 @@
-﻿using Monocle;
-
-namespace Celeste.Mod.MintChocolateHelper.Extras;
+﻿namespace Celeste.Mod.MintChocolateHelper.Extras;
 
 public class EasingFunctions
 {

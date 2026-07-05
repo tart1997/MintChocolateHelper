@@ -1,11 +1,4 @@
-﻿using System.Reflection;
-using Celeste.Mod.Helpers;
-using Celeste.Mod.Roslyn.ModLifecycleAttributes;
-using Monocle;
-using MonoMod.Cil;
-using MonoMod.RuntimeDetour;
-
-namespace Celeste.Mod.MintChocolateHelper.Extras;
+﻿namespace Celeste.Mod.MintChocolateHelper.Extras;
 
 public class FakeDeath
 {

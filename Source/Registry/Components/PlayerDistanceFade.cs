@@ -1,9 +1,4 @@
-﻿using System;
-using Celeste.Mod.MintChocolateHelper.Registry.Handlers;
-using Microsoft.Xna.Framework;
-using Monocle;
-
-namespace Celeste.Mod.MintChocolateHelper.Registry.Components;
+﻿namespace Celeste.Mod.MintChocolateHelper.Registry.Components;
 
 public class PlayerDistanceFade : Component
 {

@@ -1,8 +1,4 @@
-﻿using Celeste.Mod.Entities;
-using Microsoft.Xna.Framework;
-using Monocle;
-
-namespace Celeste.Mod.MintChocolateHelper.Entities;
+﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 [CustomEntity("MintChocolateHelper/FlagsOnAwake")]
 
 public class FlagsOnAwake : Entity

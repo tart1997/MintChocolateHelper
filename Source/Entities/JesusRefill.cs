@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
-using Celeste.Mod.Entities;
-using Celeste.Mod.Roslyn.ModLifecycleAttributes;
-using Microsoft.Xna.Framework;
-using Monocle;
-
-namespace Celeste.Mod.MintChocolateHelper.Entities;
+﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 [CustomEntity("MintChocolateHelper/JesusRefill")]
 [Tracked]
 

@@ -1,12 +1,4 @@
-﻿using System.Linq;
-using System.Reflection;
-using Celeste.Mod.Entities;
-using FlaglinesAndSuch;
-using Microsoft.Xna.Framework;
-using Monocle;
-using VivHelper.Effects;
-
-namespace Celeste.Mod.MintChocolateHelper.Entities;
+﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 [CustomEntity("MintChocolateHelper/SnappyStylegroundController")]
 
 public class SnappyStylegroundController : Entity

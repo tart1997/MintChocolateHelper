@@ -1,7 +1,4 @@
-﻿using System;
-using Celeste.Mod.MintChocolateHelper.ModInterop;
-
-namespace Celeste.Mod.MintChocolateHelper;
+﻿namespace Celeste.Mod.MintChocolateHelper;
 
 public class MintChocolateHelperModule : EverestModule 
 {

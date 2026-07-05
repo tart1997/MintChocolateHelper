@@ -1,6 +1,3 @@
-using Celeste.Mod.MintChocolateHelper.Entities;
-using Celeste.Mod.MintChocolateHelper.Triggers;
-
 namespace Celeste.Mod.MintChocolateHelper;
 
 public class MintChocolateHelperModuleSession : EverestModuleSession 

@@ -1,8 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Microsoft.Xna.Framework;
-using ModInteropImportGenerator;
-
-namespace Celeste.Mod.MintChocolateHelper.ModInterop;
+﻿namespace Celeste.Mod.MintChocolateHelper.ModInterop;
 [GenerateImports("FrostHelper")]
 public static partial class FrostHelperImports
 {

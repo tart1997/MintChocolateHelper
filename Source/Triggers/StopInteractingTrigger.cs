@@ -1,8 +1,4 @@
-﻿using System.Linq;
-using Celeste.Mod.Entities;
-using Microsoft.Xna.Framework;
-
-namespace Celeste.Mod.MintChocolateHelper.Triggers;
+﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
 [CustomEntity("MintChocolateHelper/StopInteractingTrigger")]
 
 public class StopInteractingTrigger : Trigger

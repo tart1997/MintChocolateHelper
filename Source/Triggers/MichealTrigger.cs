@@ -1,7 +1,4 @@
-﻿using Celeste.Mod.Entities;
-using Microsoft.Xna.Framework;
-
-namespace Celeste.Mod.MintChocolateHelper.Triggers;
+﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
 [CustomEntity("MintChocolateHelper/MichealTrigger")]
 
 public class MichealTrigger : Trigger

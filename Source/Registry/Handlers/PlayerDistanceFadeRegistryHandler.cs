@@ -1,10 +1,4 @@
-﻿using System.Xml;
-using Celeste.Mod.MintChocolateHelper.Registry.Components;
-using Celeste.Mod.MintChocolateHelper.Registry.ThisIsJustStolenFromJa;
-using Celeste.Mod.Registry.DecalRegistryHandlers;
-using Celeste.Mod.Roslyn.ModLifecycleAttributes;
-
-namespace Celeste.Mod.MintChocolateHelper.Registry.Handlers;
+﻿namespace Celeste.Mod.MintChocolateHelper.Registry.Handlers;
 
 public class PlayerDistanceFadeRegistryHandler : DecalRegistryHandler
 {

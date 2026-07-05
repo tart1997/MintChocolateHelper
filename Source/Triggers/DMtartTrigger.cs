@@ -1,9 +1,4 @@
-﻿using Celeste.Mod.Entities;
-using Microsoft.Xna.Framework;
-using Celeste.Editor;
-using Celeste.Mod.MintChocolateHelper.Extras;
-
-namespace Celeste.Mod.MintChocolateHelper.Triggers;
+﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
 [CustomEntity("MintChocolateHelper/DMtartTrigger")]
 
 public class DMtartTrigger : Trigger

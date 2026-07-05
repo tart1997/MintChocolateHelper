@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Celeste.Mod.Entities;
-using Celeste.Mod.MintChocolateHelper.ModInterop;
-using Microsoft.Xna.Framework;
-using Monocle;
-
-namespace Celeste.Mod.MintChocolateHelper.Entities;
+﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 [CustomEntity("MintChocolateHelper/FusionHeartHalf")]
 [Tracked]
 

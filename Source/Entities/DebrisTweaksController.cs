@@ -1,12 +1,4 @@
-﻿using System.Linq;
-using Celeste.Mod.Entities;
-using Celeste.Mod.Helpers;
-using Celeste.Mod.Roslyn.ModLifecycleAttributes;
-using Microsoft.Xna.Framework;
-using Monocle;
-using MonoMod.Cil;
-
-namespace Celeste.Mod.MintChocolateHelper.Entities;
+﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 [CustomEntity("MintChocolateHelper/DebrisTweaksController")]
 [Tracked]
 

@@ -1,8 +1,4 @@
-﻿using Celeste.Mod.Entities;
-using Microsoft.Xna.Framework;
-using Celeste.Mod.MintChocolateHelper.Extras;
-
-namespace Celeste.Mod.MintChocolateHelper.Triggers;
+﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
 [CustomEntity("MintChocolateHelper/MessageWebhookTrigger")]
 
 public class MessageWebhookTrigger : Trigger
