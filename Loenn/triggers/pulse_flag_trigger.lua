@@ -7,16 +7,16 @@ PulseFlagTrigger.placements = {
     data = {
         width = 16,
         height = 16,
-		flag = "",
-		frames = 1,
-		invert = false,
+        flag = "",
+        frames = 1,
+        invert = false,
     }
 }
 
 PulseFlagTrigger.fieldInformation = {
-	frames = {
-		fieldType = "integer",
-	}
+    frames = {
+        fieldType = "integer",
+    }
 }
 
 return PulseFlagTrigger

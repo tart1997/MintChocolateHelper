@@ -12,7 +12,7 @@ function script.prerun(args)
             style._collapsed = true
         end
     end
-	for _, style in ipairs(state.map.stylesBg) do
+    for _, style in ipairs(state.map.stylesBg) do
         if style._type == "apply" then
             style._collapsed = true
         end

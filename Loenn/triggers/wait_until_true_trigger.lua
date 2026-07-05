@@ -10,17 +10,17 @@ WaitUntilTrueTrigger.placements = {
     data = {
         width = 16,
         height = 16,
-		flag = "",
-		delay = 0,
-		oneUse = false
+        flag = "",
+        delay = 0,
+        oneUse = false
     }
 }
 
 WaitUntilTrueTrigger.fieldOrder = {
-	"x", "y",
-	"width", "height",
-	"flag", "delay",
-	"oneUse"
+    "x", "y",
+    "width", "height",
+    "flag", "delay",
+    "oneUse"
 }
 
 return WaitUntilTrueTrigger

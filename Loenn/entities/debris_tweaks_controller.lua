@@ -6,9 +6,9 @@ DebrisTweaksController.justification = {0.5, 0.5}
 DebrisTweaksController.placements = {
     {
         name = "debris_tweaks_controller",
-		data = {
+        data = {
             alternateFadeout = false,
-			windAffected = false
+            windAffected = false
         }
     }
 }
