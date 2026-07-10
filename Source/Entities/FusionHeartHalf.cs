@@ -133,6 +133,8 @@ public class FusionHeartHalf : Entity
 
     public override void Update()
     {
+        if (Utils.LevelIsNotSafe(out Level level)) return;
+
         bounceSfxDelay -= Engine.DeltaTime;
         timer += Engine.DeltaTime;
 
@@ -172,7 +174,7 @@ public class FusionHeartHalf : Entity
 
         if (Visible && Scene.OnInterval(0.1f))
         {
-            SceneAs<Level>().Particles.Emit(shineParticle, 1, Center, Vector2.One * 8f);
+            level.Particles.Emit(shineParticle, 1, Center, Vector2.One * 8f);
         }
 
         Position += speed;
@@ -219,11 +221,11 @@ public class FusionHeartHalf : Entity
 
     private void OnPlayer(Player player)
     {
-        if (Scene is not Level level) return;
+        if (Utils.LevelIsNotSafe(out Level level)) return;
 
         Vector2 playerOffset = Center - player.Center;
 
-        if (collected || ((Level)Scene).Frozen) return;
+        if (collected || level.Frozen) return;
 
         if (bounceSfxDelay <= 0f)
         {
@@ -422,8 +424,7 @@ public class FusionHeartHalf : Entity
 
     internal IEnumerator HalfDashHitColliderDisableTimer()
     {
-        if (Scene is not Level) yield break;
-
+        if (Utils.LevelIsNotSafe()) yield break;
         Collidable = false;
         yield return 5 / 60f;
 

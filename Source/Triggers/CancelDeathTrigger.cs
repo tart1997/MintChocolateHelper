@@ -24,10 +24,11 @@ public class CancelDeathTrigger : Trigger
 
     private IEnumerator Unkill(int delay)
     {
-        if (Scene is not Level) yield break;
+        if (Utils.LevelIsNotSafe(out Level level)) yield break;
         yield return delay / 60f;
 
-        Level level = SceneAs<Level>();
+        if (!MintChocolateHelperModule.Session.PlayerIsPsuedoDead) yield break;
+
         level.Wipe?.Cancel();
 
         Session session = level.Session;
@@ -50,20 +51,21 @@ public class CancelDeathTrigger : Trigger
         }
 
         player.Dead = false;
-        player.Depth = MintChocolateHelperModule.Session.CDT_Depth;
+        player.Depth = MintChocolateHelperModule.Session.DepthBeforePsuedoDeath;
         player.StateMachine.Locked = false;
         player.StateMachine.State = 0;
-        player.Collidable = MintChocolateHelperModule.Session.CDT_Collidable;
-        player.Visible = MintChocolateHelperModule.Session.CDT_Visible;
+        player.Collidable = MintChocolateHelperModule.Session.WasCollidableBeforePsuedoDeath;
+        player.Visible = MintChocolateHelperModule.Session.WasVisibleBeforePsuedoDeath;
         if (Scene is not null) player.Scene = Scene;
         MintChocolateHelperModule.Session.PlayerIsPsuedoDead = false;
 
-        Debug.Assert(level.Session.RespawnPoint != null);
-        player.Position = level.Session.RespawnPoint.Value;
+        MintChocolateHelperModule.Session.PsuedoDeathTeleportingPlayer = true;
+        if (level.Session.RespawnPoint is not null) player.Position = level.Session.RespawnPoint.Value;
 
         //This kinda sucks... I would prefer to just kill whatever rouge tweener that forces me to do this, but I've tried everything I can think of to do so. ¯\_(ツ)_/¯
 
         yield return null;
+        MintChocolateHelperModule.Session.PsuedoDeathTeleportingPlayer = false;
         player.Sprite.Scale.X = 1;
     }
 }

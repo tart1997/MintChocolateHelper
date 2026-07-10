@@ -3,16 +3,6 @@ local FlagsOnAwake = {}
 FlagsOnAwake.name = "MintChocolateHelper/FlagsOnAwake"
 FlagsOnAwake.justification = {0.5, 0.5}
 
-FlagsOnAwake.placements = {
-    {
-        name = "flags_on_awake",
-        data = {
-            flags = "Flag1",
-            value = true,
-        }
-    }
-}
-
 FlagsOnAwake.fieldInformation = {
     flags = {
         fieldType = "list",
@@ -22,6 +12,6 @@ FlagsOnAwake.fieldInformation = {
     }
 }
 
-FlagsOnAwake.texture = "loenn/mintchocolatehelper/FlagsOnAwake"
+FlagsOnAwake.texture = "loenn/mintchocolatehelper/FlagsOnAwakeController"
 
 return FlagsOnAwake

@@ -1,6 +1,6 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Extras;
 
-public class FakeDeath
+public class PsuedoDeath
 {
     private static ILHook FakeDeathHook_origDie;
 
@@ -82,41 +82,41 @@ public class FakeDeath
 
     private static void StorePlayerBullshit()
     {
-        if (Engine.Scene is Level level)
-        {
-            Player player = level.Tracker.GetEntity<Player>();
+        if (Utils.LevelIsNotSafe(out Level level)) return;
 
-            MintChocolateHelperModule.Session.CDT_Depth = player.Depth;
-            MintChocolateHelperModule.Session.CDT_Collidable = player.Collidable;
-            MintChocolateHelperModule.Session.CDT_Visible = player.Visible;
-        }
+        Player player = level.Tracker.GetEntity<Player>();
+
+        MintChocolateHelperModule.Session.DepthBeforePsuedoDeath = player.Depth;
+        MintChocolateHelperModule.Session.WasCollidableBeforePsuedoDeath = player.Collidable;
+        MintChocolateHelperModule.Session.WasVisibleBeforePsuedoDeath = player.Visible;
     }
 
-    private static bool ShouldSkipRemovePlayer() => Engine.Scene is Level && (MintChocolateHelperModule.Session.CancelDeathTriggerGetter.Exists || MintChocolateHelperModule.Session.HasJesusRefill);
+    private static bool ShouldSkipRemovePlayer() => Utils.CheckEntityExistence<CancelDeathTrigger>() || MintChocolateHelperModule.Session.HasJesusRefill;
 
     private static void FakeKillPlayer()
     {
-        if (Engine.Scene is Level level && (MintChocolateHelperModule.Session.CancelDeathTriggerGetter.Exists || MintChocolateHelperModule.Session.HasJesusRefill))
-        {
-            Player player = level.Tracker.GetEntity<Player>();
-            player.StateMachine.state = 17;
-            player.Collidable = false;
-            player.Visible = false;
-            MintChocolateHelperModule.Session.PlayerIsPsuedoDead = true;
-        }
+        if (Utils.LevelIsNotSafe(out Level level) || !ShouldSkipRemovePlayer()) return;
+
+        Player player = level.Tracker.GetEntity<Player>();
+        player.StateMachine.state = 17;
+        player.Collidable = false;
+        player.Visible = false;
+        MintChocolateHelperModule.Session.PlayerIsPsuedoDead = true;
     }
 
     private static void PanicRemovePlayerIfPlayerIsStillLoaded(On.Celeste.Level.orig_Reload orig, Level level)
     {
-        if (Engine.Scene is Level)
-        {
-            Player player = level.Tracker.GetEntity<Player>();
-            player?.RemoveSelf();
+        Player player = level.Tracker.GetEntity<Player>();
+        player?.RemoveSelf();
 
-            MintChocolateHelperModule.Session.PlayerIsPsuedoDead = false;
-            MintChocolateHelperModule.Session.HasJesusRefill = false;
-            MintChocolateHelperModule.Session.JesusRefillDisableQuickRespawn = false;
-        }
+        MintChocolateHelperModule.Session.PlayerIsPsuedoDead = false;
+        MintChocolateHelperModule.Session.HasJesusRefill = false;
+        MintChocolateHelperModule.Session.JesusRefillDisableQuickRespawn = false;
+
+        MintChocolateHelperModule.Session.HasSpeedFlipRefill = false;
+
+        MintChocolateHelperModule.Session.HasHeartBreakerDash = false;
+        MintChocolateHelperModule.Session.HeartBreakerDashActive = false;
 
         orig(level);
     }
@@ -124,10 +124,9 @@ public class FakeDeath
     private static void MovePlayer(On.Celeste.PlayerDeadBody.orig_Update orig, PlayerDeadBody playerDeadBody)
     {
         orig(playerDeadBody);
-        if (Engine.Scene is Level level && MintChocolateHelperModule.Session.HasJesusRefill)
-        {
-            Player player = level.Tracker.GetEntity<Player>();
-            player?.Position = playerDeadBody.Position;
-        }
+        if (Utils.LevelIsNotSafe(out Level level) || MintChocolateHelperModule.Session.PsuedoDeathTeleportingPlayer || !MintChocolateHelperModule.Session.HasJesusRefill) return;
+
+        Player player = level.Tracker.GetEntity<Player>();
+        player?.Position = playerDeadBody.Position;
     }
 }

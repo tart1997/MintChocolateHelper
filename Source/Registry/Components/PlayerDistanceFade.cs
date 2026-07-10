@@ -49,9 +49,10 @@ public class PlayerDistanceFade : Component
     public override void Render()
     {
         base.Render();
+        if (Utils.LevelIsNotSafe(out Level level)) return;
 
         Decal decal = (Decal)Entity;
-        Player player = SceneAs<Level>().Tracker.GetEntity<Player>();
+        Player player = level.Tracker.GetEntity<Player>();
 
         CurrentColor = decal.Color;
 

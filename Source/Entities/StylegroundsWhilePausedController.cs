@@ -1,12 +1,12 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
-[CustomEntity("MintChocolateHelper/StylegroundsWhilePaused")]
+[CustomEntity("MintChocolateHelper/StylegroundsWhilePaused", "MintChocolateHelper/StylegroundsWhilePausedController")]
 [Tracked]
-public class StylegroundsWhilePaused : Entity
+public class StylegroundsWhilePausedController : Entity
 {
     private readonly string updateTag;
 
-    public StylegroundsWhilePaused(EntityData data, Vector2 offset) : base(data.Position + offset)
+    public StylegroundsWhilePausedController(EntityData data, Vector2 offset) : base(data.Position + offset)
     {
         updateTag = data.Attr("updateTag");
     }
@@ -14,7 +14,7 @@ public class StylegroundsWhilePaused : Entity
     public override void Awake(Scene scene)
     {
         base.Awake(scene);
-        if (scene is not Level level) return;
+        if (Utils.SceneIsNotSafe(scene, out Level level)) return;
 
         foreach (Backdrop dummy in level.Background.Backdrops.Where(backdrop => backdrop.Tags.Contains(updateTag)))
         {
@@ -28,7 +28,7 @@ public class StylegroundsWhilePaused : Entity
 
     public override void Update()
     {
-        if (Scene is not Level level) return;
+        if (Utils.LevelIsNotSafe(out Level level)) return;
 
         foreach (Backdrop backdrop in level.Background.Backdrops.Where(backdrop => Scene.Paused && backdrop.Tags.Contains(updateTag)))
         {
@@ -73,16 +73,16 @@ public class StylegroundsWhilePaused : Entity
 
     private static void UpdateBackdrops()
     {
-        if (Engine.Scene is not Level level || !MintChocolateHelperModule.Session.StylegroundsWhilePausedControllerGetter.Exists) return;
+        if (Utils.LevelIsNotSafe(out Level level) || !Utils.CheckEntityExistence(out StylegroundsWhilePausedController SWPController)) return;
 
         foreach (Backdrop backdrop in level.Background.Backdrops.Where(backdrop =>
-            backdrop.Tags.Contains(MintChocolateHelperModule.Session.StylegroundsWhilePausedControllerGetter.SWPController.updateTag)))
+            backdrop.Tags.Contains(SWPController.updateTag)))
         {
             backdrop.Update(level);
         }
 
         foreach (Backdrop backdrop in level.Foreground.Backdrops.Where(backdrop =>
-            backdrop.Tags.Contains(MintChocolateHelperModule.Session.StylegroundsWhilePausedControllerGetter.SWPController.updateTag)))
+            backdrop.Tags.Contains(SWPController.updateTag)))
         {
             backdrop.Update(level);
         }

@@ -9,20 +9,16 @@ public class MintChocolateHelperModuleSession : EverestModuleSession
     // Speed Flip Refill
     internal bool HasSpeedFlipRefill {get; set;}
 
+    // Psuedo Death
+    internal bool PlayerIsPsuedoDead {get; set;}
+    internal int DepthBeforePsuedoDeath {get; set;}
+    internal bool WasCollidableBeforePsuedoDeath {get; set;}
+    internal bool WasVisibleBeforePsuedoDeath {get; set;}
+
     // Jesus Refill
     internal bool HasJesusRefill {get; set;}
     internal bool JesusRefillDisableQuickRespawn {get; set;}
 
     // Cancel Death Trigger
-    internal bool PlayerIsPsuedoDead {get; set;}
-    internal int CDT_Depth {get; set;}
-    internal bool CDT_Collidable {get; set;}
-    internal bool CDT_Visible {get; set;}
-
-    // Controller Getters
-    internal (DebrisTweaksController DTWAController, bool Exists) DebrisTweaksWindAffectedControllerGetter {get; set;}
-    internal (DebrisTweaksController DTAFController, bool Exists) DebrisTweaksAlternateFadeoutControllerGetter {get; set;}
-    internal (DisableQuickRespawn DQRController, bool Exists) DisableQuickRepawnControllerGetter {get; set;}
-    internal (StylegroundsWhilePaused SWPController, bool Exists) StylegroundsWhilePausedControllerGetter {get; set;}
-    internal (CancelDeathTrigger CDTrigger, bool Exists) CancelDeathTriggerGetter {get; set;}
+    internal bool PsuedoDeathTeleportingPlayer {get; set;}
 }

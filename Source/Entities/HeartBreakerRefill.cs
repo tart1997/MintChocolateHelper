@@ -17,7 +17,6 @@ public class HeartBreakerRefill : Entity
     private readonly BloomPoint bloom;
     private readonly VertexLight light;
 
-    private Level level;
     private readonly SineWave sine;
 
     private readonly bool oneUse;
@@ -78,15 +77,12 @@ public class HeartBreakerRefill : Entity
         UpdateY();
     }
 
-    public override void Added(Scene scene)
-    {
-        base.Added(scene);
-        level = SceneAs<Level>();
-    }
-
     public override void Update()
     {
         base.Update();
+
+        if (Utils.LevelIsNotSafe(out Level level)) return;
+
         if (respawnTimer > 0f)
         {
             respawnTimer -= Engine.DeltaTime;
@@ -114,16 +110,15 @@ public class HeartBreakerRefill : Entity
 
     private void Respawn()
     {
-        if (!Collidable)
-        {
-            Collidable = true;
-            sprite.Visible = true;
-            outline.Visible = false;
-            Depth = -100;
-            wiggler.Start();
-            Audio.Play("event:/game/general/diamond_return", Position);
-            level.ParticlesFG.Emit(P_Regen, 16, Position, Vector2.One * 2f);
-        }
+        if (Utils.LevelIsNotSafe(out Level level) || Collidable) return;
+
+        Collidable = true;
+        sprite.Visible = true;
+        outline.Visible = false;
+        Depth = -100;
+        wiggler.Start();
+        Audio.Play("event:/game/general/diamond_return", Position);
+        level.ParticlesFG.Emit(P_Regen, 16, Position, Vector2.One * 2f);
     }
 
     private void UpdateY()
@@ -157,6 +152,8 @@ public class HeartBreakerRefill : Entity
 
     private IEnumerator RefillRoutine(Player player)
     {
+        if (Utils.LevelIsNotSafe(out Level level)) yield break;
+
         Celeste.Freeze(0.05f);
         yield return null;
 
@@ -187,7 +184,6 @@ public class HeartBreakerRefill : Entity
         On.Celeste.Player.Die += HeartBreakerDash;
         On.Celeste.Player.DashEnd += HeartBreakerDashEnd;
         On.Celeste.Player.DashBegin += HeartBreakerDashBegin;
-        On.Celeste.PlayerHair.GetHairColor += HeartBreakerDashHairColor;
     }
 
     [OnUnload]
@@ -196,14 +192,11 @@ public class HeartBreakerRefill : Entity
         On.Celeste.Player.Die -= HeartBreakerDash;
         On.Celeste.Player.DashEnd -= HeartBreakerDashEnd;
         On.Celeste.Player.DashBegin -= HeartBreakerDashBegin;
-        On.Celeste.PlayerHair.GetHairColor -= HeartBreakerDashHairColor;
     }
-
-    private static Color HeartBreakerDashHairColor(On.Celeste.PlayerHair.orig_GetHairColor orig, PlayerHair self, int index) => MintChocolateHelperModule.Session.HasHeartBreakerDash ? Color.FromNonPremultiplied(230, 0, 30, 255) : orig(self, index);
 
     private static PlayerDeadBody HeartBreakerDash(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction, bool evenIfInvincible = false, bool registerDeathInStats = true)
     {
-        if (!MintChocolateHelperModule.Session.HeartBreakerDashActive || evenIfInvincible)
+        if (!MintChocolateHelperModule.Session.HasJesusRefill && !Utils.CheckEntityExistence<CancelDeathTrigger>() && (!MintChocolateHelperModule.Session.HeartBreakerDashActive || evenIfInvincible))
         {
             MintChocolateHelperModule.Session.HasHeartBreakerDash = false;
             MintChocolateHelperModule.Session.HeartBreakerDashActive = false;

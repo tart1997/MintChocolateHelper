@@ -37,7 +37,7 @@ public class SnappyStylegroundController : Entity
 
     public override void Update()
     {
-        if (Scene is not Level level) return;
+        if (Utils.LevelIsNotSafe(out Level level)) return;
 
         foreach (Backdrop backdrop in level.Background.Backdrops.Where(backdrop => backdrop.Tags.Contains(SnapTag)))
         {
@@ -120,22 +120,19 @@ public class SnappyStylegroundController : Entity
 
     private static void setWindPetals(Backdrop windPetals)
     {
-        if (Engine.Scene is not Level level) return;
-
+        if (Utils.LevelIsNotSafe(out Level level)) return;
         WindPetalsFade?.SetValue(windPetals, level.Session.GetFlag(windPetals.OnlyIfFlag) ? 1 : 0);
     }
 
     private static void setCustomGodRays(Backdrop godrays)
     {
-        if (Engine.Scene is not Level level) return;
-
+        if (Utils.LevelIsNotSafe(out Level level)) return;
         CustomGodraysFade?.SetValue(godrays, level.Session.GetFlag(godrays.OnlyIfFlag) ? 1 : 0);
     }
 
     private static void setVivRain(Backdrop vivRain)
     {
-        if (Engine.Scene is not Level level) return;
-
+        if (Utils.LevelIsNotSafe(out Level level)) return;
         VivCustomRainFade?.SetValue(vivRain, level.Session.GetFlag(vivRain.OnlyIfFlag) ? 1 : 0);
     }
 }

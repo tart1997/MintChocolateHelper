@@ -10,7 +10,7 @@ public class StopInteractingTrigger : Trigger
     public override void OnEnter(Player player)
     {
         base.OnEnter(player);
-        if (Scene is not Level level) return;
+        if (Utils.LevelIsNotSafe(out Level level)) return;
 
         foreach (Lookout lookout in level.Tracker.GetEntitiesTrackIfNeeded<Lookout>().Cast<Lookout>())
         {

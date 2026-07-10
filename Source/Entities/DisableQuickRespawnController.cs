@@ -1,16 +1,17 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
-[CustomEntity("MintChocolateHelper/DisableQuickRespawn")]
+[CustomEntity("MintChocolateHelper/DisableQuickRespawn", "MintChocolateHelper/DisableQuickRespawnController")]
 [Tracked]
-public class DisableQuickRespawn : Entity
+public class DisableQuickRespawnController : Entity
 {
     private readonly string DisableFlag;
     private readonly object DisableFlagExpression;
     private readonly bool IsValidExpression;
 
-    public DisableQuickRespawn(EntityData data, Vector2 offset) : base(data.Position + offset)
+    public DisableQuickRespawnController(EntityData data, Vector2 offset) : base(data.Position + offset)
     {
         DisableFlag = data.Attr("disableFlag");
+
         if (FrostHelperImports.IsImported && FrostHelperImports.TryCreateSessionExpression(DisableFlag, out DisableFlagExpression))
         {
             IsValidExpression = true;
@@ -53,16 +54,16 @@ public class DisableQuickRespawn : Entity
 
     private static bool DeadBodyCheck()
     {
-        if (Engine.Scene is not Level level) return false;
+        if (Utils.LevelIsNotSafe(out Level level)) return false;
         if (MintChocolateHelperModule.Session.JesusRefillDisableQuickRespawn) return true;
-        if (!MintChocolateHelperModule.Session.DisableQuickRepawnControllerGetter.Exists) return false;
-        if (MintChocolateHelperModule.Session.DisableQuickRepawnControllerGetter.DQRController.DisableFlag == "") return false;
+        if (!Utils.CheckEntityExistence(out DisableQuickRespawnController DQRController)) return false;
+        if (DQRController.DisableFlag == "") return false;
 
-        if (FrostHelperImports.IsImported && MintChocolateHelperModule.Session.DisableQuickRepawnControllerGetter.DQRController.IsValidExpression)
+        if (FrostHelperImports.IsImported && DQRController.IsValidExpression)
         {
-            return FrostHelperImports.GetBoolSessionExpressionValue(MintChocolateHelperModule.Session.DisableQuickRepawnControllerGetter.DQRController.DisableFlagExpression, level.Session);
+            return FrostHelperImports.GetBoolSessionExpressionValue(DQRController.DisableFlagExpression, level.Session);
         }
 
-        return level.Session.GetFlag(MintChocolateHelperModule.Session.DisableQuickRepawnControllerGetter.DQRController.DisableFlag);
+        return level.Session.GetFlag(DQRController.DisableFlag);
     }
 }

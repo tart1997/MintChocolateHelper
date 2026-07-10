@@ -16,8 +16,6 @@ public class SpeedFlipRefill : Entity
     private readonly BloomPoint bloom;
     private readonly VertexLight light;
 
-    private Level level;
-
     private readonly SineWave sine;
 
     private readonly bool oneUse;
@@ -88,14 +86,10 @@ public class SpeedFlipRefill : Entity
         Depth = -100;
     }
 
-    public override void Added(Scene scene)
-    {
-        base.Added(scene);
-        level = SceneAs<Level>();
-    }
-
     public override void Update()
     {
+        if (Utils.LevelIsNotSafe(out Level level)) return;
+
         base.Update();
         if (respawnTimer > 0f)
         {
@@ -112,16 +106,8 @@ public class SpeedFlipRefill : Entity
 
         UpdateY();
 
-        if (!disableAmbientEffects)
-        {
-            light.Alpha = Calc.Approach(light.Alpha, sprite.Visible ? 1f : 0f, 4f * Engine.DeltaTime);
-            bloom.Alpha = light.Alpha * 0.8f;
-        }
-        else
-        {
-            light.Alpha = 0f;
-            bloom.Alpha = 0f;
-        }
+        light.Alpha = disableAmbientEffects ? 0f : Calc.Approach(light.Alpha, sprite.Visible ? 1f : 0f, 4f * Engine.DeltaTime);
+        bloom.Alpha = disableAmbientEffects ? 0f : light.Alpha * 0.8f;
 
         if (Scene.OnInterval(2f) && sprite.Visible)
         {
@@ -132,21 +118,17 @@ public class SpeedFlipRefill : Entity
 
     private void Respawn()
     {
-        if (oneUse) return;
+        if (Utils.LevelIsNotSafe(out Level level) || oneUse || Collidable) return;
 
-        if (!Collidable)
-        {
-            Collidable = true;
-            sprite.Visible = true;
-            outline.Visible = false;
-            Depth = -100;
-            wiggler.Start();
-            if (!disableCollectEffects)
-            {
-                Audio.Play("event:/game/general/diamond_return", Position);
-                level.ParticlesFG.Emit(P_Regen, 16, Position, Vector2.One * 2f);
-            }
-        }
+        Collidable = true;
+        sprite.Visible = true;
+        outline.Visible = false;
+        Depth = -100;
+        wiggler.Start();
+        if (disableCollectEffects) return;
+
+        Audio.Play("event:/game/general/diamond_return", Position);
+        level.ParticlesFG.Emit(P_Regen, 16, Position, Vector2.One * 2f);
     }
 
     private void UpdateY()
@@ -184,6 +166,8 @@ public class SpeedFlipRefill : Entity
 
     private IEnumerator RefillRoutine(Player player)
     {
+        if (Utils.LevelIsNotSafe(out Level level)) yield break;
+
         Celeste.Freeze(0.05f);
         yield return null;
 
@@ -196,15 +180,13 @@ public class SpeedFlipRefill : Entity
         }
 
         Depth = 8999;
+        if (disableCollectEffects) yield break;
         yield return 0.05f;
 
-        if (!disableCollectEffects)
-        {
-            float num = player.Speed.Angle();
-            level.ParticlesFG.Emit(P_Shatter, 5, Position, Vector2.One * 4f, num - MathF.PI / 2f);
-            level.ParticlesFG.Emit(P_Shatter, 5, Position, Vector2.One * 4f, num + MathF.PI / 2f);
-            SlashFx.Burst(Position, num);
-        }
+        float num = player.Speed.Angle();
+        level.ParticlesFG.Emit(P_Shatter, 5, Position, Vector2.One * 4f, num - MathF.PI / 2f);
+        level.ParticlesFG.Emit(P_Shatter, 5, Position, Vector2.One * 4f, num + MathF.PI / 2f);
+        SlashFx.Burst(Position, num);
     }
 
     [OnLoad]
@@ -212,7 +194,6 @@ public class SpeedFlipRefill : Entity
     {
         On.Celeste.Player.Die += SpeedFlipRefillDie;
         On.Celeste.Player.NormalUpdate += SpeedFlipRefillJump;
-        On.Celeste.PlayerHair.GetHairColor += SpeedFlipRefillHairColor;
     }
 
     [OnUnload]
@@ -220,20 +201,20 @@ public class SpeedFlipRefill : Entity
     {
         On.Celeste.Player.Die -= SpeedFlipRefillDie;
         On.Celeste.Player.NormalUpdate -= SpeedFlipRefillJump;
-        On.Celeste.PlayerHair.GetHairColor -= SpeedFlipRefillHairColor;
     }
-
-    private static Color SpeedFlipRefillHairColor(On.Celeste.PlayerHair.orig_GetHairColor orig, PlayerHair self, int index) => MintChocolateHelperModule.Session.HasSpeedFlipRefill ? Color.Purple : orig(self, index);
 
     private static PlayerDeadBody SpeedFlipRefillDie(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction, bool evenIfInvincible = false, bool registerDeathInStats = true)
     {
-        MintChocolateHelperModule.Session.HasSpeedFlipRefill = false;
+        if (!MintChocolateHelperModule.Session.HasJesusRefill && !Utils.CheckEntityExistence<CancelDeathTrigger>())
+        {
+            MintChocolateHelperModule.Session.HasSpeedFlipRefill = false;
+        }
         return orig(self, direction, evenIfInvincible, registerDeathInStats);
     }
 
     private static int SpeedFlipRefillJump(On.Celeste.Player.orig_NormalUpdate orig, Player self)
     {
-        if (Engine.Scene is not Level level) return orig(self);
+        if (Utils.LevelIsNotSafe(out Level level)) return orig(self);
 
         List<Entity> refills = level.Tracker.GetEntities<SpeedFlipRefill>();
         if (refills == null || refills.Count == 0 || refills[0] is not SpeedFlipRefill refill) return orig(self);

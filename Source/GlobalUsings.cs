@@ -1,10 +1,6 @@
-﻿// ReSharper disable RedundantUsingDirective.Global
-
-global using Celeste;
-global using Celeste.Editor;
+﻿global using Celeste.Editor;
 global using Celeste.Mod.Entities;
 global using Celeste.Mod.Helpers;
-global using Celeste.Mod.MintChocolateHelper.Entities;
 global using Celeste.Mod.MintChocolateHelper.Extras;
 global using Celeste.Mod.MintChocolateHelper.ModInterop;
 global using Celeste.Mod.MintChocolateHelper.Registry.Components;
@@ -27,9 +23,7 @@ global using System.Threading.Tasks;
 global using System.Xml;
 
 global using Microsoft.Xna.Framework;
-global using Microsoft.Xna.Framework.Graphics;
 
-global using Mono.Cecil.Cil;
 global using Monocle;
 global using MonoMod.Cil;
 global using MonoMod.RuntimeDetour;

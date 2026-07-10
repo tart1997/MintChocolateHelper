@@ -22,11 +22,10 @@ public class PulseFlagTrigger : Trigger
 
     private IEnumerator Pulse()
     {
-        if (Scene is not Level level) yield break;
+        if (Utils.LevelIsNotSafe(out Level level)) yield break;
 
         level.Session.SetFlag(Flag, !Invert);
         yield return Frames / 60f;
-
         level.Session.SetFlag(Flag, Invert);
     }
 }

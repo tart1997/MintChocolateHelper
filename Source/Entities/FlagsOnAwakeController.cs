@@ -1,12 +1,12 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
-[CustomEntity("MintChocolateHelper/FlagsOnAwake")]
-public class FlagsOnAwake : Entity
+[CustomEntity("MintChocolateHelper/FlagsOnAwake", "MintChocolateHelper/FlagsOnAwakeController")]
+public class FlagsOnAwakeController : Entity
 {
     private readonly string[] Flags;
     private readonly bool Value;
 
-    public FlagsOnAwake(EntityData data, Vector2 offset) : base(data.Position + offset)
+    public FlagsOnAwakeController(EntityData data, Vector2 offset) : base(data.Position + offset)
     {
         Flags = data.Attr("flags", "Flag1").Split(',');
         Value = data.Bool("value", true);
@@ -15,7 +15,7 @@ public class FlagsOnAwake : Entity
     public override void Awake(Scene scene)
     {
         base.Awake(scene);
-        if (scene is not Level level) return;
+        if (Utils.SceneIsNotSafe(scene, out Level level)) return;
 
         foreach (string flag in Flags)
         {

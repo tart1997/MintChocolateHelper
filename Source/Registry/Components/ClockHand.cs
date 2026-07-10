@@ -99,12 +99,24 @@ public class ClockHand : Component
 
     public override void Update()
     {
-        if (Scene is not Level level) return;
+        if (Utils.LevelIsNotSafe(out Level level)) return;
         Decal decal = (Decal)Entity;
 
         AllowTick = AllowTickFlag == "" || level.Session.GetFlag(AllowTickFlag);
 
-        if (!FinishedCurrentTick)
+        if (FinishedCurrentTick)
+        {
+            if (TickDelayTimer < TickDelay)
+            {
+                TickDelayTimer += Engine.DeltaTime;
+            }
+            else
+            {
+                TickDelayTimer -= TickDelay;
+                FinishedCurrentTick = false;
+            }
+        }
+        else
         {
             if (TickSpeedTimer < TickSpeed)
             {
@@ -143,18 +155,6 @@ public class ClockHand : Component
                     TickSpeedTimer -= TickSpeed;
                     FinishedCurrentTick = true;
                 }
-            }
-        }
-        else
-        {
-            if (TickDelayTimer < TickDelay)
-            {
-                TickDelayTimer += Engine.DeltaTime;
-            }
-            else
-            {
-                TickDelayTimer -= TickDelay;
-                FinishedCurrentTick = false;
             }
         }
     }

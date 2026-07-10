@@ -28,28 +28,28 @@ public class MessageWebhookTrigger : Trigger
 
         if (user != "")
         {
-            if (!txt)
-            {
-                payload = "{\"content\": \"" + "<@" + user + "> " + @"\n\n" + message + "\"}";
-            }
-            else
+            if (txt)
             {
                 string v = Dialog.Clean(message);
                 v = v.Replace("\n", "\\n");
                 payload = "{\"content\": \"" + "<@" + user + "> " + @"\n\n" + v + "\"}";
             }
+            else
+            {
+                payload = "{\"content\": \"" + "<@" + user + "> " + @"\n\n" + message + "\"}";
+            }
         }
         else
         {
-            if (!txt)
-            {
-                payload = "{\"content\": \"" + message + "\"}";
-            }
-            else
+            if (txt)
             {
                 string v = Dialog.Clean(message);
                 v = v.Replace("\n", "\\n");
                 payload = "{\"content\": \"" + v + "\"}";
+            }
+            else
+            {
+                payload = "{\"content\": \"" + message + "\"}";
             }
         }
 

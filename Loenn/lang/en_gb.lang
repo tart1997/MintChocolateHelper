@@ -8,12 +8,23 @@ entities.MintChocolateHelper/FlagsOnAwake.placements.description.flags_on_awake=
 entities.MintChocolateHelper/FlagsOnAwake.attributes.description.flags=The List of flags to set
 entities.MintChocolateHelper/FlagsOnAwake.attributes.description.value=The value to set all the flags to
 
+entities.MintChocolateHelper/FlagsOnAwakeController.placements.name.flags_on_awake_controller=Flags On Awake Controller
+entities.MintChocolateHelper/FlagsOnAwakeController.placements.description.flags_on_awake_controller=Sets a list of flags to a specified value before anything else has a chance to read them
+
+entities.MintChocolateHelper/FlagsOnAwakeController.attributes.description.flags=The List of flags to set
+entities.MintChocolateHelper/FlagsOnAwakeController.attributes.description.value=The value to set all the flags to
+
 
 
 entities.MintChocolateHelper/StylegroundsWhilePaused.placements.name.stylegrounds_while_paused=Stylegrounds While Paused Controller
 entities.MintChocolateHelper/StylegroundsWhilePaused.placements.description.stylegrounds_while_paused=Forces any Stylegrounds with the specified Tag to ALWAYS update, even while the game is paused\nNot guaranteed to work with more exotic Stylegrounds
 
 entities.MintChocolateHelper/StylegroundsWhilePaused.attributes.description.updateTag=The Tag used to mark a Styleground as one that always updates\n\nNOTE: If this field is left empty, it will effect all stylegrounds indiscriminately\n           This is a feature, not a bug
+
+entities.MintChocolateHelper/StylegroundsWhilePausedController.placements.name.stylegrounds_while_paused_controller=Stylegrounds While Paused Controller
+entities.MintChocolateHelper/StylegroundsWhilePausedController.placements.description.stylegrounds_while_paused_controller=Forces any Stylegrounds with the specified Tag to ALWAYS update, even while the game is paused\nNot guaranteed to work with more exotic Stylegrounds
+
+entities.MintChocolateHelper/StylegroundsWhilePausedController.attributes.description.updateTag=The Tag used to mark a Styleground as one that always updates\n\nNOTE: If this field is left empty, it will effect all stylegrounds indiscriminately\n           This is a feature, not a bug
 
 
 
@@ -75,6 +86,11 @@ entities.MintChocolateHelper/DisableQuickRespawn.placements.name.disable_quick_r
 entities.MintChocolateHelper/DisableQuickRespawn.placements.description.disable_quick_respawn=If the provided flag is true, Disables the quick respawn mechanic
 
 entities.MintChocolateHelper/DisableQuickRespawn.attributes.description.disableFlag=The flag to check\n\nSupports Frost Helper Session expressions!
+
+entities.MintChocolateHelper/DisableQuickRespawnController.placements.name.disable_quick_respawn_controller=Disable Quick Respawn Controller
+entities.MintChocolateHelper/DisableQuickRespawnController.placements.description.disable_quick_respawn_controller=If the provided flag is true, Disables the quick respawn mechanic
+
+entities.MintChocolateHelper/DisableQuickRespawnController.attributes.description.disableFlag=The flag to check\n\nSupports Frost Helper Session expressions!
 
 
 

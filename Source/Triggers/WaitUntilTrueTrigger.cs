@@ -1,8 +1,8 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
 
-[CustomEntity("MintChocolateHelper/WaitUntilTrueTrigger")]
-
 //   ### A large majority of this is ripped straight from Crystalline trigger triggers (Obviously) ###
+
+[CustomEntity("MintChocolateHelper/WaitUntilTrueTrigger")]
 public class WaitUntilTrueTrigger : Trigger
 {
     private readonly Vector2[] nodes;
@@ -163,7 +163,7 @@ public class WaitUntilTrueTrigger : Trigger
 
     private IEnumerator WaitUntilTrue()
     {
-        if (Scene is not Level level) yield break;
+        if (Utils.LevelIsNotSafe(out Level level)) yield break;
 
         if (FrostHelperImports.IsImported && IsValidExpression)
         {
