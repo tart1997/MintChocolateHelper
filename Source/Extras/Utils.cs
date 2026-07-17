@@ -77,4 +77,14 @@ internal static class Utils
         Entity = null;
         return false;
     }
+
+    public static void LogError(string message)
+    {
+        Logger.Log(LogLevel.Error, "Mint Chocolate Helper", message);
+    }
+
+    public static void LogInfo(string message)
+    {
+        Logger.Log(LogLevel.Info, "Mint Chocolate Helper", message);
+    }
 }
