@@ -93,6 +93,6 @@ public static class ParserHooks
     {
         if (Utils.LevelIsNotSafe(out Level level)) return;
         Textbox textbox = level.Tracker.GetEntitiesTrackIfNeeded<Textbox>().Cast<Textbox>().FirstOrDefault();
-        textbox?.text.Draw(vector + vector2 + vector3 + new Vector2(3, textbox.lineHeight * (textbox.text.Lines - 1) / 4) * 1.5f + Vector2.UnitY, new Vector2(0.5f, 0.5f), new Vector2(1f, num) * num6, num, textbox.Start);
+        textbox?.text.Draw(vector + vector2 + vector3 - new Vector2(0, textbox.linesPerPage * textbox.lineHeight / 2), new Vector2(0.5f, 0f), new Vector2(1f, num) * num6, num, textbox.Start);
     }
 }
