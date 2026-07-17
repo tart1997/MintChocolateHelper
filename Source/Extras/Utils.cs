@@ -91,10 +91,10 @@ internal static class Utils
     {
         Logger.Log(LogLevel.Info, "Mint Chocolate Helper", message);
     }
-    
+
     public static VariableDefinition AddVariable(this MethodBody self, TypeReference type)
     {
-        VariableDefinition variable = new VariableDefinition(type);
+        VariableDefinition variable = new(type);
         self.Variables.Add(variable);
         return variable;
     }

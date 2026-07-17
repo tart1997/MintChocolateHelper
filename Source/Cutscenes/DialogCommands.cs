@@ -9,7 +9,7 @@ public static class DialogCommands
     {
         ParserHooks.Load();
         if (!PrismaticHelperImports.IsImported) return;
-        
+
         PrismaticHelperImports.RegisterTrigger(modName, "disable_textbox_line_limit", (_, level, _) => DisableTextboxLineLimit(level));
         return;
 
