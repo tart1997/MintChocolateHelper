@@ -1,4 +1,8 @@
-﻿namespace Celeste.Mod.MintChocolateHelper.Extras;
+﻿using Mono.Cecil;
+using Mono.Cecil.Cil;
+using MethodBody = Mono.Cecil.Cil.MethodBody;
+
+namespace Celeste.Mod.MintChocolateHelper.Extras;
 
 internal static class Utils
 {
@@ -86,5 +90,12 @@ internal static class Utils
     public static void LogInfo(string message)
     {
         Logger.Log(LogLevel.Info, "Mint Chocolate Helper", message);
+    }
+    
+    public static VariableDefinition AddVariable(this MethodBody self, TypeReference type)
+    {
+        VariableDefinition variable = new VariableDefinition(type);
+        self.Variables.Add(variable);
+        return variable;
     }
 }
