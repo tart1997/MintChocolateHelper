@@ -75,7 +75,7 @@ public static class BreakTextBoxCommand
         DynamicData parserData = new(text);
         parserData.Set("MintChocolateHelper:DisableLineLimit", false);
     }
-    
+
     private static void SetDisableLineLimit(FancyText text, string s)
     {
         DynamicData parserData = new(text);
