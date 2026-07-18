@@ -1,14 +1,22 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.DialogCommands;
 
-[SuppressMessage("Usage", "CL0001:Lambda passed to ILCursor.EmitDelegate")]
 public static class BreakTextBoxCommand
 {
+    private class McTrigger : FancyText.Trigger
+    {
+        public McTrigger()
+        {
+            Silent = true;
+        }
+    }
+
     [OnLoad]
     internal static void Load()
     {
         IL.Celeste.FancyText.Parse += ParseCommand;
         IL.Celeste.FancyText.AddNewLine += SkipAddNewPage;
 
+        On.Celeste.Textbox.Render += ShouldJustifyTextDown;
         IL.Celeste.Textbox.Render += JustifyTextDownHook;
     }
 
@@ -18,6 +26,7 @@ public static class BreakTextBoxCommand
         IL.Celeste.FancyText.Parse -= ParseCommand;
         IL.Celeste.FancyText.AddNewLine -= SkipAddNewPage;
 
+        On.Celeste.Textbox.Render -= ShouldJustifyTextDown;
         IL.Celeste.Textbox.Render -= JustifyTextDownHook;
     }
 
@@ -43,10 +52,7 @@ public static class BreakTextBoxCommand
         Utils.LogInfo("MintChocolateHelper is hooking into FancyText.Parse, please let me know if something explodes!");
 
         cursor.Emit(OpCodes.Ldarg_0); // this
-        cursor.EmitDelegate<Action<FancyText>>(text => {
-            DynamicData parserData = new(text);
-            parserData.Set("MintChocolateHelper:DisableLineLimit", false);
-        });
+        cursor.EmitDelegate(ResetDisableLineLimit);
 
 
         // IL_02bc: ldstr "/>>"
@@ -61,15 +67,25 @@ public static class BreakTextBoxCommand
 
         cursor.Emit(OpCodes.Ldarg_0); // this
         cursor.Emit(OpCodes.Ldloc_S, il.Method.Body.Variables[7]); // s
-        cursor.EmitDelegate<Action<FancyText, string>>((text, s) => {
-            DynamicData parserData = new(text);
-            FancyText.Text group = parserData.Get<FancyText.Text>("group");
-            if (s == "VVV")
-            {
-                parserData.Set("MintChocolateHelper:DisableLineLimit", true);
-                DynamicData.For(group).Set("MintChocolateHelper:JustifyTextDownwards", true);
-            }
-        });
+        cursor.EmitDelegate(SetDisableLineLimit);
+    }
+
+    private static void ResetDisableLineLimit(FancyText text)
+    {
+        DynamicData parserData = new(text);
+        parserData.Set("MintChocolateHelper:DisableLineLimit", false);
+    }
+    
+    private static void SetDisableLineLimit(FancyText text, string s)
+    {
+        DynamicData parserData = new(text);
+        FancyText.Text group = parserData.Get<FancyText.Text>("group");
+        List<FancyText.Node> nodes = group.Nodes;
+        if (s == "VVV")
+        {
+            nodes.Add(new McTrigger());
+            parserData.Set("MintChocolateHelper:DisableLineLimit", true);
+        }
     }
 
     private static void SkipAddNewPage(ILContext il)
@@ -153,6 +169,29 @@ public static class BreakTextBoxCommand
         cursor.EmitLdloc(8);
         cursor.EmitLdloc(9);
         cursor.EmitDelegate(JustifyTextDown);
+    }
+
+    private static void ShouldJustifyTextDown(On.Celeste.Textbox.orig_Render orig, Textbox self)
+    {
+        FancyText.Text text = self.text;
+
+        bool HasBreakTextBoxCommand = false;
+        for (int i = self.Start; i < text.Nodes.Count; i++)
+        {
+            if (text.Nodes[i] is McTrigger)
+            {
+                HasBreakTextBoxCommand = true;
+            }
+            else if (text.Nodes[i] is FancyText.NewPage)
+            {
+                break;
+            }
+        }
+
+        DynamicData selfData = new(text);
+        selfData.Set("MintChocolateHelper:JustifyTextDownwards", HasBreakTextBoxCommand);
+
+        orig(self);
     }
 
     private static bool TryJustifyTextDown()
