@@ -67,7 +67,7 @@ public class PsuedoDeath
         cursor.EmitDelegate(ShouldSkipRemovePlayer);
         cursor.EmitBrtrue(dontRemovePlayer);
 
-        if (!cursor.TryGotoNextBestFit(MoveType.After, instr => instr.MatchLdarg0(),
+        if (!cursor.TryGotoNextBestFit(MoveType.After, static instr => instr.MatchLdarg0(),
             static instr => instr.MatchCall<Entity>("get_Scene"),
             static instr => instr.MatchLdarg0(),
             static instr => instr.MatchCallvirt<Scene>("Remove")))

@@ -27,6 +27,8 @@ global using Microsoft.Xna.Framework;
 global using Monocle;
 global using MonoMod.Cil;
 global using MonoMod.RuntimeDetour;
+global using Mono.Cecil.Cil;
+global using MonoMod.Utils;
 
 global using ModInteropImportGenerator;
 global using FlaglinesAndSuch;
