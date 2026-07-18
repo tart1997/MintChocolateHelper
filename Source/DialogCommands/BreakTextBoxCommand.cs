@@ -4,9 +4,12 @@ public static class BreakTextBoxCommand
 {
     private class McTrigger : FancyText.Trigger
     {
-        public McTrigger()
+        public readonly bool DisableTextShrink;
+
+        public McTrigger(bool disableTextShrink)
         {
             Silent = true;
+            DisableTextShrink = disableTextShrink;
         }
     }
 
@@ -81,10 +84,16 @@ public static class BreakTextBoxCommand
         DynamicData parserData = new(text);
         FancyText.Text group = parserData.Get<FancyText.Text>("group");
         List<FancyText.Node> nodes = group.Nodes;
-        if (s == "VVV")
+        switch (s)
         {
-            nodes.Add(new McTrigger());
-            parserData.Set("MintChocolateHelper:DisableLineLimit", true);
+            case "vvv":
+                nodes.Add(new McTrigger(false));
+                parserData.Set("MintChocolateHelper:DisableLineLimit", true);
+                break;
+            case "VVV":
+                nodes.Add(new McTrigger(true));
+                parserData.Set("MintChocolateHelper:DisableLineLimit", true);
+                break;
         }
     }
 
@@ -176,11 +185,17 @@ public static class BreakTextBoxCommand
         FancyText.Text text = self.text;
 
         bool HasBreakTextBoxCommand = false;
+        bool hasdisableTextShrink = false;
+
         for (int i = self.Start; i < text.Nodes.Count; i++)
         {
-            if (text.Nodes[i] is McTrigger)
+            if (text.Nodes[i] is McTrigger trigger)
             {
                 HasBreakTextBoxCommand = true;
+                if (trigger.DisableTextShrink)
+                {
+                    hasdisableTextShrink = true;
+                }
             }
             else if (text.Nodes[i] is FancyText.NewPage)
             {
@@ -190,6 +205,7 @@ public static class BreakTextBoxCommand
 
         DynamicData selfData = new(text);
         selfData.Set("MintChocolateHelper:JustifyTextDownwards", HasBreakTextBoxCommand);
+        selfData.Set("MintChocolateHelper:DisableTextShrink", hasdisableTextShrink);
 
         orig(self);
     }
@@ -209,6 +225,17 @@ public static class BreakTextBoxCommand
     {
         if (Utils.LevelIsNotSafe(out Level level) || !TryJustifyTextDown()) return;
         Textbox textbox = level.Tracker.GetEntitiesTrackIfNeeded<Textbox>().Cast<Textbox>().FirstOrDefault();
-        textbox?.text.Draw(vector + vector2 + vector3 - new Vector2(0, textbox.linesPerPage * textbox.lineHeight / 2) - Vector2.UnitY * 1.5f, new Vector2(0.5f, 0f), new Vector2(1f, num) * num6, num, textbox.Start);
+        FancyText.Text text = textbox?.text;
+        if (text is null) return;
+        DynamicData selfData = new(text);
+
+        if (selfData.TryGet("MintChocolateHelper:DisableTextShrink", out bool? JustifyTextDownwards) && JustifyTextDownwards == true)
+        {
+            textbox.text.Draw(vector + vector2 + vector3 - new Vector2(0, textbox.linesPerPage * textbox.lineHeight / 2) - Vector2.UnitY * 1.5f, new Vector2(0.5f, 0f), new Vector2(1f, num), num, textbox.Start);
+        }
+        else
+        {
+            textbox.text.Draw(vector + vector2 + vector3 - new Vector2(0, textbox.linesPerPage * textbox.lineHeight / 2) - Vector2.UnitY * 1.5f, new Vector2(0.5f, 0f), new Vector2(1f, num) * num6, num, textbox.Start);
+        }
     }
 }
