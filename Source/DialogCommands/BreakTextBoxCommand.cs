@@ -8,7 +8,7 @@ public static class BreakTextBoxCommand
     {
         IL.Celeste.FancyText.Parse += ParseCommand;
         IL.Celeste.FancyText.AddNewLine += SkipAddNewPage;
-        
+
         IL.Celeste.Textbox.Render += JustifyTextDownHook;
     }
 
@@ -17,20 +17,20 @@ public static class BreakTextBoxCommand
     {
         IL.Celeste.FancyText.Parse -= ParseCommand;
         IL.Celeste.FancyText.AddNewLine -= SkipAddNewPage;
-        
+
         IL.Celeste.Textbox.Render -= JustifyTextDownHook;
     }
 
     private static void ParseCommand(ILContext il)
     {
         ILCursor cursor = new(il);
-        
+
         // IL_0231: ldarg.0
         // IL_0232: ldfld class Celeste.FancyText/Text Celeste.FancyText::group
         // IL_0237: ldfld class [mscorlib]System.Collections.Generic.List`1<class Celeste.FancyText/Node> Celeste.FancyText/Text::Nodes
         // IL_023c: newobj instance void Celeste.FancyText/NewPage::.ctor()
         // IL_0241: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class Celeste.FancyText/Node>::Add(!0)
-        
+
         if (!cursor.TryGotoNextBestFit(MoveType.Before, static instr => instr.MatchLdarg0(),
             static instr => instr.MatchLdfld<FancyText>("group"),
             static instr => instr.MatchLdfld<FancyText.Text>("Nodes"),
@@ -41,15 +41,14 @@ public static class BreakTextBoxCommand
             return;
         }
         Utils.LogInfo("MintChocolateHelper is hooking into FancyText.Parse, please let me know if something explodes!");
-        
+
         cursor.Emit(OpCodes.Ldarg_0); // this
         cursor.EmitDelegate<Action<FancyText>>(text => {
             DynamicData parserData = new(text);
             parserData.Set("MintChocolateHelper:DisableLineLimit", false);
         });
-        
-        
-        
+
+
         // IL_02bc: ldstr "/>>"
         // IL_02c1: callvirt instance bool [mscorlib]System.String::Equals(string)
 
@@ -59,7 +58,7 @@ public static class BreakTextBoxCommand
             Logger.Info("debug", $"\n\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck! 2\n\n\n");
             return;
         }
-        
+
         cursor.Emit(OpCodes.Ldarg_0); // this
         cursor.Emit(OpCodes.Ldloc_S, il.Method.Body.Variables[7]); // s
         cursor.EmitDelegate<Action<FancyText, string>>((text, s) => {
@@ -162,7 +161,7 @@ public static class BreakTextBoxCommand
         Textbox textbox = level.Tracker.GetEntitiesTrackIfNeeded<Textbox>().Cast<Textbox>().FirstOrDefault();
         FancyText.Text text = textbox?.text;
         if (text is null) return false;
-        
+
         DynamicData selfData = new(text);
         return selfData.TryGet("MintChocolateHelper:JustifyTextDownwards", out bool? JustifyTextDownwards) && JustifyTextDownwards == true;
     }
@@ -171,6 +170,6 @@ public static class BreakTextBoxCommand
     {
         if (Utils.LevelIsNotSafe(out Level level) || !TryJustifyTextDown()) return;
         Textbox textbox = level.Tracker.GetEntitiesTrackIfNeeded<Textbox>().Cast<Textbox>().FirstOrDefault();
-        textbox?.text.Draw(vector + vector2 + vector3 - new Vector2(0, textbox.linesPerPage * textbox.lineHeight / 2) - Vector2.UnitY*1.5f, new Vector2(0.5f, 0f), new Vector2(1f, num) * num6, num, textbox.Start);
+        textbox?.text.Draw(vector + vector2 + vector3 - new Vector2(0, textbox.linesPerPage * textbox.lineHeight / 2) - Vector2.UnitY * 1.5f, new Vector2(0.5f, 0f), new Vector2(1f, num) * num6, num, textbox.Start);
     }
 }

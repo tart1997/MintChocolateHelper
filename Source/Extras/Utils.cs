@@ -1,8 +1,4 @@
-﻿using Mono.Cecil;
-using Mono.Cecil.Cil;
-using MethodBody = Mono.Cecil.Cil.MethodBody;
-
-namespace Celeste.Mod.MintChocolateHelper.Extras;
+﻿namespace Celeste.Mod.MintChocolateHelper.Extras;
 
 internal static class Utils
 {
