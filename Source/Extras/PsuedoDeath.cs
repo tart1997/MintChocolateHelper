@@ -114,6 +114,7 @@ public class PsuedoDeath
         MintChocolateHelperModule.Session.JesusRefillDisableQuickRespawn = false;
 
         MintChocolateHelperModule.Session.HasSpeedFlipRefill = false;
+        MintChocolateHelperModule.Session.DontRenderSpeedFlipRefillIcon = false;
 
         MintChocolateHelperModule.Session.HasHeartBreakerDash = false;
         MintChocolateHelperModule.Session.HeartBreakerDashActive = false;

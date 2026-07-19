@@ -27,6 +27,43 @@ public class SpeedFlipRefill : Entity
 
     private readonly float ExtraMultiplier;
 
+    private class InvertJumpTrail : Component
+    {
+        private readonly Player Player;
+        private readonly Vector2 Scale;
+        private readonly Color Color;
+
+        private float dashTrailTimer = 0.1f;
+
+        public InvertJumpTrail(Player player, Vector2 scale, Color color) : base(true, true)
+        {
+            Player = player;
+            Scale = scale;
+            Color = color;
+            TrailManager.Add(Player, Scale, Color);
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            if (dashTrailTimer > 0f && !Player.onGround && Player.StateMachine.state != Player.StClimb && Player.StateMachine.state != Player.StDash)
+            {
+                dashTrailTimer -= Engine.DeltaTime;
+
+                if (dashTrailTimer <= 0f)
+                {
+                    TrailManager.Add(Player, Scale, Color);
+                    dashTrailTimer = 0.1f;
+                }
+            }
+            else
+            {
+                RemoveSelf();
+            }
+        }
+    }
+
     public SpeedFlipRefill(EntityData data, Vector2 offset) : base(data.Position + offset)
     {
         oneUse = data.Bool("oneUse");
@@ -160,6 +197,12 @@ public class SpeedFlipRefill : Entity
             Add(new Coroutine(RefillRoutine(player)));
             player.UseRefill(false);
             MintChocolateHelperModule.Session.HasSpeedFlipRefill = true;
+
+            if (disableCollectEffects)
+            {
+                MintChocolateHelperModule.Session.DontRenderSpeedFlipRefillIcon = true;
+            }
+
             respawnTimer = respawnTime;
         }
     }
@@ -208,8 +251,16 @@ public class SpeedFlipRefill : Entity
         if (!MintChocolateHelperModule.Session.HasJesusRefill && !Utils.CheckEntityExistence<CancelDeathTrigger>())
         {
             MintChocolateHelperModule.Session.HasSpeedFlipRefill = false;
+            MintChocolateHelperModule.Session.DontRenderSpeedFlipRefillIcon = false;
         }
         return orig(self, direction, evenIfInvincible, registerDeathInStats);
+    }
+
+    private enum DirectionBeforeInvert
+    {
+        Up,
+        Down,
+        None
     }
 
     private static int SpeedFlipRefillJump(On.Celeste.Player.orig_NormalUpdate orig, Player self)
@@ -223,10 +274,36 @@ public class SpeedFlipRefill : Entity
             && !self.onGround && !self.WallJumpCheck(3) && !self.WallJumpCheck(-3) && self.jumpGraceTimer <= 0f
             && self.varJumpTimer <= 0f && (self.StateMachine.state == Player.StNormal || self.StateMachine.State == Player.StDash))
         {
+            DirectionBeforeInvert directionBeforeInvert = self.Speed.Y switch {
+                0 => DirectionBeforeInvert.None,
+                > 0 => DirectionBeforeInvert.Down,
+                < 0 => DirectionBeforeInvert.Up,
+                _ => DirectionBeforeInvert.None
+            };
+
             self.Speed.Y = -self.Speed.Y * refill.ExtraMultiplier;
             Input.Jump.ConsumeBuffer();
 
+            if (self.Get<InvertJumpTrail>() is { } invertJumpTrail)
+            {
+                invertJumpTrail.RemoveSelf();
+            }
+
+            Vector2 scale = new(Math.Abs(self.Sprite.Scale.X) * (float)self.Facing, self.Sprite.Scale.Y);
+            switch (directionBeforeInvert)
+            {
+                case DirectionBeforeInvert.Down:
+                    self.Add(new InvertJumpTrail(self, scale, Color.Blue));
+                    break;
+                case DirectionBeforeInvert.Up:
+                    self.Add(new InvertJumpTrail(self, scale, Color.Red));
+                    break;
+                case DirectionBeforeInvert.None:
+                    break;
+            }
+
             MintChocolateHelperModule.Session.HasSpeedFlipRefill = false;
+            MintChocolateHelperModule.Session.DontRenderSpeedFlipRefillIcon = false;
 
             if (refill.oneUse)
             {

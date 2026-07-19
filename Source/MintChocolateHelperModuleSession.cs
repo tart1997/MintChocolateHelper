@@ -8,6 +8,7 @@ public class MintChocolateHelperModuleSession : EverestModuleSession
 
     // Speed Flip Refill
     internal bool HasSpeedFlipRefill {get; set;}
+    internal bool DontRenderSpeedFlipRefillIcon {get; set;}
 
     // Psuedo Death
     internal bool PlayerIsPsuedoDead {get; set;}
