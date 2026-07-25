@@ -1,6 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
 [CustomEntity("MintChocolateHelper/SnappyStylegroundController")]
+[UsedImplicitly]
 public class SnappyStylegroundController : Entity
 {
     private readonly string SnapTag;

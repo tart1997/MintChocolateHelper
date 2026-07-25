@@ -1,6 +1,6 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Extras;
 
-public class PsuedoDeath
+public static class PsuedoDeath
 {
     private static ILHook FakeDeathHook_origDie;
 

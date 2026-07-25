@@ -26,6 +26,7 @@ public class FusionHeart : Entity
 
     private Vector2 heartBreakerBonusSpeed;
 
+    [UsedImplicitly]
     public FusionHeart(EntityData data, Vector2 offset) : base(data.Position + offset)
     {
         spriteColor = data.Attr("color", "ff4fed");

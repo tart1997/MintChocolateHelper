@@ -1,6 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
 
 [CustomEntity("MintChocolateHelper/StopInteractingTrigger")]
+[UsedImplicitly]
 public class StopInteractingTrigger : Trigger
 {
     public StopInteractingTrigger(EntityData data, Vector2 offset) : base(data, offset)

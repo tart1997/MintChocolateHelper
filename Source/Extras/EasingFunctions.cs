@@ -1,6 +1,6 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Extras;
 
-public class EasingFunctions
+public static class EasingFunctions
 {
     public enum EasingFunction
     {

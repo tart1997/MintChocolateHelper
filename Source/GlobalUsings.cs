@@ -1,4 +1,6 @@
-﻿global using Celeste.Editor;
+﻿global using JetBrains.Annotations;
+
+global using Celeste.Editor;
 global using Celeste.Mod.Entities;
 global using Celeste.Mod.Helpers;
 global using Celeste.Mod.MintChocolateHelper.Extras;

@@ -3,6 +3,7 @@
 //   ### A large majority of this is ripped straight from Crystalline trigger triggers (Obviously) ###
 
 [CustomEntity("MintChocolateHelper/WaitUntilTrueTrigger")]
+[UsedImplicitly]
 public class WaitUntilTrueTrigger : Trigger
 {
     private readonly Vector2[] nodes;

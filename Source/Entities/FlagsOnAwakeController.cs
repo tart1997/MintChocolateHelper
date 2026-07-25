@@ -1,6 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
 [CustomEntity("MintChocolateHelper/FlagsOnAwake", "MintChocolateHelper/FlagsOnAwakeController")]
+[UsedImplicitly]
 public class FlagsOnAwakeController : Entity
 {
     private readonly string[] Flags;
