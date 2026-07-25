@@ -31,8 +31,6 @@ global using MonoMod.Cil;
 global using MonoMod.RuntimeDetour;
 global using Mono.Cecil.Cil;
 global using MonoMod.Utils;
-global using Mono.Cecil;
-global using MethodBody = Mono.Cecil.Cil.MethodBody;
 
 global using ModInteropImportGenerator;
 global using FlaglinesAndSuch;
