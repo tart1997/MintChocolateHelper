@@ -91,7 +91,36 @@ public static class PsuedoDeath
         MintChocolateHelperModule.Session.WasVisibleBeforePsuedoDeath = player.Visible;
     }
 
-    private static bool ShouldSkipRemovePlayer() => Utils.CheckEntityExistence<CancelDeathTrigger>() || MintChocolateHelperModule.Session.HasJesusRefill;
+    private static bool ShouldSkipRemovePlayer()
+    {
+        if (Utils.LevelIsNotSafe(out Level level)) return false;
+
+        bool CDTriggerExists = false;
+        bool CDTriggerFalseFlagSkip = false;
+        foreach (CancelDeathTrigger CDTrigger in level.Tracker.GetEntities<CancelDeathTrigger>().Cast<CancelDeathTrigger>())
+        {
+            if (CDTrigger.Flag != "")
+            {
+                if (FrostHelperImports.IsImported && CDTrigger.IsValidExpression)
+                {
+                    if (!FrostHelperImports.GetBoolSessionExpressionValue(CDTrigger.FlagExpression, level.Session))
+                    {
+                        CDTriggerFalseFlagSkip = true;
+                    }
+                }
+                else
+                {
+                    if (!level.Session.GetFlag(CDTrigger.Flag))
+                    {
+                        CDTriggerFalseFlagSkip = true;
+                    }
+                }
+            }
+            CDTriggerExists = true;
+        }
+
+        return (CDTriggerExists && !CDTriggerFalseFlagSkip) || MintChocolateHelperModule.Session.HasJesusRefill;
+    }
 
     private static void FakeKillPlayer()
     {

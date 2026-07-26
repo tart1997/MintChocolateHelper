@@ -7,10 +7,20 @@ public class CancelDeathTrigger : Trigger
     private readonly int Delay;
     private readonly bool UnregisterDeathInStats;
 
+    public readonly string Flag;
+    public readonly object FlagExpression;
+    public readonly bool IsValidExpression;
+
     public CancelDeathTrigger(EntityData data, Vector2 offset) : base(data, offset)
     {
         Delay = data.Int("delay");
         UnregisterDeathInStats = data.Bool("unregisterDeathInStats");
+
+        Flag = data.Attr("Flag");
+        if (FrostHelperImports.IsImported && FrostHelperImports.TryCreateSessionExpression(Flag, out FlagExpression))
+        {
+            IsValidExpression = true;
+        }
     }
 
     public override void OnEnter(Player player)

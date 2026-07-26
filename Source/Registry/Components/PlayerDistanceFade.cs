@@ -59,7 +59,7 @@ public class PlayerDistanceFade : Component
         if (player != null)
         {
             DecalDistance = (float)Math.Sqrt(Math.Pow(player.X - decal.X, 2) + Math.Pow(player.Y - decal.Y, 2));
-            ColorPercentage = Math.Clamp(((OuterRadius - InnerRadius) - (DecalDistance - InnerRadius)) / (OuterRadius - InnerRadius), 0, 1);
+            ColorPercentage = Math.Clamp((OuterRadius - InnerRadius - (DecalDistance - InnerRadius)) / (OuterRadius - InnerRadius), 0, 1);
         }
 
         if (FadeOut)
