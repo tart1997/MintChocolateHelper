@@ -112,6 +112,11 @@ entities.MintChocolateHelper/JesusRefill.attributes.description.unregisterDeathI
 
 
 
+entities.MintChocolateHelper/ILoveAnimatedTilesController.placements.name.i_love_animated_tiles_controller=I Love Animated Tiles Controller
+entities.MintChocolateHelper/ILoveAnimatedTilesController.placements.description.i_love_animated_tiles_controller=Gives most if not all Blocks/Walls the Animated Tiles they should have always had\nPlease Please Inform me if any Modded Block/Wall doesn't work or acts weird with this
+
+
+
 
 # Triggers
 
