@@ -74,6 +74,7 @@ public class ILoveAnimatedTilesController : Entity
         if (animatedTiles is null) return;
 
         animatedTiles.Position = tileGrid.Position;
+        animatedTiles.ClipCamera = level.Camera;
         self.Add(animatedTiles);
     }
 
@@ -91,7 +92,6 @@ public class ILoveAnimatedTilesController : Entity
         {
             self.Alpha = tileGrid.Alpha;
         }
-
         if (self.Entity is IntroCrusher introCrusher)
         {
             self.Position = introCrusher.shake;
