@@ -1,6 +1,4 @@
-﻿using EntityList = IL.Monocle.EntityList;
-
-namespace Celeste.Mod.MintChocolateHelper.Entities;
+﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
 [CustomEntity("MintChocolateHelper/ILoveAnimatedTilesController")]
 [Tracked]
@@ -14,7 +12,7 @@ public class ILoveAnimatedTilesController : Entity
     internal static void Load()
     {
         On.Celeste.Autotiler.Generate += AutotilerOnGenerate;
-        EntityList.UpdateLists += EntityListOnUpdateLists;
+        IL.Monocle.EntityList.UpdateLists += EntityListOnUpdateLists;
 
         On.Celeste.Platform.OnShake += PlatformOnOnShake;
         On.Celeste.AnimatedTiles.Render += AnimatedTilesOnRender;
@@ -24,7 +22,7 @@ public class ILoveAnimatedTilesController : Entity
     internal static void Unload()
     {
         On.Celeste.Autotiler.Generate -= AutotilerOnGenerate;
-        EntityList.UpdateLists -= EntityListOnUpdateLists;
+        IL.Monocle.EntityList.UpdateLists -= EntityListOnUpdateLists;
 
         On.Celeste.Platform.OnShake -= PlatformOnOnShake;
         On.Celeste.AnimatedTiles.Render -= AnimatedTilesOnRender;
@@ -75,6 +73,7 @@ public class ILoveAnimatedTilesController : Entity
 
         animatedTiles.Position = tileGrid.Position;
         animatedTiles.ClipCamera = level.Camera;
+
         self.Add(animatedTiles);
     }
 
@@ -88,6 +87,7 @@ public class ILoveAnimatedTilesController : Entity
     private static void AnimatedTilesOnRender(On.Celeste.AnimatedTiles.orig_Render orig, AnimatedTiles self)
     {
         orig(self);
+
         if (self.Entity.Get<TileGrid>() is { } tileGrid)
         {
             self.Alpha = tileGrid.Alpha;
