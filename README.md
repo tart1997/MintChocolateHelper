@@ -1,6 +1,6 @@
 # Mint Chocolate Helper
 Everyone was begging me to learn how to codemod and I finally did.
-Initially it was just a bit but I've actually got kinda good at it and made some cool and/or useful things so I kinda have to take this seriously now oops...
+\nInitially it was just a bit but I've actually got kinda good at it and made some cool and/or useful things so I kinda have to take this seriously now oops...
 
 To download this mod you'll want to look over at the [Gamebanana page](https://gamebanana.com/mods/654612)
 
