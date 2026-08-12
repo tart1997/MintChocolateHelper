@@ -7,7 +7,7 @@ CancelDeathTrigger.placements = {
     data = {
         width = 16,
         height = 16,
-		flag = "",
+        flag = "",
         delay = 0,
         unregisterDeathInStats = false
     }
