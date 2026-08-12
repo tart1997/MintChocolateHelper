@@ -10,4 +10,9 @@ StopInteractingTrigger.placements = {
     }
 }
 
+StopInteractingTrigger.fieldOrder = {
+    "x", "y",
+    "width", "height"
+}
+
 return StopInteractingTrigger

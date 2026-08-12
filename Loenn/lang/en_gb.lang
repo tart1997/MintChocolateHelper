@@ -166,7 +166,7 @@ triggers.MintChocolateHelper/CancelDeathTrigger.placements.name.cancel_death_tri
 triggers.MintChocolateHelper/CancelDeathTrigger.placements.description.cancel_death_trigger= When Activated, stops the death animation in its tracks and puts the player back at their last respawn point\nThe primary purpose of this is to allow for teleportation of the player that's safe even if the player is in the middle of dying\n(you might need to add like a 0.05 delay between unkilling the player and teleporting them)\n\nThis is achieved by semi-questionable means and might possibly cause issues by this trigger simply being in the same room as the player\nPlease inform me of any problems encountered when using this\n\nOnly works if activated before the level reloads during the deathwipe
 
 triggers.MintChocolateHelper/CancelDeathTrigger.attributes.description.delay=Once this trigger has been Activated, it will wait this many FRAMES before actually Unkilling the player
-triggers.MintChocolateHelper/CancelDeathTrigger.attributes.description.Flag=If Provided, This Trigger will only run if the specified flag is true\n\nSupports Frost Helper Session expressions!
+triggers.MintChocolateHelper/CancelDeathTrigger.attributes.description.flag=If Provided, This Trigger will only run if the specified flag is true\n\nSupports Frost Helper Session expressions!
 triggers.MintChocolateHelper/CancelDeathTrigger.attributes.description.unregisterDeathInStats=If Enabled, tells the game to uncount the death it just counted
 
 

@@ -13,4 +13,11 @@ DMtartTrigger.placements = {
     }
 }
 
+DMtartTrigger.fieldOrder = {
+    "x", "y",
+    "width", "height",
+    "identifier", "message",
+    "dialog"
+}
+
 return DMtartTrigger

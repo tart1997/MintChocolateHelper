@@ -7,8 +7,8 @@ CancelDeathTrigger.placements = {
     data = {
         width = 16,
         height = 16,
+		flag = "",
         delay = 0,
-        Flag = "",
         unregisterDeathInStats = false
     }
 }
@@ -17,6 +17,13 @@ CancelDeathTrigger.fieldInformation = {
     delay = {
         fieldType = "integer",
     }
+}
+
+CancelDeathTrigger.fieldOrder = {
+    "x", "y",
+    "width", "height",
+    "flag", "delay",
+    "unregisterDeathInStats"
 }
 
 return CancelDeathTrigger

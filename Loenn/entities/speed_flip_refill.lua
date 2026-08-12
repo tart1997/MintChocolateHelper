@@ -16,6 +16,16 @@ SpeedFlipRefill.placements = {
     }
 }
 
+SpeedFlipRefill.fieldOrder = {
+    "x",
+    "y",
+    "respawnTime",
+    "extraMultiplier",
+    "disableAmbientEffects",
+    "disableCollectEffects",
+    "oneUse"
+}
+
 SpeedFlipRefill.texture = "objects/MintChocolateHelper/Refills/SpeedFlipRefill/idle00"
 
 return SpeedFlipRefill

@@ -19,4 +19,11 @@ PulseFlagTrigger.fieldInformation = {
     }
 }
 
+PulseFlagTrigger.fieldOrder = {
+    "x", "y",
+    "width", "height",
+    "flag", "frames",
+    "invert"
+}
+
 return PulseFlagTrigger

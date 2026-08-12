@@ -11,6 +11,11 @@ ILoveAnimatedTilesController.placements = {
     }
 }
 
+ILoveAnimatedTilesController.fieldOrder = {
+    "x",
+    "y"
+}
+
 ILoveAnimatedTilesController.texture = "loenn/mintchocolatehelper/ILoveAnimatedTilesController"
 
 return ILoveAnimatedTilesController

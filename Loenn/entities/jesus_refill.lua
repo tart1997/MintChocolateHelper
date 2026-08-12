@@ -15,6 +15,15 @@ JesusRefill.placements = {
     }
 }
 
+JesusRefill.fieldOrder = {
+    "x",
+    "y",
+    "respawnTime",
+    "disableQuickRespawn",
+    "unregisterDeathInStats",
+    "oneUse"
+}
+
 JesusRefill.texture = "objects/MintChocolateHelper/Refills/JesusRefill/idle00"
 
 return JesusRefill

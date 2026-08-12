@@ -16,7 +16,7 @@ public class CancelDeathTrigger : Trigger
         Delay = data.Int("delay");
         UnregisterDeathInStats = data.Bool("unregisterDeathInStats");
 
-        Flag = data.Attr("Flag");
+        Flag = data.Attr("flag");
         if (FrostHelperImports.IsImported && FrostHelperImports.TryCreateSessionExpression(Flag, out FlagExpression))
         {
             IsValidExpression = true;

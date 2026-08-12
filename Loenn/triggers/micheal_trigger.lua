@@ -10,4 +10,9 @@ MichealTrigger.placements = {
     }
 }
 
+MichealTrigger.fieldOrder = {
+    "x", "y",
+    "width", "height"
+}
+
 return MichealTrigger

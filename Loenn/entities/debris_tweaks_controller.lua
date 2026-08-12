@@ -13,6 +13,13 @@ DebrisTweaksController.placements = {
     }
 }
 
+DebrisTweaksController.fieldOrder = {
+    "x",
+    "y",
+    "alternateFadeout",
+    "windAffected"
+}
+
 DebrisTweaksController.texture = "loenn/mintchocolatehelper/DebrisTweaksController"
 
 return DebrisTweaksController

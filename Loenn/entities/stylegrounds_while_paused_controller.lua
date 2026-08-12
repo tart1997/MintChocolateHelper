@@ -12,6 +12,12 @@ StylegroundsWhilePausedController.placements = {
     }
 }
 
+StylegroundsWhilePausedController.fieldOrder = {
+    "x",
+    "y",
+    "updateTag"
+}
+
 StylegroundsWhilePausedController.texture = "loenn/mintchocolatehelper/StylegroundsWhilePausedController"
 
 return StylegroundsWhilePausedController

@@ -12,6 +12,12 @@ DisableQuickRespawnController.placements = {
     }
 }
 
+DisableQuickRespawnController.fieldOrder = {
+    "x",
+    "y",
+    "disableFlag"
+}
+
 DisableQuickRespawnController.texture = "loenn/mintchocolatehelper/DisableQuickRespawnController"
 
 return DisableQuickRespawnController

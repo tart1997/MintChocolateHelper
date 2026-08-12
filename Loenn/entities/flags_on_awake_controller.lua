@@ -22,6 +22,13 @@ FlagsOnAwakeController.fieldInformation = {
     }
 }
 
+FlagsOnAwakeController.fieldOrder = {
+    "x",
+    "y",
+    "flags",
+    "value"
+}
+
 FlagsOnAwakeController.texture = "loenn/mintchocolatehelper/FlagsOnAwakeController"
 
 return FlagsOnAwakeController

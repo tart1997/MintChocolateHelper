@@ -14,4 +14,11 @@ MessageWebhookTrigger.placements = {
     }
 }
 
+MessageWebhookTrigger.fieldOrder = {
+    "x", "y",
+    "width", "height",
+    "message", "user",
+    "webhook", "dialog"
+}
+
 return MessageWebhookTrigger
