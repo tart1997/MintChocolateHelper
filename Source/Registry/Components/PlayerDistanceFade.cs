@@ -5,7 +5,7 @@ public class PlayerDistanceFade : Component
     private readonly float InnerRadius;
     private readonly float OuterRadius;
     private readonly bool FadeOut;
-    private readonly PlayerDistanceFadeRegistryHandler.DeathBehaivor DeathBehaivor;
+    private readonly PlayerDistanceFadeRegistryHandler.DeathBehavior DeathBehavior;
     private readonly float DeathFadeSpeedMultiplier;
 
     private float DecalDistance;
@@ -19,12 +19,12 @@ public class PlayerDistanceFade : Component
     private Color FadeoutTargetColor;
     private float FadeoutTimer;
 
-    public PlayerDistanceFade(float innerRadius, float outerRadius, bool fadeOut, PlayerDistanceFadeRegistryHandler.DeathBehaivor deathBehaivor, float deathFadeSpeedMultiplier) : base(true, true)
+    public PlayerDistanceFade(float innerRadius, float outerRadius, bool fadeOut, PlayerDistanceFadeRegistryHandler.DeathBehavior deathBehavior, float deathFadeSpeedMultiplier) : base(true, true)
     {
         InnerRadius = innerRadius;
         OuterRadius = outerRadius;
         FadeOut = fadeOut;
-        DeathBehaivor = deathBehaivor;
+        DeathBehavior = deathBehavior;
         DeathFadeSpeedMultiplier = deathFadeSpeedMultiplier;
     }
 
@@ -66,7 +66,7 @@ public class PlayerDistanceFade : Component
         {
             Color fadedColor = DecalDistance < InnerRadius ? Color.Transparent : Color.Multiply(CurrentColor, 1 - LastPercentage);
 
-            if (player == null && DeathBehaivor == PlayerDistanceFadeRegistryHandler.DeathBehaivor.fadeOut)
+            if (player == null && DeathBehavior == PlayerDistanceFadeRegistryHandler.DeathBehavior.fadeOut)
             {
                 FadeoutOriginalColor = fadedColor;
                 FadeoutTargetColor = CurrentColor;
@@ -75,7 +75,7 @@ public class PlayerDistanceFade : Component
             else
             {
                 decal.Color = player switch {
-                    null => DeathBehaivor == PlayerDistanceFadeRegistryHandler.DeathBehaivor.staySame ? fadedColor : CurrentColor,
+                    null => DeathBehavior == PlayerDistanceFadeRegistryHandler.DeathBehavior.staySame ? fadedColor : CurrentColor,
                     _ => fadedColor
                 };
             }
@@ -84,7 +84,7 @@ public class PlayerDistanceFade : Component
         {
             Color fadedColor = DecalDistance > OuterRadius ? Color.Transparent : Color.Multiply(CurrentColor, LastPercentage);
 
-            if (player == null && DeathBehaivor == PlayerDistanceFadeRegistryHandler.DeathBehaivor.fadeOut)
+            if (player == null && DeathBehavior == PlayerDistanceFadeRegistryHandler.DeathBehavior.fadeOut)
             {
                 FadeoutOriginalColor = fadedColor;
                 FadeoutTargetColor = Color.Transparent;
@@ -93,7 +93,7 @@ public class PlayerDistanceFade : Component
             else
             {
                 decal.Color = player switch {
-                    null => DeathBehaivor == PlayerDistanceFadeRegistryHandler.DeathBehaivor.staySame ? fadedColor : Color.Transparent,
+                    null => DeathBehavior == PlayerDistanceFadeRegistryHandler.DeathBehavior.staySame ? fadedColor : Color.Transparent,
                     _ => fadedColor
                 };
             }

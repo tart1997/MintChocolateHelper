@@ -4,7 +4,7 @@ public class PlayerDistanceFadeRegistryHandler : DecalRegistryHandler
 {
     public override string Name => "mint.playerDistanceFade";
 
-    public enum DeathBehaivor
+    public enum DeathBehavior
     {
         staySame,
         snapTo,
@@ -14,7 +14,7 @@ public class PlayerDistanceFadeRegistryHandler : DecalRegistryHandler
     private float InnerRadius;
     private float OuterRadius;
     private bool FadeOut;
-    private DeathBehaivor deathBehaivor;
+    private DeathBehavior deathBehavior;
     private float DeathFadeSpeedMultiplier;
 
     [OnLoad]
@@ -28,12 +28,12 @@ public class PlayerDistanceFadeRegistryHandler : DecalRegistryHandler
         InnerRadius = Get(xml, "innerRadius", 50f);
         OuterRadius = Get(xml, "outerRadius", 80f);
         FadeOut = GetBool(xml, "fadeOut", false);
-        deathBehaivor = xml.GetEnum("deathBehaivor", DeathBehaivor.staySame);
+        deathBehavior = xml.GetEnum("deathBehavior", DeathBehavior.staySame);
         DeathFadeSpeedMultiplier = Get(xml, "deathFadeSpeedMultiplier", 1f);
     }
 
     public override void ApplyTo(Decal decal)
     {
-        decal.Add(new PlayerDistanceFade(InnerRadius, OuterRadius, FadeOut, deathBehaivor, DeathFadeSpeedMultiplier));
+        decal.Add(new PlayerDistanceFade(InnerRadius, OuterRadius, FadeOut, deathBehavior, DeathFadeSpeedMultiplier));
     }
 }
