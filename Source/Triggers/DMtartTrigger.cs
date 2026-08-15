@@ -26,7 +26,7 @@ public class DMtartTrigger : Trigger
         if (MintChocolateHelperModule.SaveData.LastTartDM == message || identifier == "") return;
 
         string filename = SaveData.GetFilename();
-        string mapname = MapEditor.area.SID;
+        string mapname = SaveData.Instance.CurrentSession.Area.SID;
         string payload;
 
         if (txt)
@@ -40,7 +40,7 @@ public class DMtartTrigger : Trigger
             payload = "{\"content\": \"" + "<@1336045663389089872> " + "\\nFrom: " + identifier + "\\nFilename: " + filename + "\\nSID: " + mapname + @"\n\n" + message + "\"}";
         }
 
-        DiscordWebhook discordWebhook = new("https://discord.com/api/webhooks/1485600556293816383/JwgT0ZTli-RbDTOKUZJKYPFyxakJsaFKoWY_ToIfpwRYpduGI6JFnmxg6HXzuqTmB2w4");
+        DiscordWebhook discordWebhook = new(Extras.Commands.DecryptWebHook("dJIHMa:\\xi5DSWPpQTm_fvC/Pfff8wlM/5+);0?)11!68$7</.E,/X.MhTNWoB\"4yc/HgB9l'HyI%-IGw5fDWLssW/k!CrFO1)wL!-51%Fy6UC`-p45EyV<yJ"));
         _ = discordWebhook.SendMessageAsync(payload);
 
         MintChocolateHelperModule.SaveData.LastTartDM = message;

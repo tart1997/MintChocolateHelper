@@ -44,6 +44,7 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="TextCopy" Version="6.2.1" />
     </ItemGroup>
 
     <ItemGroup>

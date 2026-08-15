@@ -150,6 +150,7 @@ triggers.MintChocolateHelper/MessageWebhookTrigger.attributes.description.webhoo
 triggers.MintChocolateHelper/MessageWebhookTrigger.attributes.description.message=The Message to send to the specified Webhook
 triggers.MintChocolateHelper/MessageWebhookTrigger.attributes.description.user=If specified, attempts to ping a user along with the message\nTakes in the User ID of the user to ping
 triggers.MintChocolateHelper/MessageWebhookTrigger.attributes.description.dialog=Whether or not to check the English.txt, or to just send the message as a raw string
+triggers.MintChocolateHelper/MessageWebhookTrigger.attributes.description.encrypted=If True, this trigger will treat the given webhook as if its encrypted and attempt to decrypt it.\nTo Encrypt a webhook, use the console command "EncryptWebHook"!
 
 
 

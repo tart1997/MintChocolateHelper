@@ -8,6 +8,7 @@ public class MessageWebhookTrigger : Trigger
     private readonly string Message;
     private readonly string User;
     private readonly bool Txt;
+    private readonly bool WebhookIsEncrypted;
 
     public MessageWebhookTrigger(EntityData data, Vector2 offset) : base(data, offset)
     {
@@ -15,6 +16,7 @@ public class MessageWebhookTrigger : Trigger
         Message = data.Attr("message");
         User = data.Attr("user");
         Txt = data.Bool("dialog");
+        WebhookIsEncrypted = data.Bool("encrypted");
     }
 
     public override void OnEnter(Player player)
@@ -23,8 +25,13 @@ public class MessageWebhookTrigger : Trigger
         SendMessage(Webhook, Message, User, Txt);
     }
 
-    private static void SendMessage(string webhook, string message, string user, bool txt)
+    private void SendMessage(string webhook, string message, string user, bool txt)
     {
+        if (WebhookIsEncrypted)
+        {
+            webhook = Extras.Commands.DecryptWebHook(webhook);
+        }
+
         string payload;
 
         if (user != "")
@@ -32,12 +39,15 @@ public class MessageWebhookTrigger : Trigger
             if (txt)
             {
                 string v = Dialog.Clean(message);
+                v = v.Replace("{+MADELINE}", SaveData.GetFilename());
                 v = v.Replace("\n", "\\n");
                 payload = "{\"content\": \"" + "<@" + user + "> " + @"\n\n" + v + "\"}";
             }
             else
             {
-                payload = "{\"content\": \"" + "<@" + user + "> " + @"\n\n" + message + "\"}";
+                string v = message;
+                v = v.Replace("{+MADELINE}", SaveData.GetFilename());
+                payload = "{\"content\": \"" + "<@" + user + "> " + @"\n\n" + v + "\"}";
             }
         }
         else
@@ -45,12 +55,15 @@ public class MessageWebhookTrigger : Trigger
             if (txt)
             {
                 string v = Dialog.Clean(message);
+                v = v.Replace("{+MADELINE}", SaveData.GetFilename());
                 v = v.Replace("\n", "\\n");
                 payload = "{\"content\": \"" + v + "\"}";
             }
             else
             {
-                payload = "{\"content\": \"" + message + "\"}";
+                string v = message;
+                v = v.Replace("{+MADELINE}", SaveData.GetFilename());
+                payload = "{\"content\": \"" + v + "\"}";
             }
         }
 

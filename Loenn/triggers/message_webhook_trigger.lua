@@ -10,7 +10,8 @@ MessageWebhookTrigger.placements = {
         webhook = "",
         message = "",
         user = "",
-        dialog = false
+        dialog = false,
+        encrypted = false
     }
 }
 
@@ -18,7 +19,8 @@ MessageWebhookTrigger.fieldOrder = {
     "x", "y",
     "width", "height",
     "message", "user",
-    "webhook", "dialog"
+    "webhook", "dialog",
+    "encrypted"
 }
 
 return MessageWebhookTrigger
