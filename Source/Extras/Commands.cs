@@ -3,55 +3,55 @@
 public static class Commands
 {
     #region Encrypt Webhook Setup
-        private static int AlphabetLength;
-        private static readonly Dictionary<char, byte> Encoder = new();
-        private static readonly Dictionary<byte, char> Decoder = new();
+    private static int AlphabetLength;
+    private static readonly Dictionary<char, byte> Encoder = new();
+    private static readonly Dictionary<byte, char> Decoder = new();
 
-        private static void InitializeAlphabet()
+    private static void InitializeAlphabet()
+    {
+        Encoder.Clear();
+        Decoder.Clear();
+
+        byte code = 0;
+        Encoder.Add(' ', code);
+        Decoder.Add(code++, ' ');
+        for (char c = 'a'; c <= 'z'; ++c)
         {
-            Encoder.Clear();
-            Decoder.Clear();
-
-            byte code = 0;
-            Encoder.Add(' ', code);
-            Decoder.Add(code++, ' ');
-            for (char c = 'a'; c <= 'z'; ++c)
-            {
-                Encoder.Add(c, code);
-                Decoder.Add(code++, c);
-            }
-            for (char c = 'A'; c <= 'Z'; ++c)
-            {
-                Encoder.Add(c, code);
-                Decoder.Add(code++, c);
-            }
-            for (char c = '0'; c <= '9'; ++c)
-            {
-                Encoder.Add(c, code);
-                Decoder.Add(code++, c);
-            }
-            for (char c = '!'; c <= '/'; ++c)
-            {
-                Encoder.Add(c, code);
-                Decoder.Add(code++, c);
-            }
-            for (char c = ':'; c <= '@'; ++c)
-            {
-                Encoder.Add(c, code);
-                Decoder.Add(code++, c);
-            }
-            for (char c = '['; c <= '`'; ++c)
-            {
-                Encoder.Add(c, code);
-                Decoder.Add(code++, c);
-            }
-            for (char c = '{'; c <= '~'; ++c)
-            {
-                Encoder.Add(c, code);
-                Decoder.Add(code++, c);
-            }
-            AlphabetLength = Encoder.Count;
+            Encoder.Add(c, code);
+            Decoder.Add(code++, c);
         }
+        for (char c = 'A'; c <= 'Z'; ++c)
+        {
+            Encoder.Add(c, code);
+            Decoder.Add(code++, c);
+        }
+        for (char c = '0'; c <= '9'; ++c)
+        {
+            Encoder.Add(c, code);
+            Decoder.Add(code++, c);
+        }
+        for (char c = '!'; c <= '/'; ++c)
+        {
+            Encoder.Add(c, code);
+            Decoder.Add(code++, c);
+        }
+        for (char c = ':'; c <= '@'; ++c)
+        {
+            Encoder.Add(c, code);
+            Decoder.Add(code++, c);
+        }
+        for (char c = '['; c <= '`'; ++c)
+        {
+            Encoder.Add(c, code);
+            Decoder.Add(code++, c);
+        }
+        for (char c = '{'; c <= '~'; ++c)
+        {
+            Encoder.Add(c, code);
+            Decoder.Add(code++, c);
+        }
+        AlphabetLength = Encoder.Count;
+    }
     #endregion
 
     [UsedImplicitly]
@@ -81,7 +81,7 @@ public static class Commands
         Engine.Commands.Log("Encrypted webhook copied to clipboard!");
         ClipboardService.SetText(ciphertext.ToString());
     }
-    
+
     [CanBeNull]
     public static string DecryptWebHook(string webhook)
     {
