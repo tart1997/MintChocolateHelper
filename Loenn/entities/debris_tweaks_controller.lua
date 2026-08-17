@@ -19,7 +19,7 @@ DebrisTweaksController.fieldOrder = {
     "y",
     "alternateFadeout",
     "windAffected",
-	"playerAffected"
+    "playerAffected"
 }
 
 DebrisTweaksController.texture = "loenn/mintchocolatehelper/DebrisTweaksController"
