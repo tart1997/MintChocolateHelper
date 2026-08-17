@@ -6,16 +6,19 @@ public class DebrisTweaksController : Entity
 {
     private readonly bool AlternateFadeout;
     private readonly bool WindAffected;
+    private readonly bool PlayerAffected;
 
     public DebrisTweaksController(EntityData data, Vector2 offset) : base(data.Position + offset)
     {
         AlternateFadeout = data.Bool("alternateFadeout");
         WindAffected = data.Bool("windAffected");
+        PlayerAffected = data.Bool("playerAffected");
     }
 
     [OnLoad]
     internal static void Load()
     {
+        On.Celeste.Debris.ctor += DebrisOnctor;
         On.Celeste.Debris.Update += DebrisOnUpdate;
         IL.Celeste.Debris.Update += DebrisILUpdate;
     }
@@ -23,27 +26,73 @@ public class DebrisTweaksController : Entity
     [OnUnload]
     internal static void Unload()
     {
+        On.Celeste.Debris.ctor -= DebrisOnctor;
         On.Celeste.Debris.Update -= DebrisOnUpdate;
         IL.Celeste.Debris.Update -= DebrisILUpdate;
+    }
+
+    private static void DebrisOnctor(On.Celeste.Debris.orig_ctor orig, Debris debris)
+    {
+        orig(debris);
+        if (!Utils.CheckEntityExistence(out DebrisTweaksController DTController)) return;
+
+        DynamicData debrisData = DynamicData.For(debris);
+        debrisData.Set("WindAffected", DTController.WindAffected);
+        debrisData.Set("WindDisturbance", Vector2.Zero);
+        debrisData.Set("PlayerAffected", DTController.PlayerAffected);
+        debrisData.Set("PlayerDisturbance", Vector2.Zero);
     }
 
     private static void DebrisOnUpdate(On.Celeste.Debris.orig_Update orig, Debris debris)
     {
         orig(debris);
+        if (Utils.LevelIsNotSafe(out Level level)) return;
 
-        if (Utils.LevelIsNotSafe(out Level level) || !Utils.CheckEntityExistence(out DebrisTweaksController DTController) || !DTController.WindAffected) return;
+        DynamicData debrisData = DynamicData.For(debris);
+        bool WindAffected = debrisData.Get<bool>("WindAffected");
+        bool PlayerAffected = debrisData.Get<bool>("PlayerAffected");
+        if (!PlayerAffected && !WindAffected) return;
 
-        if (!(level.Wind.X > 0 && debris.CollideCheck<SolidTiles>(new Vector2(debris.Position.X + 2, debris.Position.Y)))
-            && !(level.Wind.X < 0 && debris.CollideCheck<SolidTiles>(new Vector2(debris.Position.X - 2, debris.Position.Y))))
+        if (WindAffected)
         {
-            debris.Position.X += level.Wind.X / 300;
+            debrisData.Set("WindDisturbance", level.Wind / 300f);
         }
 
-        if (!(level.Wind.Y > 0 && debris.CollideCheck<SolidTiles>(new Vector2(debris.Position.X, debris.Position.Y + 2)))
-            && !(level.Wind.Y < 0 && debris.CollideCheck<SolidTiles>(new Vector2(debris.Position.X, debris.Position.Y - 2))))
+        if (PlayerAffected)
         {
-            debris.Position.Y += level.Wind.Y / 300;
+            if (debris.CollideCheck<Player>())
+            {
+                Player player = level.Tracker.GetEntity<Player>();
+                Vector2 vector = (debris.Position - player.Center).SafeNormalize(player.Speed.Length() * 0.02f);
+                Vector2 playerDisturbance = debrisData.Get<Vector2>("PlayerDisturbance");
+
+                if (vector.LengthSquared() > playerDisturbance.LengthSquared())
+                {
+                    debrisData.Set("PlayerDisturbance", vector);
+                }
+            }
         }
+
+        bool CeilingAbove = debris.CollideCheck<SolidTiles>(new Vector2(debris.Position.X, debris.Position.Y - 2));
+        bool WallToLeft = debris.CollideCheck<SolidTiles>(new Vector2(debris.Position.X - 2, debris.Position.Y));
+        bool WallToRight = debris.CollideCheck<SolidTiles>(new Vector2(debris.Position.X + 2, debris.Position.Y));
+        bool FloorBelow = debris.CollideCheck<SolidTiles>(new Vector2(debris.Position.X, debris.Position.Y + 2));
+
+        Vector2 WindDisturbance = debrisData.Get<Vector2>("WindDisturbance");
+        Vector2 PlayerDisturbance = debrisData.Get<Vector2>("PlayerDisturbance");
+        Vector2 TotalDisturbance = PlayerDisturbance + WindDisturbance;
+
+        if (!(TotalDisturbance.X < 0 && WallToLeft) && !(TotalDisturbance.X > 0 && WallToRight))
+        {
+            debris.Position.X += TotalDisturbance.X;
+        }
+
+        if (!(TotalDisturbance.Y < 0 && CeilingAbove) && !(TotalDisturbance.Y > 0 && FloorBelow))
+        {
+            debris.Position.Y += TotalDisturbance.Y;
+        }
+
+        debrisData.Set("PlayerDisturbance", Calc.Approach(PlayerDisturbance, Vector2.Zero, 8f * Engine.DeltaTime));
     }
 
     private static void DebrisILUpdate(ILContext il)

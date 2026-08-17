@@ -99,6 +99,7 @@ entities.MintChocolateHelper/DebrisTweaksController.placements.description.debri
 
 entities.MintChocolateHelper/DebrisTweaksController.attributes.description.alternateFadeout=When Enabled, Stops Debris from quickly darkening after spawning, and changes how they fade out slightly to compensate
 entities.MintChocolateHelper/DebrisTweaksController.attributes.description.windAffected=When Enabled, Allows Debris to be moved by the current wind
+entities.MintChocolateHelper/DebrisTweaksController.attributes.description.playerAffected=When Enabled, Allows Debris to be moved by the player
 
 
 

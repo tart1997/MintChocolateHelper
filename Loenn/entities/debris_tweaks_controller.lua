@@ -8,7 +8,8 @@ DebrisTweaksController.placements = {
         name = "debris_tweaks_controller",
         data = {
             alternateFadeout = false,
-            windAffected = false
+            windAffected = false,
+            playerAffected = false
         }
     }
 }
@@ -17,7 +18,8 @@ DebrisTweaksController.fieldOrder = {
     "x",
     "y",
     "alternateFadeout",
-    "windAffected"
+    "windAffected",
+	"playerAffected"
 }
 
 DebrisTweaksController.texture = "loenn/mintchocolatehelper/DebrisTweaksController"
