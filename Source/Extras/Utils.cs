@@ -67,7 +67,7 @@ internal static class Utils
     }
 
     [UsedImplicitly]
-    internal static bool CheckEntityExistence<T>() where T : Entity => CheckEntityExistence<T>(out _);
+    internal static bool CheckEntityExistence<T>(bool TrackIfNeeded = false) where T : Entity => CheckEntityExistence<T>(out _, TrackIfNeeded);
 
     [UsedImplicitly]
     internal static bool CheckEntityExistence<T>(out T Entity, bool TrackIfNeeded = false) where T : Entity

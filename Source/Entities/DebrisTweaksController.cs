@@ -33,12 +33,12 @@ public class DebrisTweaksController : Entity
 
     private static Debris DebrisOnInit_Vector2_char_bool(On.Celeste.Debris.orig_Init_Vector2_char_bool orig, Debris self, Vector2 pos, char tileset, bool playSound)
     {
-        if (!Utils.CheckEntityExistence(out DebrisTweaksController DTController) || (!DTController.WindAffected && !DTController.PlayerAffected)) return orig(self, pos, tileset, playSound);
+        Utils.CheckEntityExistence(out DebrisTweaksController DTController);
 
         DynamicData debrisData = DynamicData.For(self);
-        debrisData.Set("WindAffected", DTController.WindAffected);
+        debrisData.Set("WindAffected", DTController?.WindAffected);
         debrisData.Set("WindDisturbance", Vector2.Zero);
-        debrisData.Set("PlayerAffected", DTController.PlayerAffected);
+        debrisData.Set("PlayerAffected", DTController?.PlayerAffected);
         debrisData.Set("PlayerDisturbance", Vector2.Zero);
         return orig(self, pos, tileset, playSound);
     }
