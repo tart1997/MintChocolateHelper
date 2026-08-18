@@ -82,6 +82,14 @@ public static class Commands
         ClipboardService.SetText(ciphertext.ToString());
     }
 
+    // Okay wise guy.
+    // A message to anyone present or future looking at this part of the code:
+    // Yes this isn't crazy secure, but it's just meant to be a little obfuscation.
+    // As far as I know this is basically the best I can do for my specific use case.
+    // Poking light fun at the insecurity of my webhook is ""fine"" I guess.
+    // But if a major incident happens to mine or anyone else's webhook I will just straight up remove all of it.
+    // Behave yourselves.
+
     [CanBeNull]
     public static string DecryptWebHook(string webhook)
     {
