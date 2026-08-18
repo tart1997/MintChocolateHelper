@@ -18,7 +18,7 @@ public class DebrisTweaksController : Entity
     [OnLoad]
     internal static void Load()
     {
-        On.Celeste.Debris.ctor += DebrisOnctor;
+        On.Celeste.Debris.Init_Vector2_char_bool += DebrisOnInit_Vector2_char_bool;
         On.Celeste.Debris.Update += DebrisOnUpdate;
         IL.Celeste.Debris.Update += DebrisILUpdate;
     }
@@ -26,21 +26,21 @@ public class DebrisTweaksController : Entity
     [OnUnload]
     internal static void Unload()
     {
-        On.Celeste.Debris.ctor -= DebrisOnctor;
+        On.Celeste.Debris.Init_Vector2_char_bool -= DebrisOnInit_Vector2_char_bool;
         On.Celeste.Debris.Update -= DebrisOnUpdate;
         IL.Celeste.Debris.Update -= DebrisILUpdate;
     }
 
-    private static void DebrisOnctor(On.Celeste.Debris.orig_ctor orig, Debris debris)
+    private static Debris DebrisOnInit_Vector2_char_bool(On.Celeste.Debris.orig_Init_Vector2_char_bool orig, Debris self, Vector2 pos, char tileset, bool playSound)
     {
-        orig(debris);
-        if (!Utils.CheckEntityExistence(out DebrisTweaksController DTController)) return;
+        if (!Utils.CheckEntityExistence(out DebrisTweaksController DTController) || (!DTController.WindAffected && !DTController.PlayerAffected)) return orig(self, pos, tileset, playSound);
 
-        DynamicData debrisData = DynamicData.For(debris);
+        DynamicData debrisData = DynamicData.For(self);
         debrisData.Set("WindAffected", DTController.WindAffected);
         debrisData.Set("WindDisturbance", Vector2.Zero);
         debrisData.Set("PlayerAffected", DTController.PlayerAffected);
         debrisData.Set("PlayerDisturbance", Vector2.Zero);
+        return orig(self, pos, tileset, playSound);
     }
 
     private static void DebrisOnUpdate(On.Celeste.Debris.orig_Update orig, Debris debris)
@@ -49,16 +49,16 @@ public class DebrisTweaksController : Entity
         if (Utils.LevelIsNotSafe(out Level level)) return;
 
         DynamicData debrisData = DynamicData.For(debris);
-        bool WindAffected = debrisData.Get<bool>("WindAffected");
-        bool PlayerAffected = debrisData.Get<bool>("PlayerAffected");
-        if (!PlayerAffected && !WindAffected) return;
+        bool? WindAffected = debrisData.Get<bool?>("WindAffected");
+        bool? PlayerAffected = debrisData.Get<bool?>("PlayerAffected");
+        if (PlayerAffected != true && WindAffected != true) return;
 
-        if (WindAffected)
+        if (WindAffected == true)
         {
             debrisData.Set("WindDisturbance", level.Wind / 300f);
         }
 
-        if (PlayerAffected)
+        if (PlayerAffected == true)
         {
             if (debris.CollideCheck<Player>())
             {
