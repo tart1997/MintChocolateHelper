@@ -33,6 +33,7 @@ public class MintChocolateHelperModule : EverestModule
     public override void Load()
     {
         FrostHelperImports.Load();
+        GravityHelperImports.Load();
         LifecycleMethods.OnLoad();
 
         #region Optional Dependency Loading

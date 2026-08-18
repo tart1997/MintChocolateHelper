@@ -38,7 +38,7 @@ public class SpeedFlipRefill : Entity
         public InvertJumpTrail(Player player, Vector2 scale, Color color) : base(true, true)
         {
             Player = player;
-            Scale = scale;
+            Scale = GravityHelperImports.InvertIfPlayerInverted(scale);
             Color = color;
             TrailManager.Add(Player, Scale, Color);
         }
@@ -300,6 +300,8 @@ public class SpeedFlipRefill : Entity
                     break;
                 case DirectionBeforeInvert.None:
                     break;
+                default:
+                    throw new Exception("Impossible Enum Value! How did you do that?");
             }
 
             MintChocolateHelperModule.Session.HasSpeedFlipRefill = false;

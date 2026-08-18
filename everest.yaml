@@ -1,5 +1,5 @@
 - Name: MintChocolateHelper
-  Version: 0.7.10
+  Version: 0.7.11
   DLL: bin/MintChocolateHelper.dll
   Dependencies:
     - Name: EverestCore
@@ -13,3 +13,5 @@
       Version: 1.6.65
     - Name: VivHelper
       Version: 1.14.10
+    - Name: GravityHelper
+      Version: 1.2.28
