@@ -110,6 +110,10 @@ entities.MintChocolateHelper/JesusRefill.attributes.description.respawnTime=How 
 entities.MintChocolateHelper/JesusRefill.attributes.description.oneUse=If Enabled, the Refill won't respawn
 entities.MintChocolateHelper/JesusRefill.attributes.description.disableQuickRespawn=If Enabled, the player won't be allowed to speed up the death animation by pressing confirm
 entities.MintChocolateHelper/JesusRefill.attributes.description.unregisterDeathInStats=If Enabled, tells the game to uncount the death it just counted
+entities.MintChocolateHelper/JesusRefill.attributes.description.keepFollowers=If Enabled, Follwers will not be dropped when the player dies with a jesus refill charge.
+entities.MintChocolateHelper/JesusRefill.attributes.description.teleportToRefill=If Enabled, Upon Ressurection you will be teleported to the refill you collected instead of on your deadbody.
+entities.MintChocolateHelper/JesusRefill.attributes.description.storeSpeed=If Enabled, the speed you died at will be stored, and upon Ressurection will be granted back to you in the direction you dashed.
+entities.MintChocolateHelper/JesusRefill.attributes.description.redirectable=If both this and Store Speed are Enabled, Allows the player to redirect their speed in any direction.
 
 
 
@@ -170,6 +174,7 @@ triggers.MintChocolateHelper/CancelDeathTrigger.placements.description.cancel_de
 triggers.MintChocolateHelper/CancelDeathTrigger.attributes.description.delay=Once this trigger has been Activated, it will wait this many FRAMES before actually Unkilling the player
 triggers.MintChocolateHelper/CancelDeathTrigger.attributes.description.flag=If Provided, This Trigger will only run if the specified flag is true\n\nSupports Frost Helper Session expressions!
 triggers.MintChocolateHelper/CancelDeathTrigger.attributes.description.unregisterDeathInStats=If Enabled, tells the game to uncount the death it just counted
+triggers.MintChocolateHelper/CancelDeathTrigger.attributes.description.keepFollowers=If Enabled, Follwers will not be dropped when the player dies while this trigger is in the room.
 
 
 

@@ -9,6 +9,10 @@ public class JesusRefill : Entity
     private readonly bool oneUse;
     private readonly bool DisableQuickRespawn;
     private readonly bool UnregisterDeathInStats;
+    private readonly bool KeepFollowers;
+    private readonly bool TeleportToRefill;
+    private readonly bool StoreSpeed;
+    private readonly bool Redirectable;
 
     private readonly ParticleType P_Shatter;
     private readonly ParticleType P_Regen;
@@ -28,6 +32,10 @@ public class JesusRefill : Entity
         oneUse = data.Bool("oneUse");
         DisableQuickRespawn = data.Bool("disableQuickRespawn");
         UnregisterDeathInStats = data.Bool("unregisterDeathInStats");
+        KeepFollowers = data.Bool("keepFollowers");
+        TeleportToRefill = data.Bool("teleportToRefill");
+        StoreSpeed = data.Bool("storeSpeed");
+        Redirectable = data.Bool("redirectable");
 
         Collider = new Hitbox(16f, 16f, -8f, -8f);
         Add(new PlayerCollider(OnPlayer));
@@ -117,10 +125,11 @@ public class JesusRefill : Entity
             Collidable = false;
             Add(new Coroutine(RefillRoutine(player)));
             MintChocolateHelperModule.Session.HasJesusRefill = true;
-            if (DisableQuickRespawn)
-            {
-                MintChocolateHelperModule.Session.JesusRefillDisableQuickRespawn = true;
-            }
+            MintChocolateHelperModule.Session.JesusRefillDisableQuickRespawn = DisableQuickRespawn;
+            MintChocolateHelperModule.Session.PsuedoDeadKeepFollowers = KeepFollowers;
+            MintChocolateHelperModule.Session.StoreSpeed = StoreSpeed;
+            MintChocolateHelperModule.Session.TeleportToRefill = TeleportToRefill;
+            MintChocolateHelperModule.Session.Redirectable = Redirectable;
             respawnTimer = respawnTime;
         }
     }
@@ -193,6 +202,11 @@ public class JesusRefill : Entity
         Session session = level.Session;
         Player player = level.Tracker.GetEntity<Player>();
 
+        if (TeleportToRefill)
+        {
+            player.Position = Position;
+        }
+        
         PlayerDeadBody playerDeadBody = Scene.Tracker.GetEntitiesTrackIfNeeded<PlayerDeadBody>().Cast<PlayerDeadBody>().FirstOrDefault();
         playerDeadBody?.hair.Entity = player;
         playerDeadBody?.sprite.Entity = player;
@@ -219,6 +233,10 @@ public class JesusRefill : Entity
         MintChocolateHelperModule.Session.PlayerIsPsuedoDead = false;
         MintChocolateHelperModule.Session.HasJesusRefill = false;
         MintChocolateHelperModule.Session.JesusRefillDisableQuickRespawn = false;
+        MintChocolateHelperModule.Session.PsuedoDeadKeepFollowers = false;
+        MintChocolateHelperModule.Session.StoreSpeed = false;
+        MintChocolateHelperModule.Session.TeleportToRefill = false;
+        MintChocolateHelperModule.Session.Redirectable = false;
         player.UseRefill(false);
 
         //This kinda sucks... I would prefer to just kill whatever rouge tweener that forces me to do this, but I've tried everything I can think of to do so. ¯\_(ツ)_/¯

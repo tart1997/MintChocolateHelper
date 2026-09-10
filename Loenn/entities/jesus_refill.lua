@@ -10,7 +10,11 @@ JesusRefill.placements = {
             respawnTime = 2.5,
             oneUse = false,
             disableQuickRespawn = false,
-            unregisterDeathInStats = false
+            unregisterDeathInStats = false,
+		    keepFollowers = false,
+            teleportToRefill = false,
+            storeSpeed = false,
+            redirectable = false
         }
     }
 }
@@ -21,6 +25,10 @@ JesusRefill.fieldOrder = {
     "respawnTime",
     "disableQuickRespawn",
     "unregisterDeathInStats",
+	"keepFollowers",
+	"teleportToRefill",
+	"storeSpeed",
+	"redirectable",
     "oneUse"
 }
 

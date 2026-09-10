@@ -6,6 +6,7 @@ public class CancelDeathTrigger : Trigger
 {
     private readonly int Delay;
     private readonly bool UnregisterDeathInStats;
+    public readonly bool KeepFollowers;
 
     public readonly string Flag;
     public readonly object FlagExpression;
@@ -15,6 +16,7 @@ public class CancelDeathTrigger : Trigger
     {
         Delay = data.Int("delay");
         UnregisterDeathInStats = data.Bool("unregisterDeathInStats");
+        KeepFollowers = data.Bool("keepFollowers");
 
         Flag = data.Attr("flag");
         if (FrostHelperImports.IsImported && FrostHelperImports.TryCreateSessionExpression(Flag, out FlagExpression))

@@ -9,7 +9,8 @@ CancelDeathTrigger.placements = {
         height = 16,
         flag = "",
         delay = 0,
-        unregisterDeathInStats = false
+        unregisterDeathInStats = false,
+		keepFollowers = false
     }
 }
 
@@ -23,7 +24,7 @@ CancelDeathTrigger.fieldOrder = {
     "x", "y",
     "width", "height",
     "flag", "delay",
-    "unregisterDeathInStats"
+    "unregisterDeathInStats", "keepFollowers"
 }
 
 return CancelDeathTrigger
