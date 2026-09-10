@@ -24,7 +24,7 @@ public class MintChocolateHelperModuleSession : EverestModuleSession
     internal bool HasJesusRefill {get; set;}
     internal bool TeleportToRefill {get; set;}
     internal bool Redirectable {get; set;}
-    internal bool StoreSpeed { get; set;}
+    internal bool StoreSpeed {get; set;}
     internal Vector2? StoredSpeed {get; set;}
     internal bool JesusRefillDisableQuickRespawn {get; set;}
 

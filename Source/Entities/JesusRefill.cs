@@ -206,7 +206,7 @@ public class JesusRefill : Entity
         {
             player.Position = Position;
         }
-        
+
         PlayerDeadBody playerDeadBody = Scene.Tracker.GetEntitiesTrackIfNeeded<PlayerDeadBody>().Cast<PlayerDeadBody>().FirstOrDefault();
         playerDeadBody?.hair.Entity = player;
         playerDeadBody?.sprite.Entity = player;

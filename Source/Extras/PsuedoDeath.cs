@@ -51,7 +51,7 @@ public static class PsuedoDeath
         }
 
         cursor.EmitDelegate(StorePlayerBullshit);
-        
+
         if (!cursor.TryGotoNextBestFit(MoveType.Before,
             static instr => instr.MatchLdarg0(),
             static instr => instr.MatchLdfld<Player>("Leader"),
@@ -60,12 +60,12 @@ public static class PsuedoDeath
             Logger.Info("debug", $"\n\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n\n");
             return;
         }
-        
+
         ILLabel dontRemoveFollwers = cursor.DefineLabel();
-        
+
         cursor.EmitDelegate(ShouldKeepFollowers);
         cursor.EmitBrtrue(dontRemoveFollwers);
-        
+
         if (!cursor.TryGotoNextBestFit(MoveType.After,
             static instr => instr.MatchLdarg0(),
             static instr => instr.MatchLdfld<Player>("Leader"),
@@ -74,7 +74,7 @@ public static class PsuedoDeath
             Logger.Info("debug", $"\n\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n\n");
             return;
         }
-        
+
         cursor.MarkLabel(dontRemoveFollwers);
 
         // IL_01e5: ldarg.0
@@ -112,12 +112,12 @@ public static class PsuedoDeath
     private static void ModifyDashSpeed(ILContext il)
     {
         ILCursor cursor = new(il);
-        
+
         /*IL_00b9: ldloc.2
         IL_00ba: ldc.r4 240
         IL_00bf: call valuetype [FNA]Microsoft.Xna.Framework.Vector2 [FNA]Microsoft.Xna.Framework.Vector2::op_Multiply(valuetype [FNA]Microsoft.Xna.Framework.Vector2, float32)
         IL_00c4: stloc.3*/
-        
+
         if (!cursor.TryGotoNextBestFit(MoveType.Before,
             static instr => instr.MatchLdloc2(),
             static instr => instr.MatchLdcR4(240),
@@ -130,11 +130,11 @@ public static class PsuedoDeath
 
         cursor.GotoNext(MoveType.After, static instr => instr.MatchLdcR4(240));
         cursor.EmitDelegate(EatAndReplace);
-        
+
         /*IL_0111: ldloc.1
         IL_0112: ldloc.3
         IL_0113: stfld valuetype [FNA]Microsoft.Xna.Framework.Vector2 Celeste.Player::Speed*/
-        
+
         if (!cursor.TryGotoNextBestFit(MoveType.Before,
             static instr => instr.MatchLdloc1(),
             static instr => instr.MatchLdloc3(),
@@ -143,7 +143,7 @@ public static class PsuedoDeath
             Logger.Info("debug", $"\n\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n\n");
             return;
         }
-        
+
         cursor.GotoNext(MoveType.After, static instr => instr.MatchLdloc3());
         cursor.EmitDelegate(SpeedXFix);
     }
@@ -152,7 +152,7 @@ public static class PsuedoDeath
     {
         if (Utils.LevelIsNotSafe(out Level level)) return value;
         Player player = level.Tracker.GetEntity<Player>();
-        
+
         if (MintChocolateHelperModule.Session.StoredSpeed.HasValue)
         {
             Vector2 val = MintChocolateHelperModule.Session.StoredSpeed.Value;
@@ -164,7 +164,7 @@ public static class PsuedoDeath
 
             return lastAim.X == 0 && MintChocolateHelperModule.Session.Redirectable ? val.Length() : value;
         }
-        
+
         return value;
     }
 
@@ -174,18 +174,17 @@ public static class PsuedoDeath
         {
             Vector2 val = MintChocolateHelperModule.Session.StoredSpeed.Value;
             MintChocolateHelperModule.Session.StoredSpeed = null;
-            
+
             if (Math.Abs(val.X) > Math.Abs(speed.X) && MintChocolateHelperModule.Session.Redirectable)
             {
                 speed.X = Math.Abs(val.X) * Math.Sign(speed.X);
-                
             }
             else if (Math.Sign(val.X) == Math.Sign(speed.X) && Math.Abs(val.X) > Math.Abs(speed.X))
             {
                 speed.X = val.X;
             }
         }
-        
+
         return speed;
     }
 
@@ -209,12 +208,12 @@ public static class PsuedoDeath
         if (Utils.LevelIsNotSafe(out Level level)) return false;
 
         bool dontDetachGolden = false;
-        
+
         foreach (CancelDeathTrigger _ in level.Tracker.GetEntities<CancelDeathTrigger>().Cast<CancelDeathTrigger>().Where(t => t.KeepFollowers))
         {
             dontDetachGolden = true;
         }
-        
+
         return ShouldSkipRemovePlayer() && (MintChocolateHelperModule.Session.PsuedoDeadKeepFollowers || dontDetachGolden);
     }
 
@@ -289,10 +288,10 @@ public static class PsuedoDeath
         if (Utils.LevelIsNotSafe(out Level level)) return;
         Player player = level.Tracker.GetEntity<Player>();
         player?.Speed = Vector2.Zero;
-        
+
         orig(playerDeadBody);
         if (MintChocolateHelperModule.Session.PsuedoDeathTeleportingPlayer || !MintChocolateHelperModule.Session.HasJesusRefill || MintChocolateHelperModule.Session.TeleportToRefill) return;
-        
+
         player?.Position = playerDeadBody.Position;
     }
 }

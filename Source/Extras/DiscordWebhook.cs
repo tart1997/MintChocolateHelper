@@ -1,4 +1,7 @@
-﻿namespace Celeste.Mod.MintChocolateHelper.Extras;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
+
+namespace Celeste.Mod.MintChocolateHelper.Extras;
 
 public class DiscordWebhook
 {

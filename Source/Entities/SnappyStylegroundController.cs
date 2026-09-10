@@ -1,4 +1,7 @@
-﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
+﻿using FlaglinesAndSuch;
+using VivHelper.Effects;
+
+namespace Celeste.Mod.MintChocolateHelper.Entities;
 
 [CustomEntity("MintChocolateHelper/SnappyStylegroundController")]
 [UsedImplicitly]

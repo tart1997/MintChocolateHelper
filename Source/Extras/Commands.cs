@@ -1,4 +1,6 @@
-﻿namespace Celeste.Mod.MintChocolateHelper.Extras;
+﻿using TextCopy;
+
+namespace Celeste.Mod.MintChocolateHelper.Extras;
 
 public static class Commands
 {

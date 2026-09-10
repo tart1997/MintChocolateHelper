@@ -1,4 +1,6 @@
-﻿namespace Celeste.Mod.MintChocolateHelper.Registry.Components;
+﻿using Celeste.Mod.MintChocolateHelper.Registry.Handlers;
+
+namespace Celeste.Mod.MintChocolateHelper.Registry.Components;
 
 public class PlayerDistanceFade : Component
 {

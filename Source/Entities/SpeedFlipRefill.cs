@@ -301,7 +301,7 @@ public class SpeedFlipRefill : Entity
                 case DirectionBeforeInvert.None:
                     break;
                 default:
-                    throw new Exception("Impossible Enum Value! How did you do that?");
+                    throw new ImpossibleEnumException();
             }
 
             MintChocolateHelperModule.Session.HasSpeedFlipRefill = false;

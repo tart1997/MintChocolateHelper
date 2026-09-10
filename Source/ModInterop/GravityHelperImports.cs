@@ -1,4 +1,6 @@
-﻿namespace Celeste.Mod.MintChocolateHelper.ModInterop;
+﻿using ModInteropImportGenerator;
+
+namespace Celeste.Mod.MintChocolateHelper.ModInterop;
 
 [GenerateImports("GravityHelper")]
 [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
