@@ -124,6 +124,7 @@ public class JesusRefill : Entity
             Input.Rumble(RumbleStrength.Medium, RumbleLength.Medium);
             Collidable = false;
             Add(new Coroutine(RefillRoutine(player)));
+            MintChocolateHelperModule.Session.LastJesusRefill = this;
             MintChocolateHelperModule.Session.HasJesusRefill = true;
             MintChocolateHelperModule.Session.JesusRefillDisableQuickRespawn = DisableQuickRespawn;
             MintChocolateHelperModule.Session.PsuedoDeadKeepFollowers = KeepFollowers;
@@ -184,8 +185,7 @@ public class JesusRefill : Entity
     private static void Resurrection(On.Celeste.Player.orig_Update orig, Player self)
     {
         orig(self);
-        if (Utils.LevelIsNotSafe(out Level level)) return;
-        JesusRefill jesusRefill = level.Tracker.GetEntity<JesusRefill>();
+        JesusRefill jesusRefill = MintChocolateHelperModule.Session.LastJesusRefill;
 
         if (jesusRefill != null && (Input.DashPressed || Input.CrouchDashPressed) && MintChocolateHelperModule.Session.PlayerIsPsuedoDead && MintChocolateHelperModule.Session.HasJesusRefill)
         {
@@ -231,6 +231,7 @@ public class JesusRefill : Entity
         player.Visible = MintChocolateHelperModule.Session.WasVisibleBeforePsuedoDeath;
         if (Scene is not null) player.Scene = Scene;
         MintChocolateHelperModule.Session.PlayerIsPsuedoDead = false;
+        MintChocolateHelperModule.Session.LastJesusRefill = null;
         MintChocolateHelperModule.Session.HasJesusRefill = false;
         MintChocolateHelperModule.Session.JesusRefillDisableQuickRespawn = false;
         MintChocolateHelperModule.Session.PsuedoDeadKeepFollowers = false;

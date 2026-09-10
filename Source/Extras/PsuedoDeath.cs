@@ -266,6 +266,7 @@ public static class PsuedoDeath
         player?.RemoveSelf();
 
         MintChocolateHelperModule.Session.PlayerIsPsuedoDead = false;
+        MintChocolateHelperModule.Session.LastJesusRefill = null;
         MintChocolateHelperModule.Session.HasJesusRefill = false;
         MintChocolateHelperModule.Session.JesusRefillDisableQuickRespawn = false;
         MintChocolateHelperModule.Session.PsuedoDeadKeepFollowers = false;

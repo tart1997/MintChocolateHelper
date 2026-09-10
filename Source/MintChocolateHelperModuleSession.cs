@@ -1,3 +1,5 @@
+using Celeste.Mod.MintChocolateHelper.Entities;
+
 namespace Celeste.Mod.MintChocolateHelper;
 
 public class MintChocolateHelperModuleSession : EverestModuleSession
@@ -18,6 +20,7 @@ public class MintChocolateHelperModuleSession : EverestModuleSession
     internal bool WasVisibleBeforePsuedoDeath {get; set;}
 
     // Jesus Refill
+    internal JesusRefill LastJesusRefill {get; set;}
     internal bool HasJesusRefill {get; set;}
     internal bool TeleportToRefill {get; set;}
     internal bool Redirectable {get; set;}
