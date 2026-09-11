@@ -1,4 +1,3 @@
-// TODO: needs work
 using Celeste.Mod.MintChocolateHelper.Entities;
 
 namespace Celeste.Mod.MintChocolateHelper;

@@ -1,5 +1,4 @@
-﻿// TODO: needs work
-namespace Celeste.Mod.MintChocolateHelper.Triggers;
+﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
 
 [Tracked]
 [CustomEntity("MintChocolateHelper/CancelDeathTrigger")]

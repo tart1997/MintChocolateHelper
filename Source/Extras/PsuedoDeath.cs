@@ -1,5 +1,4 @@
-﻿// TODO: needs work
-namespace Celeste.Mod.MintChocolateHelper.Extras;
+﻿namespace Celeste.Mod.MintChocolateHelper.Extras;
 
 public static class PsuedoDeath
 {
