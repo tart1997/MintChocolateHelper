@@ -1,10 +1,12 @@
 ﻿// TODO: Done Here :)
-
 namespace Celeste.Mod.MintChocolateHelper;
 
 public class MintChocolateHelperModule : EverestModule
 {
-    private static MintChocolateHelperModule Instance {get; set;}
+    internal static string ModName => "Mint Chocolate Helper";
+
+    [UsedImplicitly]
+    public static MintChocolateHelperModule Instance {get; set;}
 
     public override Type SettingsType => typeof(MintChocolateHelperModuleSettings);
     public static MintChocolateHelperModuleSettings Settings => (MintChocolateHelperModuleSettings)Instance._Settings;

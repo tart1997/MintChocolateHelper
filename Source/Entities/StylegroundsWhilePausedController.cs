@@ -56,9 +56,12 @@ public class StylegroundsWhilePausedController : Entity
     {
         ILCursor cursor = new(il);
 
-        /*IL_002f: call float32 Monocle.Engine::get_RawDeltaTime()
+        
+        /*
+        IL_002f: call float32 Monocle.Engine::get_RawDeltaTime()
         IL_0034: sub
-        IL_0035: stfld float32 Celeste.Level::unpauseTimer*/
+        IL_0035: stfld float32 Celeste.Level::unpauseTimer
+        */
 
         if (cursor.TryGotoNextBestFit(MoveType.After,
                 static instr => instr.MatchCall<Engine>("get_RawDeltaTime"),

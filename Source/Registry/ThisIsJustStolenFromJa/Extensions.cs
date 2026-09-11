@@ -1,4 +1,5 @@
-﻿namespace Celeste.Mod.MintChocolateHelper.Registry.ThisIsJustStolenFromJa;
+﻿// TODO: Done Here :)
+namespace Celeste.Mod.MintChocolateHelper.Registry.ThisIsJustStolenFromJa;
 
 //All credits to JaThePlayer of course I would never be evil and steal code without saying anything why would you ever think that?
 

@@ -1,4 +1,5 @@
-﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
+﻿// TODO: Done Here :)
+namespace Celeste.Mod.MintChocolateHelper.Triggers;
 
 [UsedImplicitly]
 [CustomEntity("MintChocolateHelper/PulseFlagTrigger")]

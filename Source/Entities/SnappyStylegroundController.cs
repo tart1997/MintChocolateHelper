@@ -49,10 +49,10 @@ public class SnappyStylegroundController : Entity
             {
                 //Vanilla
                 case Godrays godrays:
-                    godrays.fade = level.Session.GetFlag(godrays.OnlyIfFlag) ? 1 : 0;
+                    godrays.fade = level.GetFlag(godrays.OnlyIfFlag) ? 1 : 0;
                     break;
                 case Snow snow:
-                    snow.visibleFade = level.Session.GetFlag(snow.OnlyIfFlag) ? 1 : 0;
+                    snow.visibleFade = level.GetFlag(snow.OnlyIfFlag) ? 1 : 0;
                     break;
                 case NorthernLights northernLights:
                     foreach (NorthernLights.Strand strand in northernLights.strands)
@@ -85,10 +85,10 @@ public class SnappyStylegroundController : Entity
             {
                 //Vanilla
                 case Godrays godrays:
-                    godrays.fade = level.Session.GetFlag(godrays.OnlyIfFlag) ? 1 : 0;
+                    godrays.fade = level.GetFlag(godrays.OnlyIfFlag) ? 1 : 0;
                     break;
                 case Snow snow:
-                    snow.visibleFade = level.Session.GetFlag(snow.OnlyIfFlag) ? 1 : 0;
+                    snow.visibleFade = level.GetFlag(snow.OnlyIfFlag) ? 1 : 0;
                     break;
                 case NorthernLights northernLights:
                     foreach (NorthernLights.Strand strand in northernLights.strands)
@@ -117,26 +117,11 @@ public class SnappyStylegroundController : Entity
     }
 
     private static bool isWindPetals(Backdrop backdrop) => backdrop is WindPetals;
+    private static void setWindPetals(Backdrop windPetals) => WindPetalsFade?.SetValue(windPetals, Utils.GetFlag(windPetals.OnlyIfFlag) ? 1 : 0);
 
     private static bool isCustomGodrays(Backdrop backdrop) => backdrop is CustomGodrays;
+    private static void setCustomGodRays(Backdrop godrays) => CustomGodraysFade?.SetValue(godrays, Utils.GetFlag(godrays.OnlyIfFlag) ? 1 : 0);
 
     private static bool isVivRain(Backdrop backdrop) => backdrop is CustomRain;
-
-    private static void setWindPetals(Backdrop windPetals)
-    {
-        if (Utils.LevelIsNotSafe(out Level level)) return;
-        WindPetalsFade?.SetValue(windPetals, level.Session.GetFlag(windPetals.OnlyIfFlag) ? 1 : 0);
-    }
-
-    private static void setCustomGodRays(Backdrop godrays)
-    {
-        if (Utils.LevelIsNotSafe(out Level level)) return;
-        CustomGodraysFade?.SetValue(godrays, level.Session.GetFlag(godrays.OnlyIfFlag) ? 1 : 0);
-    }
-
-    private static void setVivRain(Backdrop vivRain)
-    {
-        if (Utils.LevelIsNotSafe(out Level level)) return;
-        VivCustomRainFade?.SetValue(vivRain, level.Session.GetFlag(vivRain.OnlyIfFlag) ? 1 : 0);
-    }
+    private static void setVivRain(Backdrop vivRain) => VivCustomRainFade?.SetValue(vivRain, Utils.GetFlag(vivRain.OnlyIfFlag) ? 1 : 0);
 }

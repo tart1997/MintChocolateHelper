@@ -1,4 +1,5 @@
-﻿using Celeste.Mod.MintChocolateHelper.Registry.Handlers;
+﻿// TODO: Done Here :)
+using Celeste.Mod.MintChocolateHelper.Registry.Handlers;
 
 namespace Celeste.Mod.MintChocolateHelper.Registry.Components;
 
@@ -33,19 +34,17 @@ public class PlayerDistanceFade : Component
     public override void EntityAwake()
     {
         base.EntityAwake();
-        Decal decal = (Decal)Entity;
 
         BeginFadeOut = false;
-        OriginalColor = decal.Color;
+        OriginalColor = ((Decal)Entity).Color;
         FadeoutTimer = 0f;
     }
 
     public override void Update()
     {
         base.Update();
-        Decal decal = (Decal)Entity;
 
-        decal.Color = OriginalColor;
+        ((Decal)Entity).Color = OriginalColor;
     }
 
     public override void Render()
@@ -67,36 +66,44 @@ public class PlayerDistanceFade : Component
         {
             Color fadedColor = DecalDistance < InnerRadius ? Color.Transparent : Color.Multiply(CurrentColor, 1 - LastPercentage);
 
-            if (player == null && DeathBehavior == PlayerDistanceFadeRegistryHandler.DeathBehavior.fadeOut)
+            switch (player)
             {
-                FadeoutOriginalColor = fadedColor;
-                FadeoutTargetColor = CurrentColor;
-                BeginFadeOut = true;
-            }
-            else
-            {
-                decal.Color = player switch {
-                    null => DeathBehavior == PlayerDistanceFadeRegistryHandler.DeathBehavior.staySame ? fadedColor : CurrentColor,
-                    _ => fadedColor
-                };
+                case null when DeathBehavior == PlayerDistanceFadeRegistryHandler.DeathBehavior.fadeOut:
+                    FadeoutOriginalColor = fadedColor;
+                    FadeoutTargetColor = CurrentColor;
+                    BeginFadeOut = true;
+                    break;
+                case null when DeathBehavior == PlayerDistanceFadeRegistryHandler.DeathBehavior.staySame:
+                    decal.Color = fadedColor;
+                    break;
+                case null:
+                    decal.Color = CurrentColor;
+                    break;
+                default:
+                    decal.Color = fadedColor;
+                    break;
             }
         }
         else
         {
             Color fadedColor = DecalDistance > OuterRadius ? Color.Transparent : Color.Multiply(CurrentColor, LastPercentage);
 
-            if (player == null && DeathBehavior == PlayerDistanceFadeRegistryHandler.DeathBehavior.fadeOut)
+            switch (player)
             {
-                FadeoutOriginalColor = fadedColor;
-                FadeoutTargetColor = Color.Transparent;
-                BeginFadeOut = true;
-            }
-            else
-            {
-                decal.Color = player switch {
-                    null => DeathBehavior == PlayerDistanceFadeRegistryHandler.DeathBehavior.staySame ? fadedColor : Color.Transparent,
-                    _ => fadedColor
-                };
+                case null when DeathBehavior == PlayerDistanceFadeRegistryHandler.DeathBehavior.fadeOut:
+                    FadeoutOriginalColor = fadedColor;
+                    FadeoutTargetColor = Color.Transparent;
+                    BeginFadeOut = true;
+                    break;
+                case null when DeathBehavior == PlayerDistanceFadeRegistryHandler.DeathBehavior.staySame:
+                    decal.Color = fadedColor;
+                    break;
+                case null:
+                    decal.Color = Color.Transparent;
+                    break;
+                default:
+                    decal.Color = fadedColor;
+                    break;
             }
         }
 

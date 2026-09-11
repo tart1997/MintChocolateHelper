@@ -1,7 +1,14 @@
-﻿namespace Celeste.Mod.MintChocolateHelper.MintUtils;
+﻿// TODO: Done Here :)
+namespace Celeste.Mod.MintChocolateHelper.MintUtils;
 
 internal static class Utils
 {
+    [UsedImplicitly]
+    internal static void Log(LogLevel logLevel , string message)
+    {
+        Logger.Log(logLevel, MintChocolateHelperModule.ModName, message);
+    }
+    
     [UsedImplicitly]
     internal static bool LevelIsSafe() => LevelIsSafe(out _);
 
@@ -66,15 +73,45 @@ internal static class Utils
         return false;
     }
 
-    [UsedImplicitly]
-    internal static void LogError(string message)
+    extension(Level level)
     {
-        Logger.Log(LogLevel.Error, "Mint Chocolate Helper", message);
+        [UsedImplicitly]
+        internal bool GetFlag(string flag)
+        {
+            return level.Session.GetFlag(flag);
+        }
+
+        [UsedImplicitly]
+        internal void SetFlag(string flag, bool setTo = true)
+        {
+            level.Session.SetFlag(flag, setTo);
+        }
+    }
+    
+    extension(Scene scene)
+    {
+        [UsedImplicitly]
+        internal bool GetFlag(string flag)
+        {
+            return ((Level)scene).Session.GetFlag(flag);
+        }
+
+        [UsedImplicitly]
+        internal void SetFlag(string flag, bool setTo = true)
+        {
+            ((Level)scene).Session.SetFlag(flag, setTo);
+        }
     }
 
     [UsedImplicitly]
-    internal static void LogInfo(string message)
+    internal static bool GetFlag(string flag)
     {
-        Logger.Log(LogLevel.Info, "Mint Chocolate Helper", message);
+        return ((Level)Engine.Scene).Session.GetFlag(flag);
+    }
+
+    [UsedImplicitly]
+    internal static void SetFlag(string flag, bool setTo = true)
+    {
+        ((Level)Engine.Scene).Session.SetFlag(flag, setTo);
     }
 }

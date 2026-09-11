@@ -16,11 +16,10 @@ public class FlagsOnAwakeController : Entity
     public override void Awake(Scene scene)
     {
         base.Awake(scene);
-        if (Utils.SceneIsNotSafe(scene, out Level level)) return;
 
         foreach (string flag in Flags)
         {
-            level.Session.SetFlag(flag, Value);
+            Utils.SetFlag(flag, Value);
         }
     }
 }

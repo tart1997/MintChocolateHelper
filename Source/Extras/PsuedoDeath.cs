@@ -29,13 +29,16 @@ public static class PsuedoDeath
     {
         ILCursor cursor = new(il);
 
-        /*IL_0056: ldloc.2
+        
+        /*
+        IL_0056: ldloc.2
         IL_0057: ldloc.0
         IL_0058: stfld class Celeste.Player/'<>c__DisplayClass344_0' Celeste.Player/'<>c__DisplayClass344_1'::'CS$<>8__locals1'
         IL_005d: ldarg.0
         IL_005e: ldarg.0
         IL_005f: ldfld class Celeste.SoundSource Celeste.Player::wallSlideSfx
-        IL_0064: callvirt instance void Celeste.Player::Stop(class Celeste.SoundSource)*/
+        IL_0064: callvirt instance void Celeste.Player::Stop(class Celeste.SoundSource)
+        */
 
         if (cursor.TryGotoNextBestFit(MoveType.Before,
                 static instr => instr.MatchLdloc2(),
@@ -52,9 +55,11 @@ public static class PsuedoDeath
         cursor.EmitDelegate(StorePlayerBullshit);
 
 
-        /*IL_0140: ldarg.0
+        /*
+        IL_0140: ldarg.0
         IL_0141: ldfld class Celeste.Leader Celeste.Player::Leader
-        IL_0146: callvirt instance void Celeste.Leader::LoseFollowers()*/
+        IL_0146: callvirt instance void Celeste.Leader::LoseFollowers()
+        */
 
         if (cursor.TryGotoNextBestFit(MoveType.Before,
                 static instr => instr.MatchLdarg0(),
@@ -80,10 +85,12 @@ public static class PsuedoDeath
         cursor.MarkLabel(dontRemoveFollwers);
 
 
-        /*IL_01e5: ldarg.0
+        /*
+        IL_01e5: ldarg.0
         IL_01e6: call instance class Monocle.Scene Monocle.Entity::get_Scene()
         IL_01eb: ldarg.0
-        IL_01ec: callvirt instance void Monocle.Scene::Remove(class Monocle.Entity)*/
+        IL_01ec: callvirt instance void Monocle.Scene::Remove(class Monocle.Entity)
+        */
 
         if (cursor.TryGotoNextBestFit(MoveType.Before,
                 static instr => instr.MatchLdarg0(),
@@ -116,10 +123,13 @@ public static class PsuedoDeath
     {
         ILCursor cursor = new(il);
 
-        /*IL_00b9: ldloc.2
+        
+        /*
+        IL_00b9: ldloc.2
         IL_00ba: ldc.r4 240
         IL_00bf: call valuetype [FNA]Microsoft.Xna.Framework.Vector2 [FNA]Microsoft.Xna.Framework.Vector2::op_Multiply(valuetype [FNA]Microsoft.Xna.Framework.Vector2, float32)
-        IL_00c4: stloc.3*/
+        IL_00c4: stloc.3
+        */
 
         if (cursor.TryGotoNextBestFit(MoveType.Before,
                 static instr => instr.MatchLdloc2(),
@@ -134,9 +144,11 @@ public static class PsuedoDeath
         cursor.EmitDelegate(EatAndReplace);
 
 
-        /*IL_0111: ldloc.1
+        /*
+        IL_0111: ldloc.1
         IL_0112: ldloc.3
-        IL_0113: stfld valuetype [FNA]Microsoft.Xna.Framework.Vector2 Celeste.Player::Speed*/
+        IL_0113: stfld valuetype [FNA]Microsoft.Xna.Framework.Vector2 Celeste.Player::Speed
+        */
 
         if (cursor.TryGotoNextBestFit(MoveType.Before,
                 static instr => instr.MatchLdloc1(),
@@ -227,7 +239,7 @@ public static class PsuedoDeath
                 }
                 else
                 {
-                    if (!level.Session.GetFlag(CDTrigger.Flag))
+                    if (!level.GetFlag(CDTrigger.Flag))
                     {
                         CDTriggerFalseFlagSkip = true;
                     }

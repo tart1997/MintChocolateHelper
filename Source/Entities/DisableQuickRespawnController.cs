@@ -34,9 +34,12 @@ public class DisableQuickRespawnController : Entity
     {
         ILCursor cursor = new(il);
 
-        /*IL_0006: ldsfld class Monocle.VirtualButton Celeste.Input::MenuConfirm
+        
+        /*
+        IL_0006: ldsfld class Monocle.VirtualButton Celeste.Input::MenuConfirm
         IL_000b: callvirt instance bool Monocle.VirtualButton::get_Pressed()
-        IL_0010: brfalse.s IL_0020*/
+        IL_0010: brfalse.s IL_0020
+        */
 
         ILLabel anythingYouWant = null;
 
@@ -64,6 +67,6 @@ public class DisableQuickRespawnController : Entity
             return FrostHelperImports.GetBoolSessionExpressionValue(DQRController.DisableFlagExpression, level.Session);
         }
 
-        return level.Session.GetFlag(DQRController.DisableFlag);
+        return level.GetFlag(DQRController.DisableFlag);
     }
 }

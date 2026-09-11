@@ -1,4 +1,6 @@
-﻿namespace Celeste.Mod.MintChocolateHelper.DialogCommands;
+﻿// TODO: Done Here :)
+
+namespace Celeste.Mod.MintChocolateHelper.DialogCommands;
 
 public static class BreakTextBoxCommand
 {
@@ -37,11 +39,14 @@ public static class BreakTextBoxCommand
     {
         ILCursor cursor = new(il);
 
-        /*IL_0231: ldarg.0
+
+        /*
+        IL_0231: ldarg.0
         IL_0232: ldfld class Celeste.FancyText/Text Celeste.FancyText::group
         IL_0237: ldfld class [mscorlib]System.Collections.Generic.List`1<class Celeste.FancyText/Node> Celeste.FancyText/Text::Nodes
         IL_023c: newobj instance void Celeste.FancyText/NewPage::.ctor()
-        IL_0241: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class Celeste.FancyText/Node>::Add(!0)*/
+        IL_0241: callvirt instance void class [mscorlib]System.Collections.Generic.List`1<class Celeste.FancyText/Node>::Add(!0)
+        */
 
         if (cursor.TryGotoNextBestFit(MoveType.Before,
                 static instr => instr.MatchLdarg0(),
@@ -53,13 +58,15 @@ public static class BreakTextBoxCommand
             return;
         }
 
-        Utils.LogInfo("MintChocolateHelper is hooking into FancyText.Parse, please let me know if something explodes!");
-        cursor.Emit(OpCodes.Ldarg_0); // this
+        Utils.Log(LogLevel.Info, "MintChocolateHelper is hooking into FancyText.Parse, please let me know if something explodes!");
+        cursor.Emit(OpCodes.Ldarg_0);
         cursor.EmitDelegate(ResetDisableLineLimit);
 
 
-        /*IL_02bc: ldstr "/>>"
-        IL_02c1: callvirt instance bool [mscorlib]System.String::Equals(string)*/
+        /*
+        IL_02bc: ldstr "/>>"
+        IL_02c1: callvirt instance bool [mscorlib]System.String::Equals(string)
+        */
 
         if (cursor.TryGotoNextBestFit(MoveType.Before,
                 static instr => instr.MatchLdstr("/>>"),
@@ -68,31 +75,31 @@ public static class BreakTextBoxCommand
             return;
         }
 
-        cursor.Emit(OpCodes.Ldarg_0); // this
-        cursor.Emit(OpCodes.Ldloc_S, il.Method.Body.Variables[7]); // s
+        cursor.Emit(OpCodes.Ldarg_0);
+        cursor.Emit(OpCodes.Ldloc_S, il.Method.Body.Variables[7]);
         cursor.EmitDelegate(SetDisableLineLimit);
     }
 
     private static void ResetDisableLineLimit(FancyText text)
     {
-        DynamicData parserData = new(text);
-        parserData.Set("MintChocolateHelper:DisableLineLimit", false);
+        DynamicData parserData = DynamicData.For(text);
+        parserData.SetFalse("MintChocolateHelper:DisableLineLimit");
     }
 
     private static void SetDisableLineLimit(FancyText text, string s)
     {
-        DynamicData parserData = new(text);
-        FancyText.Text group = parserData.Get<FancyText.Text>("group");
-        List<FancyText.Node> nodes = group.Nodes;
+        DynamicData parserData = DynamicData.For(text);
+        FancyText.Text group = parserData.SafeGet<FancyText.Text>("group");
+        List<FancyText.Node> nodes = group?.Nodes;
         switch (s)
         {
             case "vvv":
-                nodes.Add(new McTrigger(false));
-                parserData.Set("MintChocolateHelper:DisableLineLimit", true);
+                nodes?.Add(new McTrigger(false));
+                parserData.SetTrue("MintChocolateHelper:DisableLineLimit");
                 break;
             case "VVV":
-                nodes.Add(new McTrigger(true));
-                parserData.Set("MintChocolateHelper:DisableLineLimit", true);
+                nodes?.Add(new McTrigger(true));
+                parserData.SetTrue("MintChocolateHelper:DisableLineLimit");
                 break;
         }
     }
@@ -101,11 +108,14 @@ public static class BreakTextBoxCommand
     {
         ILCursor cursor = new(il);
 
-        /*IL_0032: ldarg.0
+
+        /*
+        IL_0032: ldarg.0
         IL_0033: ldfld int32 Celeste.FancyText::currentLine
         IL_0038: ldarg.0
         IL_0039: ldfld int32 Celeste.FancyText::linesPerPage
-        IL_003e: ble.s IL_007e*/
+        IL_003e: ble.s IL_007e
+        */
 
         ILLabel jumpToNewline = null;
 
@@ -126,19 +136,22 @@ public static class BreakTextBoxCommand
 
     private static bool ShouldSkipAddNewPage(FancyText text)
     {
-        DynamicData parserData = new(text);
-        return parserData.TryGet("MintChocolateHelper:DisableLineLimit", out bool? DisableLineLimit) && DisableLineLimit == true;
+        DynamicData parserData = DynamicData.For(text);
+        return parserData.TryGetTrue("MintChocolateHelper:DisableLineLimit");
     }
 
     private static void JustifyTextDownHook(ILContext il)
     {
         ILCursor cursor = new(il);
 
-        /*IL_04f0: ldarg.0
+
+        /*
+        IL_04f0: ldarg.0
         IL_04f1: ldfld class Celeste.FancyText/Text Celeste.Textbox::text
         IL_04f6: ldloc.3
         IL_04f7: ldloc.s 8
-        IL_04f9: call valuetype [FNA]Microsoft.Xna.Framework.Vector2 [FNA]Microsoft.Xna.Framework.Vector2::op_Addition(valuetype [FNA]Microsoft.Xna.Framework.Vector2, valuetype [FNA]Microsoft.Xna.Framework.Vector2)*/
+        IL_04f9: call valuetype [FNA]Microsoft.Xna.Framework.Vector2 [FNA]Microsoft.Xna.Framework.Vector2::op_Addition(valuetype [FNA]Microsoft.Xna.Framework.Vector2, valuetype [FNA]Microsoft.Xna.Framework.Vector2)
+        */
 
         if (cursor.TryGotoNextBestFit(MoveType.Before,
                 static instr => instr.MatchLdarg0(),
@@ -151,14 +164,18 @@ public static class BreakTextBoxCommand
         }
 
         ILLabel IfBranchEnd = cursor.DefineLabel();
+
         cursor.EmitDelegate(TryJustifyTextDown);
         cursor.EmitBrtrue(IfBranchEnd);
 
-        /*IL_0526: ldloc.1
+
+        /*
+        IL_0526: ldloc.1
         IL_0527: ldarg.0
         IL_0528: callvirt instance int32 Celeste.Textbox::get_Start()
         IL_052d: ldc.i4 2147483647
-        IL_0532: callvirt instance void Celeste.FancyText/Text::Draw(valuetype [FNA]Microsoft.Xna.Framework.Vector2, valuetype [FNA]Microsoft.Xna.Framework.Vector2, valuetype [FNA]Microsoft.Xna.Framework.Vector2, float32, int32, int32)*/
+        IL_0532: callvirt instance void Celeste.FancyText/Text::Draw(valuetype [FNA]Microsoft.Xna.Framework.Vector2, valuetype [FNA]Microsoft.Xna.Framework.Vector2, valuetype [FNA]Microsoft.Xna.Framework.Vector2, float32, int32, int32)
+        */
 
         if (cursor.TryGotoNextBestFit(MoveType.After,
                 instr => instr.MatchLdloc1(),
@@ -202,7 +219,7 @@ public static class BreakTextBoxCommand
             }
         }
 
-        DynamicData selfData = new(text);
+        DynamicData selfData = DynamicData.For(text);
         selfData.Set("MintChocolateHelper:JustifyTextDownwards", HasBreakTextBoxCommand);
         selfData.Set("MintChocolateHelper:DisableTextShrink", hasdisableTextShrink);
 
@@ -211,12 +228,11 @@ public static class BreakTextBoxCommand
 
     private static bool TryJustifyTextDown()
     {
-        Textbox textbox = SearchUtils.GetEntity<Textbox>(true);
-        FancyText.Text text = textbox?.text;
+        FancyText.Text text = SearchUtils.GetEntity<Textbox>(true).text;
         if (text is null) return false;
 
-        DynamicData selfData = new(text);
-        return selfData.TryGet("MintChocolateHelper:JustifyTextDownwards", out bool? JustifyTextDownwards) && JustifyTextDownwards == true;
+        DynamicData selfData = DynamicData.For(text);
+        return selfData.TryGetTrue("MintChocolateHelper:JustifyTextDownwards");
     }
 
     private static void JustifyTextDown(float num, float num6, Vector2 vector, Vector2 vector2, Vector2 vector3)
@@ -225,9 +241,9 @@ public static class BreakTextBoxCommand
         Textbox textbox = SearchUtils.GetEntity<Textbox>(true);
         FancyText.Text text = textbox?.text;
         if (text is null) return;
-        DynamicData selfData = new(text);
+        DynamicData selfData = DynamicData.For(text);
 
-        if (selfData.TryGet("MintChocolateHelper:DisableTextShrink", out bool? JustifyTextDownwards) && JustifyTextDownwards == true)
+        if (selfData.TryGetTrue("MintChocolateHelper:DisableTextShrink"))
         {
             textbox.text.Draw(vector + vector2 + vector3 - new Vector2(0, textbox.linesPerPage * textbox.lineHeight / 2) - Vector2.UnitY * 1.5f, new Vector2(0.5f, 0f), new Vector2(1f, num), num, textbox.Start);
         }

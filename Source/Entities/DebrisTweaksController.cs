@@ -49,22 +49,22 @@ public class DebrisTweaksController : Entity
         if (Utils.LevelIsNotSafe(out Level level)) return;
 
         DynamicData debrisData = DynamicData.For(debris);
-        bool? WindAffected = debrisData.Get<bool?>("WindAffected");
-        bool? PlayerAffected = debrisData.Get<bool?>("PlayerAffected");
-        if (PlayerAffected != true && WindAffected != true) return;
+        bool WindAffected = debrisData.SafeGet<bool>("WindAffected");
+        bool PlayerAffected = debrisData.SafeGet<bool>("PlayerAffected");
+        if (!PlayerAffected && !WindAffected) return;
 
-        if (WindAffected == true)
+        if (WindAffected)
         {
             debrisData.Set("WindDisturbance", level.Wind / 300f);
         }
 
-        if (PlayerAffected == true)
+        if (PlayerAffected)
         {
             if (debris.CollideCheck<Player>())
             {
                 Player player = level.GetPlayer();
                 Vector2 vector = (debris.Position - player.Center).SafeNormalize(player.Speed.Length() * 0.02f);
-                Vector2 playerDisturbance = debrisData.Get<Vector2>("PlayerDisturbance");
+                Vector2 playerDisturbance = debrisData.SafeGet<Vector2>("PlayerDisturbance");
 
                 if (vector.LengthSquared() > playerDisturbance.LengthSquared())
                 {
@@ -78,8 +78,8 @@ public class DebrisTweaksController : Entity
         bool WallToRight = debris.CollideCheck<SolidTiles>(new Vector2(debris.Position.X + 2, debris.Position.Y));
         bool FloorBelow = debris.CollideCheck<SolidTiles>(new Vector2(debris.Position.X, debris.Position.Y + 2));
 
-        Vector2 WindDisturbance = debrisData.Get<Vector2>("WindDisturbance");
-        Vector2 PlayerDisturbance = debrisData.Get<Vector2>("PlayerDisturbance");
+        Vector2 WindDisturbance = debrisData.SafeGet<Vector2>("WindDisturbance");
+        Vector2 PlayerDisturbance = debrisData.SafeGet<Vector2>("PlayerDisturbance");
         Vector2 TotalDisturbance = PlayerDisturbance + WindDisturbance;
 
         if (!(TotalDisturbance.X < 0 && WallToLeft) && !(TotalDisturbance.X > 0 && WallToRight))
@@ -99,10 +99,13 @@ public class DebrisTweaksController : Entity
     {
         ILCursor cursor = new(il);
 
-        /*IL_01d2: ldarg.0
+        
+        /*
+        IL_01d2: ldarg.0
         IL_01d3: ldfld class Monocle.Image Celeste.Debris::image
         IL_01d8: call valuetype [FNA]Microsoft.Xna.Framework.Color [FNA]Microsoft.Xna.Framework.Color::get_White()
-        IL_01dd: call valuetype [FNA]Microsoft.Xna.Framework.Color [FNA]Microsoft.Xna.Framework.Color::get_Gray()*/
+        IL_01dd: call valuetype [FNA]Microsoft.Xna.Framework.Color [FNA]Microsoft.Xna.Framework.Color::get_Gray()
+        */
 
         if (cursor.TryGotoNextBestFit(MoveType.Before,
                 static instr => instr.MatchLdarg0(),
@@ -118,10 +121,13 @@ public class DebrisTweaksController : Entity
         cursor.EmitDelegate(ShouldReplaceColorLerp);
         cursor.EmitBrtrue(replaceColorLerp);
 
-        /*IL_01ed: ldarg.0
+        
+        /*
+        IL_01ed: ldarg.0
         IL_01ee: ldfld float32 Celeste.Debris::alpha
         IL_01f3: call valuetype [FNA]Microsoft.Xna.Framework.Color [FNA]Microsoft.Xna.Framework.Color::op_Multiply(valuetype [FNA]Microsoft.Xna.Framework.Color, float32)
-        IL_01f8: stfld valuetype [FNA]Microsoft.Xna.Framework.Color Monocle.GraphicsComponent::Color*/
+        IL_01f8: stfld valuetype [FNA]Microsoft.Xna.Framework.Color Monocle.GraphicsComponent::Color
+        */
 
         if (cursor.TryGotoNextBestFit(MoveType.After,
                 static instr => instr.MatchLdarg(0),

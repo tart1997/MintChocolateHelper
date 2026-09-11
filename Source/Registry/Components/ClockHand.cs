@@ -1,4 +1,5 @@
-﻿namespace Celeste.Mod.MintChocolateHelper.Registry.Components;
+﻿// TODO: Done Here :)
+namespace Celeste.Mod.MintChocolateHelper.Registry.Components;
 
 public class ClockHand : Component
 {
@@ -61,18 +62,14 @@ public class ClockHand : Component
 
         if (RandomStart)
         {
-            Random rng = new();
-            CurrentStop = rng.Next(StopNumber);
+            CurrentStop = new Random().Next(StopNumber);
             decal.Rotation = RotationAngle * CurrentStop;
         }
     }
 
     public override void Update()
     {
-        if (Utils.LevelIsNotSafe(out Level level)) return;
-        Decal decal = (Decal)Entity;
-
-        AllowTick = AllowTickFlag == "" || level.Session.GetFlag(AllowTickFlag);
+        AllowTick = AllowTickFlag == "" || Utils.GetFlag(AllowTickFlag);
 
         if (FinishedCurrentTick)
         {
@@ -103,7 +100,7 @@ public class ClockHand : Component
                 }
 
                 float TimerProgress = TickSpeedTimer / TickSpeed * FunnyErrorHandlerValue;
-                decal.Rotation = Calc.LerpClamp(CurrentStopAngle, NextStopAngle, TickEasingFunction(TimerProgress)) + OriginalRotation;
+                ((Decal)Entity).Rotation = Calc.LerpClamp(CurrentStopAngle, NextStopAngle, TickEasingFunction(TimerProgress)) + OriginalRotation;
 
                 TickSpeedTimer += Engine.DeltaTime;
             }

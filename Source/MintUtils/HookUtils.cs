@@ -1,3 +1,4 @@
+// TODO: Done Here :)
 using MethodBody = Mono.Cecil.Cil.MethodBody;
 
 namespace Celeste.Mod.MintChocolateHelper.MintUtils;
@@ -17,7 +18,7 @@ public static class HookUtils
     {
         if (!attemptedHook)
         {
-            Logger.Info("debug", $"\n\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n\n");
+            Utils.Log(LogLevel.Error, $"\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n");
         }
 
         return !attemptedHook;

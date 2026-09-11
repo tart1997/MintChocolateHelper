@@ -1,4 +1,5 @@
-﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
+﻿// TODO: Done Here :)
+namespace Celeste.Mod.MintChocolateHelper.Triggers;
 
 //   ### A large majority of this is ripped straight from Crystalline trigger triggers (Obviously) ###
 

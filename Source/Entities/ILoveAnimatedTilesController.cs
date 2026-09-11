@@ -46,10 +46,13 @@ public class ILoveAnimatedTilesController : Entity
     {
         ILCursor cursor = new(il);
 
-        /*IL_01b2: ldloc.s 5
+        
+        /*
+        IL_01b2: ldloc.s 5
         IL_01b4: ldarg.0
         IL_01b5: callvirt instance class Monocle.Scene Monocle.EntityList::get_Scene()
-        IL_01ba: callvirt instance void Monocle.Entity::Awake(class Monocle.Scene)*/
+        IL_01ba: callvirt instance void Monocle.Entity::Awake(class Monocle.Scene)
+        */
 
         int AwokenEntityLoc = -1;
         cursor.GotoNext(MoveType.Before, static instr => instr.MatchCallvirt<Entity>("Awake"));
@@ -68,7 +71,7 @@ public class ILoveAnimatedTilesController : Entity
         if (self.Get<TileGrid>() is not { } tileGrid) return;
 
         DynamicData TileGridData = DynamicData.For(tileGrid);
-        AnimatedTiles animatedTiles = TileGridData.Get<AnimatedTiles>("AnimatedTiles");
+        AnimatedTiles animatedTiles = TileGridData.SafeGet<AnimatedTiles>("AnimatedTiles");
         if (animatedTiles is null) return;
 
         animatedTiles.Position = tileGrid.Position;
