@@ -1,7 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
-[CustomEntity("MintChocolateHelper/SpeedFlipRefill")]
 [Tracked]
+[CustomEntity("MintChocolateHelper/SpeedFlipRefill")]
 public class SpeedFlipRefill : Entity
 {
     private readonly ParticleType P_Shatter;
@@ -248,7 +248,7 @@ public class SpeedFlipRefill : Entity
 
     private static PlayerDeadBody SpeedFlipRefillDie(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction, bool evenIfInvincible = false, bool registerDeathInStats = true)
     {
-        if (!MintChocolateHelperModule.Session.HasJesusRefill && !Utils.CheckEntityExistence<CancelDeathTrigger>())
+        if (!MintChocolateHelperModule.Session.HasJesusRefill && SearchUtils.IfNone<CancelDeathTrigger>())
         {
             MintChocolateHelperModule.Session.HasSpeedFlipRefill = false;
             MintChocolateHelperModule.Session.DontRenderSpeedFlipRefillIcon = false;
@@ -265,10 +265,7 @@ public class SpeedFlipRefill : Entity
 
     private static int SpeedFlipRefillJump(On.Celeste.Player.orig_NormalUpdate orig, Player self)
     {
-        if (Utils.LevelIsNotSafe(out Level level)) return orig(self);
-
-        List<Entity> refills = level.Tracker.GetEntities<SpeedFlipRefill>();
-        if (refills == null || refills.Count == 0 || refills[0] is not SpeedFlipRefill refill) return orig(self);
+        if (SearchUtils.IfNone(out SpeedFlipRefill refill)) return orig(self);
 
         if (Input.Jump.Pressed && MintChocolateHelperModule.Session.HasSpeedFlipRefill && !self.OnGround(self.Position, 4)
             && !self.onGround && !self.WallJumpCheck(3) && !self.WallJumpCheck(-3) && self.jumpGraceTimer <= 0f

@@ -196,7 +196,7 @@ public class HeartBreakerRefill : Entity
 
     private static PlayerDeadBody HeartBreakerDash(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction, bool evenIfInvincible = false, bool registerDeathInStats = true)
     {
-        if (!MintChocolateHelperModule.Session.HasJesusRefill && !Utils.CheckEntityExistence<CancelDeathTrigger>() && (!MintChocolateHelperModule.Session.HeartBreakerDashActive || evenIfInvincible))
+        if (!MintChocolateHelperModule.Session.HasJesusRefill && SearchUtils.IfNone<CancelDeathTrigger>() && (!MintChocolateHelperModule.Session.HeartBreakerDashActive || evenIfInvincible))
         {
             MintChocolateHelperModule.Session.HasHeartBreakerDash = false;
             MintChocolateHelperModule.Session.HeartBreakerDashActive = false;

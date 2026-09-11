@@ -54,7 +54,7 @@ public class CustomDashIndicator : Entity
         bool isVisible = false;
         if (!SceneAs<Level>().InCutscene)
         {
-            Player entity = Scene.Tracker.GetEntity<Player>();
+            Player entity = Scene.GetPlayer();
             if (entity is { Dead: false } && MintChocolateHelperModule.Settings.ShowCustomDashIndicators)
             {
                 isVisible = true;
@@ -79,7 +79,7 @@ public class CustomDashIndicator : Entity
 
         Vector2 scale = Vector2.One * (1f + Wiggler.Value * 0.2f);
 
-        Player player = Scene.Tracker.GetEntity<Player>();
+        Player player = Scene.GetPlayer();
         if (player == null) return;
 
         const float width = 8f;

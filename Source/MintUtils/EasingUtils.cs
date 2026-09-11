@@ -1,8 +1,8 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.MintUtils;
 
-public static class EasingFunctions
+public static class EasingUtils
 {
-    public enum EasingFunction
+    public enum EasingFunctions
     {
         Linear,
         BackIn,
@@ -34,6 +34,43 @@ public static class EasingFunctions
         SineInOut
     }
 
+    internal delegate float Easer(float t);
+
+    internal static Easer GlobalEasingFunction(EasingFunctions easingFunction)
+    {
+        return easingFunction switch {
+            EasingFunctions.Linear => Linear,
+            EasingFunctions.BackIn => BackIn,
+            EasingFunctions.BackOut => BackOut,
+            EasingFunctions.BackInOut => BackInOut,
+            EasingFunctions.BigBackIn => BigBackIn,
+            EasingFunctions.BigBackOut => BigBackOut,
+            EasingFunctions.BigBackInOut => BigBackInOut,
+            EasingFunctions.BounceIn => BounceIn,
+            EasingFunctions.BounceOut => BounceOut,
+            EasingFunctions.BounceInOut => BounceInOut,
+            EasingFunctions.CubeIn => CubeIn,
+            EasingFunctions.CubeOut => CubeOut,
+            EasingFunctions.CubeInOut => CubeInOut,
+            EasingFunctions.ElasticIn => ElasticIn,
+            EasingFunctions.ElasticOut => ElasticOut,
+            EasingFunctions.ElasticInOut => ElasticInOut,
+            EasingFunctions.ExpoIn => ExpoIn,
+            EasingFunctions.ExpoOut => ExpoOut,
+            EasingFunctions.ExpoInOut => ExpoInOut,
+            EasingFunctions.QuadIn => QuadIn,
+            EasingFunctions.QuadOut => QuadOut,
+            EasingFunctions.QuadInOut => QuadInOut,
+            EasingFunctions.QuintIn => QuintIn,
+            EasingFunctions.QuintOut => QuintOut,
+            EasingFunctions.QuintInOut => QuintInOut,
+            EasingFunctions.SineIn => SineIn,
+            EasingFunctions.SineOut => SineOut,
+            EasingFunctions.SineInOut => SineInOut,
+            _ => Linear
+        };
+    }
+
     internal static float Linear(float t) => Ease.Linear(t);
     internal static float BackIn(float t) => Ease.BackIn(t);
     internal static float BackOut(float t) => Ease.BackOut(t);
@@ -62,6 +99,4 @@ public static class EasingFunctions
     internal static float SineIn(float t) => Ease.SineIn(t);
     internal static float SineOut(float t) => Ease.SineOut(t);
     internal static float SineInOut(float t) => Ease.SineInOut(t);
-
-    internal delegate float Easer(float t);
 }

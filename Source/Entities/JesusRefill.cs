@@ -1,7 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
-[CustomEntity("MintChocolateHelper/JesusRefill")]
 [Tracked]
+[CustomEntity("MintChocolateHelper/JesusRefill")]
 public class JesusRefill : Entity
 {
     private float respawnTimer;
@@ -200,14 +200,14 @@ public class JesusRefill : Entity
         level.Wipe?.Cancel();
 
         Session session = level.Session;
-        Player player = level.Tracker.GetEntity<Player>();
+        Player player = level.GetPlayer();
 
         if (TeleportToRefill)
         {
             player.Position = Position;
         }
 
-        PlayerDeadBody playerDeadBody = Scene.Tracker.GetEntitiesTrackIfNeeded<PlayerDeadBody>().Cast<PlayerDeadBody>().FirstOrDefault();
+        PlayerDeadBody playerDeadBody = Scene.GetEntity<PlayerDeadBody>(true);
         playerDeadBody?.hair.Entity = player;
         playerDeadBody?.sprite.Entity = player;
         playerDeadBody?.light.Entity = player;

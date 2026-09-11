@@ -21,10 +21,10 @@ public class ClockHand : Component
     private bool AllowTick;
     private bool FinishedCurrentTick;
 
-    private readonly EasingFunctions.Easer TickEasingFunction;
+    private readonly EasingUtils.Easer TickEasingFunction;
 
     public ClockHand(bool alwaysUpdate, bool randomStart, bool backwards,
-        int stopNumber, float tickSpeed, float tickDelay, string allowTickFlag, EasingFunctions.EasingFunction easingFunction) : base(true, true)
+        int stopNumber, float tickSpeed, float tickDelay, string allowTickFlag, EasingUtils.EasingFunctions easingFunction) : base(true, true)
     {
         AlwaysUpdate = alwaysUpdate;
         RandomStart = randomStart;
@@ -44,37 +44,7 @@ public class ClockHand : Component
         AllowTick = false;
         FinishedCurrentTick = false;
 
-        TickEasingFunction = easingFunction switch {
-            EasingFunctions.EasingFunction.Linear => EasingFunctions.Linear,
-            EasingFunctions.EasingFunction.BackIn => EasingFunctions.BackIn,
-            EasingFunctions.EasingFunction.BackOut => EasingFunctions.BackOut,
-            EasingFunctions.EasingFunction.BackInOut => EasingFunctions.BackInOut,
-            EasingFunctions.EasingFunction.BigBackIn => EasingFunctions.BigBackIn,
-            EasingFunctions.EasingFunction.BigBackOut => EasingFunctions.BigBackOut,
-            EasingFunctions.EasingFunction.BigBackInOut => EasingFunctions.BigBackInOut,
-            EasingFunctions.EasingFunction.BounceIn => EasingFunctions.BounceIn,
-            EasingFunctions.EasingFunction.BounceOut => EasingFunctions.BounceOut,
-            EasingFunctions.EasingFunction.BounceInOut => EasingFunctions.BounceInOut,
-            EasingFunctions.EasingFunction.CubeIn => EasingFunctions.CubeIn,
-            EasingFunctions.EasingFunction.CubeOut => EasingFunctions.CubeOut,
-            EasingFunctions.EasingFunction.CubeInOut => EasingFunctions.CubeInOut,
-            EasingFunctions.EasingFunction.ElasticIn => EasingFunctions.ElasticIn,
-            EasingFunctions.EasingFunction.ElasticOut => EasingFunctions.ElasticOut,
-            EasingFunctions.EasingFunction.ElasticInOut => EasingFunctions.ElasticInOut,
-            EasingFunctions.EasingFunction.ExpoIn => EasingFunctions.ExpoIn,
-            EasingFunctions.EasingFunction.ExpoOut => EasingFunctions.ExpoOut,
-            EasingFunctions.EasingFunction.ExpoInOut => EasingFunctions.ExpoInOut,
-            EasingFunctions.EasingFunction.QuadIn => EasingFunctions.QuadIn,
-            EasingFunctions.EasingFunction.QuadOut => EasingFunctions.QuadOut,
-            EasingFunctions.EasingFunction.QuadInOut => EasingFunctions.QuadInOut,
-            EasingFunctions.EasingFunction.QuintIn => EasingFunctions.QuintIn,
-            EasingFunctions.EasingFunction.QuintOut => EasingFunctions.QuintOut,
-            EasingFunctions.EasingFunction.QuintInOut => EasingFunctions.QuintInOut,
-            EasingFunctions.EasingFunction.SineIn => EasingFunctions.SineIn,
-            EasingFunctions.EasingFunction.SineOut => EasingFunctions.SineOut,
-            EasingFunctions.EasingFunction.SineInOut => EasingFunctions.SineInOut,
-            _ => EasingFunctions.Linear
-        };
+        TickEasingFunction = EasingUtils.GlobalEasingFunction(easingFunction);
     }
 
     public override void EntityAwake()

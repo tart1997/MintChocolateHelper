@@ -1,7 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
-[CustomEntity("MintChocolateHelper/DebrisTweaksController")]
 [Tracked]
+[CustomEntity("MintChocolateHelper/DebrisTweaksController")]
 public class DebrisTweaksController : Entity
 {
     private readonly bool AlternateFadeout;
@@ -33,7 +33,7 @@ public class DebrisTweaksController : Entity
 
     private static Debris DebrisOnInit_Vector2_char_bool(On.Celeste.Debris.orig_Init_Vector2_char_bool orig, Debris self, Vector2 pos, char tileset, bool playSound)
     {
-        Utils.CheckEntityExistence(out DebrisTweaksController DTController);
+        DebrisTweaksController DTController = SearchUtils.GetEntity<DebrisTweaksController>();
 
         DynamicData debrisData = DynamicData.For(self);
         debrisData.Set("WindAffected", DTController?.WindAffected);
@@ -62,7 +62,7 @@ public class DebrisTweaksController : Entity
         {
             if (debris.CollideCheck<Player>())
             {
-                Player player = level.Tracker.GetEntity<Player>();
+                Player player = level.GetPlayer();
                 Vector2 vector = (debris.Position - player.Center).SafeNormalize(player.Speed.Length() * 0.02f);
                 Vector2 playerDisturbance = debrisData.Get<Vector2>("PlayerDisturbance");
 
@@ -99,17 +99,17 @@ public class DebrisTweaksController : Entity
     {
         ILCursor cursor = new(il);
 
-        // IL_01d2: ldarg.0
-        // IL_01d3: ldfld class Monocle.Image Celeste.Debris::image
-        // IL_01d8: call valuetype [FNA]Microsoft.Xna.Framework.Color [FNA]Microsoft.Xna.Framework.Color::get_White()
-        // IL_01dd: call valuetype [FNA]Microsoft.Xna.Framework.Color [FNA]Microsoft.Xna.Framework.Color::get_Gray()
+        /*IL_01d2: ldarg.0
+        IL_01d3: ldfld class Monocle.Image Celeste.Debris::image
+        IL_01d8: call valuetype [FNA]Microsoft.Xna.Framework.Color [FNA]Microsoft.Xna.Framework.Color::get_White()
+        IL_01dd: call valuetype [FNA]Microsoft.Xna.Framework.Color [FNA]Microsoft.Xna.Framework.Color::get_Gray()*/
 
-        if (!cursor.TryGotoNextBestFit(MoveType.Before, static instr => instr.MatchLdarg0(),
-            static instr => instr.MatchLdfld<Debris>("image"),
-            static instr => instr.MatchCall<Color>("get_White"),
-            static instr => instr.MatchCall<Color>("get_Gray")))
+        if (cursor.TryGotoNextBestFit(MoveType.Before,
+                static instr => instr.MatchLdarg0(),
+                static instr => instr.MatchLdfld<Debris>("image"),
+                static instr => instr.MatchCall<Color>("get_White"),
+                static instr => instr.MatchCall<Color>("get_Gray")).LogHookOnFailure(il))
         {
-            Logger.Info("debug", $"IL hook application on method {il.Method.FullName} failed: Dumb Fuck!");
             return;
         }
 
@@ -118,17 +118,17 @@ public class DebrisTweaksController : Entity
         cursor.EmitDelegate(ShouldReplaceColorLerp);
         cursor.EmitBrtrue(replaceColorLerp);
 
-        // IL_01ed: ldarg.0
-        // IL_01ee: ldfld float32 Celeste.Debris::alpha
-        // IL_01f3: call valuetype [FNA]Microsoft.Xna.Framework.Color [FNA]Microsoft.Xna.Framework.Color::op_Multiply(valuetype [FNA]Microsoft.Xna.Framework.Color, float32)
-        // IL_01f8: stfld valuetype [FNA]Microsoft.Xna.Framework.Color Monocle.GraphicsComponent::Color
+        /*IL_01ed: ldarg.0
+        IL_01ee: ldfld float32 Celeste.Debris::alpha
+        IL_01f3: call valuetype [FNA]Microsoft.Xna.Framework.Color [FNA]Microsoft.Xna.Framework.Color::op_Multiply(valuetype [FNA]Microsoft.Xna.Framework.Color, float32)
+        IL_01f8: stfld valuetype [FNA]Microsoft.Xna.Framework.Color Monocle.GraphicsComponent::Color*/
 
-        if (!cursor.TryGotoNextBestFit(MoveType.After, static instr => instr.MatchLdarg(0),
-            static instr => instr.MatchLdfld<Debris>("alpha"),
-            static instr => instr.MatchCall<Color>("op_Multiply"),
-            static instr => instr.MatchStfld<GraphicsComponent>("Color")))
+        if (cursor.TryGotoNextBestFit(MoveType.After,
+                static instr => instr.MatchLdarg(0),
+                static instr => instr.MatchLdfld<Debris>("alpha"),
+                static instr => instr.MatchCall<Color>("op_Multiply"),
+                static instr => instr.MatchStfld<GraphicsComponent>("Color")).LogHookOnFailure(il))
         {
-            Logger.Info("debug", $"IL hook application on method {il.Method.FullName} failed: Dumb Fuck!");
             return;
         }
 
@@ -136,13 +136,13 @@ public class DebrisTweaksController : Entity
         cursor.EmitDelegate(ReplaceColorLerp);
     }
 
-    private static bool ShouldReplaceColorLerp() => Utils.CheckEntityExistence(out DebrisTweaksController DTController) && DTController.AlternateFadeout;
+    private static bool ShouldReplaceColorLerp() => SearchUtils.GetEntities<DebrisTweaksController>().Any(dtc => dtc.AlternateFadeout);
 
     private static void ReplaceColorLerp()
     {
         if (Utils.LevelIsNotSafe(out Level level) || !ShouldReplaceColorLerp()) return;
 
-        foreach (Debris debris in level.Tracker.GetEntitiesTrackIfNeeded<Debris>().Cast<Debris>())
+        foreach (Debris debris in level.GetEntities<Debris>(true))
         {
             debris?.image.Color = Color.White * (debris.lifeTimer / 1.5f) * debris.alpha;
         }

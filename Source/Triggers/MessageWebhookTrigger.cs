@@ -1,7 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
 
-[CustomEntity("MintChocolateHelper/MessageWebhookTrigger")]
 [UsedImplicitly]
+[CustomEntity("MintChocolateHelper/MessageWebhookTrigger")]
 public class MessageWebhookTrigger : Trigger
 {
     private readonly string Webhook;

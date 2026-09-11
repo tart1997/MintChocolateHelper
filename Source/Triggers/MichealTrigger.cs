@@ -1,7 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
 
-[CustomEntity("MintChocolateHelper/MichealTrigger")]
 [UsedImplicitly]
+[CustomEntity("MintChocolateHelper/MichealTrigger")]
 public class MichealTrigger : Trigger
 {
     public MichealTrigger(EntityData data, Vector2 offset) : base(data, offset)

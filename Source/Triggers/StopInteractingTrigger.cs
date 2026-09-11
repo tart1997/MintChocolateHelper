@@ -1,7 +1,9 @@
-﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
+﻿// TODO: Done Here :)
 
-[CustomEntity("MintChocolateHelper/StopInteractingTrigger")]
+namespace Celeste.Mod.MintChocolateHelper.Triggers;
+
 [UsedImplicitly]
+[CustomEntity("MintChocolateHelper/StopInteractingTrigger")]
 public class StopInteractingTrigger : Trigger
 {
     public StopInteractingTrigger(EntityData data, Vector2 offset) : base(data, offset)
@@ -11,9 +13,8 @@ public class StopInteractingTrigger : Trigger
     public override void OnEnter(Player player)
     {
         base.OnEnter(player);
-        if (Utils.LevelIsNotSafe(out Level level)) return;
 
-        foreach (Lookout lookout in level.Tracker.GetEntitiesTrackIfNeeded<Lookout>().Cast<Lookout>())
+        foreach (Lookout lookout in SearchUtils.GetEntities<Lookout>())
         {
             lookout.StopInteracting();
         }

@@ -67,30 +67,6 @@ internal static class Utils
     }
 
     [UsedImplicitly]
-    internal static bool CheckEntityExistence<T>(bool TrackIfNeeded = false) where T : Entity => CheckEntityExistence<T>(out _, TrackIfNeeded);
-
-    [UsedImplicitly]
-    internal static bool CheckEntityExistence<T>(out T Entity, bool TrackIfNeeded = false) where T : Entity
-    {
-        if (Engine.Scene is not Level level)
-        {
-            Entity = null;
-            return false;
-        }
-
-        T entity = TrackIfNeeded ? level.Tracker.GetEntitiesTrackIfNeeded<T>().Cast<T>().FirstOrDefault() : level.Tracker.GetEntity<T>();
-
-        if (entity != null)
-        {
-            Entity = entity;
-            return true;
-        }
-
-        Entity = null;
-        return false;
-    }
-
-    [UsedImplicitly]
     internal static void LogError(string message)
     {
         Logger.Log(LogLevel.Error, "Mint Chocolate Helper", message);

@@ -3,8 +3,8 @@ using VivHelper.Effects;
 
 namespace Celeste.Mod.MintChocolateHelper.Entities;
 
-[CustomEntity("MintChocolateHelper/SnappyStylegroundController")]
 [UsedImplicitly]
+[CustomEntity("MintChocolateHelper/SnappyStylegroundController")]
 public class SnappyStylegroundController : Entity
 {
     private readonly string SnapTag;

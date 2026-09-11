@@ -57,7 +57,7 @@ public static class Commands
     #endregion
 
     [UsedImplicitly]
-    [Command("EncryptWebHook", "")]
+    [Command("EncryptWebHook", "For use with the Message Webhook Trigger")]
     internal static void EncryptWebHook(string webhook)
     {
         if (webhook is null)

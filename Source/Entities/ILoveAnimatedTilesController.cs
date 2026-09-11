@@ -1,7 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
-[CustomEntity("MintChocolateHelper/ILoveAnimatedTilesController")]
 [Tracked]
+[CustomEntity("MintChocolateHelper/ILoveAnimatedTilesController")]
 public class ILoveAnimatedTilesController : Entity
 {
     public ILoveAnimatedTilesController(EntityData data, Vector2 offset) : base(data.Position + offset)
@@ -46,10 +46,10 @@ public class ILoveAnimatedTilesController : Entity
     {
         ILCursor cursor = new(il);
 
-        // IL_01b2: ldloc.s 5
-        // IL_01b4: ldarg.0
-        // IL_01b5: callvirt instance class Monocle.Scene Monocle.EntityList::get_Scene()
-        // IL_01ba: callvirt instance void Monocle.Entity::Awake(class Monocle.Scene)
+        /*IL_01b2: ldloc.s 5
+        IL_01b4: ldarg.0
+        IL_01b5: callvirt instance class Monocle.Scene Monocle.EntityList::get_Scene()
+        IL_01ba: callvirt instance void Monocle.Entity::Awake(class Monocle.Scene)*/
 
         int AwokenEntityLoc = -1;
         cursor.GotoNext(MoveType.Before, static instr => instr.MatchCallvirt<Entity>("Awake"));
@@ -63,7 +63,7 @@ public class ILoveAnimatedTilesController : Entity
     private static void EntityOnAwake(Entity self)
     {
         if (Utils.SceneIsNotSafe(self.Scene, out Level level)) return;
-        if (level.Tracker.GetEntity<ILoveAnimatedTilesController>() is null) return;
+        if (SearchUtils.IfNone<ILoveAnimatedTilesController>()) return;
         if (self.Get<AnimatedTiles>() is not null) return;
         if (self.Get<TileGrid>() is not { } tileGrid) return;
 

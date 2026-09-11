@@ -1,7 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
-[CustomEntity("MintChocolateHelper/StylegroundsWhilePaused", "MintChocolateHelper/StylegroundsWhilePausedController")]
 [Tracked]
+[CustomEntity("MintChocolateHelper/StylegroundsWhilePaused", "MintChocolateHelper/StylegroundsWhilePausedController")]
 public class StylegroundsWhilePausedController : Entity
 {
     private readonly string updateTag;
@@ -56,15 +56,15 @@ public class StylegroundsWhilePausedController : Entity
     {
         ILCursor cursor = new(il);
 
-        // IL_002f: call float32 Monocle.Engine::get_RawDeltaTime()
-        // IL_0034: sub
-        // IL_0035: stfld float32 Celeste.Level::unpauseTimer
+        /*IL_002f: call float32 Monocle.Engine::get_RawDeltaTime()
+        IL_0034: sub
+        IL_0035: stfld float32 Celeste.Level::unpauseTimer*/
 
-        if (!cursor.TryGotoNextBestFit(MoveType.After, static instr => instr.MatchCall<Engine>("get_RawDeltaTime"),
-            static instr => instr.MatchSub(),
-            static instr => instr.MatchStfld<Level>("unpauseTimer")))
+        if (cursor.TryGotoNextBestFit(MoveType.After,
+                static instr => instr.MatchCall<Engine>("get_RawDeltaTime"),
+                static instr => instr.MatchSub(),
+                static instr => instr.MatchStfld<Level>("unpauseTimer")).LogHookOnFailure(il))
         {
-            Logger.Info("debug", $"IL hook application on method {il.Method.FullName} failed: Dumb Fuck!");
             return;
         }
 
@@ -73,7 +73,7 @@ public class StylegroundsWhilePausedController : Entity
 
     private static void UpdateBackdrops()
     {
-        if (Utils.LevelIsNotSafe(out Level level) || !Utils.CheckEntityExistence(out StylegroundsWhilePausedController SWPController)) return;
+        if (Utils.LevelIsNotSafe(out Level level) || SearchUtils.IfNone(out StylegroundsWhilePausedController SWPController)) return;
 
         foreach (Backdrop backdrop in level.Background.Backdrops.Where(backdrop =>
             backdrop.Tags.Contains(SWPController.updateTag)))

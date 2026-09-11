@@ -1,7 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
 
-[CustomEntity("MintChocolateHelper/CancelDeathTrigger")]
 [Tracked]
+[CustomEntity("MintChocolateHelper/CancelDeathTrigger")]
 public class CancelDeathTrigger : Trigger
 {
     private readonly int Delay;
@@ -44,9 +44,9 @@ public class CancelDeathTrigger : Trigger
         level.Wipe?.Cancel();
 
         Session session = level.Session;
-        Player player = level.Tracker.GetEntity<Player>();
+        Player player = level.GetPlayer();
 
-        PlayerDeadBody playerDeadBody = Scene.Tracker.GetEntitiesTrackIfNeeded<PlayerDeadBody>().Cast<PlayerDeadBody>().FirstOrDefault();
+        PlayerDeadBody playerDeadBody = level.GetEntity<PlayerDeadBody>(true);
         playerDeadBody?.hair.Entity = player;
         playerDeadBody?.sprite.Entity = player;
         playerDeadBody?.light.Entity = player;

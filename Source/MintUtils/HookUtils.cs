@@ -5,10 +5,21 @@ namespace Celeste.Mod.MintChocolateHelper.MintUtils;
 public static class HookUtils
 {
     [UsedImplicitly]
-    private static VariableDefinition AddVariable(this MethodBody self, TypeReference type)
+    internal static VariableDefinition AddVariable(this MethodBody self, TypeReference type)
     {
         VariableDefinition variable = new(type);
         self.Variables.Add(variable);
         return variable;
+    }
+
+    [UsedImplicitly]
+    internal static bool LogHookOnFailure(this bool attemptedHook, ILContext il)
+    {
+        if (!attemptedHook)
+        {
+            Logger.Info("debug", $"\n\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n\n");
+        }
+
+        return !attemptedHook;
     }
 }

@@ -2,8 +2,8 @@
 
 //   ### A large majority of this is ripped straight from Crystalline trigger triggers (Obviously) ###
 
-[CustomEntity("MintChocolateHelper/WaitUntilTrueTrigger")]
 [UsedImplicitly]
+[CustomEntity("MintChocolateHelper/WaitUntilTrueTrigger")]
 public class WaitUntilTrueTrigger : Trigger
 {
     private readonly Vector2[] nodes;
@@ -52,7 +52,7 @@ public class WaitUntilTrueTrigger : Trigger
     public override void Update()
     {
         base.Update();
-        Player player = Scene.Tracker.GetEntity<Player>();
+        Player player = Scene.GetEntity<Player>();
         if (player == null) return;
 
         if (Activated && OneUse)
@@ -137,7 +137,7 @@ public class WaitUntilTrueTrigger : Trigger
         {
             Dictionary<Trigger, bool> wasCollidable = new();
 
-            foreach (Trigger trig in scene.Tracker.GetEntities<Trigger>().Cast<Trigger>())
+            foreach (Trigger trig in scene.GetEntities<Trigger>())
             {
                 wasCollidable.Add(trig, trig.Collidable);
                 trig.Collidable = true;
@@ -145,7 +145,7 @@ public class WaitUntilTrueTrigger : Trigger
 
             Trigger trigger = scene.CollideFirst<Trigger>(node);
 
-            foreach (Trigger trig in scene.Tracker.GetEntities<Trigger>().Cast<Trigger>())
+            foreach (Trigger trig in scene.GetEntities<Trigger>())
             {
                 trig.Collidable = wasCollidable[trig];
             }
@@ -183,7 +183,7 @@ public class WaitUntilTrueTrigger : Trigger
 
         triggers = GetTriggers(Scene);
 
-        Player player = Scene.Tracker.GetEntity<Player>();
+        Player player = Scene.GetEntity<Player>();
         TryActivate(player);
     }
 }

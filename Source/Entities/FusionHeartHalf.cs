@@ -1,7 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
-[CustomEntity("MintChocolateHelper/FusionHeartHalf")]
 [Tracked]
+[CustomEntity("MintChocolateHelper/FusionHeartHalf")]
 public class FusionHeartHalf : Entity
 {
     private readonly Wiggler ScaleWiggler;
@@ -269,7 +269,7 @@ public class FusionHeartHalf : Entity
                 heartBreakerBonusSpeed = Vector2.Zero;
             }
 
-            foreach (FusionHeartHalf half in Scene.Tracker.GetEntities<FusionHeartHalf>().Cast<FusionHeartHalf>())
+            foreach (FusionHeartHalf half in Scene.GetEntities<FusionHeartHalf>())
             {
                 if (!half.rightHalf)
                 {
@@ -302,7 +302,7 @@ public class FusionHeartHalf : Entity
 
                     FusionHeart fusionHeart = new(targetCenter, heartBreakerBonusSpeed, "ff4fed", 0.75f, true, true);
 
-                    foreach (FusionTarget target in Scene.Tracker.GetEntities<FusionTarget>().Cast<FusionTarget>().Where(target => (0.5f * (Center + half.Center) - target.Center).Length() <= 8))
+                    foreach (FusionTarget target in Scene.GetEntities<FusionTarget>().Where(target => (0.5f * (Center + half.Center) - target.Center).Length() <= 8))
                     {
                         nearTarget = true;
                         targetCenter = target.Center;

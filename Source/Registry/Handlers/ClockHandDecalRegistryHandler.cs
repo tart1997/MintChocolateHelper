@@ -16,7 +16,7 @@ internal class ClockHandDecalRegistryHandler : DecalRegistryHandler
     private float TickDelay;
     private string AllowTickFlag;
 
-    private EasingFunctions.EasingFunction easingFunction;
+    private EasingUtils.EasingFunctions easingFunction;
 
     [OnLoad]
     internal static void Load()
@@ -35,7 +35,7 @@ internal class ClockHandDecalRegistryHandler : DecalRegistryHandler
         TickDelay = Get(xml, "delay", 0.1f);
         AllowTickFlag = GetString(xml, "allowTickFlag", "");
 
-        easingFunction = xml.GetEnum("easingFunction", EasingFunctions.EasingFunction.Linear);
+        easingFunction = xml.GetEnum("easingFunction", EasingUtils.EasingFunctions.Linear);
     }
 
     public override void ApplyTo(Decal decal)

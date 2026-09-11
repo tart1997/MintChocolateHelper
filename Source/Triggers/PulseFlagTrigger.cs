@@ -1,7 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
 
-[CustomEntity("MintChocolateHelper/PulseFlagTrigger")]
 [UsedImplicitly]
+[CustomEntity("MintChocolateHelper/PulseFlagTrigger")]
 public class PulseFlagTrigger : Trigger
 {
     private readonly string Flag;

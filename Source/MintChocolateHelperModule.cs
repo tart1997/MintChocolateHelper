@@ -1,4 +1,6 @@
-﻿namespace Celeste.Mod.MintChocolateHelper;
+﻿// TODO: Done Here :)
+
+namespace Celeste.Mod.MintChocolateHelper;
 
 public class MintChocolateHelperModule : EverestModule
 {

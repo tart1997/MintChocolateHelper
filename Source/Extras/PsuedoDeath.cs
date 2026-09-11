@@ -29,35 +29,38 @@ public static class PsuedoDeath
     {
         ILCursor cursor = new(il);
 
-        // IL_0056: ldloc.2
-        // IL_0057: ldloc.0
-        // IL_0058: stfld class Celeste.Player/'<>c__DisplayClass344_0' Celeste.Player/'<>c__DisplayClass344_1'::'CS$<>8__locals1'
-        // IL_005d: ldarg.0
-        // IL_005e: ldarg.0
-        // IL_005f: ldfld class Celeste.SoundSource Celeste.Player::wallSlideSfx
-        // IL_0064: callvirt instance void Celeste.Player::Stop(class Celeste.SoundSource)
+        /*IL_0056: ldloc.2
+        IL_0057: ldloc.0
+        IL_0058: stfld class Celeste.Player/'<>c__DisplayClass344_0' Celeste.Player/'<>c__DisplayClass344_1'::'CS$<>8__locals1'
+        IL_005d: ldarg.0
+        IL_005e: ldarg.0
+        IL_005f: ldfld class Celeste.SoundSource Celeste.Player::wallSlideSfx
+        IL_0064: callvirt instance void Celeste.Player::Stop(class Celeste.SoundSource)*/
 
-        if (!cursor.TryGotoNextBestFit(MoveType.Before,
-            static instr => instr.MatchLdloc2(),
-            static instr => instr.MatchLdloc0(),
-            static instr => instr.MatchStfld(typeof(Player).GetNestedType("<>c__DisplayClass344_1", BindingFlags.NonPublic)!.GetField("CS$<>8__locals1")!),
-            static instr => instr.MatchLdarg0(),
-            static instr => instr.MatchLdarg0(),
-            static instr => instr.MatchLdfld<Player>("wallSlideSfx"),
-            static instr => instr.MatchCallvirt<Player>("Stop")))
+        if (cursor.TryGotoNextBestFit(MoveType.Before,
+                static instr => instr.MatchLdloc2(),
+                static instr => instr.MatchLdloc0(),
+                static instr => instr.MatchStfld(typeof(Player).GetNestedType("<>c__DisplayClass344_1", BindingFlags.NonPublic)!.GetField("CS$<>8__locals1")!),
+                static instr => instr.MatchLdarg0(),
+                static instr => instr.MatchLdarg0(),
+                static instr => instr.MatchLdfld<Player>("wallSlideSfx"),
+                static instr => instr.MatchCallvirt<Player>("Stop")).LogHookOnFailure(il))
         {
-            Logger.Info("debug", $"\n\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n\n");
             return;
         }
 
         cursor.EmitDelegate(StorePlayerBullshit);
 
-        if (!cursor.TryGotoNextBestFit(MoveType.Before,
-            static instr => instr.MatchLdarg0(),
-            static instr => instr.MatchLdfld<Player>("Leader"),
-            static instr => instr.MatchCallvirt<Leader>("LoseFollowers")))
+
+        /*IL_0140: ldarg.0
+        IL_0141: ldfld class Celeste.Leader Celeste.Player::Leader
+        IL_0146: callvirt instance void Celeste.Leader::LoseFollowers()*/
+
+        if (cursor.TryGotoNextBestFit(MoveType.Before,
+                static instr => instr.MatchLdarg0(),
+                static instr => instr.MatchLdfld<Player>("Leader"),
+                static instr => instr.MatchCallvirt<Leader>("LoseFollowers")).LogHookOnFailure(il))
         {
-            Logger.Info("debug", $"\n\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n\n");
             return;
         }
 
@@ -66,28 +69,28 @@ public static class PsuedoDeath
         cursor.EmitDelegate(ShouldKeepFollowers);
         cursor.EmitBrtrue(dontRemoveFollwers);
 
-        if (!cursor.TryGotoNextBestFit(MoveType.After,
-            static instr => instr.MatchLdarg0(),
-            static instr => instr.MatchLdfld<Player>("Leader"),
-            static instr => instr.MatchCallvirt<Leader>("LoseFollowers")))
+        if (cursor.TryGotoNextBestFit(MoveType.After,
+                static instr => instr.MatchLdarg0(),
+                static instr => instr.MatchLdfld<Player>("Leader"),
+                static instr => instr.MatchCallvirt<Leader>("LoseFollowers")).LogHookOnFailure(il))
         {
-            Logger.Info("debug", $"\n\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n\n");
             return;
         }
 
         cursor.MarkLabel(dontRemoveFollwers);
 
-        // IL_01e5: ldarg.0
-        // IL_01e6: call instance class Monocle.Scene Monocle.Entity::get_Scene()
-        // IL_01eb: ldarg.0
-        // IL_01ec: callvirt instance void Monocle.Scene::Remove(class Monocle.Entity)
 
-        if (!cursor.TryGotoNextBestFit(MoveType.Before, static instr => instr.MatchLdarg0(),
-            static instr => instr.MatchCall<Entity>("get_Scene"),
-            static instr => instr.MatchLdarg0(),
-            static instr => instr.MatchCallvirt<Scene>("Remove")))
+        /*IL_01e5: ldarg.0
+        IL_01e6: call instance class Monocle.Scene Monocle.Entity::get_Scene()
+        IL_01eb: ldarg.0
+        IL_01ec: callvirt instance void Monocle.Scene::Remove(class Monocle.Entity)*/
+
+        if (cursor.TryGotoNextBestFit(MoveType.Before,
+                static instr => instr.MatchLdarg0(),
+                static instr => instr.MatchCall<Entity>("get_Scene"),
+                static instr => instr.MatchLdarg0(),
+                static instr => instr.MatchCallvirt<Scene>("Remove")).LogHookOnFailure(il))
         {
-            Logger.Info("debug", $"\n\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n\n");
             return;
         }
 
@@ -96,12 +99,12 @@ public static class PsuedoDeath
         cursor.EmitDelegate(ShouldSkipRemovePlayer);
         cursor.EmitBrtrue(dontRemovePlayer);
 
-        if (!cursor.TryGotoNextBestFit(MoveType.After, static instr => instr.MatchLdarg0(),
-            static instr => instr.MatchCall<Entity>("get_Scene"),
-            static instr => instr.MatchLdarg0(),
-            static instr => instr.MatchCallvirt<Scene>("Remove")))
+        if (cursor.TryGotoNextBestFit(MoveType.After,
+                static instr => instr.MatchLdarg0(),
+                static instr => instr.MatchCall<Entity>("get_Scene"),
+                static instr => instr.MatchLdarg0(),
+                static instr => instr.MatchCallvirt<Scene>("Remove")).LogHookOnFailure(il))
         {
-            Logger.Info("debug", $"\n\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n\n");
             return;
         }
 
@@ -118,29 +121,28 @@ public static class PsuedoDeath
         IL_00bf: call valuetype [FNA]Microsoft.Xna.Framework.Vector2 [FNA]Microsoft.Xna.Framework.Vector2::op_Multiply(valuetype [FNA]Microsoft.Xna.Framework.Vector2, float32)
         IL_00c4: stloc.3*/
 
-        if (!cursor.TryGotoNextBestFit(MoveType.Before,
-            static instr => instr.MatchLdloc2(),
-            static instr => instr.MatchLdcR4(240),
-            static instr => instr.MatchCall<Vector2>("op_Multiply"),
-            static instr => instr.MatchStloc3()))
+        if (cursor.TryGotoNextBestFit(MoveType.Before,
+                static instr => instr.MatchLdloc2(),
+                static instr => instr.MatchLdcR4(240),
+                static instr => instr.MatchCall<Vector2>("op_Multiply"),
+                static instr => instr.MatchStloc3()).LogHookOnFailure(il))
         {
-            Logger.Info("debug", $"\n\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n\n");
             return;
         }
 
         cursor.GotoNext(MoveType.After, static instr => instr.MatchLdcR4(240));
         cursor.EmitDelegate(EatAndReplace);
 
+
         /*IL_0111: ldloc.1
         IL_0112: ldloc.3
         IL_0113: stfld valuetype [FNA]Microsoft.Xna.Framework.Vector2 Celeste.Player::Speed*/
 
-        if (!cursor.TryGotoNextBestFit(MoveType.Before,
-            static instr => instr.MatchLdloc1(),
-            static instr => instr.MatchLdloc3(),
-            static instr => instr.MatchStfld<Player>("Speed")))
+        if (cursor.TryGotoNextBestFit(MoveType.Before,
+                static instr => instr.MatchLdloc1(),
+                static instr => instr.MatchLdloc3(),
+                static instr => instr.MatchStfld<Player>("Speed")).LogHookOnFailure(il))
         {
-            Logger.Info("debug", $"\n\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n\n");
             return;
         }
 
@@ -150,8 +152,7 @@ public static class PsuedoDeath
 
     private static float EatAndReplace(float value)
     {
-        if (Utils.LevelIsNotSafe(out Level level)) return value;
-        Player player = level.Tracker.GetEntity<Player>();
+        Player player = SearchUtils.GetPlayer();
 
         if (MintChocolateHelperModule.Session.StoredSpeed.HasValue)
         {
@@ -190,9 +191,7 @@ public static class PsuedoDeath
 
     private static void StorePlayerBullshit()
     {
-        if (Utils.LevelIsNotSafe(out Level level)) return;
-
-        Player player = level.Tracker.GetEntity<Player>();
+        Player player = SearchUtils.GetPlayer();
 
         MintChocolateHelperModule.Session.DepthBeforePsuedoDeath = player.Depth;
         MintChocolateHelperModule.Session.WasCollidableBeforePsuedoDeath = player.Collidable;
@@ -205,15 +204,7 @@ public static class PsuedoDeath
 
     private static bool ShouldKeepFollowers()
     {
-        if (Utils.LevelIsNotSafe(out Level level)) return false;
-
-        bool dontDetachGolden = false;
-
-        foreach (CancelDeathTrigger _ in level.Tracker.GetEntities<CancelDeathTrigger>().Cast<CancelDeathTrigger>().Where(t => t.KeepFollowers))
-        {
-            dontDetachGolden = true;
-        }
-
+        bool dontDetachGolden = SearchUtils.GetEntities<CancelDeathTrigger>().Any(t => t.KeepFollowers);
         return ShouldSkipRemovePlayer() && (MintChocolateHelperModule.Session.PsuedoDeadKeepFollowers || dontDetachGolden);
     }
 
@@ -223,7 +214,7 @@ public static class PsuedoDeath
 
         bool CDTriggerExists = false;
         bool CDTriggerFalseFlagSkip = false;
-        foreach (CancelDeathTrigger CDTrigger in level.Tracker.GetEntities<CancelDeathTrigger>().Cast<CancelDeathTrigger>())
+        foreach (CancelDeathTrigger CDTrigger in level.GetEntities<CancelDeathTrigger>())
         {
             if (CDTrigger.Flag != "")
             {
@@ -250,9 +241,9 @@ public static class PsuedoDeath
 
     private static void FakeKillPlayer()
     {
-        if (Utils.LevelIsNotSafe(out Level level) || !ShouldSkipRemovePlayer()) return;
+        if (!ShouldSkipRemovePlayer()) return;
 
-        Player player = level.Tracker.GetEntity<Player>();
+        Player player = SearchUtils.GetPlayer();
         player.StateMachine.state = 17;
         player.Collidable = false;
         player.Visible = false;
@@ -261,8 +252,7 @@ public static class PsuedoDeath
 
     private static void PanicRemovePlayerIfPlayerIsStillLoaded(On.Celeste.Level.orig_Reload orig, Level level)
     {
-        Player player = level.Tracker.GetEntity<Player>();
-        player?.RemoveSelf();
+        level.GetPlayer()?.RemoveSelf();
 
         MintChocolateHelperModule.Session.PlayerIsPsuedoDead = false;
         MintChocolateHelperModule.Session.LastJesusRefill = null;
@@ -285,8 +275,7 @@ public static class PsuedoDeath
 
     private static void MovePlayer(On.Celeste.PlayerDeadBody.orig_Update orig, PlayerDeadBody playerDeadBody)
     {
-        if (Utils.LevelIsNotSafe(out Level level)) return;
-        Player player = level.Tracker.GetEntity<Player>();
+        Player player = SearchUtils.GetPlayer();
         player?.Speed = Vector2.Zero;
 
         orig(playerDeadBody);

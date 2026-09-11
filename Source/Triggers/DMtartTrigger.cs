@@ -1,7 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
 
-[CustomEntity("MintChocolateHelper/DMtartTrigger")]
 [UsedImplicitly]
+[CustomEntity("MintChocolateHelper/DMtartTrigger")]
 public class DMtartTrigger : Trigger
 {
     private readonly string Identifier;

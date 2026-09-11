@@ -1,7 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
-[CustomEntity("MintChocolateHelper/FusionTarget")]
 [Tracked]
+[CustomEntity("MintChocolateHelper/FusionTarget")]
 public class FusionTarget : Entity
 {
     public FusionTarget(EntityData data, Vector2 offset) : base(data.Position + offset)
