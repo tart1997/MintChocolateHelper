@@ -12,7 +12,7 @@ public class StopInteractingTrigger : Trigger
     {
         base.OnEnter(player);
 
-        foreach (Lookout lookout in SearchUtils.GetEntities<Lookout>())
+        foreach (Lookout lookout in SearchUtils.GetEntities<Lookout>()!)
         {
             lookout.StopInteracting();
         }

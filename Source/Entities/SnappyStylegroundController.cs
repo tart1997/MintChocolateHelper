@@ -41,7 +41,7 @@ public class SnappyStylegroundController : Entity
 
     public override void Update()
     {
-        if (Utils.LevelIsNotSafe(out Level level)) return;
+        Level level = SceneAs<Level>();
 
         foreach (Backdrop backdrop in level.Background.Backdrops.Where(backdrop => backdrop.Tags.Contains(SnapTag)))
         {

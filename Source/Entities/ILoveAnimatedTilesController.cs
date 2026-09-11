@@ -65,7 +65,6 @@ public class ILoveAnimatedTilesController : Entity
 
     private static void EntityOnAwake(Entity self)
     {
-        if (Utils.SceneIsNotSafe(self.Scene, out Level level)) return;
         if (SearchUtils.IfNone<ILoveAnimatedTilesController>()) return;
         if (self.Get<AnimatedTiles>() is not null) return;
         if (self.Get<TileGrid>() is not { } tileGrid) return;
@@ -75,7 +74,7 @@ public class ILoveAnimatedTilesController : Entity
         if (animatedTiles is null) return;
 
         animatedTiles.Position = tileGrid.Position;
-        animatedTiles.ClipCamera = level.Camera;
+        animatedTiles.ClipCamera = self.Scene.AsLevel()?.Camera;
 
         self.Add(animatedTiles);
     }

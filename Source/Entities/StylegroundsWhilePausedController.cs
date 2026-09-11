@@ -14,13 +14,13 @@ public class StylegroundsWhilePausedController : Entity
     public override void Awake(Scene scene)
     {
         base.Awake(scene);
-        if (Utils.SceneIsNotSafe(scene, out Level level)) return;
+        Level level = scene.AsLevel();
 
-        foreach (Backdrop dummy in level.Background.Backdrops.Where(backdrop => backdrop.Tags.Contains(updateTag)))
+        foreach (Backdrop dummy in level?.Background.Backdrops.Where(backdrop => backdrop.Tags.Contains(updateTag))!)
         {
             Tag |= Tags.PauseUpdate;
         }
-        foreach (Backdrop dummy in level.Foreground.Backdrops.Where(backdrop => backdrop.Tags.Contains(updateTag)))
+        foreach (Backdrop dummy in level?.Foreground.Backdrops.Where(backdrop => backdrop.Tags.Contains(updateTag))!)
         {
             Tag |= Tags.PauseUpdate;
         }
@@ -28,7 +28,7 @@ public class StylegroundsWhilePausedController : Entity
 
     public override void Update()
     {
-        if (Utils.LevelIsNotSafe(out Level level)) return;
+        Level level = SceneAs<Level>();
 
         foreach (Backdrop backdrop in level.Background.Backdrops.Where(backdrop => Scene.Paused && backdrop.Tags.Contains(updateTag)))
         {
@@ -76,8 +76,9 @@ public class StylegroundsWhilePausedController : Entity
 
     private static void UpdateBackdrops()
     {
-        if (Utils.LevelIsNotSafe(out Level level) || SearchUtils.IfNone(out StylegroundsWhilePausedController SWPController)) return;
-
+        if (SearchUtils.IfNone(out StylegroundsWhilePausedController SWPController)) return;
+        Level level = SWPController.SceneAs<Level>();
+        
         foreach (Backdrop backdrop in level.Background.Backdrops.Where(backdrop =>
             backdrop.Tags.Contains(SWPController.updateTag)))
         {

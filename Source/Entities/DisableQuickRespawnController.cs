@@ -57,10 +57,10 @@ public class DisableQuickRespawnController : Entity
 
     private static bool DeadBodyCheck()
     {
-        if (Utils.LevelIsNotSafe(out Level level)) return false;
         if (MintChocolateHelperModule.Session.JesusRefillDisableQuickRespawn) return true;
         if (SearchUtils.IfNone(out DisableQuickRespawnController DQRController)) return false;
         if (DQRController.DisableFlag == "") return false;
+        Level level = DQRController.SceneAs<Level>();
 
         if (FrostHelperImports.IsImported && DQRController.IsValidExpression)
         {

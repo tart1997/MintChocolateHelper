@@ -80,8 +80,6 @@ public class JesusRefill : Entity
 
     public override void Update()
     {
-        if (Utils.LevelIsNotSafe(out Level level)) return;
-
         base.Update();
         if (respawnTimer > 0f)
         {
@@ -93,7 +91,7 @@ public class JesusRefill : Entity
         }
         else if (Scene.OnInterval(0.1f) && Collidable)
         {
-            level.ParticlesFG.Emit(P_Glow, 1, Position, Vector2.One * 5f);
+            SceneAs<Level>().ParticlesFG.Emit(P_Glow, 1, Position, Vector2.One * 5f);
         }
 
         UpdateY();
@@ -137,7 +135,7 @@ public class JesusRefill : Entity
 
     private void Respawn()
     {
-        if (Utils.LevelIsNotSafe(out Level level) || oneUse || Collidable) return;
+        if (oneUse || Collidable) return;
 
         Collidable = true;
         sprite.Visible = true;
@@ -145,12 +143,12 @@ public class JesusRefill : Entity
         Depth = -100;
         wiggler.Start();
         Audio.Play("event:/game/general/diamond_return", Position);
-        level.ParticlesFG.Emit(P_Regen, 16, Position, Vector2.One * 2f);
+        SceneAs<Level>().ParticlesFG.Emit(P_Regen, 16, Position, Vector2.One * 2f);
     }
 
     private IEnumerator RefillRoutine(Player player)
     {
-        if (Utils.LevelIsNotSafe(out Level level)) yield break;
+        Level level = SceneAs<Level>();
 
         Celeste.Freeze(0.05f);
         yield return null;
@@ -195,16 +193,15 @@ public class JesusRefill : Entity
 
     private IEnumerator Unkill()
     {
-        if (Utils.LevelIsNotSafe(out Level level)) yield break;
-
-        level.Wipe?.Cancel();
-
+        Level level = SceneAs<Level>();
         Session session = level.Session;
         Player player = level.GetPlayer();
+        
+        level.Wipe?.Cancel();
 
         if (TeleportToRefill)
         {
-            player.Position = Position;
+            player?.Position = Position;
         }
 
         PlayerDeadBody playerDeadBody = Scene.GetEntity<PlayerDeadBody>(true);
@@ -223,13 +220,13 @@ public class JesusRefill : Entity
             StatsForStadia.Increment(StadiaStat.DEATHS, -1);
         }
 
-        player.Dead = false;
-        player.Depth = MintChocolateHelperModule.Session.DepthBeforePsuedoDeath;
-        player.StateMachine.Locked = false;
-        player.StateMachine.State = 0;
-        player.Collidable = MintChocolateHelperModule.Session.WasCollidableBeforePsuedoDeath;
-        player.Visible = MintChocolateHelperModule.Session.WasVisibleBeforePsuedoDeath;
-        if (Scene is not null) player.Scene = Scene;
+        player?.Dead = false;
+        player?.Depth = MintChocolateHelperModule.Session.DepthBeforePsuedoDeath;
+        player?.StateMachine.Locked = false;
+        player?.StateMachine.State = 0;
+        player?.Collidable = MintChocolateHelperModule.Session.WasCollidableBeforePsuedoDeath;
+        player?.Visible = MintChocolateHelperModule.Session.WasVisibleBeforePsuedoDeath;
+        if (Scene is not null) player?.Scene = Scene;
         MintChocolateHelperModule.Session.PlayerIsPsuedoDead = false;
         MintChocolateHelperModule.Session.LastJesusRefill = null;
         MintChocolateHelperModule.Session.HasJesusRefill = false;
@@ -238,13 +235,13 @@ public class JesusRefill : Entity
         MintChocolateHelperModule.Session.StoreSpeed = false;
         MintChocolateHelperModule.Session.TeleportToRefill = false;
         MintChocolateHelperModule.Session.Redirectable = false;
-        player.UseRefill(false);
+        player?.UseRefill(false);
 
         //This kinda sucks... I would prefer to just kill whatever rouge tweener that forces me to do this, but I've tried everything I can think of to do so. ¯\_(ツ)_/¯
 
         yield return null;
 
-        player.Sprite.Scale.X = 1;
+        player?.Sprite.Scale.X = 1;
 
         if (oneUse)
         {

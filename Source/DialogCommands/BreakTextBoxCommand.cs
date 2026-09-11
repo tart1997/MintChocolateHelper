@@ -226,7 +226,7 @@ public static class BreakTextBoxCommand
 
     private static bool TryJustifyTextDown()
     {
-        FancyText.Text text = SearchUtils.GetEntity<Textbox>(true).text;
+        FancyText.Text text = SearchUtils.GetEntity<Textbox>(true)?.text;
         if (text is null) return false;
 
         DynamicData selfData = DynamicData.For(text);

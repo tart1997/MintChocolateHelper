@@ -106,22 +106,19 @@ public class FusionHeart : Entity
     public override void Awake(Scene scene)
     {
         base.Awake(scene);
-        if (Utils.SceneIsNotSafe(scene, out Level level)) return;
 
         sprite.OnLoop = delegate(string anim) {
             if (Visible && anim == "spin" && autoPulse)
             {
                 Audio.Play("event:/game/general/crystalheart_pulse", Position);
                 ScaleWiggler.Start();
-                level.Displacement.AddBurst(Position, 0.35f, 8f, 48f, 0.25f);
+                scene.AsLevel()?.Displacement.AddBurst(Position, 0.35f, 8f, 48f, 0.25f);
             }
         };
     }
 
     public override void Update()
     {
-        if (Utils.LevelIsNotSafe(out Level level)) return;
-
         bounceSfxDelay -= Engine.DeltaTime;
         timer += Engine.DeltaTime;
 
@@ -161,13 +158,14 @@ public class FusionHeart : Entity
 
         if (Visible && Scene.OnInterval(0.1f))
         {
-            level.Particles.Emit(shineParticle, 1, Center, Vector2.One * 8f);
+            SceneAs<Level>().Particles.Emit(shineParticle, 1, Center, Vector2.One * 8f);
         }
     }
 
     private void OnPlayer(Player player)
     {
-        if (Utils.LevelIsNotSafe(out Level level) || collected || level.Frozen) return;
+        Level level = SceneAs<Level>();
+        if (collected || level.Frozen) return;
 
         if (bounceSfxDelay <= 0f)
         {
@@ -229,11 +227,8 @@ public class FusionHeart : Entity
 
     internal IEnumerator FullDashHitColliderDisableTimer()
     {
-        if (Utils.LevelIsNotSafe()) yield break;
-
         Collidable = false;
         yield return 5 / 60f;
-
         Collidable = true;
     }
 }

@@ -125,8 +125,6 @@ public class SpeedFlipRefill : Entity
 
     public override void Update()
     {
-        if (Utils.LevelIsNotSafe(out Level level)) return;
-
         base.Update();
         if (respawnTimer > 0f)
         {
@@ -138,7 +136,7 @@ public class SpeedFlipRefill : Entity
         }
         else if (Scene.OnInterval(0.1f) && !disableAmbientEffects && Collidable)
         {
-            level.ParticlesFG.Emit(P_Glow, 1, Position, Vector2.One * 5f);
+            SceneAs<Level>().ParticlesFG.Emit(P_Glow, 1, Position, Vector2.One * 5f);
         }
 
         UpdateY();
@@ -155,7 +153,7 @@ public class SpeedFlipRefill : Entity
 
     private void Respawn()
     {
-        if (Utils.LevelIsNotSafe(out Level level) || oneUse || Collidable) return;
+        if (oneUse || Collidable) return;
 
         Collidable = true;
         sprite.Visible = true;
@@ -165,7 +163,7 @@ public class SpeedFlipRefill : Entity
         if (disableCollectEffects) return;
 
         Audio.Play("event:/game/general/diamond_return", Position);
-        level.ParticlesFG.Emit(P_Regen, 16, Position, Vector2.One * 2f);
+        SceneAs<Level>().ParticlesFG.Emit(P_Regen, 16, Position, Vector2.One * 2f);
     }
 
     private void UpdateY()
@@ -209,7 +207,7 @@ public class SpeedFlipRefill : Entity
 
     private IEnumerator RefillRoutine(Player player)
     {
-        if (Utils.LevelIsNotSafe(out Level level)) yield break;
+        Level level = SceneAs<Level>();
 
         Celeste.Freeze(0.05f);
         yield return null;

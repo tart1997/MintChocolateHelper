@@ -1,4 +1,5 @@
-﻿namespace Celeste.Mod.MintChocolateHelper.Extras;
+﻿// TODO: needs work
+namespace Celeste.Mod.MintChocolateHelper.Extras;
 
 public static class PsuedoDeath
 {
@@ -169,7 +170,7 @@ public static class PsuedoDeath
         if (MintChocolateHelperModule.Session.StoredSpeed.HasValue)
         {
             Vector2 val = MintChocolateHelperModule.Session.StoredSpeed.Value;
-            Vector2 lastAim = player.lastAim;
+            Vector2 lastAim = player!.lastAim;
             if (player.OverrideDashDirection.HasValue)
             {
                 lastAim = player.CorrectDashPrecision(player.OverrideDashDirection.Value);
@@ -205,7 +206,7 @@ public static class PsuedoDeath
     {
         Player player = SearchUtils.GetPlayer();
 
-        MintChocolateHelperModule.Session.DepthBeforePsuedoDeath = player.Depth;
+        MintChocolateHelperModule.Session.DepthBeforePsuedoDeath = player!.Depth;
         MintChocolateHelperModule.Session.WasCollidableBeforePsuedoDeath = player.Collidable;
         MintChocolateHelperModule.Session.WasVisibleBeforePsuedoDeath = player.Visible;
         if (MintChocolateHelperModule.Session.StoreSpeed)
@@ -216,23 +217,23 @@ public static class PsuedoDeath
 
     private static bool ShouldKeepFollowers()
     {
-        bool dontDetachGolden = SearchUtils.GetEntities<CancelDeathTrigger>().Any(t => t.KeepFollowers);
+        bool dontDetachGolden = SearchUtils.GetEntities<CancelDeathTrigger>()!.Any(t => t.KeepFollowers);
         return ShouldSkipRemovePlayer() && (MintChocolateHelperModule.Session.PsuedoDeadKeepFollowers || dontDetachGolden);
     }
 
     private static bool ShouldSkipRemovePlayer()
     {
-        if (Utils.LevelIsNotSafe(out Level level)) return false;
+        Level level = Utils.GetLevel();
 
         bool CDTriggerExists = false;
         bool CDTriggerFalseFlagSkip = false;
-        foreach (CancelDeathTrigger CDTrigger in level.GetEntities<CancelDeathTrigger>())
+        foreach (CancelDeathTrigger CDTrigger in level.GetEntities<CancelDeathTrigger>()!)
         {
             if (CDTrigger.Flag != "")
             {
                 if (FrostHelperImports.IsImported && CDTrigger.IsValidExpression)
                 {
-                    if (!FrostHelperImports.GetBoolSessionExpressionValue(CDTrigger.FlagExpression, level.Session))
+                    if (!FrostHelperImports.GetBoolSessionExpressionValue(CDTrigger.FlagExpression, level?.Session))
                     {
                         CDTriggerFalseFlagSkip = true;
                     }
@@ -256,9 +257,9 @@ public static class PsuedoDeath
         if (!ShouldSkipRemovePlayer()) return;
 
         Player player = SearchUtils.GetPlayer();
-        player.StateMachine.state = 17;
-        player.Collidable = false;
-        player.Visible = false;
+        player?.StateMachine.state = 17;
+        player?.Collidable = false;
+        player?.Visible = false;
         MintChocolateHelperModule.Session.PlayerIsPsuedoDead = true;
     }
 

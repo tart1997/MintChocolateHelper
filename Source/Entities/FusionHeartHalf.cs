@@ -134,8 +134,6 @@ public class FusionHeartHalf : Entity
 
     public override void Update()
     {
-        if (Utils.LevelIsNotSafe(out Level level)) return;
-
         bounceSfxDelay -= Engine.DeltaTime;
         timer += Engine.DeltaTime;
 
@@ -175,7 +173,7 @@ public class FusionHeartHalf : Entity
 
         if (Visible && Scene.OnInterval(0.1f))
         {
-            level.Particles.Emit(shineParticle, 1, Center, Vector2.One * 8f);
+            SceneAs<Level>().Particles.Emit(shineParticle, 1, Center, Vector2.One * 8f);
         }
 
         Position += speed;
@@ -222,8 +220,7 @@ public class FusionHeartHalf : Entity
 
     private void OnPlayer(Player player)
     {
-        if (Utils.LevelIsNotSafe(out Level level)) return;
-
+        Level level = SceneAs<Level>();
         Vector2 playerOffset = Center - player.Center;
 
         if (collected || level.Frozen) return;
@@ -269,7 +266,7 @@ public class FusionHeartHalf : Entity
                 heartBreakerBonusSpeed = Vector2.Zero;
             }
 
-            foreach (FusionHeartHalf half in Scene.GetEntities<FusionHeartHalf>())
+            foreach (FusionHeartHalf half in Scene.GetEntities<FusionHeartHalf>()!)
             {
                 if (!half.rightHalf)
                 {
@@ -302,7 +299,7 @@ public class FusionHeartHalf : Entity
 
                     FusionHeart fusionHeart = new(targetCenter, heartBreakerBonusSpeed, "ff4fed", 0.75f, true, true);
 
-                    foreach (FusionTarget target in Scene.GetEntities<FusionTarget>().Where(target => (0.5f * (Center + half.Center) - target.Center).Length() <= 8))
+                    foreach (FusionTarget target in Scene.GetEntities<FusionTarget>()?.Where(target => (0.5f * (Center + half.Center) - target.Center).Length() <= 8)!)
                     {
                         nearTarget = true;
                         targetCenter = target.Center;
@@ -425,10 +422,8 @@ public class FusionHeartHalf : Entity
 
     internal IEnumerator HalfDashHitColliderDisableTimer()
     {
-        if (Utils.LevelIsNotSafe()) yield break;
         Collidable = false;
         yield return 5 / 60f;
-
         Collidable = true;
     }
 }

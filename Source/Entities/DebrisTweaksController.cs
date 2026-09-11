@@ -46,7 +46,7 @@ public class DebrisTweaksController : Entity
     private static void DebrisOnUpdate(On.Celeste.Debris.orig_Update orig, Debris debris)
     {
         orig(debris);
-        if (Utils.LevelIsNotSafe(out Level level)) return;
+        Level level = debris.SceneAs<Level>();
 
         DynamicData debrisData = DynamicData.For(debris);
         bool WindAffected = debrisData.SafeGet<bool>("WindAffected");
@@ -63,7 +63,7 @@ public class DebrisTweaksController : Entity
             if (debris.CollideCheck<Player>())
             {
                 Player player = level.GetPlayer();
-                Vector2 vector = (debris.Position - player.Center).SafeNormalize(player.Speed.Length() * 0.02f);
+                Vector2 vector = (debris.Position - player!.Center).SafeNormalize(player.Speed.Length() * 0.02f);
                 Vector2 playerDisturbance = debrisData.SafeGet<Vector2>("PlayerDisturbance");
 
                 if (vector.LengthSquared() > playerDisturbance.LengthSquared())
@@ -142,13 +142,13 @@ public class DebrisTweaksController : Entity
         cursor.EmitDelegate(ReplaceColorLerp);
     }
 
-    private static bool ShouldReplaceColorLerp() => SearchUtils.GetEntities<DebrisTweaksController>().Any(dtc => dtc.AlternateFadeout);
+    private static bool ShouldReplaceColorLerp() => SearchUtils.GetEntities<DebrisTweaksController>()!.Any(dtc => dtc.AlternateFadeout);
 
     private static void ReplaceColorLerp()
     {
-        if (Utils.LevelIsNotSafe(out Level level) || !ShouldReplaceColorLerp()) return;
+        if (!ShouldReplaceColorLerp()) return;
 
-        foreach (Debris debris in level.GetEntities<Debris>(true))
+        foreach (Debris debris in SearchUtils.GetEntities<Debris>(true)!)
         {
             debris?.image.Color = Color.White * (debris.lifeTimer / 1.5f) * debris.alpha;
         }

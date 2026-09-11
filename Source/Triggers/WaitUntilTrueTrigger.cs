@@ -137,7 +137,7 @@ public class WaitUntilTrueTrigger : Trigger
         {
             Dictionary<Trigger, bool> wasCollidable = new();
 
-            foreach (Trigger trig in scene.GetEntities<Trigger>())
+            foreach (Trigger trig in scene.GetEntities<Trigger>()!)
             {
                 wasCollidable.Add(trig, trig.Collidable);
                 trig.Collidable = true;
@@ -145,7 +145,7 @@ public class WaitUntilTrueTrigger : Trigger
 
             Trigger trigger = scene.CollideFirst<Trigger>(node);
 
-            foreach (Trigger trig in scene.GetEntities<Trigger>())
+            foreach (Trigger trig in scene.GetEntities<Trigger>()!)
             {
                 trig.Collidable = wasCollidable[trig];
             }
@@ -164,7 +164,7 @@ public class WaitUntilTrueTrigger : Trigger
 
     private IEnumerator WaitUntilTrue()
     {
-        if (Utils.LevelIsNotSafe(out Level level)) yield break;
+        Level level = SceneAs<Level>();
 
         if (FrostHelperImports.IsImported && IsValidExpression)
         {

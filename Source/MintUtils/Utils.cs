@@ -9,13 +9,13 @@ internal static class Utils
     }
     
     [UsedImplicitly]
-    internal static bool LevelIsSafe() => LevelIsSafe(out _);
+    internal static bool LevelIsSafe() => Engine.Scene is Level;
 
     [UsedImplicitly]
-    internal static bool LevelIsNotSafe() => LevelIsNotSafe(out _);
+    internal static bool LevelIsNotSafe() => Engine.Scene is not Level;
 
     [UsedImplicitly]
-    internal static bool LevelIsSafe(out Level level)
+    internal static bool LevelIsSafe([NotNullWhen(true)] out Level level)
     {
         if (Engine.Scene is Level lvl)
         {
@@ -28,7 +28,7 @@ internal static class Utils
     }
 
     [UsedImplicitly]
-    internal static bool LevelIsNotSafe(out Level level)
+    internal static bool LevelIsNotSafe([NotNullWhen(false)] out Level level)
     {
         if (Engine.Scene is not Level lvl)
         {
@@ -41,13 +41,13 @@ internal static class Utils
     }
 
     [UsedImplicitly]
-    internal static bool SceneIsSafe(Scene scene) => SceneIsSafe(scene, out _);
+    internal static bool SceneIsSafe(Scene scene) => scene is Level;
 
     [UsedImplicitly]
-    internal static bool SceneIsNotSafe(Scene scene) => SceneIsNotSafe(scene, out _);
+    internal static bool SceneIsNotSafe(Scene scene) => scene is not Level;
 
     [UsedImplicitly]
-    internal static bool SceneIsSafe(Scene scene, out Level level)
+    internal static bool SceneIsSafe(Scene scene, [NotNullWhen(true)] out Level level)
     {
         if (scene is Level lvl)
         {
@@ -60,7 +60,7 @@ internal static class Utils
     }
 
     [UsedImplicitly]
-    internal static bool SceneIsNotSafe(Scene scene, out Level level)
+    internal static bool SceneIsNotSafe(Scene scene, [NotNullWhen(false)] out Level level)
     {
         if (scene is not Level lvl)
         {
@@ -89,28 +89,42 @@ internal static class Utils
     
     extension(Scene scene)
     {
+        [CanBeNull]
+        [UsedImplicitly]
+        internal Level AsLevel()
+        {
+            return scene as Level;
+        }
+        
         [UsedImplicitly]
         internal bool GetFlag(string flag)
         {
-            return ((Level)scene).Session.GetFlag(flag);
+            return scene.AsLevel()!.Session.GetFlag(flag);
         }
 
         [UsedImplicitly]
         internal void SetFlag(string flag, bool setTo = true)
         {
-            ((Level)scene).Session.SetFlag(flag, setTo);
+            scene.AsLevel()?.Session.SetFlag(flag, setTo);
         }
+    }
+    
+    [CanBeNull]
+    [UsedImplicitly]
+    internal static Level GetLevel()
+    {
+        return Engine.Scene as Level;
     }
 
     [UsedImplicitly]
     internal static bool GetFlag(string flag)
     {
-        return ((Level)Engine.Scene).Session.GetFlag(flag);
+        return GetLevel()!.Session.GetFlag(flag);
     }
 
     [UsedImplicitly]
     internal static void SetFlag(string flag, bool setTo = true)
     {
-        ((Level)Engine.Scene).Session.SetFlag(flag, setTo);
+        GetLevel()?.Session.SetFlag(flag, setTo);
     }
 }

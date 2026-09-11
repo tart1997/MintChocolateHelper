@@ -1,4 +1,5 @@
-﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
+﻿// TODO: needs work
+namespace Celeste.Mod.MintChocolateHelper.Triggers;
 
 [Tracked]
 [CustomEntity("MintChocolateHelper/CancelDeathTrigger")]
@@ -36,15 +37,14 @@ public class CancelDeathTrigger : Trigger
 
     private IEnumerator Unkill(int delay)
     {
-        if (Utils.LevelIsNotSafe(out Level level)) yield break;
         yield return delay / 60f;
-
         if (!MintChocolateHelperModule.Session.PlayerIsPsuedoDead) yield break;
 
-        level.Wipe?.Cancel();
-
+        Level level = SceneAs<Level>();
         Session session = level.Session;
         Player player = level.GetPlayer();
+        
+        level.Wipe?.Cancel();
 
         PlayerDeadBody playerDeadBody = level.GetEntity<PlayerDeadBody>(true);
         playerDeadBody?.hair.Entity = player;
@@ -62,22 +62,22 @@ public class CancelDeathTrigger : Trigger
             StatsForStadia.Increment(StadiaStat.DEATHS, -1);
         }
 
-        player.Dead = false;
-        player.Depth = MintChocolateHelperModule.Session.DepthBeforePsuedoDeath;
-        player.StateMachine.Locked = false;
-        player.StateMachine.State = 0;
-        player.Collidable = MintChocolateHelperModule.Session.WasCollidableBeforePsuedoDeath;
-        player.Visible = MintChocolateHelperModule.Session.WasVisibleBeforePsuedoDeath;
-        if (Scene is not null) player.Scene = Scene;
+        player?.Dead = false;
+        player?.Depth = MintChocolateHelperModule.Session.DepthBeforePsuedoDeath;
+        player?.StateMachine.Locked = false;
+        player?.StateMachine.State = 0;
+        player?.Collidable = MintChocolateHelperModule.Session.WasCollidableBeforePsuedoDeath;
+        player?.Visible = MintChocolateHelperModule.Session.WasVisibleBeforePsuedoDeath;
+        if (Scene is not null) player?.Scene = Scene;
         MintChocolateHelperModule.Session.PlayerIsPsuedoDead = false;
 
         MintChocolateHelperModule.Session.PsuedoDeathTeleportingPlayer = true;
-        if (level.Session.RespawnPoint is not null) player.Position = level.Session.RespawnPoint.Value;
+        if (level.Session.RespawnPoint is not null) player?.Position = level.Session.RespawnPoint.Value;
 
         //This kinda sucks... I would prefer to just kill whatever rouge tweener that forces me to do this, but I've tried everything I can think of to do so. ¯\_(ツ)_/¯
 
         yield return null;
         MintChocolateHelperModule.Session.PsuedoDeathTeleportingPlayer = false;
-        player.Sprite.Scale.X = 1;
+        player?.Sprite.Scale.X = 1;
     }
 }

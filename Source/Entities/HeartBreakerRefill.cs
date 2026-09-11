@@ -81,8 +81,6 @@ public class HeartBreakerRefill : Entity
     {
         base.Update();
 
-        if (Utils.LevelIsNotSafe(out Level level)) return;
-
         if (respawnTimer > 0f)
         {
             respawnTimer -= Engine.DeltaTime;
@@ -93,7 +91,7 @@ public class HeartBreakerRefill : Entity
         }
         else if (Scene.OnInterval(0.1f))
         {
-            level.ParticlesFG.Emit(P_Glow, 1, Position, Vector2.One * 5f);
+            SceneAs<Level>().ParticlesFG.Emit(P_Glow, 1, Position, Vector2.One * 5f);
         }
 
         UpdateY();
@@ -110,7 +108,7 @@ public class HeartBreakerRefill : Entity
 
     private void Respawn()
     {
-        if (Utils.LevelIsNotSafe(out Level level) || Collidable) return;
+        if (Collidable) return;
 
         Collidable = true;
         sprite.Visible = true;
@@ -118,7 +116,7 @@ public class HeartBreakerRefill : Entity
         Depth = -100;
         wiggler.Start();
         Audio.Play("event:/game/general/diamond_return", Position);
-        level.ParticlesFG.Emit(P_Regen, 16, Position, Vector2.One * 2f);
+        SceneAs<Level>().ParticlesFG.Emit(P_Regen, 16, Position, Vector2.One * 2f);
     }
 
     private void UpdateY()
@@ -152,7 +150,7 @@ public class HeartBreakerRefill : Entity
 
     private IEnumerator RefillRoutine(Player player)
     {
-        if (Utils.LevelIsNotSafe(out Level level)) yield break;
+        Level level = SceneAs<Level>();
 
         Celeste.Freeze(0.05f);
         yield return null;
