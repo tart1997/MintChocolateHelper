@@ -1,5 +1,4 @@
-﻿// TODO: Done Here :)
-namespace Celeste.Mod.MintChocolateHelper.Triggers;
+﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
 
 [UsedImplicitly]
 [CustomEntity("MintChocolateHelper/PulseFlagTrigger")]
@@ -24,10 +23,8 @@ public class PulseFlagTrigger : Trigger
 
     private IEnumerator Pulse()
     {
-        if (Utils.LevelIsNotSafe(out Level level)) yield break;
-
-        level.Session.SetFlag(Flag, !Invert);
+        Utils.SetFlag(Flag, !Invert);
         yield return Frames / 60f;
-        level.Session.SetFlag(Flag, Invert);
+        Utils.SetFlag(Flag, Invert);
     }
 }

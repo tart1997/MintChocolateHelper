@@ -1,4 +1,3 @@
-// TODO: Done Here :)
 using MethodBody = Mono.Cecil.Cil.MethodBody;
 
 namespace Celeste.Mod.MintChocolateHelper.MintUtils;

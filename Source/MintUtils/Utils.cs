@@ -1,5 +1,4 @@
-﻿// TODO: Done Here :)
-namespace Celeste.Mod.MintChocolateHelper.MintUtils;
+﻿namespace Celeste.Mod.MintChocolateHelper.MintUtils;
 
 internal static class Utils
 {

@@ -1,6 +1,4 @@
-﻿// TODO: Done Here :)
-
-namespace Celeste.Mod.MintChocolateHelper.DialogCommands;
+﻿namespace Celeste.Mod.MintChocolateHelper.DialogCommands;
 
 public static class BreakTextBoxCommand
 {

@@ -1,5 +1,4 @@
-﻿// TODO: Done Here :)
-namespace Celeste.Mod.MintChocolateHelper.Triggers;
+﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
 
 [UsedImplicitly]
 [CustomEntity("MintChocolateHelper/MichealTrigger")]

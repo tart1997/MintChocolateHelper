@@ -1,5 +1,4 @@
-﻿// TODO: Done Here :)
-using Celeste.Mod.MintChocolateHelper.Registry.Handlers;
+﻿using Celeste.Mod.MintChocolateHelper.Registry.Handlers;
 
 namespace Celeste.Mod.MintChocolateHelper.Registry.Components;
 

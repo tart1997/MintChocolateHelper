@@ -1,5 +1,4 @@
-﻿// TODO: Done Here :)
-namespace Celeste.Mod.MintChocolateHelper.Extras;
+﻿namespace Celeste.Mod.MintChocolateHelper.Extras;
 
 //ALL CREDITS FOR THIS GO TO SNOWY
 public class CustomDashIndicator : Entity

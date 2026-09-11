@@ -1,5 +1,4 @@
-﻿// TODO: Done Here :)
-namespace Celeste.Mod.MintChocolateHelper.MintUtils;
+﻿namespace Celeste.Mod.MintChocolateHelper.MintUtils;
 
 public static class SearchUtils
 {

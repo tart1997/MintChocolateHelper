@@ -1,5 +1,4 @@
-﻿// TODO: Done Here :)
-namespace Celeste.Mod.MintChocolateHelper.Registry.Components;
+﻿namespace Celeste.Mod.MintChocolateHelper.Registry.Components;
 
 public class ClockHand : Component
 {

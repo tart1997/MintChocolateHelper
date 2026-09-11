@@ -1,5 +1,4 @@
-﻿// TODO: Done Here :)
-using ModInteropImportGenerator;
+﻿using ModInteropImportGenerator;
 
 namespace Celeste.Mod.MintChocolateHelper.ModInterop;
 

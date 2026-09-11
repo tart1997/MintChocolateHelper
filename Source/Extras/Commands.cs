@@ -1,5 +1,4 @@
-﻿// TODO: Done Here :)
-using TextCopy;
+﻿using TextCopy;
 
 namespace Celeste.Mod.MintChocolateHelper.Extras;
 

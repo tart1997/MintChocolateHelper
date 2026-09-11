@@ -1,5 +1,4 @@
-﻿// TODO: Done Here :)
-namespace Celeste.Mod.MintChocolateHelper.Extras;
+﻿namespace Celeste.Mod.MintChocolateHelper.Extras;
 
 [Serializable]
 public class ImpossibleEnumException : Exception
