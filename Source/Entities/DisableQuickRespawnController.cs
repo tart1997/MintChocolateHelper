@@ -34,7 +34,7 @@ public class DisableQuickRespawnController : Entity
     {
         ILCursor cursor = new(il);
 
-        
+
         /*
         IL_0006: ldsfld class Monocle.VirtualButton Celeste.Input::MenuConfirm
         IL_000b: callvirt instance bool Monocle.VirtualButton::get_Pressed()

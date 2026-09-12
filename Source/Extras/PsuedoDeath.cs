@@ -29,7 +29,7 @@ public static class PsuedoDeath
     {
         ILCursor cursor = new(il);
 
-        
+
         /*
         IL_0056: ldloc.2
         IL_0057: ldloc.0
@@ -123,7 +123,7 @@ public static class PsuedoDeath
     {
         ILCursor cursor = new(il);
 
-        
+
         /*
         IL_00b9: ldloc.2
         IL_00ba: ldc.r4 240

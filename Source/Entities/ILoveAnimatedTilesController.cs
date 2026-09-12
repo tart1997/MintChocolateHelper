@@ -31,20 +31,20 @@ public class ILoveAnimatedTilesController : Entity
         On.Celeste.Platform.OnShake -= PlatformOnOnShake;
         On.Celeste.AnimatedTiles.Render -= AnimatedTilesOnRender;
     }
-    
+
     private static void CheckForILoveAnimatedTilesController(On.Celeste.LevelLoader.orig_ctor orig, LevelLoader self, Session session, Vector2? startPosition)
     {
         orig(self, session, startPosition);
         ILoveAnimatedTilesControllerNeeded = RequiresILoveAnimatedTilesControllerForSession(session);
     }
-    
+
     private static bool RequiresILoveAnimatedTilesControllerForSession(Session session)
     {
         bool RequiresILoveAnimatedTilesController(EntityData data)
         {
             return data.Name == "MintChocolateHelper/ILoveAnimatedTilesController";
         }
-        
+
         return session.MapData.Levels.SelectMany(l => l.Entities).FirstOrDefault(RequiresILoveAnimatedTilesController) != null;
     }
 
@@ -66,7 +66,7 @@ public class ILoveAnimatedTilesController : Entity
     {
         ILCursor cursor = new(il);
 
-        
+
         /*
         IL_01b2: ldloc.s 5
         IL_01b4: ldarg.0

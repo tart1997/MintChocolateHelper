@@ -99,7 +99,7 @@ public class DebrisTweaksController : Entity
     {
         ILCursor cursor = new(il);
 
-        
+
         /*
         IL_01d2: ldarg.0
         IL_01d3: ldfld class Monocle.Image Celeste.Debris::image
@@ -121,7 +121,7 @@ public class DebrisTweaksController : Entity
         cursor.EmitDelegate(ShouldReplaceColorLerp);
         cursor.EmitBrtrue(replaceColorLerp);
 
-        
+
         /*
         IL_01ed: ldarg.0
         IL_01ee: ldfld float32 Celeste.Debris::alpha

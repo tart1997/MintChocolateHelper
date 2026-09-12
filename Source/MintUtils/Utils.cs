@@ -3,11 +3,11 @@
 internal static class Utils
 {
     [UsedImplicitly]
-    internal static void Log(LogLevel logLevel , string message)
+    internal static void Log(LogLevel logLevel, string message)
     {
         Logger.Log(logLevel, MintChocolateHelperModule.ModName, message);
     }
-    
+
     [UsedImplicitly]
     internal static bool LevelIsSafe() => Engine.Scene is Level;
 
@@ -75,10 +75,7 @@ internal static class Utils
     extension(Level level)
     {
         [UsedImplicitly]
-        internal bool GetFlag(string flag)
-        {
-            return level.Session.GetFlag(flag);
-        }
+        internal bool GetFlag(string flag) => level.Session.GetFlag(flag);
 
         [UsedImplicitly]
         internal void SetFlag(string flag, bool setTo = true)
@@ -86,21 +83,15 @@ internal static class Utils
             level.Session.SetFlag(flag, setTo);
         }
     }
-    
+
     extension(Scene scene)
     {
         [CanBeNull]
         [UsedImplicitly]
-        internal Level AsLevel()
-        {
-            return scene as Level;
-        }
-        
+        internal Level AsLevel() => scene as Level;
+
         [UsedImplicitly]
-        internal bool GetFlag(string flag)
-        {
-            return scene.AsLevel()!.Session.GetFlag(flag);
-        }
+        internal bool GetFlag(string flag) => scene.AsLevel()!.Session.GetFlag(flag);
 
         [UsedImplicitly]
         internal void SetFlag(string flag, bool setTo = true)
@@ -108,19 +99,13 @@ internal static class Utils
             scene.AsLevel()?.Session.SetFlag(flag, setTo);
         }
     }
-    
+
     [CanBeNull]
     [UsedImplicitly]
-    internal static Level GetLevel()
-    {
-        return Engine.Scene as Level;
-    }
+    internal static Level GetLevel() => Engine.Scene as Level;
 
     [UsedImplicitly]
-    internal static bool GetFlag(string flag)
-    {
-        return GetLevel()!.Session.GetFlag(flag);
-    }
+    internal static bool GetFlag(string flag) => GetLevel()!.Session.GetFlag(flag);
 
     [UsedImplicitly]
     internal static void SetFlag(string flag, bool setTo = true)

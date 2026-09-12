@@ -23,7 +23,7 @@ public class MintChocolateHelperModuleSession : EverestModuleSession
 
     // Cancel Death Trigger
     internal bool CancelDeathTriggerTeleportingPlayer {get; set;}
-    
+
     // Psuedo Death
     internal bool PlayerIsPsuedoDead {get; set;}
     internal bool PsuedoDeadKeepFollowers {get; set;}

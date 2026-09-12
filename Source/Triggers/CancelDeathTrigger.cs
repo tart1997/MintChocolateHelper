@@ -42,7 +42,7 @@ public class CancelDeathTrigger : Trigger
         Level level = Utils.GetLevel();
         Session session = level?.Session;
         Player player = level.GetPlayer();
-        
+
         level?.Wipe?.Cancel();
 
         PlayerDeadBody playerDeadBody = SearchUtils.GetEntity<PlayerDeadBody>(true);

@@ -56,7 +56,7 @@ public class StylegroundsWhilePausedController : Entity
     {
         ILCursor cursor = new(il);
 
-        
+
         /*
         IL_002f: call float32 Monocle.Engine::get_RawDeltaTime()
         IL_0034: sub
@@ -78,7 +78,7 @@ public class StylegroundsWhilePausedController : Entity
     {
         if (SearchUtils.IfNone(out StylegroundsWhilePausedController SWPController)) return;
         Level level = SWPController.SceneAs<Level>();
-        
+
         foreach (Backdrop backdrop in level.Background.Backdrops.Where(backdrop =>
             backdrop.Tags.Contains(SWPController.updateTag)))
         {

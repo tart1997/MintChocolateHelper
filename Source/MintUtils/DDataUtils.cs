@@ -2,14 +2,14 @@
 
 public static class DDataUtils
 {
-    extension (DynamicData data)
+    extension(DynamicData data)
     {
         [UsedImplicitly]
         internal void SetTrue(string name)
         {
             data.Set(name, true);
         }
-        
+
         [UsedImplicitly]
         internal void SetFalse(string name)
         {
@@ -17,15 +17,9 @@ public static class DDataUtils
         }
 
         [UsedImplicitly]
-        internal bool TryGetTrue(string name)
-        {
-            return data.TryGet(name, out bool? boolean) && boolean == true;
-        }
+        internal bool TryGetTrue(string name) => data.TryGet(name, out bool? boolean) && boolean == true;
 
         [UsedImplicitly]
-        internal bool TryGetFalse(string name)
-        {
-            return data.TryGet(name, out bool? boolean) && boolean == false;
-        }
+        internal bool TryGetFalse(string name) => data.TryGet(name, out bool? boolean) && boolean == false;
     }
 }
