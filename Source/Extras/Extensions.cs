@@ -1,9 +1,8 @@
-﻿namespace Celeste.Mod.MintChocolateHelper.Registry.ThisIsJustStolenFromJa;
+﻿namespace Celeste.Mod.MintChocolateHelper.Extras;
 
-//All credits to JaThePlayer of course I would never be evil and steal code without saying anything why would you ever think that?
-
-internal static class Extensions
+public static class Extensions
 {
+    //All credits to JaThePlayer for this one of course I would never be evil and steal code without saying anything why would you ever think that?
     extension(XmlAttributeCollection xml)
     {
         public T GetEnum<T>(string attr, T def) where T : struct, Enum
