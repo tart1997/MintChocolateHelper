@@ -127,4 +127,11 @@ internal static class Utils
     {
         GetLevel()?.Session.SetFlag(flag, setTo);
     }
+
+    [UsedImplicitly]
+    internal static T LogValue<T>(this T val)
+    {
+        Log(LogLevel.Info, $"{typeof(T).Name}: {val}");
+        return val;
+    }
 }

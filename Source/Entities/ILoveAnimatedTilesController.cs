@@ -4,6 +4,8 @@
 [CustomEntity("MintChocolateHelper/ILoveAnimatedTilesController")]
 public class ILoveAnimatedTilesController : Entity
 {
+    private static bool ILoveAnimatedTilesControllerNeeded;
+
     public ILoveAnimatedTilesController(EntityData data, Vector2 offset) : base(data.Position + offset)
     {
     }
@@ -11,6 +13,7 @@ public class ILoveAnimatedTilesController : Entity
     [OnLoad]
     internal static void Load()
     {
+        On.Celeste.LevelLoader.ctor += CheckForILoveAnimatedTilesController;
         On.Celeste.Autotiler.Generate += AutotilerOnGenerate;
         IL.Monocle.EntityList.UpdateLists += EntityListOnUpdateLists;
 
@@ -21,11 +24,28 @@ public class ILoveAnimatedTilesController : Entity
     [OnUnload]
     internal static void Unload()
     {
+        On.Celeste.LevelLoader.ctor -= CheckForILoveAnimatedTilesController;
         On.Celeste.Autotiler.Generate -= AutotilerOnGenerate;
         IL.Monocle.EntityList.UpdateLists -= EntityListOnUpdateLists;
 
         On.Celeste.Platform.OnShake -= PlatformOnOnShake;
         On.Celeste.AnimatedTiles.Render -= AnimatedTilesOnRender;
+    }
+    
+    private static void CheckForILoveAnimatedTilesController(On.Celeste.LevelLoader.orig_ctor orig, LevelLoader self, Session session, Vector2? startPosition)
+    {
+        orig(self, session, startPosition);
+        ILoveAnimatedTilesControllerNeeded = RequiresILoveAnimatedTilesControllerForSession(session);
+    }
+    
+    private static bool RequiresILoveAnimatedTilesControllerForSession(Session session)
+    {
+        bool RequiresILoveAnimatedTilesController(EntityData data)
+        {
+            return data.Name == "MintChocolateHelper/ILoveAnimatedTilesController";
+        }
+        
+        return session.MapData.Levels.SelectMany(l => l.Entities).FirstOrDefault(RequiresILoveAnimatedTilesController) != null;
     }
 
     private static Autotiler.Generated AutotilerOnGenerate(On.Celeste.Autotiler.orig_Generate orig,
@@ -65,12 +85,12 @@ public class ILoveAnimatedTilesController : Entity
 
     private static void EntityOnAwake(Entity self)
     {
-        if (SearchUtils.IfNone<ILoveAnimatedTilesController>()) return;
+        if (!ILoveAnimatedTilesControllerNeeded) return;
         if (self.Get<AnimatedTiles>() is not null) return;
         if (self.Get<TileGrid>() is not { } tileGrid) return;
 
         DynamicData TileGridData = DynamicData.For(tileGrid);
-        AnimatedTiles animatedTiles = TileGridData.SafeGet<AnimatedTiles>("AnimatedTiles");
+        AnimatedTiles? animatedTiles = TileGridData.Get<AnimatedTiles?>("AnimatedTiles");
         if (animatedTiles is null) return;
 
         animatedTiles.Position = tileGrid.Position;

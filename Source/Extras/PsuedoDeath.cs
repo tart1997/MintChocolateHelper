@@ -291,7 +291,7 @@ public static class PsuedoDeath
         player?.Speed = Vector2.Zero;
 
         orig(playerDeadBody);
-        if (MintChocolateHelperModule.Session.PsuedoDeathTeleportingPlayer || !MintChocolateHelperModule.Session.HasJesusRefill || MintChocolateHelperModule.Session.TeleportToRefill) return;
+        if (MintChocolateHelperModule.Session.CancelDeathTriggerTeleportingPlayer || !MintChocolateHelperModule.Session.HasJesusRefill || MintChocolateHelperModule.Session.TeleportToRefill) return;
 
         player?.Position = playerDeadBody.Position;
     }

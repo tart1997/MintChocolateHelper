@@ -193,18 +193,23 @@ public class JesusRefill : Entity
 
     private IEnumerator Unkill()
     {
-        Level level = SceneAs<Level>();
-        Session session = level.Session;
+        Level level = Utils.GetLevel();
+        Session session = level?.Session;
         Player player = level.GetPlayer();
-        
-        level.Wipe?.Cancel();
+
+        while (Engine.FreezeTimer != 0)
+        {
+            yield return null;
+        }
+
+        level?.Wipe?.Cancel();
 
         if (TeleportToRefill)
         {
             player?.Position = Position;
         }
 
-        PlayerDeadBody playerDeadBody = Scene.GetEntity<PlayerDeadBody>(true);
+        PlayerDeadBody playerDeadBody = SearchUtils.GetEntity<PlayerDeadBody>(true);
         playerDeadBody?.hair.Entity = player;
         playerDeadBody?.sprite.Entity = player;
         playerDeadBody?.light.Entity = player;
@@ -212,7 +217,7 @@ public class JesusRefill : Entity
 
         if (UnregisterDeathInStats)
         {
-            --session.Deaths;
+            --session!.Deaths;
             --session.DeathsInCurrentLevel;
             --SaveData.Instance.TotalDeaths;
             --SaveData.Instance.Areas_Safe[session.Area.ID].Modes[(int)session.Area.Mode].Deaths;

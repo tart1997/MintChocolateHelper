@@ -27,13 +27,5 @@ public static class DDataUtils
         {
             return data.TryGet(name, out bool? boolean) && boolean == false;
         }
-
-        [CanBeNull]
-        [UsedImplicitly]
-        internal T SafeGet<T>(string name)
-        {
-            T? obj = data.Get<T?>(name);
-            return obj ?? default(T);
-        }
     }
 }

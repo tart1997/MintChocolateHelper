@@ -49,24 +49,24 @@ public class DebrisTweaksController : Entity
         Level level = debris.SceneAs<Level>();
 
         DynamicData debrisData = DynamicData.For(debris);
-        bool WindAffected = debrisData.SafeGet<bool>("WindAffected");
-        bool PlayerAffected = debrisData.SafeGet<bool>("PlayerAffected");
-        if (!PlayerAffected && !WindAffected) return;
+        bool? WindAffected = debrisData.Get<bool?>("WindAffected");
+        bool? PlayerAffected = debrisData.Get<bool?>("PlayerAffected");
+        if (!PlayerAffected != true && !WindAffected != true) return;
 
-        if (WindAffected)
+        if (WindAffected == true)
         {
             debrisData.Set("WindDisturbance", level.Wind / 300f);
         }
 
-        if (PlayerAffected)
+        if (PlayerAffected == true)
         {
             if (debris.CollideCheck<Player>())
             {
                 Player player = level.GetPlayer();
                 Vector2 vector = (debris.Position - player!.Center).SafeNormalize(player.Speed.Length() * 0.02f);
-                Vector2 playerDisturbance = debrisData.SafeGet<Vector2>("PlayerDisturbance");
+                Vector2? playerDisturbance = debrisData.Get<Vector2?>("PlayerDisturbance");
 
-                if (vector.LengthSquared() > playerDisturbance.LengthSquared())
+                if (vector.LengthSquared() > playerDisturbance.GetValueOrDefault().LengthSquared())
                 {
                     debrisData.Set("PlayerDisturbance", vector);
                 }
@@ -78,9 +78,9 @@ public class DebrisTweaksController : Entity
         bool WallToRight = debris.CollideCheck<SolidTiles>(new Vector2(debris.Position.X + 2, debris.Position.Y));
         bool FloorBelow = debris.CollideCheck<SolidTiles>(new Vector2(debris.Position.X, debris.Position.Y + 2));
 
-        Vector2 WindDisturbance = debrisData.SafeGet<Vector2>("WindDisturbance");
-        Vector2 PlayerDisturbance = debrisData.SafeGet<Vector2>("PlayerDisturbance");
-        Vector2 TotalDisturbance = PlayerDisturbance + WindDisturbance;
+        Vector2? WindDisturbance = debrisData.Get<Vector2?>("WindDisturbance");
+        Vector2? PlayerDisturbance = debrisData.Get<Vector2?>("PlayerDisturbance");
+        Vector2 TotalDisturbance = PlayerDisturbance.GetValueOrDefault() + WindDisturbance.GetValueOrDefault();
 
         if (!(TotalDisturbance.X < 0 && WallToLeft) && !(TotalDisturbance.X > 0 && WallToRight))
         {
@@ -92,7 +92,7 @@ public class DebrisTweaksController : Entity
             debris.Position.Y += TotalDisturbance.Y;
         }
 
-        debrisData.Set("PlayerDisturbance", Calc.Approach(PlayerDisturbance, Vector2.Zero, 8f * Engine.DeltaTime));
+        debrisData.Set("PlayerDisturbance", Calc.Approach(PlayerDisturbance.GetValueOrDefault(), Vector2.Zero, 8f * Engine.DeltaTime));
     }
 
     private static void DebrisILUpdate(ILContext il)

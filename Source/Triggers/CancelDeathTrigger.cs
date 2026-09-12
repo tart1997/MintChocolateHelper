@@ -39,13 +39,13 @@ public class CancelDeathTrigger : Trigger
         yield return delay / 60f;
         if (!MintChocolateHelperModule.Session.PlayerIsPsuedoDead) yield break;
 
-        Level level = SceneAs<Level>();
-        Session session = level.Session;
+        Level level = Utils.GetLevel();
+        Session session = level?.Session;
         Player player = level.GetPlayer();
         
-        level.Wipe?.Cancel();
+        level?.Wipe?.Cancel();
 
-        PlayerDeadBody playerDeadBody = level.GetEntity<PlayerDeadBody>(true);
+        PlayerDeadBody playerDeadBody = SearchUtils.GetEntity<PlayerDeadBody>(true);
         playerDeadBody?.hair.Entity = player;
         playerDeadBody?.sprite.Entity = player;
         playerDeadBody?.light.Entity = player;
@@ -53,7 +53,7 @@ public class CancelDeathTrigger : Trigger
 
         if (UnregisterDeathInStats)
         {
-            --session.Deaths;
+            --session!.Deaths;
             --session.DeathsInCurrentLevel;
             --SaveData.Instance.TotalDeaths;
             --SaveData.Instance.Areas_Safe[session.Area.ID].Modes[(int)session.Area.Mode].Deaths;
@@ -70,13 +70,13 @@ public class CancelDeathTrigger : Trigger
         if (Scene is not null) player?.Scene = Scene;
         MintChocolateHelperModule.Session.PlayerIsPsuedoDead = false;
 
-        MintChocolateHelperModule.Session.PsuedoDeathTeleportingPlayer = true;
-        if (level.Session.RespawnPoint is not null) player?.Position = level.Session.RespawnPoint.Value;
+        MintChocolateHelperModule.Session.CancelDeathTriggerTeleportingPlayer = true;
+        if (level?.Session.RespawnPoint is not null) player?.Position = level.Session.RespawnPoint.Value;
 
         //This kinda sucks... I would prefer to just kill whatever rouge tweener that forces me to do this, but I've tried everything I can think of to do so. ¯\_(ツ)_/¯
 
         yield return null;
-        MintChocolateHelperModule.Session.PsuedoDeathTeleportingPlayer = false;
+        MintChocolateHelperModule.Session.CancelDeathTriggerTeleportingPlayer = false;
         player?.Sprite.Scale.X = 1;
     }
 }

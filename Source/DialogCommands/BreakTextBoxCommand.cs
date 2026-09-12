@@ -87,7 +87,7 @@ public static class BreakTextBoxCommand
     private static void SetDisableLineLimit(FancyText text, string s)
     {
         DynamicData parserData = DynamicData.For(text);
-        FancyText.Text group = parserData.SafeGet<FancyText.Text>("group");
+        FancyText.Text? group = parserData.Get<FancyText.Text?>("group");
         List<FancyText.Node> nodes = group?.Nodes;
         switch (s)
         {

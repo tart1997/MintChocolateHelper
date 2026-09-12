@@ -19,7 +19,7 @@ public class FlagsOnAwakeController : Entity
 
         foreach (string flag in Flags)
         {
-            Utils.SetFlag(flag, Value);
+            scene.SetFlag(flag, Value);
         }
     }
 }
