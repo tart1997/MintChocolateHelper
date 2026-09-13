@@ -241,10 +241,10 @@ public class JesusRefill : Entity
         yield return null;
 
         player?.Sprite.Scale.X = 1;
-        if (player?.StateMachine.State != 2)
-        {
-            player?.StateMachine.State = player.StartDash();
-        }
+        // if (player?.StateMachine.State != 2)
+        // {
+        //     player?.StateMachine.State = player.StartDash();
+        // }
 
         if (oneUse)
         {
