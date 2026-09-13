@@ -202,6 +202,7 @@ public static class PsuedoDeath
                     speed.X = val.X;
                 }
             }
+
             MintChocolateHelperModule.Session.Redirectable = false;
         }
 

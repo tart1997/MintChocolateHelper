@@ -196,12 +196,25 @@ public class JesusRefill : Entity
         Level level = Utils.GetLevel();
         Session session = level?.Session;
         Player player = level.GetPlayer();
+        
+        bool backupDashNeeded = false;
+        bool crouched = false;
+        
+        if (Input.CrouchDash.bufferCounter > 0 || Input.Dash.bufferCounter > 0)
+        {
+            backupDashNeeded = true;
+        }
+        
+        if (player?.Ducking == true  || Input.CrouchDash.bufferCounter > 0)
+        {
+            crouched = true;
+        }
 
         level?.Wipe?.Cancel();
 
         if (TeleportToRefill)
         {
-            player?.Center = Center;
+            player?.Position = Center + new Vector2(0, (int)(player.Height / 2));
         }
 
         PlayerDeadBody playerDeadBody = SearchUtils.GetEntity<PlayerDeadBody>(true);
@@ -241,10 +254,18 @@ public class JesusRefill : Entity
         yield return null;
 
         player?.Sprite.Scale.X = 1;
-        // if (player?.StateMachine.State != 2)
-        // {
-        //     player?.StateMachine.State = player.StartDash();
-        // }
+        
+        if (backupDashNeeded)
+        {
+            player?.StateMachine.State = player.StartDash();
+        }
+        
+        if (crouched)
+        {
+            player?.Ducking = true;
+        }
+
+        level?.Wipe?.Cancel();
 
         if (oneUse)
         {
