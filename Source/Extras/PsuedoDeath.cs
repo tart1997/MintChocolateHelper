@@ -175,7 +175,7 @@ public static class PsuedoDeath
                 lastAim = player.CorrectDashPrecision(player.OverrideDashDirection.Value);
             }
 
-            return lastAim.X == 0 && MintChocolateHelperModule.Session.Redirectable ? val.Length() : value;
+            return lastAim.X == 0 && MintChocolateHelperModule.Session.Redirectable ? Math.Max(value, val.Length()) : value;
         }
 
         return value;
@@ -188,14 +188,21 @@ public static class PsuedoDeath
             Vector2 val = MintChocolateHelperModule.Session.StoredSpeed.Value;
             MintChocolateHelperModule.Session.StoredSpeed = null;
 
-            if (Math.Abs(val.X) > Math.Abs(speed.X) && MintChocolateHelperModule.Session.Redirectable)
+            if (MintChocolateHelperModule.Session.Redirectable)
             {
-                speed.X = Math.Abs(val.X) * Math.Sign(speed.X);
+                if (Math.Abs(val.X) > Math.Abs(speed.X))
+                {
+                    speed.X = Math.Abs(val.X) * Math.Sign(speed.X);
+                }
             }
-            else if (Math.Sign(val.X) == Math.Sign(speed.X) && Math.Abs(val.X) > Math.Abs(speed.X))
+            else
             {
-                speed.X = val.X;
+                if (Math.Sign(val.X) == Math.Sign(speed.X) && Math.Abs(val.X) > Math.Abs(speed.X))
+                {
+                    speed.X = val.X;
+                }
             }
+            MintChocolateHelperModule.Session.Redirectable = false;
         }
 
         return speed;

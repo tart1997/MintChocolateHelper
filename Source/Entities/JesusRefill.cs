@@ -197,16 +197,11 @@ public class JesusRefill : Entity
         Session session = level?.Session;
         Player player = level.GetPlayer();
 
-        while (Engine.FreezeTimer != 0)
-        {
-            yield return null;
-        }
-
         level?.Wipe?.Cancel();
 
         if (TeleportToRefill)
         {
-            player?.Position = Position;
+            player?.Center = Center;
         }
 
         PlayerDeadBody playerDeadBody = SearchUtils.GetEntity<PlayerDeadBody>(true);
@@ -239,14 +234,17 @@ public class JesusRefill : Entity
         MintChocolateHelperModule.Session.PsuedoDeadKeepFollowers = false;
         MintChocolateHelperModule.Session.StoreSpeed = false;
         MintChocolateHelperModule.Session.TeleportToRefill = false;
-        MintChocolateHelperModule.Session.Redirectable = false;
         player?.UseRefill(false);
 
-        //This kinda sucks... I would prefer to just kill whatever rouge tweener that forces me to do this, but I've tried everything I can think of to do so. ¯\_(ツ)_/¯
+        //This part of the code sucks... but I've tried literally everything else I can think of to fix the related bugs this area is fixing so ¯\_(ツ)_/¯
 
         yield return null;
 
         player?.Sprite.Scale.X = 1;
+        if (player?.StateMachine.State != 2)
+        {
+            player?.StateMachine.State = player.StartDash();
+        }
 
         if (oneUse)
         {
