@@ -1,33 +1,42 @@
-using Celeste.Mod.MintChocolateHelper.Entities;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace Celeste.Mod.MintChocolateHelper;
 
 public class MintChocolateHelperModuleSession : EverestModuleSession
 {
-    // Heart Breaker Refill
-    internal bool HasHeartBreakerDash {get; set;}
-    internal bool HeartBreakerDashActive {get; set;}
+    // Pseudo Death
+    internal bool PlayerIsPseudoDead {get; set;}
+    internal bool PseudoDeadDisableQuickRespawn => JesusRefillDisableQuickRespawn || CancelDeathTriggerDisableQuickRespawn;
+    internal bool PseudoDeadDontRegisterDeathInStats => JesusRefillDontRegisterDeathInStats || CancelDeathTriggerDontRegisterDeathInStats;
+    internal bool PseudoDeadKeepFollowers => JesusRefillKeepFollowers || CancelDeathTriggerKeepFollowers;
+    internal int DepthBeforePseudoDeath {get; set;}
+    internal bool WasCollidableBeforePseudoDeath {get; set;}
+    internal bool WasVisibleBeforePseudoDeath {get; set;}
+
+    // Cancel Death Trigger
+    internal static bool CancelDeathTriggerDisableQuickRespawn => SearchUtils.GetEntities<CancelDeathTrigger>()?.Any(t => t.DisableQuickRespawn) ?? false;
+    internal static bool CancelDeathTriggerDontRegisterDeathInStats => SearchUtils.GetEntities<CancelDeathTrigger>()?.Any(t => t.DontRegisterDeathInStats) ?? false;
+    internal static bool CancelDeathTriggerKeepFollowers => SearchUtils.GetEntities<CancelDeathTrigger>()?.Any(t => t.KeepFollowers) ?? false;
+    internal bool CancelDeathTriggerTeleportingPlayer {get; set;}
+
+    // Jesus Refill
+    [CanBeNull]
+    internal JesusRefill LastJesusRefill {get; set;}
+    internal bool JesusRefillBufferedTeleport {get; set;}
+    internal bool HasJesusRefill => LastJesusRefill is { };
+    internal bool JesusRefillDisableQuickRespawn => LastJesusRefill is { DisableQuickRespawn: true };
+    internal bool JesusRefillDontRegisterDeathInStats => LastJesusRefill is { DontRegisterDeathInStats: true };
+    internal bool JesusRefillKeepFollowers => LastJesusRefill is { KeepFollowers: true };
+    internal bool JesusRefillTeleportToRefill => LastJesusRefill is { TeleportToRefill: true };
+    internal bool JesusRefillStoreSpeed => LastJesusRefill is { StoreSpeed: true };
+    internal bool JesusRefillRedirectable => LastJesusRefill is { Redirectable: true };
+    internal Vector2? StoredSpeed {get; set;}
 
     // Speed Flip Refill
     internal bool HasSpeedFlipRefill {get; set;}
     internal bool DontRenderSpeedFlipRefillIcon {get; set;}
 
-    // Jesus Refill
-    internal JesusRefill LastJesusRefill {get; set;}
-    internal bool HasJesusRefill {get; set;}
-    internal bool TeleportToRefill {get; set;}
-    internal bool Redirectable {get; set;}
-    internal bool StoreSpeed {get; set;}
-    internal Vector2? StoredSpeed {get; set;}
-    internal bool JesusRefillDisableQuickRespawn {get; set;}
-
-    // Cancel Death Trigger
-    internal bool CancelDeathTriggerTeleportingPlayer {get; set;}
-
-    // Psuedo Death
-    internal bool PlayerIsPsuedoDead {get; set;}
-    internal bool PsuedoDeadKeepFollowers {get; set;}
-    internal int DepthBeforePsuedoDeath {get; set;}
-    internal bool WasCollidableBeforePsuedoDeath {get; set;}
-    internal bool WasVisibleBeforePsuedoDeath {get; set;}
+    // Heart Breaker Refill
+    internal bool HasHeartBreakerDash {get; set;}
+    internal bool HeartBreakerDashActive {get; set;}
 }

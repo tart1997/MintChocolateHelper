@@ -5,21 +5,23 @@
 public class CancelDeathTrigger : Trigger
 {
     private readonly int Delay;
-    private readonly bool UnregisterDeathInStats;
-    public readonly bool KeepFollowers;
+    internal readonly bool DisableQuickRespawn;
+    internal readonly bool DontRegisterDeathInStats;
+    internal readonly bool KeepFollowers;
 
-    public readonly string Flag;
-    public readonly object FlagExpression;
-    public readonly bool IsValidExpression;
+    internal readonly string Flag;
+    internal readonly object FlagExpression;
+    internal readonly bool IsValidExpression;
 
     public CancelDeathTrigger(EntityData data, Vector2 offset) : base(data, offset)
     {
         Delay = data.Int("delay");
-        UnregisterDeathInStats = data.Bool("unregisterDeathInStats");
+        DisableQuickRespawn = data.Bool("disableQuickRespawn");
+        DontRegisterDeathInStats = data.Bool("dontRegisterDeathInStats");
         KeepFollowers = data.Bool("keepFollowers");
 
         Flag = data.Attr("flag");
-        if (FrostHelperImports.IsImported && FrostHelperImports.TryCreateSessionExpression(Flag, out FlagExpression))
+        if (FrostHelperImports.SafeTryCreateSessionExpression(Flag, out FlagExpression))
         {
             IsValidExpression = true;
         }
@@ -28,55 +30,27 @@ public class CancelDeathTrigger : Trigger
     public override void OnEnter(Player player)
     {
         base.OnEnter(player);
-        if (MintChocolateHelperModule.Session.PlayerIsPsuedoDead)
+        if (MintChocolateHelperModule.Session.PlayerIsPseudoDead)
         {
-            Add(new Coroutine(Unkill(Delay)));
+            Add(new Coroutine(Unkill(player, Delay)));
         }
     }
 
-    private IEnumerator Unkill(int delay)
+    private IEnumerator Unkill(Player player, int delay)
     {
         yield return delay / 60f;
-        if (!MintChocolateHelperModule.Session.PlayerIsPsuedoDead) yield break;
+        if (!MintChocolateHelperModule.Session.PlayerIsPseudoDead) yield break;
 
-        Level level = Utils.GetLevel();
-        Session session = level?.Session;
-        Player player = level.GetPlayer();
-
-        level?.Wipe?.Cancel();
-
-        PlayerDeadBody playerDeadBody = SearchUtils.GetEntity<PlayerDeadBody>(true);
-        playerDeadBody?.hair.Entity = player;
-        playerDeadBody?.sprite.Entity = player;
-        playerDeadBody?.light.Entity = player;
-        playerDeadBody?.RemoveSelf();
-
-        if (UnregisterDeathInStats)
-        {
-            --session!.Deaths;
-            --session.DeathsInCurrentLevel;
-            --SaveData.Instance.TotalDeaths;
-            --SaveData.Instance.Areas_Safe[session.Area.ID].Modes[(int)session.Area.Mode].Deaths;
-            Stats.Increment(Stat.DEATHS, -1);
-            StatsForStadia.Increment(StadiaStat.DEATHS, -1);
-        }
-
-        player?.Dead = false;
-        player?.Depth = MintChocolateHelperModule.Session.DepthBeforePsuedoDeath;
-        player?.StateMachine.Locked = false;
-        player?.StateMachine.State = 0;
-        player?.Collidable = MintChocolateHelperModule.Session.WasCollidableBeforePsuedoDeath;
-        player?.Visible = MintChocolateHelperModule.Session.WasVisibleBeforePsuedoDeath;
-        if (Scene is not null) player?.Scene = Scene;
-        MintChocolateHelperModule.Session.PlayerIsPsuedoDead = false;
-
+        Level level = player.SceneAs<Level>();
+        level.Wipe?.Cancel();
+        PseudoDeath.BasicUnkill(player, SearchUtils.GetEntity<PlayerDeadBody>(true));
+        
         MintChocolateHelperModule.Session.CancelDeathTriggerTeleportingPlayer = true;
-        if (level?.Session.RespawnPoint is not null) player?.Position = level.Session.RespawnPoint.Value;
-
-        //This kinda sucks... I would prefer to just kill whatever rouge tweener that forces me to do this, but I've tried everything I can think of to do so. ¯\_(ツ)_/¯
-
+        if (level.Session.RespawnPoint is { }) player.Position = level.Session.RespawnPoint.Value;
         yield return null;
+
+        level.Wipe?.Cancel();
+        player.Sprite.Scale.X = 1;
         MintChocolateHelperModule.Session.CancelDeathTriggerTeleportingPlayer = false;
-        player?.Sprite.Scale.X = 1;
     }
 }

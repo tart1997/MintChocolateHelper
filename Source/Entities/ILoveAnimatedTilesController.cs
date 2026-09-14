@@ -86,7 +86,7 @@ public class ILoveAnimatedTilesController : Entity
     private static void EntityOnAwake(Entity self)
     {
         if (!ILoveAnimatedTilesControllerNeeded) return;
-        if (self.Get<AnimatedTiles>() is not null) return;
+        if (self.Get<AnimatedTiles>() is { }) return;
         if (self.Get<TileGrid>() is not { } tileGrid) return;
 
         DynamicData TileGridData = DynamicData.For(tileGrid);

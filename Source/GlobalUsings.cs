@@ -5,6 +5,7 @@ global using JetBrains.Annotations;
 global using Celeste;
 global using Celeste.Mod.Entities;
 global using Celeste.Mod.Helpers;
+global using Celeste.Mod.MintChocolateHelper.Entities;
 global using Celeste.Mod.MintChocolateHelper.Extras;
 global using Celeste.Mod.MintChocolateHelper.ModInterop;
 global using Celeste.Mod.MintChocolateHelper.Triggers;

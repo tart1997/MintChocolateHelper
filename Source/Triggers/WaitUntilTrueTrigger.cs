@@ -26,7 +26,7 @@ public class WaitUntilTrueTrigger : Trigger
         Delay = data.Float("delay");
         OneUse = data.Bool("oneUse");
 
-        if (FrostHelperImports.IsImported && FrostHelperImports.TryCreateSessionExpression(Flag, out FlagExpression))
+        if (FrostHelperImports.SafeTryCreateSessionExpression(Flag, out FlagExpression))
         {
             IsValidExpression = true;
         }
@@ -166,24 +166,12 @@ public class WaitUntilTrueTrigger : Trigger
     {
         Level level = SceneAs<Level>();
 
-        if (FrostHelperImports.IsImported && IsValidExpression)
+        while (IsValidExpression ? !FrostHelperImports.SafeGetBoolSessionExpressionValue(FlagExpression, level.Session) : !level.Session.GetFlag(Flag))
         {
-            while (!FrostHelperImports.GetBoolSessionExpressionValue(FlagExpression, level.Session))
-            {
-                yield return null;
-            }
-        }
-        else
-        {
-            while (!level.Session.GetFlag(Flag))
-            {
-                yield return null;
-            }
+            yield return null;
         }
 
         triggers = GetTriggers(Scene);
-
-        Player player = Scene.GetEntity<Player>();
-        TryActivate(player);
+        TryActivate(Scene.GetEntity<Player>());
     }
 }

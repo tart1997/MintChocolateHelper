@@ -190,8 +190,8 @@ public class FusionHeartHalf : Entity
         {
             spring.BounceAnimate();
 
-            bool isCeilingSpring = FrostHelperImports.IsImported && FrostHelperImports.IsCeilingSpring(spring);
-            Vector2 getSpringSpeedMultiplier = FrostHelperImports.IsImported ? FrostHelperImports.GetSpringSpeedMultiplier(spring) : Vector2.One;
+            bool isCeilingSpring = FrostHelperImports.SafeIsCeilingSpring(spring);
+            Vector2 getSpringSpeedMultiplier = FrostHelperImports.SafeGetSpringSpeedMultiplier(spring);
 
             if (isCeilingSpring)
             {

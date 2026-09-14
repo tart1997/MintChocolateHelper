@@ -51,7 +51,7 @@ public class DebrisTweaksController : Entity
         DynamicData debrisData = DynamicData.For(debris);
         bool? WindAffected = debrisData.Get<bool?>("WindAffected");
         bool? PlayerAffected = debrisData.Get<bool?>("PlayerAffected");
-        if (!PlayerAffected != true && !WindAffected != true) return;
+        if (PlayerAffected != true && WindAffected != true) return;
 
         if (WindAffected == true)
         {

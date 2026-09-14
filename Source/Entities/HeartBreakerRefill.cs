@@ -179,7 +179,7 @@ public class HeartBreakerRefill : Entity
     [OnLoad]
     internal static void Load()
     {
-        On.Celeste.Player.Die += HeartBreakerDash;
+        On.Celeste.Player.Die += HeartBreakerRefillDie;
         On.Celeste.Player.DashEnd += HeartBreakerDashEnd;
         On.Celeste.Player.DashBegin += HeartBreakerDashBegin;
     }
@@ -187,17 +187,22 @@ public class HeartBreakerRefill : Entity
     [OnUnload]
     internal static void Unload()
     {
-        On.Celeste.Player.Die -= HeartBreakerDash;
+        On.Celeste.Player.Die -= HeartBreakerRefillDie;
         On.Celeste.Player.DashEnd -= HeartBreakerDashEnd;
         On.Celeste.Player.DashBegin -= HeartBreakerDashBegin;
     }
 
-    private static PlayerDeadBody HeartBreakerDash(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction, bool evenIfInvincible = false, bool registerDeathInStats = true)
+    internal static void ResetRefill()
+    {
+        MintChocolateHelperModule.Session.HasHeartBreakerDash = false;
+        MintChocolateHelperModule.Session.HeartBreakerDashActive = false;
+    }
+
+    private static PlayerDeadBody HeartBreakerRefillDie(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction, bool evenIfInvincible = false, bool registerDeathInStats = true)
     {
         if (!MintChocolateHelperModule.Session.HasJesusRefill && SearchUtils.IfNone<CancelDeathTrigger>() && (!MintChocolateHelperModule.Session.HeartBreakerDashActive || evenIfInvincible))
         {
-            MintChocolateHelperModule.Session.HasHeartBreakerDash = false;
-            MintChocolateHelperModule.Session.HeartBreakerDashActive = false;
+            ResetRefill();
         }
 
         return orig(self, direction, evenIfInvincible, registerDeathInStats);

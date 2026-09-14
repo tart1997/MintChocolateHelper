@@ -12,7 +12,7 @@ public class DisableQuickRespawnController : Entity
     {
         DisableFlag = data.Attr("disableFlag");
 
-        if (FrostHelperImports.IsImported && FrostHelperImports.TryCreateSessionExpression(DisableFlag, out DisableFlagExpression))
+        if (FrostHelperImports.SafeTryCreateSessionExpression(DisableFlag, out DisableFlagExpression))
         {
             IsValidExpression = true;
         }
@@ -57,16 +57,11 @@ public class DisableQuickRespawnController : Entity
 
     private static bool DeadBodyCheck()
     {
-        if (MintChocolateHelperModule.Session.JesusRefillDisableQuickRespawn) return true;
+        if (MintChocolateHelperModule.Session.PseudoDeadDisableQuickRespawn) return true;
         if (SearchUtils.IfNone(out DisableQuickRespawnController DQRController)) return false;
         if (DQRController.DisableFlag == "") return false;
         Level level = DQRController.SceneAs<Level>();
 
-        if (FrostHelperImports.IsImported && DQRController.IsValidExpression)
-        {
-            return FrostHelperImports.GetBoolSessionExpressionValue(DQRController.DisableFlagExpression, level.Session);
-        }
-
-        return level.GetFlag(DQRController.DisableFlag);
+        return DQRController.IsValidExpression ? FrostHelperImports.SafeGetBoolSessionExpressionValue(DQRController.DisableFlagExpression, level.Session) : level.GetFlag(DQRController.DisableFlag);
     }
 }

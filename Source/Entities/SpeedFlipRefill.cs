@@ -243,13 +243,18 @@ public class SpeedFlipRefill : Entity
         On.Celeste.Player.Die -= SpeedFlipRefillDie;
         On.Celeste.Player.NormalUpdate -= SpeedFlipRefillJump;
     }
+    
+    internal static void ResetRefill()
+    {
+        MintChocolateHelperModule.Session.HasSpeedFlipRefill = false;
+        MintChocolateHelperModule.Session.DontRenderSpeedFlipRefillIcon = false;
+    }
 
     private static PlayerDeadBody SpeedFlipRefillDie(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction, bool evenIfInvincible = false, bool registerDeathInStats = true)
     {
         if (!MintChocolateHelperModule.Session.HasJesusRefill && SearchUtils.IfNone<CancelDeathTrigger>())
         {
-            MintChocolateHelperModule.Session.HasSpeedFlipRefill = false;
-            MintChocolateHelperModule.Session.DontRenderSpeedFlipRefillIcon = false;
+            ResetRefill();
         }
         return orig(self, direction, evenIfInvincible, registerDeathInStats);
     }
