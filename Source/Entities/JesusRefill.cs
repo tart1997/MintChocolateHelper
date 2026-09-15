@@ -7,12 +7,12 @@ public class JesusRefill : Entity
     private float respawnTimer;
     private readonly float respawnTime;
     private readonly bool oneUse;
-    private readonly bool DisableQuickRespawn;
-    private readonly bool UnregisterDeathInStats;
-    private readonly bool KeepFollowers;
-    private readonly bool TeleportToRefill;
-    private readonly bool StoreSpeed;
-    private readonly bool Redirectable;
+    internal readonly bool DisableQuickRespawn;
+    internal readonly bool DontRegisterDeathInStats;
+    internal readonly bool KeepFollowers;
+    internal readonly bool TeleportToRefill;
+    internal readonly bool StoreSpeed;
+    internal readonly bool Redirectable;
 
     private readonly ParticleType P_Shatter;
     private readonly ParticleType P_Regen;
@@ -31,7 +31,7 @@ public class JesusRefill : Entity
         respawnTime = data.Float("respawnTime", 2.5f);
         oneUse = data.Bool("oneUse");
         DisableQuickRespawn = data.Bool("disableQuickRespawn");
-        UnregisterDeathInStats = data.Bool("unregisterDeathInStats");
+        DontRegisterDeathInStats = data.Bool("dontRegisterDeathInStats");
         KeepFollowers = data.Bool("keepFollowers");
         TeleportToRefill = data.Bool("teleportToRefill");
         StoreSpeed = data.Bool("storeSpeed");
@@ -123,12 +123,6 @@ public class JesusRefill : Entity
             Collidable = false;
             Add(new Coroutine(RefillRoutine(player)));
             MintChocolateHelperModule.Session.LastJesusRefill = this;
-            MintChocolateHelperModule.Session.HasJesusRefill = true;
-            MintChocolateHelperModule.Session.JesusRefillDisableQuickRespawn = DisableQuickRespawn;
-            MintChocolateHelperModule.Session.PsuedoDeadKeepFollowers = KeepFollowers;
-            MintChocolateHelperModule.Session.StoreSpeed = StoreSpeed;
-            MintChocolateHelperModule.Session.TeleportToRefill = TeleportToRefill;
-            MintChocolateHelperModule.Session.Redirectable = Redirectable;
             respawnTimer = respawnTime;
         }
     }
@@ -171,32 +165,83 @@ public class JesusRefill : Entity
     [OnLoad]
     internal static void Load()
     {
+        On.Celeste.Player.Die += JesusRefillRefillDie;
         On.Celeste.Player.Update += Resurrection;
     }
 
     [OnUnload]
     internal static void Unload()
     {
+        On.Celeste.Player.Die -= JesusRefillRefillDie;
         On.Celeste.Player.Update -= Resurrection;
+    }
+    
+    internal static void ResetRefill()
+    {
+        MintChocolateHelperModule.Session.PlayerIsPseudoDead = false;
+        MintChocolateHelperModule.Session.LastJesusRefill = null;
+        MintChocolateHelperModule.Session.StoredSpeed = null;
+    }
+
+    private static PlayerDeadBody JesusRefillRefillDie(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction, bool evenIfInvincible = false, bool registerDeathInStats = true)
+    {
+        if (!MintChocolateHelperModule.Session.HasJesusRefill && SearchUtils.IfNone<CancelDeathTrigger>())
+        {
+            ResetRefill();
+        }
+
+        return orig(self, direction, evenIfInvincible, registerDeathInStats);
     }
 
     private static void Resurrection(On.Celeste.Player.orig_Update orig, Player self)
     {
         orig(self);
+        
         JesusRefill jesusRefill = MintChocolateHelperModule.Session.LastJesusRefill;
+        // if (jesusRefill != null && MintChocolateHelperModule.Session.JesusRefillBufferedTeleport)
+        // {
+        //     Level level = self.SceneAs<Level>();
+        //     
+        //     if (!MintChocolateHelperModule.Session.PseudoDeadDontRegisterDeathInStats)
+        //     {
+        //         level.Session.Deaths++;
+        //         level.Session.DeathsInCurrentLevel++;
+        //         SaveData.Instance.AddDeath(level.Session.Area);
+        //     }
+        //
+        //     if (!MintChocolateHelperModule.Session.PseudoDeadKeepFollowers)
+        //     {
+        //         self.Leader.LoseFollowers();
+        //     }
+        //     
+        //     self.Drop();
+        //     self.LastBooster?.PlayerDied();
+        //     level.InCutscene = false;
+        //     level.Shake();
+        //     Input.Rumble(RumbleStrength.Light, RumbleLength.Medium);
+        //     Audio.Play("event:/char/madeline/predeath", self.Position);
+        //
+        //     level.Wipe?.Cancel();
+        //     self.Position = jesusRefill.Center + new Vector2(0, (int)(self.Height / 2));
+        //     MintChocolateHelperModule.Session.LastJesusRefill = null;
+        //     self.UseRefill(false);
+        //     MintChocolateHelperModule.Session.JesusRefillBufferedTeleport = false;
+        //     if (jesusRefill.oneUse) jesusRefill.RemoveSelf();
+        //
+        //     return;
+        // }
 
-        if (jesusRefill != null && (Input.DashPressed || Input.CrouchDashPressed) && MintChocolateHelperModule.Session.PlayerIsPsuedoDead && MintChocolateHelperModule.Session.HasJesusRefill)
+        if (jesusRefill != null && (Input.DashPressed || Input.CrouchDashPressed) && MintChocolateHelperModule.Session.PlayerIsPseudoDead && MintChocolateHelperModule.Session.HasJesusRefill)
         {
-            self.Add(new Coroutine(jesusRefill.Unkill()));
+            self.Add(new Coroutine(jesusRefill.Unkill(self)));
         }
     }
 
-    private IEnumerator Unkill()
+    private IEnumerator Unkill(Player player)
     {
-        Level level = Utils.GetLevel();
-        Session session = level?.Session;
-        Player player = level.GetPlayer();
-        
+        Level level = player.SceneAs<Level>();
+        level.Wipe?.Cancel();
+
         bool backupDashNeeded = false;
         bool crouched = false;
         
@@ -205,71 +250,25 @@ public class JesusRefill : Entity
             backupDashNeeded = true;
         }
         
-        if (player?.Ducking == true  || Input.CrouchDash.bufferCounter > 0)
+        if (player.Ducking || Input.CrouchDash.bufferCounter > 0)
         {
             crouched = true;
         }
-
-        level?.Wipe?.Cancel();
-
-        if (TeleportToRefill)
-        {
-            player?.Position = Center + new Vector2(0, (int)(player.Height / 2));
-        }
-
-        PlayerDeadBody playerDeadBody = SearchUtils.GetEntity<PlayerDeadBody>(true);
-        playerDeadBody?.hair.Entity = player;
-        playerDeadBody?.sprite.Entity = player;
-        playerDeadBody?.light.Entity = player;
-        playerDeadBody?.RemoveSelf();
-
-        if (UnregisterDeathInStats)
-        {
-            --session!.Deaths;
-            --session.DeathsInCurrentLevel;
-            --SaveData.Instance.TotalDeaths;
-            --SaveData.Instance.Areas_Safe[session.Area.ID].Modes[(int)session.Area.Mode].Deaths;
-            Stats.Increment(Stat.DEATHS, -1);
-            StatsForStadia.Increment(StadiaStat.DEATHS, -1);
-        }
-
-        player?.Dead = false;
-        player?.Depth = MintChocolateHelperModule.Session.DepthBeforePsuedoDeath;
-        player?.StateMachine.Locked = false;
-        player?.StateMachine.State = 0;
-        player?.Collidable = MintChocolateHelperModule.Session.WasCollidableBeforePsuedoDeath;
-        player?.Visible = MintChocolateHelperModule.Session.WasVisibleBeforePsuedoDeath;
-        if (Scene is not null) player?.Scene = Scene;
-        MintChocolateHelperModule.Session.PlayerIsPsuedoDead = false;
+        
+        if (TeleportToRefill) player.Position = Center + new Vector2(0, (int)(player.Height / 2));
+        PseudoDeath.BasicUnkill(player, SearchUtils.GetEntity<PlayerDeadBody>(true));
         MintChocolateHelperModule.Session.LastJesusRefill = null;
-        MintChocolateHelperModule.Session.HasJesusRefill = false;
-        MintChocolateHelperModule.Session.JesusRefillDisableQuickRespawn = false;
-        MintChocolateHelperModule.Session.PsuedoDeadKeepFollowers = false;
-        MintChocolateHelperModule.Session.StoreSpeed = false;
-        MintChocolateHelperModule.Session.TeleportToRefill = false;
-        player?.UseRefill(false);
+        player.UseRefill(false);
 
         //This part of the code sucks... but I've tried literally everything else I can think of to fix the related bugs this area is fixing so ¯\_(ツ)_/¯
 
         yield return null;
-
-        player?.Sprite.Scale.X = 1;
         
-        if (backupDashNeeded)
-        {
-            player?.StateMachine.State = player.StartDash();
-        }
-        
-        if (crouched)
-        {
-            player?.Ducking = true;
-        }
+        player.Sprite.Scale.X = 1;
+        if (backupDashNeeded) player.StateMachine.State = player.StartDash();
+        if (crouched) player.Ducking = true;
 
-        level?.Wipe?.Cancel();
-
-        if (oneUse)
-        {
-            RemoveSelf();
-        }
+        level.Wipe?.Cancel();
+        if (oneUse) RemoveSelf();
     }
 }

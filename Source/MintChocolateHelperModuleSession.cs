@@ -22,7 +22,7 @@ public class MintChocolateHelperModuleSession : EverestModuleSession
     // Jesus Refill
     [CanBeNull]
     internal JesusRefill LastJesusRefill {get; set;}
-    internal bool JesusRefillBufferedTeleport {get; set;}
+    //internal bool JesusRefillBufferedTeleport {get; set;}
     internal bool HasJesusRefill => LastJesusRefill is { };
     internal bool JesusRefillDisableQuickRespawn => LastJesusRefill is { DisableQuickRespawn: true };
     internal bool JesusRefillDontRegisterDeathInStats => LastJesusRefill is { DontRegisterDeathInStats: true };
