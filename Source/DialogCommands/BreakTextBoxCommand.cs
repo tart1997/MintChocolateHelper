@@ -56,7 +56,7 @@ public static class BreakTextBoxCommand
             return;
         }
 
-        Utils.Log(LogLevel.Info, "MintChocolateHelper is hooking into FancyText.Parse, please let me know if something explodes!");
+        Utils.LogInfo("MintChocolateHelper is hooking into FancyText.Parse, please let me know if something explodes!");
         cursor.Emit(OpCodes.Ldarg_0);
         cursor.EmitDelegate(ResetDisableLineLimit);
 
@@ -88,15 +88,17 @@ public static class BreakTextBoxCommand
     {
         DynamicData parserData = DynamicData.For(text);
         FancyText.Text? group = parserData.Get<FancyText.Text?>("group");
-        List<FancyText.Node> nodes = group?.Nodes;
+        if (group is null) return;
+
+        List<FancyText.Node> nodes = group.Nodes;
         switch (s)
         {
             case "vvv":
-                nodes?.Add(new McTrigger(false));
+                nodes.Add(new McTrigger(false));
                 parserData.SetTrue("MintChocolateHelper:DisableLineLimit");
                 break;
             case "VVV":
-                nodes?.Add(new McTrigger(true));
+                nodes.Add(new McTrigger(true));
                 parserData.SetTrue("MintChocolateHelper:DisableLineLimit");
                 break;
         }
@@ -206,10 +208,7 @@ public static class BreakTextBoxCommand
             if (text.Nodes[i] is McTrigger trigger)
             {
                 HasBreakTextBoxCommand = true;
-                if (trigger.DisableTextShrink)
-                {
-                    hasdisableTextShrink = true;
-                }
+                if (trigger.DisableTextShrink) hasdisableTextShrink = true;
             }
             else if (text.Nodes[i] is FancyText.NewPage)
             {
@@ -239,6 +238,7 @@ public static class BreakTextBoxCommand
         Textbox textbox = SearchUtils.GetEntity<Textbox>(true);
         FancyText.Text text = textbox?.text;
         if (text is null) return;
+
         DynamicData selfData = DynamicData.For(text);
 
         if (selfData.TryGetTrue("MintChocolateHelper:DisableTextShrink"))

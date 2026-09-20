@@ -20,10 +20,7 @@ public class PlayerDistanceFadeRegistryHandler : DecalRegistryHandler
     private float DeathFadeSpeedMultiplier;
 
     [OnLoad]
-    internal static void Load()
-    {
-        DecalRegistry.AddPropertyHandler<PlayerDistanceFadeRegistryHandler>();
-    }
+    internal static void Load() => DecalRegistry.AddPropertyHandler<PlayerDistanceFadeRegistryHandler>();
 
     public override void Parse(XmlAttributeCollection xml)
     {
@@ -34,8 +31,5 @@ public class PlayerDistanceFadeRegistryHandler : DecalRegistryHandler
         DeathFadeSpeedMultiplier = Get(xml, "deathFadeSpeedMultiplier", 1f);
     }
 
-    public override void ApplyTo(Decal decal)
-    {
-        decal.Add(new PlayerDistanceFade(InnerRadius, OuterRadius, FadeOut, deathBehavior, DeathFadeSpeedMultiplier));
-    }
+    public override void ApplyTo(Decal decal) => decal.Add(new PlayerDistanceFade(InnerRadius, OuterRadius, FadeOut, deathBehavior, DeathFadeSpeedMultiplier));
 }

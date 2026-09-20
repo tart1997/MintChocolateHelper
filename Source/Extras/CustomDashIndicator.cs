@@ -38,7 +38,7 @@ public class CustomDashIndicator : Entity
 
         Indicators.Add(new Indicator {
             Texture = GFX.Game["Indicators/MintChocolateHelper/doubleArrows"],
-            Condition = () => MintChocolateHelperModule.Session.HasSpeedFlipRefill && !MintChocolateHelperModule.Session.DontRenderSpeedFlipRefillIcon
+            Condition = () => MintChocolateHelperModule.Session.HasSpeedFlipRefill && !MintChocolateHelperModule.Session.SpeedFlipRefillDisableCollectEffects && !(MintChocolateHelperModule.Session.SpeedFlipControllerCharges > 0)
         });
 
         Indicators.Add(new Indicator {
@@ -55,10 +55,7 @@ public class CustomDashIndicator : Entity
         if (!SceneAs<Level>().InCutscene)
         {
             Player entity = Scene.GetPlayer();
-            if (entity is { Dead: false } && MintChocolateHelperModule.Settings.ShowCustomDashIndicators)
-            {
-                isVisible = true;
-            }
+            if (entity is { Dead: false } && MintChocolateHelperModule.Settings.ShowCustomDashIndicators) isVisible = true;
         }
 
         if (isVisible != Enabled)
@@ -115,7 +112,6 @@ public class CustomDashIndicator : Entity
     private static void LevelLoaderOnLoadingThread(On.Celeste.LevelLoader.orig_LoadingThread orig, LevelLoader self)
     {
         self.Level.Add(new CustomDashIndicator());
-
         orig(self);
     }
 }

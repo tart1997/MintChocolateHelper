@@ -7,8 +7,6 @@ public class HeartBreakerRefill : Entity
     private readonly ParticleType P_Regen;
     private readonly ParticleType P_Glow;
 
-    private static Coroutine HeartBreakerEndDelayCoroutine;
-
     private readonly Sprite sprite;
     private readonly Sprite flash;
     private readonly Image outline;
@@ -143,7 +141,7 @@ public class HeartBreakerRefill : Entity
             Collidable = false;
             Add(new Coroutine(RefillRoutine(player)));
             player.UseRefill(false);
-            MintChocolateHelperModule.Session.HasHeartBreakerDash = true;
+            MintChocolateHelperModule.Session.LastHeartBreakerRefill = this;
             respawnTimer = respawnTime;
         }
     }
@@ -181,7 +179,6 @@ public class HeartBreakerRefill : Entity
     {
         On.Celeste.Player.Die += HeartBreakerRefillDie;
         On.Celeste.Player.DashEnd += HeartBreakerDashEnd;
-        On.Celeste.Player.DashBegin += HeartBreakerDashBegin;
     }
 
     [OnUnload]
@@ -189,51 +186,19 @@ public class HeartBreakerRefill : Entity
     {
         On.Celeste.Player.Die -= HeartBreakerRefillDie;
         On.Celeste.Player.DashEnd -= HeartBreakerDashEnd;
-        On.Celeste.Player.DashBegin -= HeartBreakerDashBegin;
     }
 
-    internal static void ResetRefill()
-    {
-        MintChocolateHelperModule.Session.HasHeartBreakerDash = false;
-        MintChocolateHelperModule.Session.HeartBreakerDashActive = false;
-    }
+    internal static void ResetRefill() => MintChocolateHelperModule.Session.LastHeartBreakerRefill = null;
 
-    private static PlayerDeadBody HeartBreakerRefillDie(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction, bool evenIfInvincible = false, bool registerDeathInStats = true)
+    private static PlayerDeadBody HeartBreakerRefillDie(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction, bool evenIfInvincible, bool registerDeathInStats)
     {
-        if (!MintChocolateHelperModule.Session.HasJesusRefill && SearchUtils.IfNone<CancelDeathTrigger>() && (!MintChocolateHelperModule.Session.HeartBreakerDashActive || evenIfInvincible))
-        {
-            ResetRefill();
-        }
-
+        if (!MintChocolateHelperModule.Session.PlayerIsPseudoDead) ResetRefill();
         return orig(self, direction, evenIfInvincible, registerDeathInStats);
-    }
-
-    private static void HeartBreakerDashBegin(On.Celeste.Player.orig_DashBegin orig, Player self)
-    {
-        if (MintChocolateHelperModule.Session.HasHeartBreakerDash)
-        {
-            MintChocolateHelperModule.Session.HeartBreakerDashActive = true;
-            HeartBreakerEndDelayCoroutine?.Cancel();
-            HeartBreakerEndDelayCoroutine?.RemoveSelf();
-        }
-
-        MintChocolateHelperModule.Session.HasHeartBreakerDash = false;
-        orig(self);
     }
 
     private static void HeartBreakerDashEnd(On.Celeste.Player.orig_DashEnd orig, Player self)
     {
         orig(self);
-        if (self.StateMachine.State == 2 || !MintChocolateHelperModule.Session.HeartBreakerDashActive) return;
-
-        HeartBreakerEndDelayCoroutine = new Coroutine(HeartBreakerEndDelay());
-        self.Add(HeartBreakerEndDelayCoroutine);
-    }
-
-    private static IEnumerator HeartBreakerEndDelay()
-    {
-        yield return Player.DashAttackTime;
-
-        MintChocolateHelperModule.Session.HeartBreakerDashActive = false;
+        MintChocolateHelperModule.Session.LastHeartBreakerRefill = null;
     }
 }

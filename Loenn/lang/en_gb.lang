@@ -1,6 +1,9 @@
 mods.MintChocolateHelper.name=Mint Chocolate Helper
 
-# Entities
+#### Entities ####
+
+
+# Flags On Awake Controller
 
 entities.MintChocolateHelper/FlagsOnAwake.placements.name.flags_on_awake=Flags On Awake Controller
 entities.MintChocolateHelper/FlagsOnAwake.placements.description.flags_on_awake=Sets a list of flags to a specified value before anything else has a chance to read them
@@ -16,6 +19,8 @@ entities.MintChocolateHelper/FlagsOnAwakeController.attributes.description.value
 
 
 
+# Stylegrounds While Paused Controller
+
 entities.MintChocolateHelper/StylegroundsWhilePaused.placements.name.stylegrounds_while_paused=Stylegrounds While Paused Controller
 entities.MintChocolateHelper/StylegroundsWhilePaused.placements.description.stylegrounds_while_paused=Forces any Stylegrounds with the specified Tag to ALWAYS update, even while the game is paused\nNot guaranteed to work with more exotic Stylegrounds
 
@@ -28,6 +33,8 @@ entities.MintChocolateHelper/StylegroundsWhilePausedController.attributes.descri
 
 
 
+# Fusion Heart
+
 entities.MintChocolateHelper/FusionHeart.placements.name.fusion_heart=Fusion Heart
 entities.MintChocolateHelper/FusionHeart.placements.description.fusion_heart=A Bully heart that can be shattered into two Fusion Heart Halves when dashed into with a Heart Breaker Refill charge
 
@@ -36,6 +43,8 @@ entities.MintChocolateHelper/FusionHeart.attributes.description.bloom=The Bloom 
 entities.MintChocolateHelper/FusionHeart.attributes.description.light=Whether or not the Fusion Heart should emit light
 
 
+
+# Fusion Heart Half
 
 entities.MintChocolateHelper/FusionHeartHalf.placements.name.fusion_heart_half=Fusion Heart Half
 entities.MintChocolateHelper/FusionHeartHalf.placements.description.fusion_heart_half=Halves of crystal hearts that can be pushed around by dashing into them\nCan be fused into a Full Fusion Heart when dashed into while another Heart Half of the opposing direction is close enough
@@ -51,10 +60,14 @@ entities.MintChocolateHelper/FusionHeartHalf.attributes.description.rightHalf=Wh
 
 
 
+# Fusion Heart Target
+
 entities.MintChocolateHelper/FusionTarget.placements.name.fusion_target=Fusion Heart Target
 entities.MintChocolateHelper/FusionTarget.placements.description.fusion_target=Forces any Fusion Heart event that happens on top of the Target to consistantly center the Fusion Heart on the Fusion Heart Target
 
 
+
+# Heart Breaker Refill
 
 entities.MintChocolateHelper/HeartBreakerRefill.placements.name.heart_breaker_refill=Heart Breaker Refill
 entities.MintChocolateHelper/HeartBreakerRefill.placements.description.heart_breaker_refill=Allows the player to shatter Fusion Hearts into 2 Fusion Heart Halves\nImparts some of the players speed into Heart Halves
@@ -64,7 +77,11 @@ entities.MintChocolateHelper/HeartBreakerRefill.attributes.description.oneUse=Wh
 
 
 
+# Speed Flip Refill
+
 entities.MintChocolateHelper/SpeedFlipRefill.placements.name.speed_flip_refill=Speed Flip Refill
+entities.MintChocolateHelper/SpeedFlipRefill.placements.name.sonafleki_refill=Sonafleki Refill
+entities.MintChocolateHelper/SpeedFlipRefill.placements.name.ozone_refill=Ozone Refill
 entities.MintChocolateHelper/SpeedFlipRefill.placements.description.speed_flip_refill=Flips the players Y Velocity On their next airborn jump
 
 entities.MintChocolateHelper/SpeedFlipRefill.attributes.description.respawnTime=How long it takes for the Refill to respawn after collection
@@ -75,12 +92,16 @@ entities.MintChocolateHelper/SpeedFlipRefill.attributes.description.disableColle
 
 
 
+# Snappy Styleground Controller
+
 entities.MintChocolateHelper/SnappyStylegroundController.placements.name.snappy_stylegrounds_controller=The Worst Controller Ever Made
 entities.MintChocolateHelper/SnappyStylegroundController.placements.description.snappy_stylegrounds_controller=How are you even reading this
 
-entities.MintChocolateHelper/SnappyStylegroundController.attributes.description.SnapTag=The Lonn plugin for this is private, so either your reading the en_gb.lang for some reason, or you somehow have a private build of Mint Chocolate Helper
+entities.MintChocolateHelper/SnappyStylegroundController.attributes.description.SnapTag=The Lonn plugin for this is set to private, so either your reading the en_gb.lang for some reason, or you somehow have a private build of Mint Chocolate Helper
 
 
+
+# Disable Quick Respawn Controller
 
 entities.MintChocolateHelper/DisableQuickRespawn.placements.name.disable_quick_respawn=Disable Quick Respawn Controller
 entities.MintChocolateHelper/DisableQuickRespawn.placements.description.disable_quick_respawn=If the provided flag is true, Disables the quick respawn mechanic
@@ -94,6 +115,8 @@ entities.MintChocolateHelper/DisableQuickRespawnController.attributes.descriptio
 
 
 
+# Debris Tweaks Controller
+
 entities.MintChocolateHelper/DebrisTweaksController.placements.name.debris_tweaks_controller=Debris Tweaks Controller
 entities.MintChocolateHelper/DebrisTweaksController.placements.description.debris_tweaks_controller=Provides Multiple Options to change how Tileset Debris Function
 
@@ -103,13 +126,19 @@ entities.MintChocolateHelper/DebrisTweaksController.attributes.description.playe
 
 
 
+# Jesus Refill
+
 entities.MintChocolateHelper/JesusRefill.placements.name.jesus_refill=Jesus Refill
+entities.MintChocolateHelper/JesusRefill.placements.name.unkill_refill=Unkill Refill
+entities.MintChocolateHelper/JesusRefill.placements.name.revive_refill=Revive Refill
 entities.MintChocolateHelper/JesusRefill.placements.description.jesus_refill=Once collected, allows the player to revive themselves after death by dashing out of their dead body
 
 entities.MintChocolateHelper/JesusRefill.attributes.description.respawnTime=How long it takes for the Refill to respawn after collection
 entities.MintChocolateHelper/JesusRefill.attributes.description.oneUse=If Enabled, the Refill won't respawn
-entities.MintChocolateHelper/JesusRefill.attributes.description.disableQuickRespawn=If Enabled, the player won't be allowed to speed up the death animation by pressing confirm
-entities.MintChocolateHelper/JesusRefill.attributes.description.dontRegisterDeathInStats=If Enabled, tells the game to not count the death it just counted when resurrected
+entities.MintChocolateHelper/JesusRefill.attributes.description.disableQuickRespawn=If Enabled, the player won't be allowed to speed up the death animation by pressing confirm.
+entities.MintChocolateHelper/JesusRefill.attributes.description.skipEverestEventDie=[NOT RECOMMENDED]\nIf Enabled, skips the call to "Everest.Events.Player.OnDie", and thus anything from *any* mod subscribed to it.
+entities.MintChocolateHelper/JesusRefill.attributes.description.affectRetries=If Enabled, Allows Ressurection even if the player manually retries.
+entities.MintChocolateHelper/JesusRefill.attributes.description.dontRegisterDeathInStats=If Enabled, tells the game to not count the death it just counted when resurrected.
 entities.MintChocolateHelper/JesusRefill.attributes.description.keepFollowers=If Enabled, Follwers will not be dropped when the player dies with a jesus refill charge.
 entities.MintChocolateHelper/JesusRefill.attributes.description.teleportToRefill=If Enabled, Upon Ressurection you will be teleported to the refill you collected instead of on your deadbody.
 entities.MintChocolateHelper/JesusRefill.attributes.description.storeSpeed=If Enabled, the speed you died at will be stored, and upon Ressurection will be granted back to you in the direction you dashed.
@@ -117,13 +146,33 @@ entities.MintChocolateHelper/JesusRefill.attributes.description.redirectable=If 
 
 
 
+# Universal Animated Tiles Controller
+
 entities.MintChocolateHelper/ILoveAnimatedTilesController.placements.name.i_love_animated_tiles_controller=I Love Animated Tiles Controller
 entities.MintChocolateHelper/ILoveAnimatedTilesController.placements.description.i_love_animated_tiles_controller=Gives most if not all Blocks/Walls the Animated Tiles they should have always had\nPlease Please Inform me if any Modded Block/Wall doesn't work or acts weird with this
 
+entities.MintChocolateHelper/UniversalAnimatedTilesController.placements.name.universal_animated_tiles_controller=Universal Animated Tiles Controller
+entities.MintChocolateHelper/UniversalAnimatedTilesController.placements.name.i_love_animated_tiles_controller=I Love Animated Tiles Controller
+entities.MintChocolateHelper/UniversalAnimatedTilesController.placements.description.universal_animated_tiles_controller=Gives most if not all Blocks/Walls the Animated Tiles they should have always had\nPlease Please Inform me if any Modded Block/Wall doesn't work or acts weird with this
 
 
 
-# Triggers
+# Speed Flip Controller
+
+entities.MintChocolateHelper/SpeedFlipController.placements.name.speed_flip_controller=Speed Flip Controller
+entities.MintChocolateHelper/SpeedFlipController.placements.name.sonafleki_controller=Sonafleki Controller
+entities.MintChocolateHelper/SpeedFlipController.placements.name.ozone_controller=Ozone Controller
+entities.MintChocolateHelper/SpeedFlipController.placements.description.speed_flip_controller=Removes the players Dash and replaces it with the ability to flip their Y Velocity on jump instead.
+
+entities.MintChocolateHelper/SpeedFlipController.attributes.description.extraMultiplier=An extra multiper applied to the players Y Velocity after flipping it.\nTakes precident over individual refills.
+
+
+
+
+#### Triggers ####
+
+
+# Pulse Flag Trigger
 
 triggers.MintChocolateHelper/PulseFlagTrigger.placements.name.pulse_flag_trigger=Pulse Flag Trigger
 triggers.MintChocolateHelper/PulseFlagTrigger.placements.description.pulse_flag_trigger=Sets a flag ON/OFF for a specified amount of frames and then sets it back OFF/ON
@@ -134,12 +183,17 @@ triggers.MintChocolateHelper/PulseFlagTrigger.attributes.description.invert=If u
 
 
 
+# Micheal Trigger
+
 triggers.MintChocolateHelper/MichealTrigger.placements.name.micheal_trigger=Micheal Trigger
 triggers.MintChocolateHelper/MichealTrigger.placements.description.micheal_trigger=Micheal
 
 
 
+# DM tart Trigger
+
 triggers.MintChocolateHelper/DMtartTrigger.placements.name.dm_tart_trigger=DM tart Trigger
+triggers.MintChocolateHelper/DMtartTrigger.placements.name.message_tart_trigger=Message tart Trigger
 triggers.MintChocolateHelper/DMtartTrigger.placements.description.dm_tart_trigger=Sends a specified Message to tart as a DM
 
 triggers.MintChocolateHelper/DMtartTrigger.attributes.description.identifier=Should either be the username of the person sending the message, or the name of the map the message is coming from\nREQUIRED!!! message will not be sent if empty
@@ -147,6 +201,8 @@ triggers.MintChocolateHelper/DMtartTrigger.attributes.description.message=The Me
 triggers.MintChocolateHelper/DMtartTrigger.attributes.description.dialog=Whether or not to check the English.txt, or to just send the message as a raw string
 
 
+
+# Message Webhook Trigger
 
 triggers.MintChocolateHelper/MessageWebhookTrigger.placements.name.message_webhook_trigger=Message Webhook Trigger
 triggers.MintChocolateHelper/MessageWebhookTrigger.placements.description.message_webhook_trigger=Sends a specified Message to a specified Webhook
@@ -159,6 +215,8 @@ triggers.MintChocolateHelper/MessageWebhookTrigger.attributes.description.encryp
 
 
 
+# Wait Until True Trigger
+
 triggers.MintChocolateHelper/WaitUntilTrueTrigger.placements.name.wait_until_true_trigger=Wait Until True Trigger
 triggers.MintChocolateHelper/WaitUntilTrueTrigger.placements.description.wait_until_true_trigger=On enter, Waits until the specified flag is true, and then activates anything it's pointed at.
 
@@ -168,16 +226,24 @@ triggers.MintChocolateHelper/WaitUntilTrueTrigger.attributes.description.oneUse=
 
 
 
-triggers.MintChocolateHelper/CancelDeathTrigger.placements.name.cancel_death_trigger= Cancel Death Trigger
+# Cancel Death Trigger
+
+triggers.MintChocolateHelper/CancelDeathTrigger.placements.name.cancel_death_trigger=Cancel Death Trigger
+triggers.MintChocolateHelper/CancelDeathTrigger.placements.name.unkill_player_trigger=Unkill Player Trigger
+triggers.MintChocolateHelper/CancelDeathTrigger.placements.name.revive_player_trigger=Revive Player Trigger
 triggers.MintChocolateHelper/CancelDeathTrigger.placements.description.cancel_death_trigger= When Activated, stops the death animation in its tracks and puts the player back at their last respawn point\nThe primary purpose of this is to allow for teleportation of the player that's safe even if the player is in the middle of dying\n(you might need to add like a 0.05 delay between unkilling the player and teleporting them)\n\nThis is achieved by semi-questionable means and might possibly cause issues by this trigger simply being in the same room as the player\nPlease inform me of any problems encountered when using this\n\nOnly works if activated before the level reloads during the deathwipe
 
 triggers.MintChocolateHelper/CancelDeathTrigger.attributes.description.delay=Once this trigger has been Activated, it will wait this many FRAMES before actually Unkilling the player
 triggers.MintChocolateHelper/CancelDeathTrigger.attributes.description.flag=If Provided, This Trigger will only run if the specified flag is true\n\nSupports Frost Helper Session expressions!
 triggers.MintChocolateHelper/CancelDeathTrigger.attributes.description.disableQuickRespawn=If Enabled, the player won't be allowed to speed up the death animation by pressing confirm while this trigger is in the room.
+triggers.MintChocolateHelper/CancelDeathTrigger.attributes.description.skipEverestEventDie=[NOT RECOMMENDED]\nIf Enabled, skips the call to "Everest.Events.Player.OnDie", and thus anything from *any* mod subscribed to it while this trigger is in the room.
+triggers.MintChocolateHelper/CancelDeathTrigger.attributes.description.affectRetries=If Enabled, Allows this trigger to function even if the player manually retries.
 triggers.MintChocolateHelper/CancelDeathTrigger.attributes.description.dontRegisterDeathInStats=If Enabled, tells the game to not count the death it just counted when resurrected.
 triggers.MintChocolateHelper/CancelDeathTrigger.attributes.description.keepFollowers=If Enabled, Follwers will not be dropped when the player dies while this trigger is in the room.
 
 
+
+# Stop Interacting Trigger
 
 triggers.MintChocolateHelper/StopInteractingTrigger.placements.name.stop_interacting_trigger=Stop Interacting Trigger
 triggers.MintChocolateHelper/StopInteractingTrigger.placements.description.stop_interacting_trigger=Kicks the player out of interacting with Watchtowers/Lookouts when triggered

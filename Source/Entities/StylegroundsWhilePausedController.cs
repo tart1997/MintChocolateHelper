@@ -41,16 +41,10 @@ public class StylegroundsWhilePausedController : Entity
     }
 
     [OnLoad]
-    internal static void Load()
-    {
-        IL.Celeste.Level.Update += LevelOnUpdate;
-    }
+    internal static void Load() => IL.Celeste.Level.Update += LevelOnUpdate;
 
     [OnUnload]
-    internal static void Unload()
-    {
-        IL.Celeste.Level.Update -= LevelOnUpdate;
-    }
+    internal static void Unload() => IL.Celeste.Level.Update -= LevelOnUpdate;
 
     private static void LevelOnUpdate(ILContext il)
     {
@@ -79,14 +73,12 @@ public class StylegroundsWhilePausedController : Entity
         if (SearchUtils.IfNone(out StylegroundsWhilePausedController SWPController)) return;
         Level level = SWPController.SceneAs<Level>();
 
-        foreach (Backdrop backdrop in level.Background.Backdrops.Where(backdrop =>
-            backdrop.Tags.Contains(SWPController.updateTag)))
+        foreach (Backdrop backdrop in level.Background.Backdrops.Where(backdrop => backdrop.Tags.Contains(SWPController.updateTag)))
         {
             backdrop.Update(level);
         }
 
-        foreach (Backdrop backdrop in level.Foreground.Backdrops.Where(backdrop =>
-            backdrop.Tags.Contains(SWPController.updateTag)))
+        foreach (Backdrop backdrop in level.Foreground.Backdrops.Where(backdrop => backdrop.Tags.Contains(SWPController.updateTag)))
         {
             backdrop.Update(level);
         }

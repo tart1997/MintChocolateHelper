@@ -27,11 +27,7 @@ public class MessageWebhookTrigger : Trigger
 
     private void SendMessage(string webhook, string message, string user, bool txt)
     {
-        if (WebhookIsEncrypted)
-        {
-            webhook = Extras.Commands.DecryptWebHook(webhook);
-        }
-
+        if (WebhookIsEncrypted) webhook = Extras.Commands.DecryptWebHook(webhook);
         string payload;
 
         if (user != "")

@@ -3,10 +3,22 @@
 internal static class Utils
 {
     [UsedImplicitly]
-    internal static void Log(LogLevel logLevel, string message)
-    {
-        Logger.Log(logLevel, MintChocolateHelperModule.ModName, message);
-    }
+    private static void Log(LogLevel logLevel, string message) => Logger.Log(logLevel, MintChocolateHelperModule.ModName, message);
+
+    [UsedImplicitly]
+    internal static void LogVerbose(string message) => Log(LogLevel.Verbose, message);
+
+    [UsedImplicitly]
+    internal static void LogDebug(string message) => Log(LogLevel.Debug, message);
+
+    [UsedImplicitly]
+    internal static void LogInfo(string message) => Log(LogLevel.Info, message);
+
+    [UsedImplicitly]
+    internal static void LogWarn(string message) => Log(LogLevel.Warn, message);
+
+    [UsedImplicitly]
+    internal static void LogError(string message) => Log(LogLevel.Error, message);
 
     [UsedImplicitly]
     internal static bool LevelIsSafe() => Engine.Scene is Level;
@@ -78,10 +90,7 @@ internal static class Utils
         internal bool GetFlag(string flag) => level.Session.GetFlag(flag);
 
         [UsedImplicitly]
-        internal void SetFlag(string flag, bool setTo = true)
-        {
-            level.Session.SetFlag(flag, setTo);
-        }
+        internal void SetFlag(string flag, bool setTo = true) => level.Session.SetFlag(flag, setTo);
     }
 
     extension(Scene scene)
@@ -94,10 +103,7 @@ internal static class Utils
         internal bool GetFlag(string flag) => scene.AsLevel()!.Session.GetFlag(flag);
 
         [UsedImplicitly]
-        internal void SetFlag(string flag, bool setTo = true)
-        {
-            scene.AsLevel()?.Session.SetFlag(flag, setTo);
-        }
+        internal void SetFlag(string flag, bool setTo = true) => scene.AsLevel()?.Session.SetFlag(flag, setTo);
     }
 
     [CanBeNull]
@@ -108,10 +114,7 @@ internal static class Utils
     internal static bool GetFlag(string flag) => GetLevel()!.Session.GetFlag(flag);
 
     [UsedImplicitly]
-    internal static void SetFlag(string flag, bool setTo = true)
-    {
-        GetLevel()?.Session.SetFlag(flag, setTo);
-    }
+    internal static void SetFlag(string flag, bool setTo = true) => GetLevel()?.Session.SetFlag(flag, setTo);
 
     [UsedImplicitly]
     internal static T LogValue<T>(this T val)

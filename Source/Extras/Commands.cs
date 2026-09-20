@@ -103,14 +103,14 @@ public static class Commands
         string key = string.Concat(Dialog.Get("APP_OLDLADY_LOCKED").Where(c => Encoder.ContainsKey(c)));
         if (webhook.Length == 0)
         {
-            Utils.Log(LogLevel.Warn, "broken webhook");
+            Utils.LogWarn("broken webhook");
             return null;
         }
 
         key = string.Concat(key.Where(c => Encoder.ContainsKey(c)));
         if (key.Length == 0)
         {
-            Utils.Log(LogLevel.Warn, "broken key");
+            Utils.LogWarn("broken key");
             return null;
         }
 

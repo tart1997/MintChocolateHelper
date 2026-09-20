@@ -1,19 +1,19 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
 [Tracked]
-[CustomEntity("MintChocolateHelper/ILoveAnimatedTilesController")]
-public class ILoveAnimatedTilesController : Entity
+[CustomEntity("MintChocolateHelper/ILoveAnimatedTilesController", "MintChocolateHelper/UniversalAnimatedTilesController")]
+public class UniversalAnimatedTilesController : Entity
 {
-    private static bool ILoveAnimatedTilesControllerNeeded;
+    private static bool UniversalAnimatedTilesControllerNeeded;
 
-    public ILoveAnimatedTilesController(EntityData data, Vector2 offset) : base(data.Position + offset)
+    public UniversalAnimatedTilesController(EntityData data, Vector2 offset) : base(data.Position + offset)
     {
     }
 
     [OnLoad]
     internal static void Load()
     {
-        On.Celeste.LevelLoader.ctor += CheckForILoveAnimatedTilesController;
+        On.Celeste.LevelLoader.ctor += CheckForUniversalAnimatedTilesController;
         On.Celeste.Autotiler.Generate += AutotilerOnGenerate;
         IL.Monocle.EntityList.UpdateLists += EntityListOnUpdateLists;
 
@@ -24,7 +24,7 @@ public class ILoveAnimatedTilesController : Entity
     [OnUnload]
     internal static void Unload()
     {
-        On.Celeste.LevelLoader.ctor -= CheckForILoveAnimatedTilesController;
+        On.Celeste.LevelLoader.ctor -= CheckForUniversalAnimatedTilesController;
         On.Celeste.Autotiler.Generate -= AutotilerOnGenerate;
         IL.Monocle.EntityList.UpdateLists -= EntityListOnUpdateLists;
 
@@ -32,20 +32,20 @@ public class ILoveAnimatedTilesController : Entity
         On.Celeste.AnimatedTiles.Render -= AnimatedTilesOnRender;
     }
 
-    private static void CheckForILoveAnimatedTilesController(On.Celeste.LevelLoader.orig_ctor orig, LevelLoader self, Session session, Vector2? startPosition)
+    private static void CheckForUniversalAnimatedTilesController(On.Celeste.LevelLoader.orig_ctor orig, LevelLoader self, Session session, Vector2? startPosition)
     {
         orig(self, session, startPosition);
-        ILoveAnimatedTilesControllerNeeded = RequiresILoveAnimatedTilesControllerForSession(session);
+        UniversalAnimatedTilesControllerNeeded = RequiresUniversalAnimatedTilesControllerForSession(session);
     }
 
-    private static bool RequiresILoveAnimatedTilesControllerForSession(Session session)
+    private static bool RequiresUniversalAnimatedTilesControllerForSession(Session session)
     {
-        bool RequiresILoveAnimatedTilesController(EntityData data)
+        bool RequiresUniversalAnimatedTilesController(EntityData data)
         {
-            return data.Name == "MintChocolateHelper/ILoveAnimatedTilesController";
+            return data.Name is "MintChocolateHelper/UniversalAnimatedTilesController" or "MintChocolateHelper/ILoveAnimatedTilesController";
         }
 
-        return session.MapData.Levels.SelectMany(l => l.Entities).FirstOrDefault(RequiresILoveAnimatedTilesController) != null;
+        return MintChocolateHelperModule.Settings.ForceUniversalAnimatedTiles || session.MapData.Levels.SelectMany(l => l.Entities).FirstOrDefault(RequiresUniversalAnimatedTilesController) != null;
     }
 
     private static Autotiler.Generated AutotilerOnGenerate(On.Celeste.Autotiler.orig_Generate orig,
@@ -85,7 +85,7 @@ public class ILoveAnimatedTilesController : Entity
 
     private static void EntityOnAwake(Entity self)
     {
-        if (!ILoveAnimatedTilesControllerNeeded) return;
+        if (!UniversalAnimatedTilesControllerNeeded) return;
         if (self.Get<AnimatedTiles>() is { }) return;
         if (self.Get<TileGrid>() is not { } tileGrid) return;
 
@@ -110,13 +110,7 @@ public class ILoveAnimatedTilesController : Entity
     {
         orig(self);
 
-        if (self.Entity.Get<TileGrid>() is { } tileGrid)
-        {
-            self.Alpha = tileGrid.Alpha;
-        }
-        if (self.Entity is IntroCrusher introCrusher)
-        {
-            self.Position = introCrusher.shake;
-        }
+        if (self.Entity.Get<TileGrid>() is { } tileGrid) self.Alpha = tileGrid.Alpha;
+        if (self.Entity is IntroCrusher introCrusher) self.Position = introCrusher.shake;
     }
 }

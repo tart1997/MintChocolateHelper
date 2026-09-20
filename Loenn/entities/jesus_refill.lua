@@ -6,14 +6,17 @@ JesusRefill.justification = {0.5, 0.5}
 JesusRefill.placements = {
     {
         name = "jesus_refill",
+		alternativeName = {"unkill_refill", "revive_refill"},
         data = {
             respawnTime = 2.5,
             oneUse = false,
             disableQuickRespawn = false,
+			skipEverestEventDie = false,
+			affectRetries = false,
             dontRegisterDeathInStats = false,
 		    keepFollowers = false,
             teleportToRefill = false,
-            storeSpeed = false,
+			storeSpeed = false,
             redirectable = false
         }
     }
@@ -24,6 +27,8 @@ JesusRefill.fieldOrder = {
     "y",
     "respawnTime",
     "disableQuickRespawn",
+	"skipEverestEventDie",
+	"affectRetries",
     "dontRegisterDeathInStats",
 	"keepFollowers",
 	"teleportToRefill",

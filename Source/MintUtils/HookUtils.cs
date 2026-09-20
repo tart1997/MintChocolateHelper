@@ -15,11 +15,7 @@ public static class HookUtils
     [UsedImplicitly]
     internal static bool LogHookOnFailure(this bool attemptedHook, ILContext il)
     {
-        if (!attemptedHook)
-        {
-            Utils.Log(LogLevel.Error, $"\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n");
-        }
-
+        if (!attemptedHook) Utils.LogError($"\n\nIL hook application on method {il.Method.FullName} failed: Dumb Fuck!\n\n");
         return !attemptedHook;
     }
 }

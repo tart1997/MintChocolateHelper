@@ -23,20 +23,9 @@ public class SnappyStylegroundController : Entity
     {
         base.Awake(scene);
 
-        if (MintChocolateHelperModule.FemtoHelperLoaded)
-        {
-            WindPetalsFade = typeof(WindPetals).GetField("fade", BindingFlags.NonPublic | BindingFlags.Instance);
-        }
-
-        if (MintChocolateHelperModule.FlaglinesLoaded)
-        {
-            CustomGodraysFade = typeof(CustomGodrays).GetField("fade", BindingFlags.NonPublic | BindingFlags.Instance);
-        }
-
-        if (MintChocolateHelperModule.VivhelperLoaded)
-        {
-            VivCustomRainFade = typeof(CustomRain).GetField("visibleFade", BindingFlags.NonPublic | BindingFlags.Instance);
-        }
+        if (MintChocolateHelperModule.FemtoHelperLoaded) WindPetalsFade = typeof(WindPetals).GetField("fade", BindingFlags.NonPublic | BindingFlags.Instance);
+        if (MintChocolateHelperModule.FlaglinesLoaded) CustomGodraysFade = typeof(CustomGodrays).GetField("fade", BindingFlags.NonPublic | BindingFlags.Instance);
+        if (MintChocolateHelperModule.VivhelperLoaded) VivCustomRainFade = typeof(CustomRain).GetField("visibleFade", BindingFlags.NonPublic | BindingFlags.Instance);
     }
 
     public override void Update()
@@ -54,28 +43,20 @@ public class SnappyStylegroundController : Entity
                 case Snow snow:
                     snow.visibleFade = level.GetFlag(snow.OnlyIfFlag) ? 1 : 0;
                     break;
-                case NorthernLights northernLights:
+                case NorthernLights northernLights: {
                     foreach (NorthernLights.Strand strand in northernLights.strands)
                     {
                         strand.Alpha = 1f;
                     }
                     break;
-            }
-
-            //Modded
-            if (MintChocolateHelperModule.FemtoHelperLoaded && isWindPetals(backdrop))
-            {
-                setWindPetals(backdrop);
-            }
-
-            if (MintChocolateHelperModule.FlaglinesLoaded && isCustomGodrays(backdrop))
-            {
-                setCustomGodRays(backdrop);
-            }
-
-            if (MintChocolateHelperModule.VivhelperLoaded && isVivRain(backdrop))
-            {
-                setVivRain(backdrop);
+                }
+                //Modded
+                default: {
+                    if (MintChocolateHelperModule.FemtoHelperLoaded && isWindPetals(backdrop)) setWindPetals(backdrop);
+                    else if (MintChocolateHelperModule.FlaglinesLoaded && isCustomGodrays(backdrop)) setCustomGodRays(backdrop);
+                    else if (MintChocolateHelperModule.VivhelperLoaded && isVivRain(backdrop)) setVivRain(backdrop);
+                    break;
+                }
             }
         }
 
@@ -90,28 +71,20 @@ public class SnappyStylegroundController : Entity
                 case Snow snow:
                     snow.visibleFade = level.GetFlag(snow.OnlyIfFlag) ? 1 : 0;
                     break;
-                case NorthernLights northernLights:
+                case NorthernLights northernLights: {
                     foreach (NorthernLights.Strand strand in northernLights.strands)
                     {
                         strand.Alpha = 1f;
                     }
                     break;
-            }
-
-            //Modded
-            if (MintChocolateHelperModule.FemtoHelperLoaded && isWindPetals(backdrop))
-            {
-                setWindPetals(backdrop);
-            }
-
-            if (MintChocolateHelperModule.FlaglinesLoaded && isCustomGodrays(backdrop))
-            {
-                setCustomGodRays(backdrop);
-            }
-
-            if (MintChocolateHelperModule.VivhelperLoaded && isVivRain(backdrop))
-            {
-                setVivRain(backdrop);
+                }
+                //Modded
+                default: {
+                    if (MintChocolateHelperModule.FemtoHelperLoaded && isWindPetals(backdrop)) setWindPetals(backdrop);
+                    else if (MintChocolateHelperModule.FlaglinesLoaded && isCustomGodrays(backdrop)) setCustomGodRays(backdrop);
+                    else if (MintChocolateHelperModule.VivhelperLoaded && isVivRain(backdrop)) setVivRain(backdrop);
+                    break;
+                }
             }
         }
     }

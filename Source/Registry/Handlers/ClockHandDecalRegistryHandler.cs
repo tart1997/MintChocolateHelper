@@ -18,10 +18,7 @@ internal class ClockHandDecalRegistryHandler : DecalRegistryHandler
     private EasingUtils.EasingFunctions easingFunction;
 
     [OnLoad]
-    internal static void Load()
-    {
-        DecalRegistry.AddPropertyHandler<ClockHandDecalRegistryHandler>();
-    }
+    internal static void Load() => DecalRegistry.AddPropertyHandler<ClockHandDecalRegistryHandler>();
 
     public override void Parse(XmlAttributeCollection xml)
     {
@@ -37,8 +34,5 @@ internal class ClockHandDecalRegistryHandler : DecalRegistryHandler
         easingFunction = xml.GetEnum("easingFunction", EasingUtils.EasingFunctions.Linear);
     }
 
-    public override void ApplyTo(Decal decal)
-    {
-        decal.Add(new ClockHand(AlwaysUpdate, RandomStart, Backwards, StopNumber, TickSpeed, TickDelay, AllowTickFlag, easingFunction));
-    }
+    public override void ApplyTo(Decal decal) => decal.Add(new ClockHand(AlwaysUpdate, RandomStart, Backwards, StopNumber, TickSpeed, TickDelay, AllowTickFlag, easingFunction));
 }

@@ -6,6 +6,7 @@ SpeedFlipRefill.justification = {0.5, 0.5}
 SpeedFlipRefill.placements = {
     {
         name = "speed_flip_refill",
+		alternativeName = {"sonafleki_refill", "ozone_refill"},
         data = {
             respawnTime = 2.5,
             extraMultiplier = 1.03,

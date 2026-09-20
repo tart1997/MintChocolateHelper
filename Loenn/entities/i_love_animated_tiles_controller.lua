@@ -3,19 +3,6 @@ local ILoveAnimatedTilesController = {}
 ILoveAnimatedTilesController.name = "MintChocolateHelper/ILoveAnimatedTilesController"
 ILoveAnimatedTilesController.justification = {0.5, 0.5}
 
-ILoveAnimatedTilesController.placements = {
-    {
-        name = "i_love_animated_tiles_controller",
-        data = {
-        }
-    }
-}
-
-ILoveAnimatedTilesController.fieldOrder = {
-    "x",
-    "y"
-}
-
-ILoveAnimatedTilesController.texture = "loenn/mintchocolatehelper/ILoveAnimatedTilesController"
+ILoveAnimatedTilesController.texture = "loenn/mintchocolatehelper/UniversalAnimatedTilesController"
 
 return ILoveAnimatedTilesController

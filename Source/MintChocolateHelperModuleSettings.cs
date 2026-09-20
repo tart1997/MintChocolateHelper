@@ -2,5 +2,6 @@ namespace Celeste.Mod.MintChocolateHelper;
 
 public class MintChocolateHelperModuleSettings : EverestModuleSettings
 {
-    internal bool ShowCustomDashIndicators {get; set;} = true;
+    public bool ForceUniversalAnimatedTiles {get; set;} = false;
+    public bool ShowCustomDashIndicators {get; set;} = true;
 }

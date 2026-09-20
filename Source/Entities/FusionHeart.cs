@@ -175,8 +175,7 @@ public class FusionHeart : Entity
 
         if (player.DashAttacking && MintChocolateHelperModule.Session.HeartBreakerDashActive)
         {
-            MintChocolateHelperModule.Session.HasHeartBreakerDash = false;
-            MintChocolateHelperModule.Session.HeartBreakerDashActive = false;
+            MintChocolateHelperModule.Session.LastHeartBreakerRefill = null;
 
             P_Regen.Color = Calc.HexToColor(spriteColor);
             P_Regen.Color2 = Color.White;

@@ -258,8 +258,7 @@ public class FusionHeartHalf : Entity
                     heartBreakerBonusSpeed = Vector2.One * 0.5f;
                 }
 
-                MintChocolateHelperModule.Session.HasHeartBreakerDash = false;
-                MintChocolateHelperModule.Session.HeartBreakerDashActive = false;
+                MintChocolateHelperModule.Session.LastHeartBreakerRefill = null;
             }
             else
             {

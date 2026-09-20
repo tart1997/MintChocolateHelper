@@ -4,6 +4,7 @@ DMtartTrigger.name = "MintChocolateHelper/DMtartTrigger"
 
 DMtartTrigger.placements = {
     name = "dm_tart_trigger",
+	alternativeName = {"message_tart_trigger"},
     data = {
         width = 16,
         height = 16,

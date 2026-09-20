@@ -1,42 +1,59 @@
 // ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable MemberCanBeMadeStatic.Global
 
 namespace Celeste.Mod.MintChocolateHelper;
 
+[SuppressMessage("Performance", "CA1822:Mark members as static")]
 public class MintChocolateHelperModuleSession : EverestModuleSession
 {
     // Pseudo Death
-    internal bool PlayerIsPseudoDead {get; set;}
     internal bool PseudoDeadDisableQuickRespawn => JesusRefillDisableQuickRespawn || CancelDeathTriggerDisableQuickRespawn;
+    internal bool PseudoDeadSkipEverestEventDie => JesusRefillSkipEverestEventDie || CancelDeathTriggerSkipEverestEventDie;
+    internal bool PseudoDeadAffectRetries => JesusRefillAffectRetries || CancelDeathTriggerAffectRetries;
     internal bool PseudoDeadDontRegisterDeathInStats => JesusRefillDontRegisterDeathInStats || CancelDeathTriggerDontRegisterDeathInStats;
     internal bool PseudoDeadKeepFollowers => JesusRefillKeepFollowers || CancelDeathTriggerKeepFollowers;
-    internal int DepthBeforePseudoDeath {get; set;}
-    internal bool WasCollidableBeforePseudoDeath {get; set;}
-    internal bool WasVisibleBeforePseudoDeath {get; set;}
+    internal bool PlayerCanPseudoDie => HasJesusRefill || ValidCancelDeathTriggers?.Count != 0;
+    internal bool PlayerIsPseudoDead {get; set;}
 
     // Cancel Death Trigger
-    internal static bool CancelDeathTriggerDisableQuickRespawn => SearchUtils.GetEntities<CancelDeathTrigger>()?.Any(t => t.DisableQuickRespawn) ?? false;
-    internal static bool CancelDeathTriggerDontRegisterDeathInStats => SearchUtils.GetEntities<CancelDeathTrigger>()?.Any(t => t.DontRegisterDeathInStats) ?? false;
-    internal static bool CancelDeathTriggerKeepFollowers => SearchUtils.GetEntities<CancelDeathTrigger>()?.Any(t => t.KeepFollowers) ?? false;
+    [CanBeNull]
+    internal List<CancelDeathTrigger> ValidCancelDeathTriggers => SearchUtils.GetEntities<CancelDeathTrigger>()?.Where(t =>
+        string.IsNullOrWhiteSpace(t.Flag) || (t.IsValidExpression ? FrostHelperImports.SafeGetBoolSessionExpressionValue(t.FlagExpression, Utils.GetLevel()!.Session) : Utils.GetLevel().GetFlag(t.Flag))).ToList();
+
+    internal bool CancelDeathTriggerDisableQuickRespawn => ValidCancelDeathTriggers?.Any(t => t.DisableQuickRespawn) ?? false;
+    internal bool CancelDeathTriggerSkipEverestEventDie => ValidCancelDeathTriggers?.Any(t => t.SkipEverestEventDie) ?? false;
+    internal bool CancelDeathTriggerAffectRetries => ValidCancelDeathTriggers?.Any(t => t.AffectRetries) ?? false;
+    internal bool CancelDeathTriggerDontRegisterDeathInStats => ValidCancelDeathTriggers?.Any(t => t.DontRegisterDeathInStats) ?? false;
+    internal bool CancelDeathTriggerKeepFollowers => ValidCancelDeathTriggers?.Any(t => t.KeepFollowers) ?? false;
     internal bool CancelDeathTriggerTeleportingPlayer {get; set;}
 
     // Jesus Refill
     [CanBeNull]
     internal JesusRefill LastJesusRefill {get; set;}
-    //internal bool JesusRefillBufferedTeleport {get; set;}
+
     internal bool HasJesusRefill => LastJesusRefill is { };
     internal bool JesusRefillDisableQuickRespawn => LastJesusRefill is { DisableQuickRespawn: true };
+    internal bool JesusRefillSkipEverestEventDie => LastJesusRefill is { SkipEverestEventDie: true };
+    internal bool JesusRefillAffectRetries => LastJesusRefill is { AffectRetries: true };
     internal bool JesusRefillDontRegisterDeathInStats => LastJesusRefill is { DontRegisterDeathInStats: true };
     internal bool JesusRefillKeepFollowers => LastJesusRefill is { KeepFollowers: true };
     internal bool JesusRefillTeleportToRefill => LastJesusRefill is { TeleportToRefill: true };
     internal bool JesusRefillStoreSpeed => LastJesusRefill is { StoreSpeed: true };
+    internal Vector2 StoredSpeed => LastJesusRefill?.StoredSpeed ?? Vector2.Zero;
     internal bool JesusRefillRedirectable => LastJesusRefill is { Redirectable: true };
-    internal Vector2? StoredSpeed {get; set;}
 
-    // Speed Flip Refill
-    internal bool HasSpeedFlipRefill {get; set;}
-    internal bool DontRenderSpeedFlipRefillIcon {get; set;}
+    // Speed Flip
+    [CanBeNull]
+    internal SpeedFlipRefill LastSpeedFlipRefill {get; set;}
+
+    internal int SpeedFlipControllerCharges {get; set;}
+    internal bool HasSpeedFlipRefill => LastSpeedFlipRefill is { };
+    internal bool SpeedFlipRefillDisableCollectEffects => LastSpeedFlipRefill is { DisableCollectEffects: true };
 
     // Heart Breaker Refill
-    internal bool HasHeartBreakerDash {get; set;}
-    internal bool HeartBreakerDashActive {get; set;}
+    [CanBeNull]
+    internal HeartBreakerRefill LastHeartBreakerRefill {get; set;}
+
+    internal bool HasHeartBreakerDash => LastHeartBreakerRefill is { };
+    internal bool HeartBreakerDashActive => HasHeartBreakerDash && (SearchUtils.GetPlayer()?.DashAttacking ?? false);
 }

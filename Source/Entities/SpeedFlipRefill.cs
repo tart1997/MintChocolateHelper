@@ -18,58 +18,20 @@ public class SpeedFlipRefill : Entity
 
     private readonly SineWave sine;
 
-    private readonly bool oneUse;
+    private readonly float RespawnTime;
+    private float RespawnTimer;
 
-    private float respawnTimer;
-    private readonly bool disableAmbientEffects;
-    private readonly bool disableCollectEffects;
-    private readonly float respawnTime;
-
-    private readonly float ExtraMultiplier;
-
-    private class InvertJumpTrail : Component
-    {
-        private readonly Player Player;
-        private readonly Vector2 Scale;
-        private readonly Color Color;
-
-        private float dashTrailTimer = 0.1f;
-
-        public InvertJumpTrail(Player player, Vector2 scale, Color color) : base(true, true)
-        {
-            Player = player;
-            Scale = GravityHelperImports.InvertIfPlayerInverted(scale);
-            Color = color;
-            TrailManager.Add(Player, Scale, Color);
-        }
-
-        public override void Update()
-        {
-            base.Update();
-
-            if (dashTrailTimer > 0f && !Player.onGround && Player.StateMachine.state != Player.StClimb && Player.StateMachine.state != Player.StDash)
-            {
-                dashTrailTimer -= Engine.DeltaTime;
-
-                if (dashTrailTimer <= 0f)
-                {
-                    TrailManager.Add(Player, Scale, Color);
-                    dashTrailTimer = 0.1f;
-                }
-            }
-            else
-            {
-                RemoveSelf();
-            }
-        }
-    }
+    private readonly bool DisableAmbientEffects;
+    internal readonly bool DisableCollectEffects;
+    internal readonly float ExtraMultiplier;
+    internal readonly bool OneUse;
 
     public SpeedFlipRefill(EntityData data, Vector2 offset) : base(data.Position + offset)
     {
-        oneUse = data.Bool("oneUse");
-        disableAmbientEffects = data.Bool("disableAmbientEffects");
-        disableCollectEffects = data.Bool("disableCollectEffects");
-        respawnTime = data.Float("respawnTime", 2.5f);
+        OneUse = data.Bool("oneUse");
+        DisableAmbientEffects = data.Bool("disableAmbientEffects");
+        DisableCollectEffects = data.Bool("disableCollectEffects");
+        RespawnTime = data.Float("respawnTime", 2.5f);
         ExtraMultiplier = data.Float("extraMultiplier", 1.03f);
 
         Collider = new Hitbox(16f, 16f, -8f, -8f);
@@ -126,23 +88,20 @@ public class SpeedFlipRefill : Entity
     public override void Update()
     {
         base.Update();
-        if (respawnTimer > 0f)
+        if (RespawnTimer > 0f)
         {
-            respawnTimer -= Engine.DeltaTime;
-            if (respawnTimer <= 0f)
-            {
-                Respawn();
-            }
+            RespawnTimer -= Engine.DeltaTime;
+            if (RespawnTimer <= 0f) Respawn();
         }
-        else if (Scene.OnInterval(0.1f) && !disableAmbientEffects && Collidable)
+        else if (Scene.OnInterval(0.1f) && !DisableAmbientEffects && Collidable)
         {
             SceneAs<Level>().ParticlesFG.Emit(P_Glow, 1, Position, Vector2.One * 5f);
         }
 
         UpdateY();
 
-        light.Alpha = disableAmbientEffects ? 0f : Calc.Approach(light.Alpha, sprite.Visible ? 1f : 0f, 4f * Engine.DeltaTime);
-        bloom.Alpha = disableAmbientEffects ? 0f : light.Alpha * 0.8f;
+        light.Alpha = DisableAmbientEffects ? 0f : Calc.Approach(light.Alpha, sprite.Visible ? 1f : 0f, 4f * Engine.DeltaTime);
+        bloom.Alpha = DisableAmbientEffects ? 0f : light.Alpha * 0.8f;
 
         if (Scene.OnInterval(2f) && sprite.Visible)
         {
@@ -153,14 +112,14 @@ public class SpeedFlipRefill : Entity
 
     private void Respawn()
     {
-        if (oneUse || Collidable) return;
+        if (OneUse || Collidable) return;
 
         Collidable = true;
         sprite.Visible = true;
         outline.Visible = false;
         Depth = -100;
         wiggler.Start();
-        if (disableCollectEffects) return;
+        if (DisableCollectEffects) return;
 
         Audio.Play("event:/game/general/diamond_return", Position);
         SceneAs<Level>().ParticlesFG.Emit(P_Regen, 16, Position, Vector2.One * 2f);
@@ -173,19 +132,15 @@ public class SpeedFlipRefill : Entity
 
     public override void Render()
     {
-        if (sprite.Visible)
-        {
-            sprite.DrawOutline();
-        }
-
+        if (sprite.Visible) sprite.DrawOutline();
         base.Render();
     }
 
     private void OnPlayer(Player player)
     {
-        if (!MintChocolateHelperModule.Session.HasSpeedFlipRefill)
+        if (SearchUtils.IfAny(out SpeedFlipController speedFlipController) || !MintChocolateHelperModule.Session.HasSpeedFlipRefill)
         {
-            if (!disableCollectEffects)
+            if (!DisableCollectEffects)
             {
                 Audio.Play("event:/game/general/diamond_touch", Position);
                 Input.Rumble(RumbleStrength.Medium, RumbleLength.Medium);
@@ -194,14 +149,10 @@ public class SpeedFlipRefill : Entity
             Collidable = false;
             Add(new Coroutine(RefillRoutine(player)));
             player.UseRefill(false);
-            MintChocolateHelperModule.Session.HasSpeedFlipRefill = true;
+            MintChocolateHelperModule.Session.LastSpeedFlipRefill = this;
+            if (speedFlipController is { }) MintChocolateHelperModule.Session.SpeedFlipControllerCharges++;
 
-            if (disableCollectEffects)
-            {
-                MintChocolateHelperModule.Session.DontRenderSpeedFlipRefillIcon = true;
-            }
-
-            respawnTimer = respawnTime;
+            RespawnTimer = RespawnTime;
         }
     }
 
@@ -215,13 +166,10 @@ public class SpeedFlipRefill : Entity
         level.Shake();
         flash.Visible = false;
         sprite.Visible = false;
-        if (!oneUse)
-        {
-            outline.Visible = true;
-        }
+        if (!OneUse) outline.Visible = true;
 
         Depth = 8999;
-        if (disableCollectEffects) yield break;
+        if (DisableCollectEffects) yield break;
         yield return 0.05f;
 
         float num = player.Speed.Angle();
@@ -234,85 +182,19 @@ public class SpeedFlipRefill : Entity
     internal static void Load()
     {
         On.Celeste.Player.Die += SpeedFlipRefillDie;
-        On.Celeste.Player.NormalUpdate += SpeedFlipRefillJump;
     }
 
     [OnUnload]
     internal static void Unload()
     {
         On.Celeste.Player.Die -= SpeedFlipRefillDie;
-        On.Celeste.Player.NormalUpdate -= SpeedFlipRefillJump;
-    }
-    
-    internal static void ResetRefill()
-    {
-        MintChocolateHelperModule.Session.HasSpeedFlipRefill = false;
-        MintChocolateHelperModule.Session.DontRenderSpeedFlipRefillIcon = false;
     }
 
-    private static PlayerDeadBody SpeedFlipRefillDie(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction, bool evenIfInvincible = false, bool registerDeathInStats = true)
+    internal static void ResetRefill() => MintChocolateHelperModule.Session.LastSpeedFlipRefill = null;
+
+    private static PlayerDeadBody SpeedFlipRefillDie(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction, bool evenIfInvincible, bool registerDeathInStats)
     {
-        if (!MintChocolateHelperModule.Session.HasJesusRefill && SearchUtils.IfNone<CancelDeathTrigger>())
-        {
-            ResetRefill();
-        }
+        if (!MintChocolateHelperModule.Session.PlayerCanPseudoDie) ResetRefill();
         return orig(self, direction, evenIfInvincible, registerDeathInStats);
-    }
-
-    private enum DirectionBeforeInvert
-    {
-        Up,
-        Down,
-        None
-    }
-
-    private static int SpeedFlipRefillJump(On.Celeste.Player.orig_NormalUpdate orig, Player self)
-    {
-        if (SearchUtils.IfNone(out SpeedFlipRefill refill)) return orig(self);
-
-        if (Input.Jump.Pressed && MintChocolateHelperModule.Session.HasSpeedFlipRefill && !self.OnGround(self.Position, 4)
-            && !self.onGround && !self.WallJumpCheck(3) && !self.WallJumpCheck(-3) && self.jumpGraceTimer <= 0f
-            && self.varJumpTimer <= 0f && (self.StateMachine.state == Player.StNormal || self.StateMachine.State == Player.StDash))
-        {
-            DirectionBeforeInvert directionBeforeInvert = self.Speed.Y switch {
-                0 => DirectionBeforeInvert.None,
-                > 0 => DirectionBeforeInvert.Down,
-                < 0 => DirectionBeforeInvert.Up,
-                _ => DirectionBeforeInvert.None
-            };
-
-            self.Speed.Y = -self.Speed.Y * refill.ExtraMultiplier;
-            Input.Jump.ConsumeBuffer();
-
-            if (self.Get<InvertJumpTrail>() is { } invertJumpTrail)
-            {
-                invertJumpTrail.RemoveSelf();
-            }
-
-            Vector2 scale = new(Math.Abs(self.Sprite.Scale.X) * (float)self.Facing, self.Sprite.Scale.Y);
-            switch (directionBeforeInvert)
-            {
-                case DirectionBeforeInvert.Down:
-                    self.Add(new InvertJumpTrail(self, scale, Color.Blue));
-                    break;
-                case DirectionBeforeInvert.Up:
-                    self.Add(new InvertJumpTrail(self, scale, Color.Red));
-                    break;
-                case DirectionBeforeInvert.None:
-                    break;
-                default:
-                    throw new ImpossibleEnumException();
-            }
-
-            MintChocolateHelperModule.Session.HasSpeedFlipRefill = false;
-            MintChocolateHelperModule.Session.DontRenderSpeedFlipRefillIcon = false;
-
-            if (refill.oneUse)
-            {
-                refill.RemoveSelf();
-            }
-        }
-
-        return orig(self);
     }
 }

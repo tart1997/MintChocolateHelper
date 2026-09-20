@@ -1,7 +1,5 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Triggers;
 
-//   ### A large majority of this is ripped straight from Crystalline trigger triggers (Obviously) ###
-
 [UsedImplicitly]
 [CustomEntity("MintChocolateHelper/WaitUntilTrueTrigger")]
 public class WaitUntilTrueTrigger : Trigger
@@ -25,22 +23,14 @@ public class WaitUntilTrueTrigger : Trigger
         Flag = data.Attr("flag");
         Delay = data.Float("delay");
         OneUse = data.Bool("oneUse");
-
-        if (FrostHelperImports.SafeTryCreateSessionExpression(Flag, out FlagExpression))
-        {
-            IsValidExpression = true;
-        }
+        if (FrostHelperImports.SafeTryCreateSessionExpression(Flag, out FlagExpression)) IsValidExpression = true;
     }
 
     public override void OnEnter(Player player)
     {
         base.OnEnter(player);
         Add(new Coroutine(WaitUntilTrue()));
-
-        if (Activated && OneUse)
-        {
-            RemoveSelf();
-        }
+        if (Activated && OneUse) RemoveSelf();
     }
 
     public override void OnLeave(Player player)
@@ -52,13 +42,7 @@ public class WaitUntilTrueTrigger : Trigger
     public override void Update()
     {
         base.Update();
-        Player player = Scene.GetEntity<Player>();
-        if (player == null) return;
-
-        if (Activated && OneUse)
-        {
-            RemoveSelf();
-        }
+        if (Scene.GetEntity<Player>() is { } && Activated && OneUse) RemoveSelf();
     }
 
     private void TryActivate(Player player)
@@ -97,10 +81,7 @@ public class WaitUntilTrueTrigger : Trigger
         }
     }
 
-    private void CleanTriggers()
-    {
-        triggers.RemoveAll(trigger => trigger.Scene == null);
-    }
+    private void CleanTriggers() => triggers.RemoveAll(trigger => trigger.Scene == null);
 
     private void ActivateTriggers(Player player)
     {
@@ -110,10 +91,7 @@ public class WaitUntilTrueTrigger : Trigger
 
         foreach (Trigger trigger in triggers.Where(trigger => trigger != null))
         {
-            if (trigger.PlayerIsInside)
-            {
-                trigger.OnLeave(player);
-            }
+            if (trigger.PlayerIsInside) trigger.OnLeave(player);
             trigger.OnEnter(player);
         }
     }

@@ -34,8 +34,8 @@ public class DebrisTweaksController : Entity
     private static Debris DebrisOnInit_Vector2_char_bool(On.Celeste.Debris.orig_Init_Vector2_char_bool orig, Debris self, Vector2 pos, char tileset, bool playSound)
     {
         DebrisTweaksController DTController = SearchUtils.GetEntity<DebrisTweaksController>();
-
         DynamicData debrisData = DynamicData.For(self);
+
         debrisData.Set("WindAffected", DTController?.WindAffected);
         debrisData.Set("WindDisturbance", Vector2.Zero);
         debrisData.Set("PlayerAffected", DTController?.PlayerAffected);
@@ -53,10 +53,7 @@ public class DebrisTweaksController : Entity
         bool? PlayerAffected = debrisData.Get<bool?>("PlayerAffected");
         if (PlayerAffected != true && WindAffected != true) return;
 
-        if (WindAffected == true)
-        {
-            debrisData.Set("WindDisturbance", level.Wind / 300f);
-        }
+        if (WindAffected == true) debrisData.Set("WindDisturbance", level.Wind / 300f);
 
         if (PlayerAffected == true)
         {
@@ -66,10 +63,7 @@ public class DebrisTweaksController : Entity
                 Vector2 vector = (debris.Position - player!.Center).SafeNormalize(player.Speed.Length() * 0.02f);
                 Vector2? playerDisturbance = debrisData.Get<Vector2?>("PlayerDisturbance");
 
-                if (vector.LengthSquared() > playerDisturbance.GetValueOrDefault().LengthSquared())
-                {
-                    debrisData.Set("PlayerDisturbance", vector);
-                }
+                if (vector.LengthSquared() > playerDisturbance.GetValueOrDefault().LengthSquared()) debrisData.Set("PlayerDisturbance", vector);
             }
         }
 

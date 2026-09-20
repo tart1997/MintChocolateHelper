@@ -1,5 +1,6 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.MintUtils;
 
+[SuppressMessage("Usage", "CL0015:Tracker used on untracked type")]
 public static class SearchUtils
 {
     extension(Level level)
