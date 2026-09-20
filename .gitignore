@@ -1,6 +1,11 @@
 # Packaged mods
 MintChocolateHelper.zip
 private-MintChocolateHelper.zip
+
+# Private files
+**/private-*.*
+
+# Testmap files
 Maps/
 
 ## Ignore Visual Studio temporary files, build results, and

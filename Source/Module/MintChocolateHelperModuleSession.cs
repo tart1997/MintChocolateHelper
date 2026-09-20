@@ -1,7 +1,7 @@
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable MemberCanBeMadeStatic.Global
 
-namespace Celeste.Mod.MintChocolateHelper;
+namespace Celeste.Mod.MintChocolateHelper.Module;
 
 [SuppressMessage("Performance", "CA1822:Mark members as static")]
 public class MintChocolateHelperModuleSession : EverestModuleSession

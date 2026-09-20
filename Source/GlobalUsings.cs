@@ -8,6 +8,7 @@ global using Celeste.Mod.Helpers;
 global using Celeste.Mod.MintChocolateHelper.Entities;
 global using Celeste.Mod.MintChocolateHelper.Extras;
 global using Celeste.Mod.MintChocolateHelper.ModInterop;
+global using Celeste.Mod.MintChocolateHelper.Module;
 global using Celeste.Mod.MintChocolateHelper.Triggers;
 global using Celeste.Mod.MintChocolateHelper.MintUtils;
 global using Celeste.Mod.Registry.DecalRegistryHandlers;

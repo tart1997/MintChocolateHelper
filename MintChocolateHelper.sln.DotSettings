@@ -2,6 +2,7 @@
 	<s:Int64 x:Key="/Default/CodeEditing/NullCheckPatterns/PatternTypeNamesToPriority/=JetBrains_002EReSharper_002EFeature_002EServices_002ECSharp_002ENullChecking_002EArgumentNullExceptionThrowIfNullPattern/@EntryIndexedValue">1000</s:Int64>
 	<s:Int64 x:Key="/Default/CodeEditing/NullCheckPatterns/PatternTypeNamesToPriority/=JetBrains_002EReSharper_002EFeature_002EServices_002ECSharp_002ENullChecking_002EIfThenThrowPattern/@EntryIndexedValue">2000</s:Int64>
 	<s:Int64 x:Key="/Default/CodeEditing/NullCheckPatterns/PatternTypeNamesToPriority/=JetBrains_002EReSharper_002EFeature_002EServices_002ECSharp_002ENullChecking_002EPatternMatchingIfThenThrowPattern/@EntryIndexedValue">3000</s:Int64>
+	<s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=ConvertToPrimaryConstructor/@EntryIndexedValue">DO_NOT_SHOW</s:String>
 	<s:Boolean x:Key="/Default/CodeStyle/CodeFormatting/CSharpCodeStyle/BUILTIN_TYPE_APPLY_TO_NATIVE_INTEGER/@EntryValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/ALIGN_MULTILINE_STATEMENT_CONDITIONS/@EntryValue">False</s:Boolean>
 	<s:String x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/ANONYMOUS_METHOD_DECLARATION_BRACES/@EntryValue">END_OF_LINE</s:String>
@@ -30,6 +31,14 @@
 	<s:String x:Key="/Default/CodeStyle/CSharpVarKeywordUsage/ForOtherTypes/@EntryValue">UseExplicitType</s:String>
 	<s:String x:Key="/Default/CodeStyle/CSharpVarKeywordUsage/ForSimpleTypes/@EntryValue">UseExplicitType</s:String>
 	<s:Boolean x:Key="/Default/CodeStyle/CSharpVarKeywordUsage/PreferSeparateDeconstructedVariablesDeclaration/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeStyle/Generate/=Implementations/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/CodeStyle/Generate/=Implementations/Options/=Async/@EntryIndexedValue">False</s:String>
+	<s:String x:Key="/Default/CodeStyle/Generate/=Implementations/Options/=Mutable/@EntryIndexedValue">False</s:String>
+	<s:Boolean x:Key="/Default/CodeStyle/Generate/=Overrides/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/CodeStyle/Generate/=Overrides/Options/=Async/@EntryIndexedValue">False</s:String>
+	<s:String x:Key="/Default/CodeStyle/Generate/=Overrides/Options/=Mutable/@EntryIndexedValue">False</s:String>
+	<s:Boolean x:Key="/Default/CodeStyle/Naming/CSharpAutoNaming/IsNotificationDisabled/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=GFX/@EntryIndexedValue">GFX</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/UserRules/=15b5b1f1_002D457c_002D4ca6_002Db278_002D5615aedc07d3/@EntryIndexedValue">&lt;Policy&gt;&lt;Descriptor Staticness="Static" AccessRightKinds="Private" Description="Static readonly fields (private)"&gt;&lt;ElementKinds&gt;&lt;Kind Name="READONLY_FIELD" /&gt;&lt;/ElementKinds&gt;&lt;/Descriptor&gt;&lt;Policy Inspect="True" WarnAboutPrefixesAndSuffixes="False" Prefix="" Suffix="" Style="AaBb"&gt;&lt;ExtraRule Prefix="" Suffix="" Style="aaBb_AaBb" /&gt;&lt;/Policy&gt;&lt;/Policy&gt;</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/UserRules/=4a98fdf6_002D7d98_002D4f5a_002Dafeb_002Dea44ad98c70c/@EntryIndexedValue">&lt;Policy&gt;&lt;Descriptor Staticness="Instance" AccessRightKinds="Private" Description="Instance fields (private)"&gt;&lt;ElementKinds&gt;&lt;Kind Name="FIELD" /&gt;&lt;Kind Name="READONLY_FIELD" /&gt;&lt;/ElementKinds&gt;&lt;/Descriptor&gt;&lt;Policy Inspect="True" WarnAboutPrefixesAndSuffixes="True" Prefix="" Suffix="" Style="aaBb"&gt;&lt;ExtraRule Prefix="" Suffix="" Style="AaBb" /&gt;&lt;/Policy&gt;&lt;/Policy&gt;</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/UserRules/=70345118_002D4b40_002D4ece_002D937c_002Dbbeb7a0b2e70/@EntryIndexedValue">&lt;Policy&gt;&lt;Descriptor Staticness="Static" AccessRightKinds="Protected, ProtectedInternal, Internal, Public, PrivateProtected" Description="Static fields (not private)"&gt;&lt;ElementKinds&gt;&lt;Kind Name="FIELD" /&gt;&lt;/ElementKinds&gt;&lt;/Descriptor&gt;&lt;Policy Inspect="True" WarnAboutPrefixesAndSuffixes="False" Prefix="" Suffix="" Style="AaBb"&gt;&lt;ExtraRule Prefix="P_" Suffix="" Style="AaBb" /&gt;&lt;/Policy&gt;&lt;/Policy&gt;</s:String>
@@ -41,17 +50,37 @@
 	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002ECSharp_002ECodeStyle_002ECSharpUseContinuousIndentInsideBracesMigration/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002ECSharp_002ECodeStyle_002ESettingsUpgrade_002EMigrateBlankLinesAroundFieldToBlankLinesAroundProperty/@EntryIndexedValue">True</s:Boolean>
 	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=2CBD6971A7955044AD2624B84FB49E38/Position/@EntryValue">9</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=33DAA4F61E3DBE40AB0AF7EAC320161D/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=33DAA4F61E3DBE40AB0AF7EAC320161D/EntryName/@EntryValue">Entity (Celeste)</s:String>
 	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=33DAA4F61E3DBE40AB0AF7EAC320161D/Position/@EntryValue">11</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=55AEDBEA1C824B4AAB25CC14F454B04B/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=55AEDBEA1C824B4AAB25CC14F454B04B/EntryName/@EntryValue">Solid (Celeste)</s:String>
 	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=55AEDBEA1C824B4AAB25CC14F454B04B/Position/@EntryValue">12</s:Int64>
 	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=567DCF4B487C244A9F6BB46E4E9F3B84/Position/@EntryValue">6</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=7886A8C78813CD42AA6AC80CDB11AE03/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=7886A8C78813CD42AA6AC80CDB11AE03/EntryName/@EntryValue">Component (Celeste)</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=7886A8C78813CD42AA6AC80CDB11AE03/Position/@EntryValue">15</s:Int64>
 	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=7F2A1BE8D0078241A9AE7802038BAD3C/Position/@EntryValue">7</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=800EF3C441BD20409E971AE90B97E6FF/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=800EF3C441BD20409E971AE90B97E6FF/EntryName/@EntryValue">Component (Celeste)</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=800EF3C441BD20409E971AE90B97E6FF/Position/@EntryValue">14</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=A5FF08165316DE4D833B683EF4F7EDC3/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=A5FF08165316DE4D833B683EF4F7EDC3/EntryName/@EntryValue">Trigger (Celeste)</s:String>
 	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=A5FF08165316DE4D833B683EF4F7EDC3/Position/@EntryValue">13</s:Int64>
 	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=C4795E57DDEC1C4F97BBC8C7173EBBCA/Position/@EntryValue">8</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=D9A729BAB06A5C4EACC4F3DD85ADA372/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=D9A729BAB06A5C4EACC4F3DD85ADA372/EntryName/@EntryValue">Component (Celeste)</s:String>
 	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/QuickList/=F0CA621CDF5AB24282D8CDC11C520997/Entry/=D9A729BAB06A5C4EACC4F3DD85ADA372/Position/@EntryValue">10</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=166CE18932EF9B4DA16965F7F12D6FB6/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=166CE18932EF9B4DA16965F7F12D6FB6/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=166CE18932EF9B4DA16965F7F12D6FB6/Description/@EntryValue">Quickly write info level log for Celeste</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=166CE18932EF9B4DA16965F7F12D6FB6/Reformat/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=166CE18932EF9B4DA16965F7F12D6FB6/Shortcut/@EntryValue">logc</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=166CE18932EF9B4DA16965F7F12D6FB6/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=166CE18932EF9B4DA16965F7F12D6FB6/Text/@EntryValue">Logger.Log(LogLevel.Info, "DEBUG", "$END$");</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=166CE18932EF9B4DA16965F7F12D6FB6/Scope/=C3001E7C0DA78E4487072B7E050D86C5/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=166CE18932EF9B4DA16965F7F12D6FB6/Scope/=C3001E7C0DA78E4487072B7E050D86C5/CustomProperties/=minimumLanguageVersion/@EntryIndexedValue">2.0</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=166CE18932EF9B4DA16965F7F12D6FB6/Scope/=C3001E7C0DA78E4487072B7E050D86C5/Type/@EntryValue">InCSharpFile</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=33DAA4F61E3DBE40AB0AF7EAC320161D/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=33DAA4F61E3DBE40AB0AF7EAC320161D/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=33DAA4F61E3DBE40AB0AF7EAC320161D/CustomProperties/=Category/@EntryIndexedValue">Primary</s:String>
@@ -65,22 +94,21 @@
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=33DAA4F61E3DBE40AB0AF7EAC320161D/Text/@EntryValue">$HEADER$namespace $NAMESPACE$;
 
 [Celeste.Mod.Entities.CustomEntity("$PARENT$/$CLASS$")]
-public class $CLASS$ : Monocle.Entity {
+public class $CLASS$ : Monocle.Entity 
+{
     public $CLASS$(Celeste.EntityData data, Microsoft.Xna.Framework.Vector2 offset) : base(data.Position + offset)
     {
         $END$
     }
     
+    [OnLoad]
     internal static void Load()
     {
-        // TODO: apply any hooks that should always be active
-        // TODO: call Load() in module
     }
     
+    [OnUnload]
     internal static void Unload()
     {
-        // TODO: unapply any hooks applied in Load()
-        // TODO: call Unload() in module
     }
 }</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=33DAA4F61E3DBE40AB0AF7EAC320161D/UITag/@EntryValue">Class (Celeste)</s:String>
@@ -114,22 +142,21 @@ public class $CLASS$ : Monocle.Entity {
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=55AEDBEA1C824B4AAB25CC14F454B04B/Text/@EntryValue">$HEADER$namespace $NAMESPACE$;
 
 [Celeste.Mod.Entities.CustomEntity("$PARENT$/$CLASS$")]
-public class $CLASS$ : Solid {
-    public $CLASS$(Celeste.EntityData data, Microsoft.Xna.Framework.Vector2 offset) : base(data.Position + offset, data.Width, data.Height)
+public class $CLASS$ : Celeste.Solid 
+{
+    public $CLASS$(Celeste.EntityData data, Microsoft.Xna.Framework.Vector2 offset) : base(data.Position + offset, data.Width, data.Height, safe: false)
     {
         $END$
     }
     
+    [OnLoad]
     internal static void Load()
     {
-        // TODO: apply any hooks that should always be active
-        // TODO: call Load() in module
     }
     
+    [OnUnload]
     internal static void Unload()
     {
-        // TODO: unapply any hooks applied in Load()
-        // TODO: call Unload() in module
     }
 }</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=55AEDBEA1C824B4AAB25CC14F454B04B/UITag/@EntryValue">Class (Celeste)</s:String>
@@ -150,6 +177,127 @@ public class $CLASS$ : Solid {
 	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=55AEDBEA1C824B4AAB25CC14F454B04B/Field/=PARENT/Order/@EntryValue">3</s:Int64>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=55AEDBEA1C824B4AAB25CC14F454B04B/Scope/=E8F0594528C33E45BBFEC6CFE851095D/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=55AEDBEA1C824B4AAB25CC14F454B04B/Scope/=E8F0594528C33E45BBFEC6CFE851095D/Type/@EntryValue">InCSharpProjectFile</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/CustomProperties/=Category/@EntryIndexedValue">Primary</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/CustomProperties/=Extension/@EntryIndexedValue">cs</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/CustomProperties/=FileName/@EntryIndexedValue">Component</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/CustomProperties/=ValidateFileName/@EntryIndexedValue">True</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Description/@EntryValue">Backdrop (Celeste)</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Image/@EntryValue">CSharp</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Text/@EntryValue">$HEADER$namespace $NAMESPACE$;
+
+[Celeste.Mod.Backdrops.CustomBackdrop("$PARENT$/$CLASS$")]
+public class $CLASS$ : Celeste.Backdrop
+{
+    public $CLASS$(BinaryPacker.Element data)
+    {
+        $END$
+    }
+
+    public override void Update(Scene scene)
+    {
+        base.Update(scene);
+    }
+    
+    public override void Render(Scene scene)
+    {
+        base.Render(scene);
+    }
+}</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/UITag/@EntryValue">Class (Celeste)</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Field/=CLASS/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Field/=CLASS/Expression/@EntryValue">getAlphaNumericFileNameWithoutExtension()</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Field/=CLASS/InitialRange/@EntryValue">-1</s:Int64>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Field/=CLASS/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Field/=HEADER/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Field/=HEADER/Expression/@EntryValue">fileheader()</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Field/=HEADER/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Field/=NAMESPACE/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Field/=NAMESPACE/Expression/@EntryValue">fileDefaultNamespace()</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Field/=NAMESPACE/InitialRange/@EntryValue">-1</s:Int64>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Field/=NAMESPACE/Order/@EntryValue">2</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Field/=PARENT/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Field/=PARENT/Expression/@EntryValue">getSolutionName()</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Field/=PARENT/InitialRange/@EntryValue">-1</s:Int64>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Field/=PARENT/Order/@EntryValue">3</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Scope/=E8F0594528C33E45BBFEC6CFE851095D/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7886A8C78813CD42AA6AC80CDB11AE03/Scope/=E8F0594528C33E45BBFEC6CFE851095D/Type/@EntryValue">InCSharpProjectFile</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/CustomProperties/=Category/@EntryIndexedValue">Primary</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/CustomProperties/=Extension/@EntryIndexedValue">cs</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/CustomProperties/=FileName/@EntryIndexedValue">Component</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/CustomProperties/=ValidateFileName/@EntryIndexedValue">True</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Description/@EntryValue">CutsceneEntity (Celeste)</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Image/@EntryValue">CSharp</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Text/@EntryValue">$HEADER$namespace $NAMESPACE$;
+
+[Celeste.Mod.Entities.CustomEvent("$PARENT$/$CLASS$")]
+public class $CLASS$ : Celeste.CutsceneEntity
+{
+    private readonly EventTrigger Trigger;
+    private readonly Player Player;
+    private readonly string EventId;
+    
+    public $CLASS$(EventTrigger trigger, Player player, string eventId) : base(fadeInOnSkip: true, endingChapterAfter: false)
+    {
+        Trigger = trigger;
+        Player = player;
+        EventId = eventId;
+    }
+    
+    public override void OnBegin(Level level)
+    {
+        Player.StateMachine.State = Player.StDummy;
+        Player.StateMachine.Locked = true;
+        
+        Add(new Coroutine(Cutscene(level)));
+    }
+
+    private IEnumerator Cutscene(Level level)
+    {
+        yield return null;
+        $END$
+        
+        // sometimes EndCutscene isn't happy about being called, adding a second call usually works though
+        EndCutscene(level);
+        EndCutscene(level);
+    }
+
+    public override void OnEnd(Level level)
+    {
+        Player.StateMachine.State = Player.StNormal;
+        Player.StateMachine.Locked = false;
+
+        if (WasSkipped)
+        {
+            
+        }
+    }
+}</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/UITag/@EntryValue">Class (Celeste)</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Field/=CLASS/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Field/=CLASS/Expression/@EntryValue">getAlphaNumericFileNameWithoutExtension()</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Field/=CLASS/InitialRange/@EntryValue">-1</s:Int64>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Field/=CLASS/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Field/=HEADER/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Field/=HEADER/Expression/@EntryValue">fileheader()</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Field/=HEADER/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Field/=NAMESPACE/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Field/=NAMESPACE/Expression/@EntryValue">fileDefaultNamespace()</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Field/=NAMESPACE/InitialRange/@EntryValue">-1</s:Int64>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Field/=NAMESPACE/Order/@EntryValue">2</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Field/=PARENT/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Field/=PARENT/Expression/@EntryValue">getSolutionName()</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Field/=PARENT/InitialRange/@EntryValue">-1</s:Int64>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Field/=PARENT/Order/@EntryValue">3</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Scope/=E8F0594528C33E45BBFEC6CFE851095D/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=800EF3C441BD20409E971AE90B97E6FF/Scope/=E8F0594528C33E45BBFEC6CFE851095D/Type/@EntryValue">InCSharpProjectFile</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A5FF08165316DE4D833B683EF4F7EDC3/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A5FF08165316DE4D833B683EF4F7EDC3/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A5FF08165316DE4D833B683EF4F7EDC3/CustomProperties/=Category/@EntryIndexedValue">Primary</s:String>
@@ -163,22 +311,21 @@ public class $CLASS$ : Solid {
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A5FF08165316DE4D833B683EF4F7EDC3/Text/@EntryValue">$HEADER$namespace $NAMESPACE$;
 
 [Celeste.Mod.Entities.CustomEntity("$PARENT$/$CLASS$")]
-public class $CLASS$ : Celeste.Trigger {
+public class $CLASS$ : Celeste.Trigger
+{
     public $CLASS$(Celeste.EntityData data, Microsoft.Xna.Framework.Vector2 offset) : base(data, offset)
     {
         $END$
     }
     
+    [OnLoad]
     internal static void Load()
     {
-        // TODO: apply any hooks that should always be active
-        // TODO: call Load() in module
     }
     
+    [OnUnload]
     internal static void Unload()
     {
-        // TODO: unapply any hooks applied in Load()
-        // TODO: call Unload() in module
     }
 }</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A5FF08165316DE4D833B683EF4F7EDC3/UITag/@EntryValue">Class (Celeste)</s:String>
@@ -211,22 +358,21 @@ public class $CLASS$ : Celeste.Trigger {
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=D9A729BAB06A5C4EACC4F3DD85ADA372/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=D9A729BAB06A5C4EACC4F3DD85ADA372/Text/@EntryValue">$HEADER$namespace $NAMESPACE$;
 
-public class $CLASS$ : Monocle.Component {
+public class $CLASS$ : Monocle.Component
+{
     public $CLASS$(bool visible, bool active) : base(visible, active)
     {
         $END$
     }
     
+    [OnLoad]
     internal static void Load()
     {
-        // TODO: apply any hooks that should always be active
-        // TODO: call Load() in module
     }
     
+    [OnUnload]
     internal static void Unload()
     {
-        // TODO: unapply any hooks applied in Load()
-        // TODO: call Unload() in module
     }
 }</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=D9A729BAB06A5C4EACC4F3DD85ADA372/UITag/@EntryValue">Class (Celeste)</s:String>
