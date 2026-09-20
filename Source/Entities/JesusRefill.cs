@@ -9,7 +9,7 @@ public class JesusRefill : Entity
     internal readonly bool oneUse;
 
     internal readonly bool DisableQuickRespawn;
-    internal readonly bool SkipEverestEventDie;
+    internal readonly bool SkipEverestEventOnDie;
     internal readonly bool AffectRetries;
     internal readonly bool DontRegisterDeathInStats;
     internal readonly bool KeepFollowers;
@@ -35,7 +35,7 @@ public class JesusRefill : Entity
         respawnTime = data.Float("respawnTime", 2.5f);
         oneUse = data.Bool("oneUse");
         DisableQuickRespawn = data.Bool("disableQuickRespawn");
-        SkipEverestEventDie = data.Bool("skipEverestEventDie");
+        SkipEverestEventOnDie = data.Bool("skipEverestEventOnDie");
         AffectRetries = data.Bool("affectRetries");
         DontRegisterDeathInStats = data.Bool("dontRegisterDeathInStats");
         KeepFollowers = data.Bool("keepFollowers");

@@ -8,7 +8,7 @@ public class MintChocolateHelperModuleSession : EverestModuleSession
 {
     // Pseudo Death
     internal bool PseudoDeadDisableQuickRespawn => JesusRefillDisableQuickRespawn || CancelDeathTriggerDisableQuickRespawn;
-    internal bool PseudoDeadSkipEverestEventDie => JesusRefillSkipEverestEventDie || CancelDeathTriggerSkipEverestEventDie;
+    internal bool PseudoDeadSkipEverestEventOnDie => JesusRefillSkipEverestEventOnDie || CancelDeathTriggerSkipEverestEventOnDie;
     internal bool PseudoDeadAffectRetries => JesusRefillAffectRetries || CancelDeathTriggerAffectRetries;
     internal bool PseudoDeadDontRegisterDeathInStats => JesusRefillDontRegisterDeathInStats || CancelDeathTriggerDontRegisterDeathInStats;
     internal bool PseudoDeadKeepFollowers => JesusRefillKeepFollowers || CancelDeathTriggerKeepFollowers;
@@ -19,9 +19,8 @@ public class MintChocolateHelperModuleSession : EverestModuleSession
     [CanBeNull]
     internal List<CancelDeathTrigger> ValidCancelDeathTriggers => SearchUtils.GetEntities<CancelDeathTrigger>()?.Where(t =>
         string.IsNullOrWhiteSpace(t.Flag) || (t.IsValidExpression ? FrostHelperImports.SafeGetBoolSessionExpressionValue(t.FlagExpression, Utils.GetLevel()!.Session) : Utils.GetLevel().GetFlag(t.Flag))).ToList();
-
     internal bool CancelDeathTriggerDisableQuickRespawn => ValidCancelDeathTriggers?.Any(t => t.DisableQuickRespawn) ?? false;
-    internal bool CancelDeathTriggerSkipEverestEventDie => ValidCancelDeathTriggers?.Any(t => t.SkipEverestEventDie) ?? false;
+    internal bool CancelDeathTriggerSkipEverestEventOnDie => ValidCancelDeathTriggers?.Any(t => t.SkipEverestEventOnDie) ?? false;
     internal bool CancelDeathTriggerAffectRetries => ValidCancelDeathTriggers?.Any(t => t.AffectRetries) ?? false;
     internal bool CancelDeathTriggerDontRegisterDeathInStats => ValidCancelDeathTriggers?.Any(t => t.DontRegisterDeathInStats) ?? false;
     internal bool CancelDeathTriggerKeepFollowers => ValidCancelDeathTriggers?.Any(t => t.KeepFollowers) ?? false;
@@ -30,10 +29,9 @@ public class MintChocolateHelperModuleSession : EverestModuleSession
     // Jesus Refill
     [CanBeNull]
     internal JesusRefill LastJesusRefill {get; set;}
-
     internal bool HasJesusRefill => LastJesusRefill is { };
     internal bool JesusRefillDisableQuickRespawn => LastJesusRefill is { DisableQuickRespawn: true };
-    internal bool JesusRefillSkipEverestEventDie => LastJesusRefill is { SkipEverestEventDie: true };
+    internal bool JesusRefillSkipEverestEventOnDie => LastJesusRefill is { SkipEverestEventOnDie: true };
     internal bool JesusRefillAffectRetries => LastJesusRefill is { AffectRetries: true };
     internal bool JesusRefillDontRegisterDeathInStats => LastJesusRefill is { DontRegisterDeathInStats: true };
     internal bool JesusRefillKeepFollowers => LastJesusRefill is { KeepFollowers: true };
@@ -45,7 +43,6 @@ public class MintChocolateHelperModuleSession : EverestModuleSession
     // Speed Flip
     [CanBeNull]
     internal SpeedFlipRefill LastSpeedFlipRefill {get; set;}
-
     internal int SpeedFlipControllerCharges {get; set;}
     internal bool HasSpeedFlipRefill => LastSpeedFlipRefill is { };
     internal bool SpeedFlipRefillDisableCollectEffects => LastSpeedFlipRefill is { DisableCollectEffects: true };
@@ -53,7 +50,6 @@ public class MintChocolateHelperModuleSession : EverestModuleSession
     // Heart Breaker Refill
     [CanBeNull]
     internal HeartBreakerRefill LastHeartBreakerRefill {get; set;}
-
     internal bool HasHeartBreakerDash => LastHeartBreakerRefill is { };
     internal bool HeartBreakerDashActive => HasHeartBreakerDash && (SearchUtils.GetPlayer()?.DashAttacking ?? false);
 }

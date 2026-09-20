@@ -6,7 +6,7 @@ public class CancelDeathTrigger : Trigger
 {
     private readonly int Delay;
     internal readonly bool DisableQuickRespawn;
-    internal readonly bool SkipEverestEventDie;
+    internal readonly bool SkipEverestEventOnDie;
     internal readonly bool AffectRetries;
     internal readonly bool DontRegisterDeathInStats;
     internal readonly bool KeepFollowers;
@@ -19,7 +19,7 @@ public class CancelDeathTrigger : Trigger
     {
         Delay = data.Int("delay");
         DisableQuickRespawn = data.Bool("disableQuickRespawn");
-        SkipEverestEventDie = data.Bool("skipEverestEventDie");
+        SkipEverestEventOnDie = data.Bool("skipEverestEventOnDie");
         AffectRetries = data.Bool("affectRetries");
         DontRegisterDeathInStats = data.Bool("dontRegisterDeathInStats");
         KeepFollowers = data.Bool("keepFollowers");

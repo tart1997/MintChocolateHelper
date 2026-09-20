@@ -11,7 +11,7 @@ CancelDeathTrigger.placements = {
         flag = "",
         delay = 0,
 		disableQuickRespawn = false,
-		skipEverestEventDie = false,
+		skipEverestEventOnDie = false,
 		affectRetries = false,
         dontRegisterDeathInStats = false,
 		keepFollowers = false
@@ -28,7 +28,7 @@ CancelDeathTrigger.fieldOrder = {
     "x", "y",
     "width", "height",
     "flag", "delay",
-    "disableQuickRespawn", "skipEverestEventDie",
+    "disableQuickRespawn", "skipEverestEventOnDie",
 	"affectRetries", "dontRegisterDeathInStats",
 	"keepFollowers"
 }

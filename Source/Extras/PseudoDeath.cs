@@ -37,7 +37,7 @@ public static class PseudoDeath
     private static bool PseudoDeadWithRefill() => MintChocolateHelperModule.Session.PlayerIsPseudoDead && MintChocolateHelperModule.Session.HasJesusRefill;
     private static bool PseudoDeadDontRegisterDeathInStats() => MintChocolateHelperModule.Session.PseudoDeadDontRegisterDeathInStats;
     private static bool PseudoDeadKeepFollowers() => MintChocolateHelperModule.Session.PseudoDeadKeepFollowers;
-    private static bool PseudoDeadSkipEverestEventDie() => MintChocolateHelperModule.Session.PseudoDeadSkipEverestEventDie;
+    private static bool PseudoDeadSkipEverestEventOnDie() => MintChocolateHelperModule.Session.PseudoDeadSkipEverestEventOnDie;
     private static bool NOTPseudoDeadAffectRetries() => !MintChocolateHelperModule.Session.PseudoDeadAffectRetries;
 
 
@@ -60,7 +60,7 @@ public static class PseudoDeath
             return;
         }
 
-        cursor.EmitDelegate(PseudoDeadSkipEverestEventDie);
+        cursor.EmitDelegate(PseudoDeadSkipEverestEventOnDie);
         cursor.EmitBrtrue(Skip);
     }
 
@@ -392,7 +392,7 @@ public static class PseudoDeath
 
     private static void PanicReset(On.Celeste.Level.orig_Reload orig, Level self)
     {
-        if (MintChocolateHelperModule.Session.LastJesusRefill?.SkipEverestEventDie ?? false) typeof(Everest.Events.Player).GetMethod("Die", BindingFlags.NonPublic | BindingFlags.Static)?.Invoke(null, [self.GetPlayer()]);
+        if (MintChocolateHelperModule.Session.LastJesusRefill?.SkipEverestEventOnDie ?? false) typeof(Everest.Events.Player).GetMethod("Die", BindingFlags.NonPublic | BindingFlags.Static)?.Invoke(null, [self.GetPlayer()]);
         MintChocolateHelperModule.Session.CancelDeathTriggerTeleportingPlayer = false;
         JesusRefill.ResetRefill();
         SpeedFlipRefill.ResetRefill();
