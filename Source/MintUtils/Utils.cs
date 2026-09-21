@@ -100,7 +100,7 @@ internal static class Utils
         internal Level AsLevel() => scene as Level;
 
         [UsedImplicitly]
-        internal bool GetFlag(string flag) => scene.AsLevel()!.Session.GetFlag(flag);
+        internal bool GetFlag(string flag) => scene.AsLevel()?.Session.GetFlag(flag) ?? false;
 
         [UsedImplicitly]
         internal void SetFlag(string flag, bool setTo = true) => scene.AsLevel()?.Session.SetFlag(flag, setTo);
@@ -111,7 +111,7 @@ internal static class Utils
     internal static Level GetLevel() => Engine.Scene as Level;
 
     [UsedImplicitly]
-    internal static bool GetFlag(string flag) => GetLevel()!.Session.GetFlag(flag);
+    internal static bool GetFlag(string flag) => GetLevel()?.Session.GetFlag(flag) ?? false;
 
     [UsedImplicitly]
     internal static void SetFlag(string flag, bool setTo = true) => GetLevel()?.Session.SetFlag(flag, setTo);
