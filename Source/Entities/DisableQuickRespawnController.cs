@@ -1,6 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
 [Tracked]
+[ConditionalEntity]
 [CustomEntity("MintChocolateHelper/DisableQuickRespawn", "MintChocolateHelper/DisableQuickRespawnController")]
 public class DisableQuickRespawnController : Entity
 {
@@ -15,9 +16,10 @@ public class DisableQuickRespawnController : Entity
         if (FrostHelperImports.SafeTryCreateSessionExpression(DisableFlag, out DisableFlagExpression)) IsValidExpression = true;
     }
 
-    [OnLoad]
+    [UsedImplicitly]
     internal static void Load()
     {
+        Utils.LogVerbose($"Loading {nameof(DisableQuickRespawnController)} Hooks...");
         IL.Celeste.PlayerDeadBody.Update += PlayerDeadBodyOnUpdate;
     }
 

@@ -158,7 +158,7 @@ public class FusionHeartHalf : Entity
 
         sprite.Position = Vector2.UnitY * (float)Math.Sin(timer * 2f) * 2f + moveWiggleDir * moveWiggler.Value * -8f;
 
-        List<Sprite> sprites = [outline];
+        Sprite[] sprites = [outline];
 
         foreach (Sprite other in sprites)
         {

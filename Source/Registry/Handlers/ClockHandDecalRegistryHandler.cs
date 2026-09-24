@@ -18,7 +18,11 @@ internal class ClockHandDecalRegistryHandler : DecalRegistryHandler
     private EasingUtils.EasingFunctions easingFunction;
 
     [OnLoad]
-    internal static void Load() => DecalRegistry.AddPropertyHandler<ClockHandDecalRegistryHandler>();
+    internal static void Load()
+    {
+        Utils.LogVerbose($"Adding Decal Registry Handler: {nameof(ClockHandDecalRegistryHandler)}...");
+        DecalRegistry.AddPropertyHandler<ClockHandDecalRegistryHandler>();
+    }
 
     public override void Parse(XmlAttributeCollection xml)
     {

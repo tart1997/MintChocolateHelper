@@ -2,15 +2,15 @@
 
 internal class McTrigger : FancyText.Trigger
 {
-    internal delegate void CDCAction(DynamicData data, params List<string> args);
+    internal delegate void CDCAction(DynamicData data, params string[] args);
 
     internal CDCAction ParseCommandAction;
     internal CDCAction ParseNewPageAction;
     internal CDCAction WhileOnPageAction;
     internal CDCAction OnReadAction;
 
-    public List<string> Params;
-    internal McTrigger(List<string> rawParams)
+    public string[] Params;
+    internal McTrigger(string[] rawParams)
     {
         Silent = true;
         Params = rawParams;
@@ -20,13 +20,20 @@ internal class McTrigger : FancyText.Trigger
 public static class CustomDialogCommands
 {
     private static readonly Dictionary<string, McTrigger> Triggers = [];
-    internal static void Register(string commandString, McTrigger trigger) => Triggers.Add(commandString, trigger);
+    internal static void Register(this (string, McTrigger)[] triggers)
+    {
+        foreach ((string commandString, McTrigger trigger) in triggers)
+        {
+            Triggers.Add(commandString, trigger);
+        }
+    }
 
     private static ILHook DoOnReadAction;
-
-    [OnLoad]
+    
+    [UsedImplicitly]
     internal static void Load()
     {
+        Utils.LogVerbose($"Loading {nameof(CustomDialogCommands)} Hooks...");
         IL.Celeste.FancyText.Parse += ParseCommands;
         On.Celeste.Textbox.Render += TextboxOnRender;
         DoOnReadAction ??= new ILHook(typeof(Textbox).GetMethod(nameof(Textbox.RunRoutine), BindingFlags.NonPublic | BindingFlags.Instance)!.GetStateMachineTarget()!, TextboxOnRunRoutine);
@@ -82,14 +89,13 @@ public static class CustomDialogCommands
             return;
         }
 
-        Utils.LogInfo("MintChocolateHelper is hooking into FancyText.Parse, please let me know if something explodes!");
         cursor.EmitLdarg0();
         cursor.EmitLdloc(il.Method.Body.Variables[7]);
         cursor.EmitLdloc(il.Method.Body.Variables[8]);
         cursor.EmitDelegate(AddTriggers);
     }
 
-    private static void AddTriggers(FancyText text, string commandString, List<string> parameters)
+    private static void AddTriggers(FancyText text, string commandString, string[] parameters)
     {
         DynamicData textData = DynamicData.For(text);
         FancyText.Text? group = textData.Get<FancyText.Text?>("group");
@@ -105,7 +111,7 @@ public static class CustomDialogCommands
         }
     }
 
-    private static void ParseNewPage(FancyText text, string commandString, List<string> parameters)
+    private static void ParseNewPage(FancyText text, string commandString, string[] parameters)
     {
         foreach (string registeredCommandString in Triggers.Keys.Where(registeredCommandString => registeredCommandString == commandString))
         {

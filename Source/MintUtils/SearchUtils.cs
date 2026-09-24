@@ -11,7 +11,7 @@ public static class SearchUtils
 
         [CanBeNull]
         [UsedImplicitly]
-        internal List<T> GetEntities<T>(bool TrackIfNeeded = false) where T : Entity => TrackIfNeeded ? [.. level.Tracker.GetEntitiesTrackIfNeeded<T>().Cast<T>()] : [.. level.Tracker.GetEntities<T>().Cast<T>()];
+        internal T[] GetEntities<T>(bool TrackIfNeeded = false) where T : Entity => TrackIfNeeded ? [.. level.Tracker.GetEntitiesTrackIfNeeded<T>().Cast<T>()] : [.. level.Tracker.GetEntities<T>().Cast<T>()];
 
         [CanBeNull]
         [UsedImplicitly]
@@ -20,15 +20,15 @@ public static class SearchUtils
         [UsedImplicitly]
         internal bool IfAny<T>(bool TrackIfNeeded = false) where T : Entity
         {
-            List<T> output = level.GetEntities<T>(TrackIfNeeded);
-            return output != null && output.Count != 0;
+            T[] output = level.GetEntities<T>(TrackIfNeeded);
+            return output != null && output.Length != 0;
         }
 
         [UsedImplicitly]
-        internal bool IfAny<T>([NotNullWhen(true)] out List<T> output, bool TrackIfNeeded = false) where T : Entity
+        internal bool IfAny<T>([NotNullWhen(true)] out T[] output, bool TrackIfNeeded = false) where T : Entity
         {
             output = level.GetEntities<T>(TrackIfNeeded);
-            return output != null && output.Count != 0;
+            return output != null && output.Length != 0;
         }
 
         [UsedImplicitly]
@@ -41,15 +41,15 @@ public static class SearchUtils
         [UsedImplicitly]
         internal bool IfNone<T>(bool TrackIfNeeded = false) where T : Entity
         {
-            List<T> output = level.GetEntities<T>(TrackIfNeeded);
-            return output == null || output.Count == 0;
+            T[] output = level.GetEntities<T>(TrackIfNeeded);
+            return output == null || output.Length == 0;
         }
 
         [UsedImplicitly]
-        internal bool IfNone<T>([NotNullWhen(false)] out List<T> output, bool TrackIfNeeded = false) where T : Entity
+        internal bool IfNone<T>([NotNullWhen(false)] out T[] output, bool TrackIfNeeded = false) where T : Entity
         {
             output = level.GetEntities<T>(TrackIfNeeded);
-            return output == null || output.Count == 0;
+            return output == null || output.Length == 0;
         }
 
         [UsedImplicitly]
@@ -68,7 +68,7 @@ public static class SearchUtils
 
         [CanBeNull]
         [UsedImplicitly]
-        internal List<T> GetEntities<T>(bool TrackIfNeeded = false) where T : Entity => TrackIfNeeded ? [.. scene.Tracker.GetEntitiesTrackIfNeeded<T>().Cast<T>()] : [.. scene.Tracker.GetEntities<T>().Cast<T>()];
+        internal T[] GetEntities<T>(bool TrackIfNeeded = false) where T : Entity => TrackIfNeeded ? [.. scene.Tracker.GetEntitiesTrackIfNeeded<T>().Cast<T>()] : [.. scene.Tracker.GetEntities<T>().Cast<T>()];
 
         [CanBeNull]
         [UsedImplicitly]
@@ -77,15 +77,15 @@ public static class SearchUtils
         [UsedImplicitly]
         internal bool IfAny<T>(bool TrackIfNeeded = false) where T : Entity
         {
-            List<T> output = GetEntities<T>(TrackIfNeeded);
-            return output != null && output.Count != 0;
+            T[] output = GetEntities<T>(TrackIfNeeded);
+            return output != null && output.Length != 0;
         }
 
         [UsedImplicitly]
-        internal bool IfAny<T>([NotNullWhen(true)] out List<T> output, bool TrackIfNeeded = false) where T : Entity
+        internal bool IfAny<T>([NotNullWhen(true)] out T[] output, bool TrackIfNeeded = false) where T : Entity
         {
             output = scene.GetEntities<T>(TrackIfNeeded);
-            return output != null && output.Count != 0;
+            return output != null && output.Length != 0;
         }
 
         [UsedImplicitly]
@@ -98,15 +98,15 @@ public static class SearchUtils
         [UsedImplicitly]
         internal bool IfNone<T>(bool TrackIfNeeded = false) where T : Entity
         {
-            List<T> output = GetEntities<T>(TrackIfNeeded);
-            return output == null || output.Count == 0;
+            T[] output = GetEntities<T>(TrackIfNeeded);
+            return output == null || output.Length == 0;
         }
 
         [UsedImplicitly]
-        internal bool IfNone<T>([NotNullWhen(false)] out List<T> output, bool TrackIfNeeded = false) where T : Entity
+        internal bool IfNone<T>([NotNullWhen(false)] out T[] output, bool TrackIfNeeded = false) where T : Entity
         {
             output = scene.GetEntities<T>(TrackIfNeeded);
-            return output == null || output.Count == 0;
+            return output == null || output.Length == 0;
         }
 
         [UsedImplicitly]
@@ -127,10 +127,10 @@ public static class SearchUtils
 
     [CanBeNull]
     [UsedImplicitly]
-    internal static List<T> GetEntities<T>(bool TrackIfNeeded = false) where T : Entity
+    internal static T[] GetEntities<T>(bool TrackIfNeeded = false) where T : Entity
     {
         Level level = Utils.GetLevel();
-        return TrackIfNeeded ? level?.Tracker.GetEntitiesTrackIfNeeded<T>().Cast<T>().ToList() : level?.Tracker.GetEntities<T>().Cast<T>().ToList();
+        return TrackIfNeeded ? level?.Tracker.GetEntitiesTrackIfNeeded<T>().Cast<T>().ToArray() : level?.Tracker.GetEntities<T>().Cast<T>().ToArray();
     }
 
     [CanBeNull]
@@ -144,15 +144,15 @@ public static class SearchUtils
     [UsedImplicitly]
     internal static bool IfAny<T>(bool TrackIfNeeded = false) where T : Entity
     {
-        List<T> output = GetEntities<T>(TrackIfNeeded);
-        return output != null && output.Count != 0;
+        T[] output = GetEntities<T>(TrackIfNeeded);
+        return output != null && output.Length != 0;
     }
 
     [UsedImplicitly]
-    internal static bool IfAny<T>([NotNullWhen(true)] out List<T> output, bool TrackIfNeeded = false) where T : Entity
+    internal static bool IfAny<T>([NotNullWhen(true)] out T[] output, bool TrackIfNeeded = false) where T : Entity
     {
         output = GetEntities<T>(TrackIfNeeded);
-        return output != null && output.Count != 0;
+        return output != null && output.Length != 0;
     }
 
     [UsedImplicitly]
@@ -165,15 +165,15 @@ public static class SearchUtils
     [UsedImplicitly]
     internal static bool IfNone<T>(bool TrackIfNeeded = false) where T : Entity
     {
-        List<T> output = GetEntities<T>(TrackIfNeeded);
-        return output == null || output.Count == 0;
+        T[] output = GetEntities<T>(TrackIfNeeded);
+        return output == null || output.Length == 0;
     }
 
     [UsedImplicitly]
-    internal static bool IfNone<T>([NotNullWhen(false)] out List<T> output, bool TrackIfNeeded = false) where T : Entity
+    internal static bool IfNone<T>([NotNullWhen(false)] out T[] output, bool TrackIfNeeded = false) where T : Entity
     {
         output = GetEntities<T>(TrackIfNeeded);
-        return output == null || output.Count == 0;
+        return output == null || output.Length == 0;
     }
 
     [UsedImplicitly]

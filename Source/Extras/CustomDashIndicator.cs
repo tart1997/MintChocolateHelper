@@ -1,6 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Extras;
 
 //ALL CREDITS FOR THIS GO TO SNOWY
+[ConditionalEntity(nameof(HeartBreakerRefill), nameof(SpeedFlipRefill), nameof(JesusRefill))]
 public class CustomDashIndicator : Entity
 {
     private struct Indicator
@@ -71,8 +72,8 @@ public class CustomDashIndicator : Entity
 
         if (!Enabled) return;
 
-        List<Indicator> activeIndicators = Indicators.Where(i => i.Condition()).ToList();
-        if (activeIndicators.Count == 0) return;
+        Indicator[] activeIndicators = [.. Indicators.Where(i => i.Condition())];
+        if (activeIndicators.Length == 0) return;
 
         Vector2 scale = Vector2.One * (1f + Wiggler.Value * 0.2f);
 
@@ -83,7 +84,7 @@ public class CustomDashIndicator : Entity
         const float spacing = 2f;
         const float step = width + spacing;
 
-        int indicatorsCount = activeIndicators.Count;
+        int indicatorsCount = activeIndicators.Length;
 
         float totalWidth = indicatorsCount * width + (indicatorsCount - 1) * spacing;
         Vector2 basePos = new(player.X, player.Y - RenderPos);
@@ -97,9 +98,10 @@ public class CustomDashIndicator : Entity
         }
     }
 
-    [OnLoad]
+    [UsedImplicitly]
     internal static void Load()
     {
+        Utils.LogVerbose($"Loading {nameof(CustomDashIndicator)} Hooks...");
         On.Celeste.LevelLoader.LoadingThread += LevelLoaderOnLoadingThread;
     }
 

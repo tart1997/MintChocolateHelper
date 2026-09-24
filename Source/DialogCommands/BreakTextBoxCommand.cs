@@ -1,10 +1,16 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.DialogCommands;
 
+[CustomCommand]
 public static class BreakTextBoxCommand
 {
+    private static readonly (string, McTrigger)[] CommandStrings = [
+        ("vvv", new BreakTextBoxTrigger(false)),
+        ("VVV", new BreakTextBoxTrigger(true))
+    ];
+    
     private class BreakTextBoxTrigger : McTrigger
     {
-        internal BreakTextBoxTrigger(bool disableTextShrink, params List<string> args) : base(args)
+        internal BreakTextBoxTrigger(bool disableTextShrink, params string[] args) : base(args)
         {
             ParseCommandAction = (data, _) => data.SetTrue("MintChocolateHelper:DisableLineLimit");
             ParseNewPageAction = (data, _) => data.SetFalse("MintChocolateHelper:DisableLineLimit");
@@ -14,13 +20,18 @@ public static class BreakTextBoxCommand
             };
         }
     }
-
+    
     [OnLoad]
+    internal static void RegisterCommands()
+    {
+        Utils.LogVerbose($"Registering Custom Dialog Command: {nameof(BreakTextBoxTrigger)}...");
+        CommandStrings.Register();
+    }
+    
+    [UsedImplicitly]
     internal static void Load()
     {
-        CustomDialogCommands.Register("vvv", new BreakTextBoxTrigger(false));
-        CustomDialogCommands.Register("VVV", new BreakTextBoxTrigger(true));
-
+        Utils.LogVerbose($"Loading {nameof(BreakTextBoxTrigger)} Hooks...");
         IL.Celeste.FancyText.AddNewLine += SkipAddNewPage;
         IL.Celeste.Textbox.Render += JustifyTextDownHook;
     }

@@ -1,6 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
 [Tracked]
+[ConditionalEntity]
 [CustomEntity("MintChocolateHelper/DebrisTweaksController")]
 public class DebrisTweaksController : Entity
 {
@@ -15,9 +16,10 @@ public class DebrisTweaksController : Entity
         PlayerAffected = data.Bool("playerAffected");
     }
 
-    [OnLoad]
+    [UsedImplicitly]
     internal static void Load()
     {
+        Utils.LogVerbose($"Loading {nameof(DebrisTweaksController)} Hooks...");
         On.Celeste.Debris.Init_Vector2_char_bool += DebrisOnInit_Vector2_char_bool;
         On.Celeste.Debris.Update += DebrisOnUpdate;
         IL.Celeste.Debris.Update += DebrisILUpdate;

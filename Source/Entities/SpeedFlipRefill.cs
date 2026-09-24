@@ -1,6 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
 [Tracked]
+[ConditionalEntity]
 [CustomEntity("MintChocolateHelper/SpeedFlipRefill")]
 public class SpeedFlipRefill : Entity
 {
@@ -178,9 +179,10 @@ public class SpeedFlipRefill : Entity
         SlashFx.Burst(Position, num);
     }
 
-    [OnLoad]
+    [UsedImplicitly]
     internal static void Load()
     {
+        Utils.LogVerbose($"Loading {nameof(SpeedFlipRefill)} Hooks...");
         On.Celeste.Player.Die += SpeedFlipRefillDie;
     }
 

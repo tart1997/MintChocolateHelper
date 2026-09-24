@@ -1,6 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
 [Tracked]
+[ConditionalEntity]
 [CustomEntity("MintChocolateHelper/JesusRefill")]
 public class JesusRefill : Entity
 {
@@ -160,9 +161,10 @@ public class JesusRefill : Entity
         SlashFx.Burst(Position, num);
     }
 
-    [OnLoad]
+    [UsedImplicitly]
     internal static void Load()
     {
+        Utils.LogVerbose($"Loading {nameof(JesusRefill)} Hooks...");
         On.Celeste.Player.Die += JesusRefillRefillDie;
     }
 

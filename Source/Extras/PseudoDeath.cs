@@ -1,14 +1,16 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Extras;
 
+[ConditionalEntity(nameof(JesusRefill), nameof(CancelDeathTrigger))]
 public static class PseudoDeath
 {
     private static ILHook FakeDeathHook_origDie;
     //private static ILHook ExtendGroundCheck_origUpdate;
     private static ILHook ModifyDashSpeed_DashCoroutine;
 
-    [OnLoad]
+    [UsedImplicitly]
     internal static void Load()
     {
+        Utils.LogVerbose($"Loading {nameof(PseudoDeath)} Hooks...");
         IL.Celeste.Player.Die += SilenceEverestEventDie;
         FakeDeathHook_origDie ??= new ILHook(typeof(Player).GetMethod(nameof(Player.orig_Die), BindingFlags.Public | BindingFlags.Instance)!, PseudoDie);
         //ExtendGroundCheck_origUpdate ??= new ILHook(typeof(Player).GetMethod(nameof(Player.orig_Update), BindingFlags.Public | BindingFlags.Instance)!, ExtendGroundCheck);

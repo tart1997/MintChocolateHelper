@@ -1,5 +1,6 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
+[ConditionalEntity]
 [CustomEntity("MintChocolateHelper/HeartBreakerRefill")]
 public class HeartBreakerRefill : Entity
 {
@@ -174,9 +175,10 @@ public class HeartBreakerRefill : Entity
         }
     }
 
-    [OnLoad]
+    [UsedImplicitly]
     internal static void Load()
     {
+        Utils.LogVerbose($"Loading {nameof(HeartBreakerRefill)} Hooks...");
         On.Celeste.Player.Die += HeartBreakerRefillDie;
         On.Celeste.Player.DashEnd += HeartBreakerDashEnd;
     }

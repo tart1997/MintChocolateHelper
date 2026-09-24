@@ -1,6 +1,7 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
 [Tracked]
+[ConditionalEntity]
 [CustomEntity("MintChocolateHelper/StylegroundsWhilePaused", "MintChocolateHelper/StylegroundsWhilePausedController")]
 public class StylegroundsWhilePausedController : Entity
 {
@@ -40,8 +41,12 @@ public class StylegroundsWhilePausedController : Entity
         }
     }
 
-    [OnLoad]
-    internal static void Load() => IL.Celeste.Level.Update += LevelOnUpdate;
+    [UsedImplicitly]
+    internal static void Load()
+    {
+        Utils.LogVerbose($"Loading {nameof(StylegroundsWhilePausedController)} Hooks...");
+        IL.Celeste.Level.Update += LevelOnUpdate;
+    }
 
     [OnUnload]
     internal static void Unload() => IL.Celeste.Level.Update -= LevelOnUpdate;

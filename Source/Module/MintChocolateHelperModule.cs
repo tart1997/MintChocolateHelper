@@ -21,13 +21,13 @@ public class MintChocolateHelperModule : EverestModule
         Instance = this;
         #if DEBUG
             // debug builds use verbose logging
-            Logger.SetLogLevel(nameof(MintChocolateHelperModule), LogLevel.Verbose);
+            Logger.SetLogLevel(ModName, LogLevel.Verbose);
         #else
             // release builds use info logging to reduce spam in log files
             Logger.SetLogLevel(nameof(MintChocolateHelperModule), LogLevel.Info);
         #endif
     }
-
+    
     // OPTIONAL DEPENDENCIES GO HERE
     internal static bool FemtoHelperLoaded;
     internal static bool FlaglinesLoaded;
@@ -35,10 +35,6 @@ public class MintChocolateHelperModule : EverestModule
 
     public override void Load()
     {
-        FrostHelperImports.Load();
-        GravityHelperImports.Load();
-        LifecycleMethods.OnLoad();
-
         #region Optional Dependency Loading
             EverestModuleMetadata femtoHelper = new() {
                 Name = "FemtoHelper",
@@ -58,10 +54,24 @@ public class MintChocolateHelperModule : EverestModule
             };
             VivhelperLoaded = Everest.Loader.DependencyLoaded(VivHelper);
         #endregion
+
+        MintChocolateHelperHookLoading.TryDisableInlining();
+
+        FrostHelperImports.Load();
+        GravityHelperImports.Load();
+
+        if (Everest.Flags.IsHeadless)
+        {
+            MintChocolateHelperHookLoading.LoadAllHooks();
+            return;
+        }
+        
+        MintChocolateHelperHookLoading.LoadAllConditionalObjects();
+        MintChocolateHelperHookLoading.ConditionalLoad();
     }
 
     public override void Unload()
     {
-        LifecycleMethods.OnUnload();
+        MintChocolateHelperHookLoading.Unload();
     }
 }

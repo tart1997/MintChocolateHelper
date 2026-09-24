@@ -1,19 +1,19 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
 [Tracked]
+[ConditionalEntity]
 [CustomEntity("MintChocolateHelper/ILoveAnimatedTilesController", "MintChocolateHelper/UniversalAnimatedTilesController")]
 public class UniversalAnimatedTilesController : Entity
 {
-    private static bool UniversalAnimatedTilesControllerNeeded;
-
     public UniversalAnimatedTilesController(EntityData data, Vector2 offset) : base(data.Position + offset)
     {
     }
 
-    [OnLoad]
+    [UsedImplicitly]
     internal static void Load()
     {
-        On.Celeste.LevelLoader.ctor += CheckForUniversalAnimatedTilesController;
+        Utils.LogVerbose($"Loading {nameof(UniversalAnimatedTilesController)} Hooks...");
+        
         On.Celeste.Autotiler.Generate += AutotilerOnGenerate;
         IL.Monocle.EntityList.UpdateLists += EntityListOnUpdateLists;
 
@@ -24,28 +24,11 @@ public class UniversalAnimatedTilesController : Entity
     [OnUnload]
     internal static void Unload()
     {
-        On.Celeste.LevelLoader.ctor -= CheckForUniversalAnimatedTilesController;
         On.Celeste.Autotiler.Generate -= AutotilerOnGenerate;
         IL.Monocle.EntityList.UpdateLists -= EntityListOnUpdateLists;
 
         On.Celeste.Platform.OnShake -= PlatformOnOnShake;
         On.Celeste.AnimatedTiles.Render -= AnimatedTilesOnRender;
-    }
-
-    private static void CheckForUniversalAnimatedTilesController(On.Celeste.LevelLoader.orig_ctor orig, LevelLoader self, Session session, Vector2? startPosition)
-    {
-        orig(self, session, startPosition);
-        UniversalAnimatedTilesControllerNeeded = RequiresUniversalAnimatedTilesControllerForSession(session);
-    }
-
-    private static bool RequiresUniversalAnimatedTilesControllerForSession(Session session)
-    {
-        bool RequiresUniversalAnimatedTilesController(EntityData data)
-        {
-            return data.Name is "MintChocolateHelper/UniversalAnimatedTilesController" or "MintChocolateHelper/ILoveAnimatedTilesController";
-        }
-
-        return MintChocolateHelperModule.Settings.ForceUniversalAnimatedTiles || session.MapData.Levels.SelectMany(l => l.Entities).FirstOrDefault(RequiresUniversalAnimatedTilesController) != null;
     }
 
     private static Autotiler.Generated AutotilerOnGenerate(On.Celeste.Autotiler.orig_Generate orig,
@@ -85,7 +68,6 @@ public class UniversalAnimatedTilesController : Entity
 
     private static void EntityOnAwake(Entity self)
     {
-        if (!UniversalAnimatedTilesControllerNeeded) return;
         if (self.Get<AnimatedTiles>() is { }) return;
         if (self.Get<TileGrid>() is not { } tileGrid) return;
 

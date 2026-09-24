@@ -20,7 +20,11 @@ public class PlayerDistanceFadeRegistryHandler : DecalRegistryHandler
     private float DeathFadeSpeedMultiplier;
 
     [OnLoad]
-    internal static void Load() => DecalRegistry.AddPropertyHandler<PlayerDistanceFadeRegistryHandler>();
+    internal static void Load()
+    {
+        Utils.LogVerbose($"Adding Decal Registry Handler: {nameof(PlayerDistanceFadeRegistryHandler)}...");
+        DecalRegistry.AddPropertyHandler<PlayerDistanceFadeRegistryHandler>();
+    }
 
     public override void Parse(XmlAttributeCollection xml)
     {

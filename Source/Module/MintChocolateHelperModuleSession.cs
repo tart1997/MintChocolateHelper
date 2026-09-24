@@ -12,13 +12,16 @@ public class MintChocolateHelperModuleSession : EverestModuleSession
     internal bool PseudoDeadAffectRetries => JesusRefillAffectRetries || CancelDeathTriggerAffectRetries;
     internal bool PseudoDeadDontRegisterDeathInStats => JesusRefillDontRegisterDeathInStats || CancelDeathTriggerDontRegisterDeathInStats;
     internal bool PseudoDeadKeepFollowers => JesusRefillKeepFollowers || CancelDeathTriggerKeepFollowers;
-    internal bool PlayerCanPseudoDie => HasJesusRefill || ValidCancelDeathTriggers?.Count != 0;
+    internal bool PlayerCanPseudoDie => HasJesusRefill || ValidCancelDeathTriggers?.Length != 0;
     internal bool PlayerIsPseudoDead {get; set;}
 
     // Cancel Death Trigger
     [CanBeNull]
-    internal List<CancelDeathTrigger> ValidCancelDeathTriggers => SearchUtils.GetEntities<CancelDeathTrigger>()?.Where(t =>
-        string.IsNullOrWhiteSpace(t.Flag) || (t.IsValidExpression ? FrostHelperImports.SafeGetBoolSessionExpressionValue(t.FlagExpression, Utils.GetLevel()!.Session) : Utils.GetLevel().GetFlag(t.Flag))).ToList();
+    internal CancelDeathTrigger[] ValidCancelDeathTriggers => [
+        .. SearchUtils.GetEntities<CancelDeathTrigger>()?.Where(t =>
+            string.IsNullOrWhiteSpace(t.Flag)
+            || (t.IsValidExpression ? FrostHelperImports.SafeGetBoolSessionExpressionValue(t.FlagExpression, Utils.GetLevel()!.Session) : Utils.GetLevel().GetFlag(t.Flag))) ?? []
+    ];
     internal bool CancelDeathTriggerDisableQuickRespawn => ValidCancelDeathTriggers?.Any(t => t.DisableQuickRespawn) ?? false;
     internal bool CancelDeathTriggerSkipEverestEventOnDie => ValidCancelDeathTriggers?.Any(t => t.SkipEverestEventOnDie) ?? false;
     internal bool CancelDeathTriggerAffectRetries => ValidCancelDeathTriggers?.Any(t => t.AffectRetries) ?? false;
