@@ -202,7 +202,6 @@ public class FusionHeart : Entity
             player.dashAttackTimer = 0;
 
             FusionHeartHalf leftHalf = new(Center - Vector2.UnitX * Width / 4, -(Vector2.UnitX * 2) - Vector2.UnitX * (heartBreakerBonusSpeed.Length() / 2), "9a9ddb", 0.75f, 1f, 1f, 1f, 1f, true, false);
-
             FusionHeartHalf rightHalf = new(Center + Vector2.UnitX * Width / 4, Vector2.UnitX * 2 + Vector2.UnitX * (heartBreakerBonusSpeed.Length() / 2), "9a9ddb", 0.75f, 1f, 1f, 1f, 1f, true, true);
 
             Scene.Add(leftHalf);

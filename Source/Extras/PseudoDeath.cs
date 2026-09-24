@@ -211,8 +211,8 @@ public static class PseudoDeath
     {
         if (MintChocolateHelperModule.Session.CancelDeathTriggerTeleportingPlayer
             || (MintChocolateHelperModule.Session.PlayerIsPseudoDead
-            && MintChocolateHelperModule.Session.HasJesusRefill
-            && (Input.DashPressed || Input.CrouchDashPressed)))
+                && MintChocolateHelperModule.Session.HasJesusRefill
+                && (Input.DashPressed || Input.CrouchDashPressed)))
         {
             Level level = self.SceneAs<Level>();
             PlayerDeadBody playerDeadBody = level.GetEntity<PlayerDeadBody>(true);
