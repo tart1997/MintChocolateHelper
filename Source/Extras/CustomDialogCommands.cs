@@ -29,7 +29,7 @@ public static class CustomDialogCommands
     }
 
     private static ILHook DoOnReadAction;
-    
+
     [UsedImplicitly]
     internal static void Load()
     {

@@ -11,7 +11,8 @@ public static class SearchUtils
 
         [CanBeNull]
         [UsedImplicitly]
-        internal T[] GetEntities<T>(bool TrackIfNeeded = false) where T : Entity => TrackIfNeeded ? [.. level.Tracker.GetEntitiesTrackIfNeeded<T>().Cast<T>()] : [.. level.Tracker.GetEntities<T>().Cast<T>()];
+        internal T[] GetEntities<T>(bool TrackIfNeeded = false) where T : Entity =>
+            TrackIfNeeded ? [.. level.Tracker.GetEntitiesTrackIfNeeded<T>().Cast<T>()] : [.. level.Tracker.GetEntities<T>().Cast<T>()];
 
         [CanBeNull]
         [UsedImplicitly]
@@ -68,7 +69,8 @@ public static class SearchUtils
 
         [CanBeNull]
         [UsedImplicitly]
-        internal T[] GetEntities<T>(bool TrackIfNeeded = false) where T : Entity => TrackIfNeeded ? [.. scene.Tracker.GetEntitiesTrackIfNeeded<T>().Cast<T>()] : [.. scene.Tracker.GetEntities<T>().Cast<T>()];
+        internal T[] GetEntities<T>(bool TrackIfNeeded = false) where T : Entity =>
+            TrackIfNeeded ? [.. scene.Tracker.GetEntitiesTrackIfNeeded<T>().Cast<T>()] : [.. scene.Tracker.GetEntities<T>().Cast<T>()];
 
         [CanBeNull]
         [UsedImplicitly]

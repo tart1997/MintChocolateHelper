@@ -39,7 +39,9 @@ public class CustomDashIndicator : Entity
 
         Indicators.Add(new Indicator {
             Texture = GFX.Game["Indicators/MintChocolateHelper/doubleArrows"],
-            Condition = () => MintChocolateHelperModule.Session.HasSpeedFlipRefill && !MintChocolateHelperModule.Session.SpeedFlipRefillDisableCollectEffects && !(MintChocolateHelperModule.Session.SpeedFlipControllerCharges > 0)
+            Condition = () => MintChocolateHelperModule.Session.HasSpeedFlipRefill
+                              && !MintChocolateHelperModule.Session.SpeedFlipRefillDisableCollectEffects 
+                              && !(MintChocolateHelperModule.Session.SpeedFlipControllerCharges > 0)
         });
 
         Indicators.Add(new Indicator {

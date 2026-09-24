@@ -55,5 +55,6 @@ public class DisableQuickRespawnController : Entity
     }
 
     private static bool DeadBodyCheck() => MintChocolateHelperModule.Session.PseudoDeadDisableQuickRespawn || (SearchUtils.GetEntities<DisableQuickRespawnController>()?.Any(t =>
-        string.IsNullOrWhiteSpace(t.DisableFlag) || (t.IsValidExpression ? FrostHelperImports.SafeGetBoolSessionExpressionValue(t.DisableFlagExpression, Utils.GetLevel()?.Session) : Utils.GetLevel().GetFlag(t.DisableFlag))) ?? false);
+        string.IsNullOrWhiteSpace(t.DisableFlag)
+        || (t.IsValidExpression ? FrostHelperImports.SafeGetBoolSessionExpressionValue(t.DisableFlagExpression, Utils.GetLevel()?.Session) : Utils.GetLevel().GetFlag(t.DisableFlag))) ?? false);
 }

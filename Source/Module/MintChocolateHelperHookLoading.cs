@@ -31,7 +31,7 @@ public static class MintChocolateHelperHookLoading
     {
         AllCustomCommands.Clear();
         AllConditionalObjects.Clear();
-        
+
         foreach (Type type in typeof(MintChocolateHelperHookLoading).Assembly.GetTypes())
         {
             if (type.GetCustomAttribute<CustomCommandAttribute>() is { })
@@ -55,7 +55,7 @@ public static class MintChocolateHelperHookLoading
                 {
                     dependencies.AddRange(entityAttribute.IDs);
                 }
-                
+
                 MethodInfo method = type.GetMethod("Load", BindingFlags.Static | BindingFlags.NonPublic);
                 if (method is { }) AllConditionalObjects.Add(method, [.. dependencies]);
             }
@@ -80,7 +80,7 @@ public static class MintChocolateHelperHookLoading
     {
         orig(self, session, startposition);
         LifecycleMethods.OnUnload();
-        
+
         Utils.LogVerbose("Loading MintChocolateHelper Hooks...");
 
         List<(Type, MethodInfo)> commandsToLoad = [];
@@ -126,7 +126,7 @@ public static class MintChocolateHelperHookLoading
 
         if (MintChocolateHelperModule.Settings.ForceUniversalAnimatedTiles)
         {
-            MethodInfo method  = typeof(UniversalAnimatedTilesController).GetMethod(nameof(UniversalAnimatedTilesController.Load), BindingFlags.NonPublic | BindingFlags.Static);
+            MethodInfo method = typeof(UniversalAnimatedTilesController).GetMethod(nameof(UniversalAnimatedTilesController.Load), BindingFlags.NonPublic | BindingFlags.Static);
             if (!objectsToLoad.Contains(method)) objectsToLoad.Add(method);
         }
 

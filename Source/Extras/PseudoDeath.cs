@@ -209,7 +209,10 @@ public static class PseudoDeath
 
     private static void Resurrection(On.Celeste.Player.orig_Update orig, Player self)
     {
-        if (MintChocolateHelperModule.Session.CancelDeathTriggerTeleportingPlayer || (MintChocolateHelperModule.Session.PlayerIsPseudoDead && MintChocolateHelperModule.Session.HasJesusRefill && (Input.DashPressed || Input.CrouchDashPressed)))
+        if (MintChocolateHelperModule.Session.CancelDeathTriggerTeleportingPlayer
+            || (MintChocolateHelperModule.Session.PlayerIsPseudoDead
+            && MintChocolateHelperModule.Session.HasJesusRefill
+            && (Input.DashPressed || Input.CrouchDashPressed)))
         {
             Level level = self.SceneAs<Level>();
             PlayerDeadBody playerDeadBody = level.GetEntity<PlayerDeadBody>(true);
@@ -394,7 +397,8 @@ public static class PseudoDeath
 
     private static void PanicReset(On.Celeste.Level.orig_Reload orig, Level self)
     {
-        if (MintChocolateHelperModule.Session.LastJesusRefill?.SkipEverestEventOnDie ?? false) typeof(Everest.Events.Player).GetMethod("Die", BindingFlags.NonPublic | BindingFlags.Static)?.Invoke(null, [self.GetPlayer()]);
+        if (MintChocolateHelperModule.Session.LastJesusRefill?.SkipEverestEventOnDie ?? false)
+            typeof(Everest.Events.Player).GetMethod("Die", BindingFlags.NonPublic | BindingFlags.Static)?.Invoke(null, [self.GetPlayer()]);
         MintChocolateHelperModule.Session.CancelDeathTriggerTeleportingPlayer = false;
         JesusRefill.ResetRefill();
         SpeedFlipRefill.ResetRefill();

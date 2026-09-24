@@ -7,7 +7,7 @@ public static class BreakTextBoxCommand
         ("vvv", new BreakTextBoxTrigger(false)),
         ("VVV", new BreakTextBoxTrigger(true))
     ];
-    
+
     private class BreakTextBoxTrigger : McTrigger
     {
         internal BreakTextBoxTrigger(bool disableTextShrink, params string[] args) : base(args)
@@ -20,14 +20,14 @@ public static class BreakTextBoxCommand
             };
         }
     }
-    
+
     [OnLoad]
     internal static void RegisterCommands()
     {
         Utils.LogVerbose($"Registering Custom Dialog Command: {nameof(BreakTextBoxTrigger)}...");
         CommandStrings.Register();
     }
-    
+
     [UsedImplicitly]
     internal static void Load()
     {

@@ -7,8 +7,8 @@ public static class AutoNextPageCommand
         ("==>", new AutoNextPageTrigger(true)),
         ("-->", new AutoNextPageTrigger(false))
     ];
-    
-     private class AutoNextPageTrigger : McTrigger
+
+    private class AutoNextPageTrigger : McTrigger
     {
         internal AutoNextPageTrigger(bool active, params string[] args) : base(args)
         {
@@ -22,7 +22,7 @@ public static class AutoNextPageCommand
         Utils.LogVerbose($"Registering Custom Dialog Command: {nameof(AutoNextPageCommand)}...");
         CommandStrings.Register();
     }
-    
+
     [UsedImplicitly]
     internal static void Load()
     {

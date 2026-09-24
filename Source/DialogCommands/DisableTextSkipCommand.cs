@@ -7,7 +7,7 @@ public static class DisableTextSkipCommand
         (">/>", new DisableTextSkipTrigger(true)),
         (">>>", new DisableTextSkipTrigger(false))
     ];
-    
+
     private class DisableTextSkipTrigger : McTrigger
     {
         internal DisableTextSkipTrigger(bool active, params string[] args) : base(args)
@@ -15,7 +15,7 @@ public static class DisableTextSkipCommand
             OnReadAction = (_, _) => SearchUtils.GetEntity<Textbox>(true)?.autoPressContinue = active;
         }
     }
-    
+
     [OnLoad]
     internal static void RegisterCommands()
     {

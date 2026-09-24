@@ -27,7 +27,7 @@ public class MintChocolateHelperModule : EverestModule
             Logger.SetLogLevel(nameof(MintChocolateHelperModule), LogLevel.Info);
         #endif
     }
-    
+
     // OPTIONAL DEPENDENCIES GO HERE
     internal static bool FemtoHelperLoaded;
     internal static bool FlaglinesLoaded;
@@ -65,7 +65,7 @@ public class MintChocolateHelperModule : EverestModule
             MintChocolateHelperHookLoading.LoadAllHooks();
             return;
         }
-        
+
         MintChocolateHelperHookLoading.LoadAllConditionalObjects();
         MintChocolateHelperHookLoading.ConditionalLoad();
     }

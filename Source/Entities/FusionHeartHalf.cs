@@ -186,7 +186,8 @@ public class FusionHeartHalf : Entity
             Position = Position.Round();
         }
 
-        foreach (Spring spring in Scene.Entities.FindAll<Spring>().Where(spring => spring.CollideRect(new Rectangle((int)(Position.X - Width / 2), (int)(Position.Y - Height / 2), (int)Width, (int)Height))))
+        foreach (Spring spring in Scene.Entities.FindAll<Spring>()
+            .Where(spring => spring.CollideRect(new Rectangle((int)(Position.X - Width / 2), (int)(Position.Y - Height / 2), (int)Width, (int)Height))))
         {
             spring.BounceAnimate();
 
