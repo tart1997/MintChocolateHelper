@@ -22,7 +22,7 @@ public static class DisableTextSkipCommand
         Utils.LogVerbose($"Registering Custom Dialog Command: {nameof(DisableTextSkipTrigger)}...");
         CommandStrings.Register();
     }
-    
+
     [OnUnload]
     internal static void Unload() => CommandStrings.Unregister();
 }
