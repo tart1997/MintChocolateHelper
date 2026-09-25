@@ -20,11 +20,22 @@ internal class McTrigger : FancyText.Trigger
 public static class CustomDialogCommands
 {
     private static readonly Dictionary<string, McTrigger> Triggers = [];
-    internal static void Register(this (string, McTrigger)[] triggers)
+    extension((string, McTrigger)[] triggers)
     {
-        foreach ((string commandString, McTrigger trigger) in triggers)
+        internal void Register()
         {
-            Triggers.Add(commandString, trigger);
+            foreach ((string commandString, McTrigger trigger) in triggers)
+            {
+                Triggers.Add(commandString, trigger);
+            }
+        }
+
+        internal void Unregister()
+        {
+            foreach ((string commandString, McTrigger _) in triggers)
+            {
+                Triggers.Remove(commandString);
+            }
         }
     }
 

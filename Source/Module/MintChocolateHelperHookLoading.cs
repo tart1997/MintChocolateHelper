@@ -64,24 +64,26 @@ public static class MintChocolateHelperHookLoading
 
     internal static void ConditionalLoad()
     {
-        Utils.LogVerbose("Loading MintChocolateHelper Basics...");
-        LifecycleMethods.OnLoad();
+        Utils.LogVerbose("Loading MintChocolateHelper HookLoader...");
         On.Celeste.LevelLoader.ctor += LevelLoader_ctor;
     }
 
     public static void Unload()
     {
         Utils.LogVerbose("Unloading MintChocolateHelper...");
-        LifecycleMethods.OnUnload();
         On.Celeste.LevelLoader.ctor -= LevelLoader_ctor;
     }
+
+    private static readonly List<MethodInfo> MethodsToRun = [];
 
     private static void LevelLoader_ctor(On.Celeste.LevelLoader.orig_ctor orig, LevelLoader self, Session session, Vector2? startposition)
     {
         orig(self, session, startposition);
         LifecycleMethods.OnUnload();
+        MethodsToRun.Clear();
 
         Utils.LogVerbose("Loading MintChocolateHelper Hooks...");
+        LifecycleMethods.OnLoad();
 
         List<(Type, MethodInfo)> commandsToLoad = [];
         List<MethodInfo> objectsToLoad = [];
@@ -106,7 +108,6 @@ public static class MintChocolateHelperHookLoading
                     if (!objectsToLoad.Contains(method) && dependecyList.Any(dependecy => dependecy == entity.Name))
                     {
                         objectsToLoad.Add(method);
-                        break;
                     }
                 }
             }
@@ -118,7 +119,6 @@ public static class MintChocolateHelperHookLoading
                     if (!objectsToLoad.Contains(method) && dependecyList.Any(dependecy => dependecy == trigger.Name))
                     {
                         objectsToLoad.Add(method);
-                        break;
                     }
                 }
             }
@@ -126,19 +126,24 @@ public static class MintChocolateHelperHookLoading
 
         if (MintChocolateHelperModule.Settings.ForceUniversalAnimatedTiles)
         {
-            MethodInfo method = typeof(UniversalAnimatedTilesController).GetMethod(nameof(UniversalAnimatedTilesController.Load), BindingFlags.NonPublic | BindingFlags.Static);
-            if (!objectsToLoad.Contains(method)) objectsToLoad.Add(method);
+            objectsToLoad.Add(typeof(UniversalAnimatedTilesController).GetMethod(nameof(UniversalAnimatedTilesController.Load), BindingFlags.NonPublic | BindingFlags.Static));
         }
 
-        if (commandsToLoad.Count != 0) CustomDialogCommands.Load();
         foreach ((Type _, MethodInfo method) in commandsToLoad)
         {
-            method?.Invoke(null, null);
+            MethodsToRun.Add(method);
         }
 
         foreach (MethodInfo method in objectsToLoad)
         {
-            method.Invoke(null, null);
+            MethodsToRun.Add(method);
+        }
+
+
+        if (commandsToLoad.Count != 0) CustomDialogCommands.Load();
+        foreach (MethodInfo method in MethodsToRun.Distinct())
+        {
+            method?.Invoke(null, null);
         }
     }
 }

@@ -24,5 +24,8 @@
 //         Utils.LogVerbose($"Registering Custom Dialog Command: {nameof(SwitchFontCommand)}...");
 //         CommandStrings.Register();
 //     }
+//     
+//     [OnUnload]
+//     internal static void Unload() => CommandStrings.Unregister();
 // }
 // TODO: this

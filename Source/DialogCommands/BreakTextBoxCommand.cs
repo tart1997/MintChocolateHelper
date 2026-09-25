@@ -39,6 +39,7 @@ public static class BreakTextBoxCommand
     [OnUnload]
     internal static void Unload()
     {
+        CommandStrings.Unregister();
         IL.Celeste.FancyText.AddNewLine -= SkipAddNewPage;
         IL.Celeste.Textbox.Render -= JustifyTextDownHook;
     }

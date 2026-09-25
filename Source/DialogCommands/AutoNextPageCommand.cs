@@ -31,7 +31,11 @@ public static class AutoNextPageCommand
     }
 
     [OnUnload]
-    internal static void Unload() => On.Celeste.Textbox.ContinuePressed -= TextboxOnContinuePressed;
+    internal static void Unload()
+    {
+        CommandStrings.Unregister();
+        On.Celeste.Textbox.ContinuePressed -= TextboxOnContinuePressed;
+    }
 
     private static bool TextboxOnContinuePressed(On.Celeste.Textbox.orig_ContinuePressed orig, Textbox self)
         => (DynamicData.For(self.text).TryGetTrue("MintChocolateHelper:AutoNextPage") && !self.autoPressContinue) || orig(self);

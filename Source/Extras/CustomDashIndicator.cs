@@ -104,18 +104,11 @@ public class CustomDashIndicator : Entity
     internal static void Load()
     {
         Utils.LogVerbose($"Loading {nameof(CustomDashIndicator)} Hooks...");
-        On.Celeste.LevelLoader.LoadingThread += LevelLoaderOnLoadingThread;
+        Everest.Events.Level.OnLoadLevel += LevelOnOnLoadLevel;
     }
 
     [OnUnload]
-    internal static void Unload()
-    {
-        On.Celeste.LevelLoader.LoadingThread -= LevelLoaderOnLoadingThread;
-    }
+    internal static void Unload() => Everest.Events.Level.OnLoadLevel -= LevelOnOnLoadLevel;
 
-    private static void LevelLoaderOnLoadingThread(On.Celeste.LevelLoader.orig_LoadingThread orig, LevelLoader self)
-    {
-        self.Level.Add(new CustomDashIndicator());
-        orig(self);
-    }
+    private static void LevelOnOnLoadLevel(Level level, Player.IntroTypes playerIntro, bool isFromLoader) => level.Add(new CustomDashIndicator());
 }
