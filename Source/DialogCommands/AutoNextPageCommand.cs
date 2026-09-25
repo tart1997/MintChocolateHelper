@@ -23,7 +23,7 @@ public static class AutoNextPageCommand
         CommandStrings.Register();
     }
 
-    [UsedImplicitly]
+    [ConditionalOnLoad]
     internal static void Load()
     {
         Utils.LogDebug($"Loading {nameof(AutoNextPageCommand)} Hooks...");

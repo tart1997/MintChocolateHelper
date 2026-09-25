@@ -100,7 +100,7 @@ public class CustomDashIndicator : Entity
         }
     }
 
-    [UsedImplicitly]
+    [ConditionalOnLoad]
     internal static void Load()
     {
         Utils.LogDebug($"Loading {nameof(CustomDashIndicator)} Hooks...");

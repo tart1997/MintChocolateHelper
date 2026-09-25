@@ -49,7 +49,7 @@ public static class SpeedFlip
 
     internal static Hook DisableDash_CanDash;
 
-    [UsedImplicitly]
+    [ConditionalOnLoad]
     internal static void Load()
     {
         Utils.LogDebug($"Loading {nameof(SpeedFlip)} Hooks...");

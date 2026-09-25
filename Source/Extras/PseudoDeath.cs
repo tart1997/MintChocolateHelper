@@ -9,7 +9,7 @@ public static class PseudoDeath
     //private static ILHook ExtendGroundCheck_origUpdate;
     private static ILHook ModifyDashSpeed_DashCoroutine;
 
-    [UsedImplicitly]
+    [ConditionalOnLoad]
     internal static void Load()
     {
         Utils.LogDebug($"Loading {nameof(PseudoDeath)} Hooks...");

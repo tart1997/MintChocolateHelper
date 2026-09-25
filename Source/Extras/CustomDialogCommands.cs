@@ -42,7 +42,7 @@ public static class CustomDialogCommands
 
     private static ILHook DoOnReadAction;
 
-    [UsedImplicitly]
+    [ConditionalOnLoad]
     internal static void Load()
     {
         Utils.LogDebug($"Loading {nameof(CustomDialogCommands)} Hooks...");

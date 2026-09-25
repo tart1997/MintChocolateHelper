@@ -14,3 +14,7 @@ internal class ConditionalEntityAttribute : Attribute
 [MeansImplicitUse]
 [AttributeUsage(AttributeTargets.Class, Inherited = false)]
 internal class CustomCommandAttribute : Attribute;
+
+[MeansImplicitUse]
+[AttributeUsage(AttributeTargets.Method, Inherited = false)]
+internal class ConditionalOnLoadAttribute : Attribute;

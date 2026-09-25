@@ -1,7 +1,6 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.Entities;
 
 [Tracked]
-[UsedImplicitly]
 [CustomEntity("MintChocolateHelper/SpeedFlipController")]
 public class SpeedFlipController : Entity
 {

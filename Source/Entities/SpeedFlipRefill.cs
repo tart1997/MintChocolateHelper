@@ -179,7 +179,7 @@ public class SpeedFlipRefill : Entity
         SlashFx.Burst(Position, num);
     }
 
-    [UsedImplicitly]
+    [ConditionalOnLoad]
     internal static void Load()
     {
         Utils.LogDebug($"Loading {nameof(SpeedFlipRefill)} Hooks...");

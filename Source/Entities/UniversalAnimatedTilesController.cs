@@ -9,7 +9,7 @@ public class UniversalAnimatedTilesController : Entity
     {
     }
 
-    [UsedImplicitly]
+    [ConditionalOnLoad]
     internal static void Load()
     {
         Utils.LogDebug($"Loading {nameof(UniversalAnimatedTilesController)} Hooks...");

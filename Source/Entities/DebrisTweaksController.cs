@@ -16,7 +16,7 @@ public class DebrisTweaksController : Entity
         PlayerAffected = data.Bool("playerAffected");
     }
 
-    [UsedImplicitly]
+    [ConditionalOnLoad]
     internal static void Load()
     {
         Utils.LogDebug($"Loading {nameof(DebrisTweaksController)} Hooks...");

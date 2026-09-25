@@ -41,7 +41,7 @@ public class StylegroundsWhilePausedController : Entity
         }
     }
 
-    [UsedImplicitly]
+    [ConditionalOnLoad]
     internal static void Load()
     {
         Utils.LogDebug($"Loading {nameof(StylegroundsWhilePausedController)} Hooks...");

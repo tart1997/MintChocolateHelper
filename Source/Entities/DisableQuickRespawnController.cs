@@ -16,7 +16,7 @@ public class DisableQuickRespawnController : Entity
         if (FrostHelperImports.SafeTryCreateSessionExpression(DisableFlag, out DisableFlagExpression)) IsValidExpression = true;
     }
 
-    [UsedImplicitly]
+    [ConditionalOnLoad]
     internal static void Load()
     {
         Utils.LogDebug($"Loading {nameof(DisableQuickRespawnController)} Hooks...");
