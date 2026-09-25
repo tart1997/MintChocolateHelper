@@ -84,7 +84,7 @@ public static class MintChocolateHelperHookLoading
 
         Utils.LogVerbose("Loading MintChocolateHelper Basics...");
         LifecycleMethods.OnLoad();
-        
+
         Utils.LogDebug("Loading MintChocolateHelper Hooks...");
 
         List<(Type, MethodInfo)> commandsToLoad = [];
