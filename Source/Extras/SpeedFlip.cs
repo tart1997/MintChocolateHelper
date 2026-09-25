@@ -52,7 +52,7 @@ public static class SpeedFlip
     [UsedImplicitly]
     internal static void Load()
     {
-        Utils.LogVerbose($"Loading {nameof(SpeedFlip)} Hooks...");
+        Utils.LogDebug($"Loading {nameof(SpeedFlip)} Hooks...");
         Everest.Events.Player.OnAfterUpdate += GroundCheck;
         DisableDash_CanDash ??= new Hook(typeof(Player).GetProperty("CanDash", BindingFlags.Public | BindingFlags.Instance)!.GetMethod!, DisableDash);
         On.Celeste.Player.NormalUpdate += SpeedFlipRefillJump;

@@ -44,7 +44,7 @@ public class StylegroundsWhilePausedController : Entity
     [UsedImplicitly]
     internal static void Load()
     {
-        Utils.LogVerbose($"Loading {nameof(StylegroundsWhilePausedController)} Hooks...");
+        Utils.LogDebug($"Loading {nameof(StylegroundsWhilePausedController)} Hooks...");
         IL.Celeste.Level.Update += LevelOnUpdate;
     }
 

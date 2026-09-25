@@ -182,7 +182,7 @@ public class SpeedFlipRefill : Entity
     [UsedImplicitly]
     internal static void Load()
     {
-        Utils.LogVerbose($"Loading {nameof(SpeedFlipRefill)} Hooks...");
+        Utils.LogDebug($"Loading {nameof(SpeedFlipRefill)} Hooks...");
         On.Celeste.Player.Die += SpeedFlipRefillDie;
     }
 

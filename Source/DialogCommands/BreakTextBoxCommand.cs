@@ -31,7 +31,7 @@ public static class BreakTextBoxCommand
     [UsedImplicitly]
     internal static void Load()
     {
-        Utils.LogVerbose($"Loading {nameof(BreakTextBoxTrigger)} Hooks...");
+        Utils.LogDebug($"Loading {nameof(BreakTextBoxTrigger)} Hooks...");
         IL.Celeste.FancyText.AddNewLine += SkipAddNewPage;
         IL.Celeste.Textbox.Render += JustifyTextDownHook;
     }

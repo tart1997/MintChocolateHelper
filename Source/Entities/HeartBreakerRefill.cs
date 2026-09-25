@@ -178,7 +178,7 @@ public class HeartBreakerRefill : Entity
     [UsedImplicitly]
     internal static void Load()
     {
-        Utils.LogVerbose($"Loading {nameof(HeartBreakerRefill)} Hooks...");
+        Utils.LogDebug($"Loading {nameof(HeartBreakerRefill)} Hooks...");
         On.Celeste.Player.Die += HeartBreakerRefillDie;
         On.Celeste.Player.DashEnd += HeartBreakerDashEnd;
     }

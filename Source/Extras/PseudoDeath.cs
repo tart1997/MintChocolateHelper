@@ -3,6 +3,8 @@
 [ConditionalEntity(nameof(JesusRefill), nameof(CancelDeathTrigger))]
 public static class PseudoDeath
 {
+    internal const string PseudoDeathFlag = "MintChocolateHelper_PseudoDeath";
+
     private static ILHook FakeDeathHook_origDie;
     //private static ILHook ExtendGroundCheck_origUpdate;
     private static ILHook ModifyDashSpeed_DashCoroutine;
@@ -10,7 +12,7 @@ public static class PseudoDeath
     [UsedImplicitly]
     internal static void Load()
     {
-        Utils.LogVerbose($"Loading {nameof(PseudoDeath)} Hooks...");
+        Utils.LogDebug($"Loading {nameof(PseudoDeath)} Hooks...");
         IL.Celeste.Player.Die += SilenceEverestEventDie;
         FakeDeathHook_origDie ??= new ILHook(typeof(Player).GetMethod(nameof(Player.orig_Die), BindingFlags.Public | BindingFlags.Instance)!, PseudoDie);
         //ExtendGroundCheck_origUpdate ??= new ILHook(typeof(Player).GetMethod(nameof(Player.orig_Update), BindingFlags.Public | BindingFlags.Instance)!, ExtendGroundCheck);
@@ -203,7 +205,11 @@ public static class PseudoDeath
 
     private static void SetPseudoDie()
     {
-        if (MintChocolateHelperModule.Session.PlayerCanPseudoDie) MintChocolateHelperModule.Session.PlayerIsPseudoDead = true;
+        if (MintChocolateHelperModule.Session.PlayerCanPseudoDie)
+        {
+            MintChocolateHelperModule.Session.PlayerIsPseudoDead = true;
+            Utils.SetFlag(PseudoDeathFlag);
+        }
     }
 
 
@@ -269,11 +275,9 @@ public static class PseudoDeath
         level.Wipe?.Cancel();
         player.Sprite.Scale.X = 1;
 
-        if (!temp)
-        {
-            MintChocolateHelperModule.Session.LastJesusRefill = null;
-            MintChocolateHelperModule.Session.PlayerIsPseudoDead = false;
-        }
+        MintChocolateHelperModule.Session.PlayerIsPseudoDead = false;
+        level.SetFlag(PseudoDeathFlag, false);
+        if (!temp) MintChocolateHelperModule.Session.LastJesusRefill = null;
     }
 
     // private static void ExtendGroundCheck(ILContext il)

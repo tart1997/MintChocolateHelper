@@ -26,7 +26,7 @@ public static class AutoNextPageCommand
     [UsedImplicitly]
     internal static void Load()
     {
-        Utils.LogVerbose($"Loading {nameof(AutoNextPageCommand)} Hooks...");
+        Utils.LogDebug($"Loading {nameof(AutoNextPageCommand)} Hooks...");
         On.Celeste.Textbox.ContinuePressed += TextboxOnContinuePressed;
     }
 

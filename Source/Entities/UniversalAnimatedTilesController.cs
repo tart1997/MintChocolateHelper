@@ -12,7 +12,7 @@ public class UniversalAnimatedTilesController : Entity
     [UsedImplicitly]
     internal static void Load()
     {
-        Utils.LogVerbose($"Loading {nameof(UniversalAnimatedTilesController)} Hooks...");
+        Utils.LogDebug($"Loading {nameof(UniversalAnimatedTilesController)} Hooks...");
 
         On.Celeste.Autotiler.Generate += AutotilerOnGenerate;
         IL.Monocle.EntityList.UpdateLists += EntityListOnUpdateLists;

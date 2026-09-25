@@ -164,7 +164,7 @@ public class JesusRefill : Entity
     [UsedImplicitly]
     internal static void Load()
     {
-        Utils.LogVerbose($"Loading {nameof(JesusRefill)} Hooks...");
+        Utils.LogDebug($"Loading {nameof(JesusRefill)} Hooks...");
         On.Celeste.Player.Die += JesusRefillRefillDie;
     }
 
@@ -178,6 +178,7 @@ public class JesusRefill : Entity
     {
         MintChocolateHelperModule.Session.LastJesusRefill = null;
         MintChocolateHelperModule.Session.PlayerIsPseudoDead = false;
+        Utils.SetFlag(PseudoDeath.PseudoDeathFlag, false);
     }
 
     private static PlayerDeadBody JesusRefillRefillDie(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction, bool evenIfInvincible, bool registerDeathInStats)

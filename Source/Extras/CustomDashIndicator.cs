@@ -46,7 +46,7 @@ public class CustomDashIndicator : Entity
 
         Indicators.Add(new Indicator {
             Texture = GFX.Game["Indicators/MintChocolateHelper/cross"],
-            Condition = () => MintChocolateHelperModule.Session.HasJesusRefill
+            Condition = () => MintChocolateHelperModule.Session.HasJesusRefill && !MintChocolateHelperModule.Session.PlayerIsPseudoDead
         });
     }
 
@@ -103,7 +103,7 @@ public class CustomDashIndicator : Entity
     [UsedImplicitly]
     internal static void Load()
     {
-        Utils.LogVerbose($"Loading {nameof(CustomDashIndicator)} Hooks...");
+        Utils.LogDebug($"Loading {nameof(CustomDashIndicator)} Hooks...");
         Everest.Events.Level.OnLoadLevel += LevelOnOnLoadLevel;
     }
 

@@ -45,7 +45,7 @@ public static class CustomDialogCommands
     [UsedImplicitly]
     internal static void Load()
     {
-        Utils.LogVerbose($"Loading {nameof(CustomDialogCommands)} Hooks...");
+        Utils.LogDebug($"Loading {nameof(CustomDialogCommands)} Hooks...");
         IL.Celeste.FancyText.Parse += ParseCommands;
         On.Celeste.Textbox.Render += TextboxOnRender;
         DoOnReadAction ??= new ILHook(typeof(Textbox).GetMethod(nameof(Textbox.RunRoutine), BindingFlags.NonPublic | BindingFlags.Instance)!.GetStateMachineTarget()!, TextboxOnRunRoutine);
