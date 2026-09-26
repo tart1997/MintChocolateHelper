@@ -4,14 +4,18 @@ public static class MintChocolateHelperHookLoading
 {
     internal static void TryDisableInlining()
     {
+        Utils.LogVerbose("Running TryDisableInlining...");
+        
         HookUtils.TryDisableInlining(typeof(Platform).GetMethod(nameof(Platform.OnShake), BindingFlags.Public | BindingFlags.Instance));
         HookUtils.TryDisableInlining(typeof(Player).GetMethod(nameof(Player.DashEnd), BindingFlags.NonPublic | BindingFlags.Instance));
     }
 
     internal static void LoadAllHooks()
     {
+        Utils.LogVerbose("Loading Basics...");
         LifecycleMethods.OnLoad();
 
+        Utils.LogVerbose("Loading All Hooks...");
         foreach (Type type in ReflectionUtils.MintChocolateHelperTypes)
         {
             foreach (MethodInfo loadMethod in type.GetMethods(ReflectionUtils.All))
@@ -26,6 +30,8 @@ public static class MintChocolateHelperHookLoading
 
     internal static void LoadAllConditionalObjects()
     {
+        Utils.LogVerbose("Finding Conditional Objects...");
+        
         AllCustomCommands.Clear();
         AllConditionalObjects.Clear();
 
@@ -59,7 +65,12 @@ public static class MintChocolateHelperHookLoading
 
     internal static void InitializeHookLoader()
     {
+        Utils.LogDebug("Loading HookLoaders...");
+        
+        Utils.LogVerbose("Hooking LevelLoader.ctor");
         On.Celeste.LevelLoader.ctor += LevelLoader_ctor;
+
+        Utils.LogVerbose("Hooking Dialog.RefreshLanguages");
         On.Celeste.Dialog.RefreshLanguages += DialogOnRefreshLanguages;
     }
 

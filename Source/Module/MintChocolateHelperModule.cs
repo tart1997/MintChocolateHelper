@@ -35,7 +35,6 @@ public class MintChocolateHelperModule : EverestModule
 
     public override void Load()
     {
-        Utils.LogVerbose("Running TryDisableInlining...");
         MintChocolateHelperHookLoading.TryDisableInlining();
 
         Utils.LogVerbose("Loading Optional Dependencies...");
@@ -66,14 +65,12 @@ public class MintChocolateHelperModule : EverestModule
         if (Everest.Flags.IsHeadless)
         {
             Utils.LogDebug("Celeste Is Headless! Loading All Hooks Unconditionally...");
+            MintChocolateHelperHookLoading.InitializeHookLoader();
             MintChocolateHelperHookLoading.LoadAllHooks();
             return;
         }
 
-        Utils.LogVerbose("Finding Conditional Objects...");
         MintChocolateHelperHookLoading.LoadAllConditionalObjects();
-
-        Utils.LogDebug("Loading HookLoaders...");
         MintChocolateHelperHookLoading.InitializeHookLoader();
     }
 
