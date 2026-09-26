@@ -108,7 +108,7 @@ public static class CustomDialogCommands
         cursor.EmitDelegate(AddTriggers);
     }
 
-    private static void AddTriggers(FancyText text, string commandString, string[] parameters)
+    private static void AddTriggers(FancyText text, string commandString, List<string> parameters)
     {
         DynamicData textData = DynamicData.For(text);
         FancyText.Text? group = textData.Get<FancyText.Text?>("group");
@@ -118,17 +118,17 @@ public static class CustomDialogCommands
         {
             McTrigger trigger = Triggers[registeredCommandString];
 
-            trigger.Params = parameters;
+            trigger.Params = [.. parameters];
             group.Nodes.Add(trigger);
-            trigger.ParseCommandAction?.Invoke(textData, parameters);
+            trigger.ParseCommandAction?.Invoke(textData, [.. parameters]);
         }
     }
 
-    private static void ParseNewPage(FancyText text, string commandString, string[] parameters)
+    private static void ParseNewPage(FancyText text, string commandString, List<string> parameters)
     {
         foreach (string registeredCommandString in Triggers.Keys.Where(registeredCommandString => registeredCommandString == commandString))
         {
-            Triggers[registeredCommandString].ParseNewPageAction?.Invoke(DynamicData.For(text), parameters);
+            Triggers[registeredCommandString].ParseNewPageAction?.Invoke(DynamicData.For(text), [.. parameters]);
         }
     }
 

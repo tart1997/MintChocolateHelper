@@ -3,7 +3,7 @@
 [ConditionalEntity(nameof(JesusRefill), nameof(CancelDeathTrigger))]
 public static class PseudoDeath
 {
-    internal const string PseudoDeathFlag = "MintChocolateHelper_PseudoDeath";
+    internal const string PseudoDeathFlag = "MintChocolateHelper_PseudoDead";
 
     private static ILHook FakeDeathHook_origDie;
     //private static ILHook ExtendGroundCheck_origUpdate;
