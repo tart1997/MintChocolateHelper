@@ -1,6 +1,6 @@
 ﻿namespace Celeste.Mod.MintChocolateHelper.MintUtils;
 
-public static class DDataUtils
+public static class DynamicDataUtils
 {
     extension(DynamicData data)
     {

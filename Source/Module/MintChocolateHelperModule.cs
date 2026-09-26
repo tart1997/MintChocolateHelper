@@ -35,6 +35,10 @@ public class MintChocolateHelperModule : EverestModule
 
     public override void Load()
     {
+        Utils.LogVerbose("Running TryDisableInlining...");
+        MintChocolateHelperHookLoading.TryDisableInlining();
+        
+        Utils.LogVerbose("Loading Optional Dependencies...");
         #region Optional Dependency Loading
             EverestModuleMetadata femtoHelper = new() {
                 Name = "FemtoHelper",
@@ -55,23 +59,28 @@ public class MintChocolateHelperModule : EverestModule
             VivhelperLoaded = Everest.Loader.DependencyLoaded(VivHelper);
         #endregion
 
-        MintChocolateHelperHookLoading.TryDisableInlining();
-
+        Utils.LogVerbose("Loading ModInterop...");
         FrostHelperImports.Load();
         GravityHelperImports.Load();
 
         if (Everest.Flags.IsHeadless)
         {
+            Utils.LogDebug("Celeste Is Headless! Loading All Hooks Unconditionally...");
             MintChocolateHelperHookLoading.LoadAllHooks();
             return;
         }
 
+        Utils.LogVerbose("Finding Conditional Objects...");
         MintChocolateHelperHookLoading.LoadAllConditionalObjects();
-        MintChocolateHelperHookLoading.ConditionalLoad();
+        
+        Utils.LogDebug("Loading HookLoaders...");
+        MintChocolateHelperHookLoading.InitializeHookLoader();
     }
 
     public override void Unload()
     {
+        Utils.LogVerbose("Unloading MintChocolateHelper...");
+        LifecycleMethods.OnUnload();
         MintChocolateHelperHookLoading.Unload();
     }
 }

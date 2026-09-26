@@ -2,7 +2,7 @@ using MethodBody = Mono.Cecil.Cil.MethodBody;
 
 namespace Celeste.Mod.MintChocolateHelper.MintUtils;
 
-public static class HookUtils
+public static class McHookUtils
 {
     [UsedImplicitly]
     internal static VariableDefinition AddVariable(this MethodBody self, TypeReference type)

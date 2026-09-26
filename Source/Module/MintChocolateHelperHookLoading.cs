@@ -1,6 +1,4 @@
-﻿using HookUtils = Celeste.Mod.Helpers.HookUtils;
-
-namespace Celeste.Mod.MintChocolateHelper.Module;
+﻿namespace Celeste.Mod.MintChocolateHelper.Module;
 
 public static class MintChocolateHelperHookLoading
 {
@@ -13,18 +11,17 @@ public static class MintChocolateHelperHookLoading
     internal static void LoadAllHooks()
     {
         LifecycleMethods.OnLoad();
-        CustomDialogCommands.Load();
 
-        foreach (Type type in typeof(MintChocolateHelperHookLoading).Assembly.GetTypes())
+        foreach (Type type in ReflectionUtils.MintChocolateHelperTypes)
         {
-            if (type.GetCustomAttribute<CustomCommandAttribute>() is { } || type.GetCustomAttribute<ConditionalEntityAttribute>() is { })
+            foreach (MethodInfo loadMethod in type.GetMethods(ReflectionUtils.All))
             {
-                type.GetMethod("Load", BindingFlags.Static | BindingFlags.NonPublic)?.Invoke(null, null);
+                loadMethod.SimpleInvokeIf(loadMethod.HasAttribute<ConditionalOnLoadAttribute>());
             }
         }
     }
 
-    private static readonly Dictionary<(Type, MethodInfo), string[]> AllCustomCommands = [];
+    private static readonly Dictionary<(Type, MethodInfo, MethodInfo), string[]> AllCustomCommands = [];
     private static readonly Dictionary<MethodInfo, string[]> AllConditionalObjects = [];
 
     internal static void LoadAllConditionalObjects()
@@ -32,12 +29,11 @@ public static class MintChocolateHelperHookLoading
         AllCustomCommands.Clear();
         AllConditionalObjects.Clear();
 
-        foreach (Type type in typeof(MintChocolateHelperHookLoading).Assembly.GetTypes())
+        foreach (Type type in ReflectionUtils.MintChocolateHelperTypes)
         {
-            if (type.GetCustomAttribute<CustomCommandAttribute>() is { })
+            if (type.HasAttribute<CustomCommandAttribute>())
             {
                 if (type.GetField("CommandStrings", BindingFlags.Static | BindingFlags.NonPublic)?.GetValue(null) is not ValueTuple<string, McTrigger>[] commandStrings) continue;
-                MethodInfo method = type.GetMethod("Load", BindingFlags.Static | BindingFlags.NonPublic);
 
                 List<string> finalCommandStrings = [];
                 foreach ((string commandString, McTrigger _) in commandStrings)
@@ -45,82 +41,108 @@ public static class MintChocolateHelperHookLoading
                     finalCommandStrings.Add(commandString);
                 }
 
-                AllCustomCommands.Add((type, method), [.. finalCommandStrings.Select(x => $"{{{x}}}")]);
+                AllCustomCommands.Add((type, type.GetMethodWith<ConditionalOnLoadAttribute>(), type.GetMethodWith<OnUnloadAttribute>()), [.. finalCommandStrings.Select(x => $"{{{x}}}")]);
             }
-            else if (type.GetCustomAttribute<ConditionalEntityAttribute>() is { } loadAttribute)
+            else if (type.HasAttribute(out ConditionalEntityAttribute loadAttribute))
             {
                 List<string> dependencies = [.. loadAttribute.Dependencies.Select(x => $"MintChocolateHelper/{x}")];
 
-                if (type.GetCustomAttribute<CustomEntityAttribute>() is { } entityAttribute)
+                if (type.HasAttribute(out CustomEntityAttribute entityAttribute))
                 {
                     dependencies.AddRange(entityAttribute.IDs);
                 }
 
-                MethodInfo method = type.GetMethod("Load", BindingFlags.Static | BindingFlags.NonPublic);
-                if (method is { }) AllConditionalObjects.Add(method, [.. dependencies]);
+                AllConditionalObjects.Add(type.GetMethodWith<ConditionalOnLoadAttribute>() ?? throw new InvalidOperationException("Conditional Object Missing Conditional OnLoad Method!"), [.. dependencies]);
             }
         }
     }
 
-    internal static void ConditionalLoad()
+    internal static void InitializeHookLoader()
     {
-        Utils.LogVerbose("Loading MintChocolateHelper HookLoader...");
         On.Celeste.LevelLoader.ctor += LevelLoader_ctor;
+        On.Celeste.Dialog.RefreshLanguages += DialogOnRefreshLanguages;
     }
 
     public static void Unload()
     {
-        Utils.LogVerbose("Unloading MintChocolateHelper...");
         On.Celeste.LevelLoader.ctor -= LevelLoader_ctor;
+        On.Celeste.Dialog.RefreshLanguages -= DialogOnRefreshLanguages;
     }
-
-    private static readonly List<MethodInfo> MethodsToRun = [];
 
     private static void LevelLoader_ctor(On.Celeste.LevelLoader.orig_ctor orig, LevelLoader self, Session session, Vector2? startposition)
     {
         orig(self, session, startposition);
+        Utils.LogVerbose("Unloading Hooks...");
         LifecycleMethods.OnUnload();
-        MethodsToRun.Clear();
-
-        Utils.LogVerbose("Loading MintChocolateHelper Basics...");
+        
+        Utils.LogVerbose("Loading Basics...");
         LifecycleMethods.OnLoad();
+        
+        Utils.LogVerbose("Loading Custom Command Hooks...");
+        LoadCommandHooks();
+        
+        Utils.LogVerbose("Loading Entity Hooks...");
+        LoadEntityHooks(session);
+    }
+    
+    private static void DialogOnRefreshLanguages(On.Celeste.Dialog.orig_RefreshLanguages orig)
+    {
+        orig();
+        Utils.LogVerbose("Reloading Custom Commands...");
 
-        Utils.LogDebug("Loading MintChocolateHelper Hooks...");
+        CustomDialogCommands.Unload();
+        foreach ((Type _, MethodInfo _, MethodInfo unloadMethod) in AllCustomCommands.Keys.Distinct())
+        {
+            unloadMethod.SimpleInvoke();
+        }
 
+        LoadCommandHooks();
+    }
+
+    private static void LoadCommandHooks()
+    {
         List<(Type, MethodInfo)> commandsToLoad = [];
-        List<MethodInfo> objectsToLoad = [];
-
         foreach (string dialog in Dialog.Language.Dialog.Values)
         {
-            foreach (((Type type, MethodInfo method), string[] commandStrings) in AllCustomCommands)
+            foreach (((Type type, MethodInfo loadMethod, MethodInfo _), string[] commandStrings) in AllCustomCommands)
             {
-                if (!commandsToLoad.Contains((type, method)) && commandStrings.Any(commandString => dialog.Contains(commandString)))
+                if (!commandsToLoad.Contains((type, loadMethod)) && commandStrings.Any(commandString => dialog.Contains(commandString)))
                 {
-                    commandsToLoad.Add((type, method));
+                    commandsToLoad.Add((type, loadMethod));
                 }
             }
         }
-
+        
+        if (commandsToLoad.Count != 0) CustomDialogCommands.Load();
+        foreach ((Type _, MethodInfo loadMethod) in commandsToLoad.Distinct())
+        {
+            loadMethod?.SimpleInvoke();
+        }
+    }
+    
+    private static void LoadEntityHooks(Session session)
+    {
+        List<MethodInfo> objectsToLoad = [];
         foreach (LevelData level in session.MapData.Levels)
         {
             foreach (EntityData entity in level.Entities.Distinct())
             {
-                foreach ((MethodInfo method, string[] dependecyList) in AllConditionalObjects)
+                foreach ((MethodInfo loadMethod, string[] dependecyList) in AllConditionalObjects)
                 {
-                    if (!objectsToLoad.Contains(method) && dependecyList.Any(dependecy => dependecy == entity.Name))
+                    if (!objectsToLoad.Contains(loadMethod) && dependecyList.Any(dependecy => dependecy == entity.Name))
                     {
-                        objectsToLoad.Add(method);
+                        objectsToLoad.Add(loadMethod);
                     }
                 }
             }
 
             foreach (EntityData trigger in level.Triggers.Distinct())
             {
-                foreach ((MethodInfo method, string[] dependecyList) in AllConditionalObjects)
+                foreach ((MethodInfo loadMethod, string[] dependecyList) in AllConditionalObjects)
                 {
-                    if (!objectsToLoad.Contains(method) && dependecyList.Any(dependecy => dependecy == trigger.Name))
+                    if (!objectsToLoad.Contains(loadMethod) && dependecyList.Any(dependecy => dependecy == trigger.Name))
                     {
-                        objectsToLoad.Add(method);
+                        objectsToLoad.Add(loadMethod);
                     }
                 }
             }
@@ -131,21 +153,9 @@ public static class MintChocolateHelperHookLoading
             objectsToLoad.Add(typeof(UniversalAnimatedTilesController).GetMethod(nameof(UniversalAnimatedTilesController.Load), BindingFlags.NonPublic | BindingFlags.Static));
         }
 
-        foreach ((Type _, MethodInfo method) in commandsToLoad)
+        foreach (MethodInfo loadMethod in objectsToLoad.Distinct())
         {
-            MethodsToRun.Add(method);
-        }
-
-        foreach (MethodInfo method in objectsToLoad)
-        {
-            MethodsToRun.Add(method);
-        }
-
-
-        if (commandsToLoad.Count != 0) CustomDialogCommands.Load();
-        foreach (MethodInfo method in MethodsToRun.Distinct())
-        {
-            method?.Invoke(null, null);
+            loadMethod?.SimpleInvoke();
         }
     }
 }

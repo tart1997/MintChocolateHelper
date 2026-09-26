@@ -17,6 +17,7 @@ internal class McTrigger : FancyText.Trigger
     }
 }
 
+[CustomCommand]
 public static class CustomDialogCommands
 {
     private static readonly Dictionary<string, McTrigger> Triggers = [];

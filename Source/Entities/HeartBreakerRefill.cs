@@ -175,7 +175,7 @@ public class HeartBreakerRefill : Entity
         }
     }
 
-    [UsedImplicitly]
+    [ConditionalOnLoad]
     internal static void Load()
     {
         Utils.LogDebug($"Loading {nameof(HeartBreakerRefill)} Hooks...");
