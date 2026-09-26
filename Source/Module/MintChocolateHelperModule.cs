@@ -37,7 +37,7 @@ public class MintChocolateHelperModule : EverestModule
     {
         Utils.LogVerbose("Running TryDisableInlining...");
         MintChocolateHelperHookLoading.TryDisableInlining();
-        
+
         Utils.LogVerbose("Loading Optional Dependencies...");
         #region Optional Dependency Loading
             EverestModuleMetadata femtoHelper = new() {
@@ -72,7 +72,7 @@ public class MintChocolateHelperModule : EverestModule
 
         Utils.LogVerbose("Finding Conditional Objects...");
         MintChocolateHelperHookLoading.LoadAllConditionalObjects();
-        
+
         Utils.LogDebug("Loading HookLoaders...");
         MintChocolateHelperHookLoading.InitializeHookLoader();
     }

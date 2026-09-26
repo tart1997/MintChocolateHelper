@@ -74,17 +74,17 @@ public static class MintChocolateHelperHookLoading
         orig(self, session, startposition);
         Utils.LogVerbose("Unloading Hooks...");
         LifecycleMethods.OnUnload();
-        
+
         Utils.LogVerbose("Loading Basics...");
         LifecycleMethods.OnLoad();
-        
+
         Utils.LogVerbose("Loading Custom Command Hooks...");
         LoadCommandHooks();
-        
+
         Utils.LogVerbose("Loading Entity Hooks...");
         LoadEntityHooks(session);
     }
-    
+
     private static void DialogOnRefreshLanguages(On.Celeste.Dialog.orig_RefreshLanguages orig)
     {
         orig();
@@ -112,14 +112,14 @@ public static class MintChocolateHelperHookLoading
                 }
             }
         }
-        
+
         if (commandsToLoad.Count != 0) CustomDialogCommands.Load();
         foreach ((Type _, MethodInfo loadMethod) in commandsToLoad.Distinct())
         {
             loadMethod?.SimpleInvoke();
         }
     }
-    
+
     private static void LoadEntityHooks(Session session)
     {
         List<MethodInfo> objectsToLoad = [];
